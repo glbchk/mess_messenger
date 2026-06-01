@@ -73,8 +73,8 @@ class _AuthPageState extends ConsumerState<AuthPage> {
               ElevatedButton(
                 onPressed: () => ref
                     .read(authProvider.notifier)
-                    .login(_emailController.text, _passwordController.text),
-                child: const Text('Login'),
+                    .signUp(_emailController.text, _passwordController.text),
+                child: const Text('Sign Up'),
               ),
           ],
         ),

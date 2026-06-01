@@ -1,23 +1,30 @@
+import 'package:mess_messenger_app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:mess_messenger_app/features/auth/domain/repositories/auth_repository.dart';
 
-class IsLoggedInUserUseCase {
-  final AuthRepository _repository;
-  IsLoggedInUserUseCase(this._repository);
-
-  Future<bool> execute() => _repository.isLoggedIn();
+abstract class AuthUserUseCase {
+  final AuthRepository authRepository = AuthRepositoryImpl();
 }
 
-class LoginUserUseCase {
-  final AuthRepository _repository;
-  LoginUserUseCase(this._repository);
-
-  Future<void> execute(String email, String password) =>
-      _repository.login(email, password);
+class IsLoggedInUserUseCase extends AuthUserUseCase {
+  Future<bool> execute() {
+    return authRepository.isLoggedIn();
+  }
 }
 
-class LogoutUserUseCase {
-  final AuthRepository _repository;
-  LogoutUserUseCase(this._repository);
+class SignUpUserUseCase extends AuthUserUseCase {
+  Future<void> execute(String email, String password) {
+    return authRepository.signUp(email, password);
+  }
+}
 
-  Future<void> execute() => _repository.logout();
+class LoginUserUseCase extends AuthUserUseCase {
+  Future<void> execute(String email, String password) {
+    return authRepository.login(email, password);
+  }
+}
+
+class LogoutUserUseCase extends AuthUserUseCase {
+  Future<void> execute() {
+    return authRepository.logout();
+  }
 }
