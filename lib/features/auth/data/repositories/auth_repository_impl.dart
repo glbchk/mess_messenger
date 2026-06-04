@@ -2,7 +2,9 @@ import 'package:mess_messenger_app/features/auth/data/datasources/auth_remote_da
 import 'package:mess_messenger_app/features/auth/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final AuthRemoteDataSource authRemoteDataSource = AuthRemoteDataSource();
+  final AuthRemoteDataSource authRemoteDataSource;
+
+  AuthRepositoryImpl(this.authRemoteDataSource);
 
   @override
   Future<bool> isLoggedIn() async {

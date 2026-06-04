@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
+import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
 
 class AuthFormWidget extends ConsumerWidget {
   final TextEditingController emailController;
@@ -23,31 +25,37 @@ class AuthFormWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Welcome Back',
-          style: Theme.of(
-            context,
-          ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 32),
-        TextField(
+        Text('Sign up', style: TextStyle(fontSize: 36)),
+        const SizedBox(height: 12),
+        Text('Start your 30-day free trial.', style: TextStyle(fontSize: 16)),
+        const SizedBox(height: 24),
+        MessTextField(
           controller: emailController,
-          decoration: InputDecoration(
-            labelText: 'Email',
-            errorText: emailError,
-            border: const OutlineInputBorder(),
-          ),
+          label: 'Name*',
+          hint: 'Enter your name',
+        ),
+        // TextField(
+        //   controller: emailController,
+        //   decoration: InputDecoration(
+        //     labelText: 'Email',
+        //     errorText: emailError,
+        //     border: const OutlineInputBorder(),
+        //   ),
+        // ),
+        const SizedBox(height: 16),
+        MessTextField(
+          controller: emailController,
+          label: 'Email address*',
+          hint: 'Enter your email',
         ),
         const SizedBox(height: 16),
-        TextField(
-          controller: passwordController,
-          obscureText: true,
-          decoration: InputDecoration(
-            labelText: 'Password',
-            errorText: passwordError,
-            border: const OutlineInputBorder(),
-          ),
+        MessTextField(
+          controller: emailController,
+          label: 'Password*',
+          hint: 'Create a password',
+          error: 'Some cool error',
         ),
         const SizedBox(height: 24),
         SizedBox(
@@ -55,10 +63,15 @@ class AuthFormWidget extends ConsumerWidget {
           height: 48,
           child: isLoading
               ? const Center(child: CircularProgressIndicator())
-              : ElevatedButton(
-                  onPressed: onPressed,
-                  child: const Text('Sign Up'),
-                ),
+              : MessMainButton(label: 'Get started', onPressed: onPressed),
+        ),
+        const SizedBox(height: 16),
+        MessMainButton(label: 'Sign up with Google', onPressed: onPressed),
+
+        const SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Text('Already have an account?'), Text('Log in')],
         ),
       ],
     );

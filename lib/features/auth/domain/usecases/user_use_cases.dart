@@ -2,10 +2,14 @@ import 'package:mess_messenger_app/features/auth/data/repositories/user_reposito
 import 'package:mess_messenger_app/features/auth/domain/entities/user_entity.dart';
 
 abstract class UserUseCase {
-  final UserRepositoryImpl userRepository = UserRepositoryImpl();
+  final UserRepositoryImpl userRepository;
+
+  UserUseCase(this.userRepository);
 }
 
 class CreateUserUseCase extends UserUseCase {
+  CreateUserUseCase(super.userRepository);
+
   Future<void> execute(UserEntity user) {
     return userRepository.createUser(user);
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mess_messenger_app/core/utils/responsive_layout_wrapper.dart';
+import 'package:mess_messenger_app/core/utils/layouts/responsive_layout_wrapper.dart';
 import 'package:mess_messenger_app/features/auth/presentation/pages/layouts/sign_up_desktop.dart';
 import 'package:mess_messenger_app/features/auth/presentation/pages/layouts/sign_up_mobile.dart';
 import 'package:mess_messenger_app/features/auth/presentation/pages/layouts/sign_up_tablet.dart';

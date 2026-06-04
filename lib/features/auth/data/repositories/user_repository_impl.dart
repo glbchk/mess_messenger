@@ -5,8 +5,10 @@ import 'package:mess_messenger_app/features/auth/domain/entities/user_entity.dar
 import 'package:mess_messenger_app/features/auth/domain/repositories/user_repository.dart';
 
 class UserRepositoryImpl implements UserRepository {
-  final AuthRemoteDataSource authRemoteDataSource = AuthRemoteDataSource();
-  final UserRemoteDataSource userRemoteDataSource = UserRemoteDataSource();
+  final AuthRemoteDataSource authRemoteDataSource;
+  final UserRemoteDataSource userRemoteDataSource;
+
+  UserRepositoryImpl(this.authRemoteDataSource, this.userRemoteDataSource);
 
   @override
   Future<void> createUser(UserEntity user) async {
