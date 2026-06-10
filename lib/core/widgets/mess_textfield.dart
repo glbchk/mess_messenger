@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mess_messenger_app/theme/theme_extensions/color_extension.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class MessTextField extends StatelessWidget {
   final TextEditingController? controller;
@@ -61,6 +62,7 @@ class MessTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final textTheme = context.textStyles;
 
     final borderStyle = OutlineInputBorder(
       borderRadius: BorderRadius.circular(32),
@@ -73,9 +75,8 @@ class MessTextField extends StatelessWidget {
         ?label != null
             ? Text(
                 label ?? '',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: colors.text1,
+                style: textTheme.bodySmall?.copyWith(
+                  color: context.colors.text1,
                 ),
               )
             : null,
@@ -103,7 +104,9 @@ class MessTextField extends StatelessWidget {
                   : null,
               inputFormatters: inputFormatters,
               validator: validator,
-              style: TextStyle(color: colors.text1),
+              style: textTheme.bodyMedium?.copyWith(
+                color: colors.textPlaceHolder,
+              ),
               textCapitalization: textCapitalization ?? TextCapitalization.none,
               onTapUpOutside: (event) {
                 FocusManager.instance.primaryFocus?.unfocus();
@@ -112,7 +115,9 @@ class MessTextField extends StatelessWidget {
               onChanged: (String value) => onChanged?.call(value),
               decoration: InputDecoration(
                 hintText: hint,
-                hintStyle: TextStyle(color: colors.textPlaceHolder),
+                hintStyle: textTheme.bodySmall?.copyWith(
+                  color: colors.textHint,
+                ),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                 prefixIcon: prefixIcon != null
                     ? GestureDetector(
@@ -131,18 +136,30 @@ class MessTextField extends StatelessWidget {
                       )
                     : null,
                 suffixIcon: isPassword == true
-                    ? IconButton(
-                        icon: Icon(
-                          showPassword != true
-                              ? Icons.visibility_off
-                              : Icons.visibility,
+                    ? SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: GestureDetector(
+                          onTap: onSuffixIconTap,
+                          child: showPassword != true
+                              ? SvgPicture.asset(
+                                  'assets/icons/view_off.svg',
+                                  width: 16,
+                                  height: 16,
+                                  fit: BoxFit.scaleDown,
+                                )
+                              : SvgPicture.asset(
+                                  'assets/icons/view.svg',
+                                  width: 16,
+                                  height: 16,
+                                  fit: BoxFit.scaleDown,
+                                ),
                         ),
-                        onPressed: onSuffixIconTap,
                       )
                     : suffixIcon,
                 filled: true,
                 fillColor: colors.surface2,
-                hoverColor: colors.text2,
+                hoverColor: colors.surface4,
                 // fillColor: WidgetStateColor.resolveWith((states) {
                 //   if (readOnly == true || states.contains(WidgetState.disabled)) {
                 //     return colors.surface2;
@@ -167,7 +184,7 @@ class MessTextField extends StatelessWidget {
             padding: const EdgeInsets.only(top: 4),
             child: Text(
               error ?? '',
-              style: TextStyle(color: colors.text1, fontSize: 12),
+              style: textTheme.bodySmall?.copyWith(color: colors.textHint),
             ),
           ),
       ],

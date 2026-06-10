@@ -6,6 +6,7 @@ import 'app_palette.dart';
 class AppColors extends ThemeExtension<AppColors> {
   final Color surface0;
   final Color surface2;
+  final Color surface4;
   final Color text1;
   final Color text2;
   final Color textInverse;
@@ -26,6 +27,7 @@ class AppColors extends ThemeExtension<AppColors> {
   const AppColors({
     required this.surface0,
     required this.surface2,
+    required this.surface4,
     required this.text1,
     required this.text2,
     required this.textInverse,
@@ -50,6 +52,7 @@ class AppColors extends ThemeExtension<AppColors> {
   factory AppColors.light() => const AppColors(
     surface0: AppPalette.surface0Light,
     surface2: AppPalette.surface2Light,
+    surface4: AppPalette.surface4Light,
     text1: AppPalette.text1Light,
     text2: AppPalette.text2Light,
     textInverse: AppPalette.textInverseLight,
@@ -74,6 +77,7 @@ class AppColors extends ThemeExtension<AppColors> {
   factory AppColors.dark() => const AppColors(
     surface0: AppPalette.surface0Dark,
     surface2: AppPalette.surface2Dark,
+    surface4: AppPalette.surface4Dark,
     text1: AppPalette.text1Dark,
     text2: AppPalette.text2Dark,
     textInverse: AppPalette.textInverseDark,
@@ -97,6 +101,7 @@ class AppColors extends ThemeExtension<AppColors> {
   AppColors copyWith({
     Color? surface0,
     Color? surface2,
+    Color? surface4,
     Color? text1,
     Color? text2,
     Color? textInverse,
@@ -118,6 +123,7 @@ class AppColors extends ThemeExtension<AppColors> {
     return AppColors(
       surface0: surface0 ?? this.surface0,
       surface2: surface2 ?? this.surface2,
+      surface4: surface4 ?? this.surface4,
       text1: text1 ?? this.text1,
       text2: text2 ?? this.text2,
       textInverse: textInverse ?? this.textInverse,
@@ -144,6 +150,7 @@ class AppColors extends ThemeExtension<AppColors> {
     return AppColors(
       surface0: Color.lerp(surface0, other.surface0, t)!,
       surface2: Color.lerp(surface2, other.surface2, t)!,
+      surface4: Color.lerp(surface4, other.surface4, t)!,
       text1: Color.lerp(text1, other.text1, t)!,
       text2: Color.lerp(text2, other.text2, t)!,
       textInverse: Color.lerp(textInverse, other.textInverse, t)!,

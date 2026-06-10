@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mess_messenger_app/theme/theme_extensions/color_extension.dart';
+import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class SignUpDesktop extends StatelessWidget {
   final Widget formContent;

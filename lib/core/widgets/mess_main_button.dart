@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:mess_messenger_app/theme/theme_extensions/color_extension.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
+import 'package:mess_messenger_app/core/utils/spacing/spacing_modifier.dart';
+import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class MessMainButton extends StatelessWidget {
   final String label;
   final double? width;
   final VoidCallback? onPressed;
   final bool? isLoading;
-  final Icon? icon;
+  final String? iconPath;
   final Color? iconColor;
-  final Color? textColor;
+  // final Color? textColor;
+  final TextStyle? textStyle;
   final Color? backgroundColor;
   final Color? buttonShadow;
 
@@ -18,9 +22,10 @@ class MessMainButton extends StatelessWidget {
     this.width,
     this.onPressed,
     this.isLoading,
-    this.icon,
+    this.iconPath,
     this.iconColor,
-    this.textColor,
+    // this.textColor,
+    this.textStyle,
     this.backgroundColor,
     this.buttonShadow,
   });
@@ -28,37 +33,32 @@ class MessMainButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final textTheme = context.textStyles;
 
-    return Container(
-      width: width ?? double.infinity,
-      height: 44,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: buttonShadow ?? colors.text1.withAlpha(76),
-            spreadRadius: 0,
-            blurRadius: 8,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: FilledButton.icon(
-        icon: icon,
-        label: Text(
-          label,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: textColor ?? colors.textInverse,
-          ),
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        width: width ?? double.infinity,
+        height: 44,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(32),
+          color: backgroundColor ?? colors.text1,
         ),
-        onPressed: onPressed,
-        style: FilledButton.styleFrom(
-          backgroundColor: backgroundColor ?? colors.text1,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(32),
-          ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: AppSpacing.p12,
+          children: [
+            iconPath != null
+                ? SvgPicture.asset(iconPath ?? '')
+                : SpacingModifier.empty(),
+            Text(
+              label,
+              style:
+                  textStyle ??
+                  textTheme.labelLarge?.copyWith(color: colors.textInverse),
+            ),
+          ],
         ),
       ),
     );

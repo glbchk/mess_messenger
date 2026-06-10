@@ -17,11 +17,13 @@ class SignUpPage extends ConsumerStatefulWidget {
 }
 
 class _SignUpPageState extends ConsumerState<SignUpPage> {
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -53,6 +55,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
 
     // 3. Create the extracted form UI
     final form = AuthFormWidget(
+      nameController: _nameController,
       emailController: _emailController,
       passwordController: _passwordController,
       isLoading: isLoading,

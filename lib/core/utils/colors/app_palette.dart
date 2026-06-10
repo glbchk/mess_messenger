@@ -4,6 +4,7 @@ abstract final class AppPalette {
   // Light Mode
   static const surface0Light = Color(0xFFFFFFFF);
   static const surface2Light = Color(0xFFECF0F1);
+  static const surface4Light = Color(0xFFD5DCE0);
   static const text1Light = Color(0xFF121F24);
   static const text2Light = Color(0xFF4E4E4E);
   static const textInverseLight = Color(0xFFEDEDED);
@@ -25,6 +26,7 @@ abstract final class AppPalette {
   // Dark Mode
   static const surface0Dark = Color(0xFF171717);
   static const surface2Dark = Color(0xFF153F52);
+  static const surface4Dark = Color(0xFF182930);
   static const text1Dark = Color(0xFFCEE2EB);
   static const text2Dark = Color(0xFFC2C2C2);
   static const textInverseDark = Color(0xFF0B0B0B);
