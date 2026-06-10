@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
 import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
+import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
+import 'package:mess_messenger_app/localization/providers/app_language_notifier.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class AuthFormWidget extends ConsumerWidget {
@@ -30,19 +32,21 @@ class AuthFormWidget extends ConsumerWidget {
     final colors = context.colors;
     final textTheme = context.textStyles;
 
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Sign up',
+          l10n.signUp,
           style: context.textStyles.displayMedium?.copyWith(
             color: context.colors.text1,
           ),
         ),
         AppSpacing.p12.gapV,
         Text(
-          'Start your 30-day free trial.',
+          l10n.startTrial,
           style: context.textStyles.bodyLarge?.copyWith(
             color: context.colors.text2,
           ),
@@ -50,33 +54,33 @@ class AuthFormWidget extends ConsumerWidget {
         AppSpacing.p24.gapV,
         MessTextField(
           controller: nameController,
-          label: 'Name*',
-          hint: 'Enter your name',
+          label: l10n.nameLabel,
+          hint: l10n.nameHint,
         ),
         AppSpacing.p16.gapV,
         MessTextField(
           controller: emailController,
-          label: 'Email address*',
-          hint: 'Enter your email',
+          label: l10n.emailLabel,
+          hint: l10n.emailHint,
         ),
         AppSpacing.p16.gapV,
         MessTextField(
           isPassword: true,
           controller: passwordController,
-          label: 'Password*',
-          hint: 'Create a password',
-          error: 'Some cool error',
+          label: l10n.passwordLabel,
+          hint: l10n.passwordHint,
+          error: 'Some cool error', //TODO: Replace with real error
         ),
         AppSpacing.p24.gapV,
         SizedBox(
           width: double.infinity,
           child: isLoading
               ? const Center(child: CircularProgressIndicator())
-              : MessMainButton(label: 'Get started', onPressed: onPressed),
+              : MessMainButton(label: l10n.getStarted, onPressed: onPressed),
         ),
         AppSpacing.p16.gapV,
         MessMainButton(
-          label: 'Sign up with Google',
+          label: l10n.signUpWithGoogle,
           onPressed: onPressed,
           backgroundColor: colors.surface2,
           textStyle: textTheme.labelLarge?.copyWith(color: colors.text1),
@@ -89,14 +93,26 @@ class AuthFormWidget extends ConsumerWidget {
           spacing: AppSpacing.p4,
           children: [
             Text(
-              'Already have an account?',
+              l10n.alreadyHaveAnAccount,
               style: textTheme.bodyMedium?.copyWith(color: colors.text2),
             ),
             Text(
-              'Log in',
+              l10n.logIn,
               style: textTheme.labelMedium?.copyWith(color: colors.link),
             ),
           ],
+        ),
+        AppSpacing.p32.gapV,
+        MessMainButton(
+          label: l10n.changeLanguage,
+          onPressed: () {
+            final currentLocale = ref.read(appLanguageProvider);
+            final nextLocale = currentLocale.languageCode == 'en'
+                ? const Locale('uk')
+                : const Locale('en');
+
+            ref.read(appLanguageProvider.notifier).changeLanguage(nextLocale);
+          },
         ),
       ],
     );

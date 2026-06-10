@@ -35,17 +35,19 @@ class MessMainButton extends StatelessWidget {
     final colors = context.colors;
     final textTheme = context.textStyles;
 
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        width: width ?? double.infinity,
-        height: 44,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(32),
-          color: backgroundColor ?? colors.text1,
+    return Container(
+      width: width ?? double.infinity,
+      height: 44,
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(32)),
+      child: FilledButton(
+        onPressed: onPressed,
+        style: FilledButton.styleFrom(
+          backgroundColor: backgroundColor ?? colors.text1,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(32),
+          ),
         ),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: AppSpacing.p12,
           children: [

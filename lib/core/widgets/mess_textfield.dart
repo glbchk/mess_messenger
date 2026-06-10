@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class MessTextField extends StatelessWidget {
@@ -80,7 +81,7 @@ class MessTextField extends StatelessWidget {
                 ),
               )
             : null,
-        SizedBox(height: spaceLabel ?? 8.0),
+        AppSpacing.p8.gapV,
         Focus(
           onFocusChange: onFocusChange,
           canRequestFocus: !(readOnly ?? false),
@@ -160,15 +161,6 @@ class MessTextField extends StatelessWidget {
                 filled: true,
                 fillColor: colors.surface2,
                 hoverColor: colors.surface4,
-                // fillColor: WidgetStateColor.resolveWith((states) {
-                //   if (readOnly == true || states.contains(WidgetState.disabled)) {
-                //     return colors.surface2;
-                //   }
-                //   // if (states.contains(WidgetState.focused)) {
-                //   //   return colors.surface0;
-                //   // }
-                //   return colors.surface2;
-                // }),
                 border: borderStyle,
                 enabledBorder: borderStyle,
                 focusedBorder: borderStyle,
