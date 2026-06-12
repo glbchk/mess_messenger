@@ -12,5 +12,11 @@
   "signUpWithGoogle": "Зареєструватися з Google",
   "alreadyHaveAnAccount": "Вже маєш аккаунт?",
   "logIn": "Увійти",
-  "changeLanguage": "Змінити мову"
+  "changeLanguage": "Змінити мову",
+  "signIn": "Увійти",
+  "welcomeBack": "Ласкаво просимо назад! Будь ласка, введіть свої дані.",
+  "rememberFor30Days": "Запам'ятати протягом 30 днів",
+  "forgotPassword": "Забув пароль",
+  "signInWithGoogle": "Увійти з Google",
+  "dontHaveAnAccount": "Немає облікового запису?"
 }

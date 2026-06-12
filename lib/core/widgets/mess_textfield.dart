@@ -92,7 +92,7 @@ class MessTextField extends StatelessWidget {
               readOnly: readOnly ?? false,
               initialValue: initialValue,
               focusNode: focusNode,
-              autofocus: autofocus ?? true,
+              autofocus: autofocus ?? false,
               obscureText: isPassword == true
                   ? !(showPassword ?? false)
                   : false,

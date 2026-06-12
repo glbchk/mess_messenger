@@ -1,30 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
 import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
-import 'package:mess_messenger_app/localization/providers/app_language_notifier.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
-class AuthFormWidget extends ConsumerWidget {
-  final TextEditingController nameController;
+class SignInFormWidget extends ConsumerWidget {
   final TextEditingController emailController;
   final TextEditingController passwordController;
+  final bool isRegisterMode;
   final bool isLoading;
   final String? emailError;
   final String? passwordError;
-  final VoidCallback? onPressed;
+  final VoidCallback? onPressedForgotPassword;
+  final VoidCallback? onPressedSignIn;
+  final VoidCallback? onPressedSignInWithGoogle;
+  final VoidCallback? onPressedSignUp;
 
-  const AuthFormWidget({
+  const SignInFormWidget({
     super.key,
-    required this.nameController,
     required this.emailController,
     required this.passwordController,
+    required this.isRegisterMode,
     required this.isLoading,
     this.emailError,
     this.passwordError,
-    this.onPressed,
+    this.onPressedForgotPassword,
+    this.onPressedSignIn,
+    this.onPressedSignInWithGoogle,
+    this.onPressedSignUp,
   });
 
   @override
@@ -36,28 +42,25 @@ class AuthFormWidget extends ConsumerWidget {
 
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        SvgPicture.asset('assets/icons/mess_logo.svg', height: 64, width: 64),
+        AppSpacing.p24.gapV,
         Text(
-          l10n.signUp,
+          l10n.signIn,
           style: context.textStyles.displayMedium?.copyWith(
             color: context.colors.text1,
           ),
         ),
         AppSpacing.p12.gapV,
         Text(
-          l10n.startTrial,
+          l10n.welcomeBack,
           style: context.textStyles.bodyLarge?.copyWith(
             color: context.colors.text2,
           ),
         ),
+
         AppSpacing.p24.gapV,
-        MessTextField(
-          controller: nameController,
-          label: l10n.nameLabel,
-          hint: l10n.nameHint,
-        ),
-        AppSpacing.p16.gapV,
         MessTextField(
           controller: emailController,
           label: l10n.emailLabel,
@@ -72,48 +75,71 @@ class AuthFormWidget extends ConsumerWidget {
           error: 'Some cool error', //TODO: Replace with real error
         ),
         AppSpacing.p24.gapV,
+        Row(
+          children: [
+            Row(
+              children: [
+                Icon(Icons.check_box),
+                AppSpacing.p8.gapH,
+                Text(l10n.rememberFor30Days),
+              ],
+            ),
+            Spacer(),
+            GestureDetector(
+              onTap: () {},
+              child: Text(
+                l10n.forgotPassword,
+                style: textTheme.labelMedium?.copyWith(color: colors.link),
+              ),
+            ),
+          ],
+        ),
+        AppSpacing.p24.gapV,
         SizedBox(
           width: double.infinity,
           child: isLoading
               ? const Center(child: CircularProgressIndicator())
-              : MessMainButton(label: l10n.getStarted, onPressed: onPressed),
+              : MessMainButton(label: l10n.signIn, onPressed: onPressedSignIn),
         ),
         AppSpacing.p16.gapV,
         MessMainButton(
-          label: l10n.signUpWithGoogle,
-          onPressed: onPressed,
+          label: l10n.signInWithGoogle,
+          onPressed: onPressedSignInWithGoogle,
           backgroundColor: colors.surface2,
           textStyle: textTheme.labelLarge?.copyWith(color: colors.text1),
           iconPath: 'assets/icons/colored/google.svg',
         ),
 
-        AppSpacing.p16.gapV,
+        AppSpacing.p24.gapV,
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: AppSpacing.p4,
           children: [
             Text(
-              l10n.alreadyHaveAnAccount,
+              l10n.dontHaveAnAccount,
               style: textTheme.bodyMedium?.copyWith(color: colors.text2),
             ),
-            Text(
-              l10n.logIn,
-              style: textTheme.labelMedium?.copyWith(color: colors.link),
+            GestureDetector(
+              onTap: onPressedSignUp,
+              child: Text(
+                l10n.signUp,
+                style: textTheme.labelMedium?.copyWith(color: colors.link),
+              ),
             ),
           ],
         ),
-        AppSpacing.p32.gapV,
-        MessMainButton(
-          label: l10n.changeLanguage,
-          onPressed: () {
-            final currentLocale = ref.read(appLanguageProvider);
-            final nextLocale = currentLocale.languageCode == 'en'
-                ? const Locale('uk')
-                : const Locale('en');
-
-            ref.read(appLanguageProvider.notifier).changeLanguage(nextLocale);
-          },
-        ),
+        // AppSpacing.p32.gapV,
+        // MessMainButton(
+        //   label: l10n.changeLanguage,
+        //   onPressed: () {
+        //     final currentLocale = ref.read(appLanguageProvider);
+        //     final nextLocale = currentLocale.languageCode == 'en'
+        //         ? const Locale('uk')
+        //         : const Locale('en');
+        //
+        //     ref.read(appLanguageProvider.notifier).changeLanguage(nextLocale);
+        //   },
+        // ),
       ],
     );
   }

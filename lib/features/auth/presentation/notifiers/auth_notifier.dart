@@ -18,13 +18,28 @@ class AuthNotifier extends Notifier<AuthState> {
   @override
   AuthState build() {
     _checkAuthStatus();
-    return AuthInitial();
+    return AuthUnauthenticated(isRegisterMode: true);
+  }
+
+  void toggleAuthMode() {
+    final currentlyRegistering = state is AuthUnauthenticated
+        ? (state as AuthUnauthenticated).isRegisterMode
+        : true;
+
+    state = AuthUnauthenticated(isRegisterMode: !currentlyRegistering);
   }
 
   Future<void> _checkAuthStatus() async {
     try {
       final isLoggedIn = await ref.read(isLoggedInUseCaseProvider).execute();
-      state = isLoggedIn ? AuthAuthenticated() : AuthUnauthenticated();
+      if (isLoggedIn) {
+        state = AuthAuthenticated();
+      } else {
+        final s = state;
+        state = s is AuthUnauthenticated
+            ? s
+            : AuthUnauthenticated(isRegisterMode: true);
+      }
     } catch (e) {
       state = AuthError(e.toString());
     }

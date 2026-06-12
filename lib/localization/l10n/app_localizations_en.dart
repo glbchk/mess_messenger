@@ -46,4 +46,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get changeLanguage => 'Change language';
+
+  @override
+  String get signIn => 'Sign in';
+
+  @override
+  String get welcomeBack => 'Welcome back! Please enter your details.';
+
+  @override
+  String get rememberFor30Days => 'Remember for 30 days';
+
+  @override
+  String get forgotPassword => 'Forgot password';
+
+  @override
+  String get signInWithGoogle => 'Sign in with Google';
+
+  @override
+  String get dontHaveAnAccount => 'Don\'t have an account?';
 }

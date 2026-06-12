@@ -46,4 +46,23 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get changeLanguage => 'Змінити мову';
+
+  @override
+  String get signIn => 'Увійти';
+
+  @override
+  String get welcomeBack =>
+      'Ласкаво просимо назад! Будь ласка, введіть свої дані.';
+
+  @override
+  String get rememberFor30Days => 'Запам\'ятати протягом 30 днів';
+
+  @override
+  String get forgotPassword => 'Забув пароль';
+
+  @override
+  String get signInWithGoogle => 'Увійти з Google';
+
+  @override
+  String get dontHaveAnAccount => 'Немає облікового запису?';
 }

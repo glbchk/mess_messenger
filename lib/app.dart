@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/core/utils/colors/app_colors.dart';
 import 'package:mess_messenger_app/core/utils/colors/app_palette.dart';
 import 'package:mess_messenger_app/core/utils/font/app_typography.dart';
-import 'package:mess_messenger_app/features/auth/presentation/pages/sign_up_page.dart';
+import 'package:mess_messenger_app/features/auth/presentation/pages/auth_page.dart';
 import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.dart';
 import 'package:mess_messenger_app/features/auth/providers/auth_provider.dart';
 import 'package:mess_messenger_app/features/chat/presentation/pages/home_page.dart';
@@ -56,7 +56,7 @@ class MyApp extends ConsumerWidget {
 
       home: authState is AuthAuthenticated
           ? const HomePage()
-          : const SignUpPage(),
+          : const AuthPage(),
     );
   }
 }
