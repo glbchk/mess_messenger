@@ -67,7 +67,11 @@ class AuthNotifier extends Notifier<AuthState> {
     }
   }
 
-  Future<void> login(String email, String password) async {
+  Future<void> signInWithEmail(
+    String email,
+    String password,
+    bool rememberMe,
+  ) async {
     final emailError = _validateEmail(email);
     final passwordError = _validatePassword(password);
 
@@ -79,13 +83,55 @@ class AuthNotifier extends Notifier<AuthState> {
       return;
     }
 
+    final rememberMe = (state is AuthUnauthenticated)
+        ? (state as AuthUnauthenticated).rememberMe
+        : true;
     state = AuthLoading();
 
     try {
-      await ref.read(loginUseCaseProvider).execute(email, password);
+      await ref
+          .read(signInWithEmailUseCaseProvider)
+          .execute(email, password, rememberMe);
       state = AuthAuthenticated();
     } catch (e) {
       state = AuthUnauthenticated(errorMessage: e.toString());
+    }
+  }
+
+  void toggleRememberMe() {
+    final s = state;
+    if (s is AuthUnauthenticated) {
+      state = s.copyWith(rememberMe: !s.rememberMe);
+    }
+  }
+
+  Future<void> signInWithGoogle() async {
+    state = AuthLoading();
+
+    try {
+      await ref.read(signInWithGoogleUseCaseProvider).execute();
+      state = AuthAuthenticated();
+    } catch (e) {
+      state = AuthUnauthenticated(errorMessage: e.toString());
+    }
+  }
+
+  Future<void> sendPasswordResetEmail(String email) async {
+    state = AuthLoading();
+    try {
+      await ref.read(sendPasswordResetUseCaseProvider).execute(email);
+      state = AuthUnauthenticated(
+        successMessage: 'Check your inbox for a reset link!',
+      );
+    } catch (e) {
+      state = AuthUnauthenticated(errorMessage: e.toString());
+    }
+  }
+
+  void clearSuccessMessage() {
+    final s = state;
+    if (s is AuthUnauthenticated) {
+      state = s.copyWith(successMessage: () => null);
     }
   }
 

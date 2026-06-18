@@ -21,6 +21,7 @@ class _AuthPageState extends ConsumerState<AuthPage> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _showPassword = false;
 
   @override
   void dispose() {
@@ -47,6 +48,12 @@ class _AuthPageState extends ConsumerState<AuthPage> {
         ).showSnackBar(SnackBar(content: Text(next.errorMessage!)));
         ref.read(authProvider.notifier).clearErrorMessage();
       }
+      if (next is AuthUnauthenticated && next.successMessage != null) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(next.successMessage!)));
+        ref.read(authProvider.notifier).clearSuccessMessage();
+      }
     });
 
     // 2. Read State
@@ -67,15 +74,16 @@ class _AuthPageState extends ConsumerState<AuthPage> {
       isLoading: isLoading,
       emailError: unauthState?.emailError,
       passwordError: unauthState?.passwordError,
+      showPassword: _showPassword,
+      onToggleIconShowPassword: () =>
+          setState(() => _showPassword = !_showPassword),
       onPressedGetStarted: () {
         ref
             .read(authProvider.notifier)
             .signUp(_emailController.text, _passwordController.text);
       },
       onPressedSignUpWithGoogle: () {
-        // ref
-        //     .read(authProvider.notifier)
-        //     .signUp(_emailController.text, _passwordController.text);
+        ref.read(authProvider.notifier).signInWithGoogle();
       },
       onPressedLogIn: () {
         ref.read(authProvider.notifier).toggleAuthMode();
@@ -89,18 +97,32 @@ class _AuthPageState extends ConsumerState<AuthPage> {
       isLoading: isLoading,
       emailError: unauthState?.emailError,
       passwordError: unauthState?.passwordError,
+      showPassword: _showPassword,
+      onToggleIconShowPassword: () =>
+          setState(() => _showPassword = !_showPassword),
       onPressedSignIn: () {
-        // ref
-        //     .read(authProvider.notifier)
-        //     .signUp(_emailController.text, _passwordController.text);
+        ref
+            .read(authProvider.notifier)
+            .signInWithEmail(
+              _emailController.text,
+              _passwordController.text,
+              unauthState?.rememberMe ?? true,
+            );
       },
       onPressedSignInWithGoogle: () {
-        // ref
-        //     .read(authProvider.notifier)
-        //     .signUp(_emailController.text, _passwordController.text);
+        ref.read(authProvider.notifier).signInWithGoogle();
       },
       onPressedSignUp: () {
         ref.read(authProvider.notifier).toggleAuthMode();
+      },
+      rememberMe: unauthState?.rememberMe ?? true,
+      onToggleRememberMe: () {
+        ref.read(authProvider.notifier).toggleRememberMe();
+      },
+      onPressedForgotPassword: () {
+        ref
+            .read(authProvider.notifier)
+            .sendPasswordResetEmail(_emailController.text);
       },
     );
 

@@ -14,6 +14,8 @@ class SignUpFormWidget extends ConsumerWidget {
   final bool isLoading;
   final String? emailError;
   final String? passwordError;
+  final bool? showPassword;
+  final VoidCallback? onToggleIconShowPassword;
   final VoidCallback? onPressedGetStarted;
   final VoidCallback? onPressedSignUpWithGoogle;
   final VoidCallback? onPressedLogIn;
@@ -27,6 +29,8 @@ class SignUpFormWidget extends ConsumerWidget {
     required this.isLoading,
     this.emailError,
     this.passwordError,
+    this.showPassword = false,
+    this.onToggleIconShowPassword,
     this.onPressedGetStarted,
     this.onPressedSignUpWithGoogle,
     this.onPressedLogIn,
@@ -72,9 +76,11 @@ class SignUpFormWidget extends ConsumerWidget {
         MessTextField(
           isPassword: true,
           controller: passwordController,
+          showPassword: showPassword,
           label: l10n.passwordLabel,
           hint: l10n.passwordHint,
           error: 'Some cool error', //TODO: Replace with real error
+          onSuffixIconTap: onToggleIconShowPassword,
         ),
         AppSpacing.p24.gapV,
         SizedBox(

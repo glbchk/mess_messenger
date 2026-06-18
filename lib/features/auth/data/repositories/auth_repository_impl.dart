@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mess_messenger_app/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:mess_messenger_app/features/auth/domain/repositories/auth_repository.dart';
 
@@ -8,7 +9,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<bool> isLoggedIn() async {
-    return await authRemoteDataSource.getCurrentUser();
+    return await authRemoteDataSource.isLoggedIn();
   }
 
   @override
@@ -17,8 +18,22 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> login(String email, String password) async {
-    await authRemoteDataSource.login(email, password);
+  Future<void> signInWithEmail(
+    String email,
+    String password,
+    bool rememberMe,
+  ) async {
+    await authRemoteDataSource.signInWithEmail(email, password, rememberMe);
+  }
+
+  @override
+  Future<UserCredential> signInWithGoogle() async {
+    return await authRemoteDataSource.signInWithGoogle();
+  }
+
+  @override
+  Future<void> sendPasswordResetEmail(String email) async {
+    await authRemoteDataSource.sendPasswordResetEmail(email);
   }
 
   @override

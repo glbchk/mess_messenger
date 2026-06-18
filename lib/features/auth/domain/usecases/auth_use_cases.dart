@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mess_messenger_app/features/auth/domain/repositories/auth_repository.dart';
 
 abstract class AuthUserUseCase {
@@ -22,11 +23,27 @@ class SignUpUserUseCase extends AuthUserUseCase {
   }
 }
 
-class LoginUserUseCase extends AuthUserUseCase {
-  LoginUserUseCase(super.authRepository);
+class SignInWithEmailUserUseCase extends AuthUserUseCase {
+  SignInWithEmailUserUseCase(super.authRepository);
 
-  Future<void> execute(String email, String password) {
-    return authRepository.login(email, password);
+  Future<void> execute(String email, String password, bool rememberMe) {
+    return authRepository.signInWithEmail(email, password, rememberMe);
+  }
+}
+
+class SignInWithGoogleUseCase extends AuthUserUseCase {
+  SignInWithGoogleUseCase(super.authRepository);
+
+  Future<UserCredential> execute() {
+    return authRepository.signInWithGoogle();
+  }
+}
+
+class SendPasswordResetUserUseCase extends AuthUserUseCase {
+  SendPasswordResetUserUseCase(super.authRepository);
+
+  Future<void> execute(String email) {
+    return authRepository.sendPasswordResetEmail(email);
   }
 }
 

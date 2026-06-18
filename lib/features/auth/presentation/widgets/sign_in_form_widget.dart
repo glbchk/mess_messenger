@@ -14,6 +14,10 @@ class SignInFormWidget extends ConsumerWidget {
   final bool isLoading;
   final String? emailError;
   final String? passwordError;
+  final bool rememberMe;
+  final VoidCallback? onToggleRememberMe;
+  final bool? showPassword;
+  final VoidCallback? onToggleIconShowPassword;
   final VoidCallback? onPressedForgotPassword;
   final VoidCallback? onPressedSignIn;
   final VoidCallback? onPressedSignInWithGoogle;
@@ -27,6 +31,10 @@ class SignInFormWidget extends ConsumerWidget {
     required this.isLoading,
     this.emailError,
     this.passwordError,
+    this.rememberMe = true,
+    this.onToggleRememberMe,
+    this.showPassword = false,
+    this.onToggleIconShowPassword,
     this.onPressedForgotPassword,
     this.onPressedSignIn,
     this.onPressedSignInWithGoogle,
@@ -70,23 +78,32 @@ class SignInFormWidget extends ConsumerWidget {
         MessTextField(
           isPassword: true,
           controller: passwordController,
+          showPassword: showPassword,
           label: l10n.passwordLabel,
           hint: l10n.passwordHint,
           error: 'Some cool error', //TODO: Replace with real error
+          onSuffixIconTap: onToggleIconShowPassword,
         ),
         AppSpacing.p24.gapV,
         Row(
           children: [
             Row(
               children: [
-                Icon(Icons.check_box),
+                GestureDetector(
+                  onTap: onToggleRememberMe,
+                  child: Icon(
+                    rememberMe
+                        ? Icons.check_box
+                        : Icons.check_box_outline_blank,
+                  ),
+                ),
                 AppSpacing.p8.gapH,
                 Text(l10n.rememberFor30Days),
               ],
             ),
             Spacer(),
             GestureDetector(
-              onTap: () {},
+              onTap: onPressedForgotPassword,
               child: Text(
                 l10n.forgotPassword,
                 style: textTheme.labelMedium?.copyWith(color: colors.link),
