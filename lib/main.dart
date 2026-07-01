@@ -1,31 +1,34 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mess_messenger_app/features/auth/presentation/pages/auth_page.dart';
-import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.dart';
-import 'package:mess_messenger_app/features/auth/providers/auth_provider.dart';
-import 'package:mess_messenger_app/features/chat/presentation/pages/home_page.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mess_messenger_app/app.dart';
+import 'package:mess_messenger_app/localization/providers/app_language_notifier.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  final sharedPreferences = await SharedPreferences.getInstance();
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
-  runApp(const ProviderScope(child: MyApp()));
-}
-
-class MyApp extends ConsumerWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final authState = ref.watch(authProvider);
-
-    return MaterialApp(
-      home: authState is AuthAuthenticated
-          ? const HomePage()
-          : const AuthPage(),
+  if (!kIsWeb) {
+    await GoogleSignIn.instance.initialize(
+      serverClientId:
+          '1019906540743-fdhruhslf7dug9bllj0mc24obn31ifds.apps.googleusercontent.com',
     );
   }
+
+  runApp(
+    ProviderScope(
+      overrides: [
+        sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }

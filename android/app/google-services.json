@@ -12,7 +12,20 @@
           "package_name": "com.messmessenger.mess_messenger_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1019906540743-mfms1inmgfk20l128eqd1ml30gfff9e6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.messmessenger.mess_messenger_app",
+            "certificate_hash": "37a8d9a8666da2bbdc0b87d71f6b7a8d7d8a14dc"
+          }
+        },
+        {
+          "client_id": "1019906540743-fdhruhslf7dug9bllj0mc24obn31ifds.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDC603Krbs6D3zScQr3b1NUqFkCx3lbiew"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1019906540743-fdhruhslf7dug9bllj0mc24obn31ifds.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1019906540743-dp7iqemel490ql3kvjmh0big7o696qcl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.messmessenger.messMessengerApp"
+              }
+            }
+          ]
         }
       }
     }
