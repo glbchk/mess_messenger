@@ -18,7 +18,7 @@ class UserRepositoryImpl implements UserRepository {
       name: user.name,
       email: user.email,
       phoneNumber: user.phoneNumber,
-      isOnboardingCompleted: user.isOnboardingCompleted,
+      // isOnboardingCompleted: user.isOnboardingCompleted,
       language: user.language,
     );
 
@@ -26,7 +26,7 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<void> getCurrentUser() async {
-    await userRemoteDataSource.getCurrentUser();
+  Future<UserModel?> getCurrentUser(String uid) async {
+    return await userRemoteDataSource.getCurrentUser(uid);
   }
 }

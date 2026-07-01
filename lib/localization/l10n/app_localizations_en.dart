@@ -64,4 +64,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dontHaveAnAccount => 'Don\'t have an account?';
+
+  @override
+  String get chats => 'Chats';
+
+  @override
+  String get groups => 'Groups';
+
+  @override
+  String get chat => 'Chat';
 }

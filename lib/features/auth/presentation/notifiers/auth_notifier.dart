@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.dart';
 import 'package:mess_messenger_app/features/auth/providers/auth_provider.dart';
@@ -62,6 +63,37 @@ class AuthNotifier extends Notifier<AuthState> {
     try {
       await ref.read(signUpUseCaseProvider).execute(email, password);
       state = AuthAuthenticated();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        state = AuthUnauthenticated(
+          needsGoogleLinkConfirmation: true,
+          pendingLinkEmail: email,
+          pendingLinkPassword: password,
+          errorMessage:
+              'An account with this email already exists via Google. Sign in with Google to link it.',
+        );
+      } else {
+        state = AuthUnauthenticated(errorMessage: e.toString());
+      }
+    } catch (e) {
+      state = AuthUnauthenticated(errorMessage: e.toString());
+    }
+  }
+
+  Future<void> confirmGoogleLinkAndSignIn() async {
+    final s = state;
+    if (s is! AuthUnauthenticated || !s.needsGoogleLinkConfirmation) return;
+
+    final email = s.pendingLinkEmail!;
+    final password = s.pendingLinkPassword!;
+
+    state = AuthLoading();
+
+    try {
+      await ref.read(signInWithGoogleUseCaseProvider).execute();
+      await ref.read(linkEmailPasswordUseCaseProvider).execute(email, password);
+
+      state = AuthAuthenticated();
     } catch (e) {
       state = AuthUnauthenticated(errorMessage: e.toString());
     }
@@ -83,15 +115,21 @@ class AuthNotifier extends Notifier<AuthState> {
       return;
     }
 
-    final rememberMe = (state is AuthUnauthenticated)
-        ? (state as AuthUnauthenticated).rememberMe
-        : true;
+    final hadPendingGoogleLink =
+        (state is AuthUnauthenticated) &&
+        (state as AuthUnauthenticated).needsPasswordLinkConfirmation;
+
     state = AuthLoading();
 
     try {
       await ref
           .read(signInWithEmailUseCaseProvider)
           .execute(email, password, rememberMe);
+
+      if (hadPendingGoogleLink) {
+        await ref.read(linkGoogleAccountUseCaseProvider).execute();
+      }
+
       state = AuthAuthenticated();
     } catch (e) {
       state = AuthUnauthenticated(errorMessage: e.toString());
@@ -111,6 +149,16 @@ class AuthNotifier extends Notifier<AuthState> {
     try {
       await ref.read(signInWithGoogleUseCaseProvider).execute();
       state = AuthAuthenticated();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'account-exists-with-different-credential') {
+        state = AuthUnauthenticated(
+          needsPasswordLinkConfirmation: true,
+          errorMessage:
+              'An account with this email already exists. Sign in with your password to link Google.',
+        );
+      } else {
+        state = AuthUnauthenticated(errorMessage: e.toString());
+      }
     } catch (e) {
       state = AuthUnauthenticated(errorMessage: e.toString());
     }

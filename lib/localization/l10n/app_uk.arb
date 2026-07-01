@@ -18,5 +18,8 @@
   "rememberFor30Days": "Запам'ятати протягом 30 днів",
   "forgotPassword": "Забув пароль",
   "signInWithGoogle": "Увійти з Google",
-  "dontHaveAnAccount": "Немає облікового запису?"
+  "dontHaveAnAccount": "Немає облікового запису?",
+  "chats": "Чати",
+  "groups": "Групи",
+  "chat": "Чат"
 }

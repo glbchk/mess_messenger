@@ -65,4 +65,13 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get dontHaveAnAccount => 'Немає облікового запису?';
+
+  @override
+  String get chats => 'Чати';
+
+  @override
+  String get groups => 'Групи';
+
+  @override
+  String get chat => 'Чат';
 }

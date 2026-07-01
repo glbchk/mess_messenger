@@ -47,6 +47,22 @@ class SendPasswordResetUserUseCase extends AuthUserUseCase {
   }
 }
 
+class LinkEmailPasswordUseCase extends AuthUserUseCase {
+  LinkEmailPasswordUseCase(super.authRepository);
+
+  Future<void> execute(String email, String password) {
+    return authRepository.linkEmailPassword(email, password);
+  }
+}
+
+class LinkGoogleAccountUseCase extends AuthUserUseCase {
+  LinkGoogleAccountUseCase(super.authRepository);
+
+  Future<void> execute() {
+    return authRepository.linkGoogleAccount();
+  }
+}
+
 class LogoutUserUseCase extends AuthUserUseCase {
   LogoutUserUseCase(super.authRepository);
 

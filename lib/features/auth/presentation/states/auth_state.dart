@@ -14,6 +14,10 @@ class AuthUnauthenticated extends AuthState {
   final String? errorMessage;
   final String? successMessage;
   final bool isPasswordVisible;
+  final bool needsGoogleLinkConfirmation;
+  final String? pendingLinkEmail;
+  final String? pendingLinkPassword;
+  final bool needsPasswordLinkConfirmation;
 
   AuthUnauthenticated({
     this.isRegisterMode = true,
@@ -23,6 +27,10 @@ class AuthUnauthenticated extends AuthState {
     this.errorMessage,
     this.successMessage,
     this.isPasswordVisible = false,
+    this.needsGoogleLinkConfirmation = false,
+    this.pendingLinkEmail,
+    this.pendingLinkPassword,
+    this.needsPasswordLinkConfirmation = false,
   });
 
   AuthUnauthenticated copyWith({
@@ -33,6 +41,10 @@ class AuthUnauthenticated extends AuthState {
     String? Function()? errorMessage,
     String? Function()? successMessage,
     bool? isPasswordVisible,
+    bool? needsGoogleLinkConfirmation,
+    String? pendingLinkEmail,
+    String? pendingLinkPassword,
+    bool? needsPasswordLinkConfirmation,
   }) {
     return AuthUnauthenticated(
       isRegisterMode: isRegisterMode ?? this.isRegisterMode,
@@ -46,6 +58,12 @@ class AuthUnauthenticated extends AuthState {
           ? successMessage()
           : this.successMessage,
       isPasswordVisible: isPasswordVisible ?? this.isPasswordVisible,
+      needsGoogleLinkConfirmation:
+          needsGoogleLinkConfirmation ?? this.needsGoogleLinkConfirmation,
+      pendingLinkEmail: pendingLinkEmail ?? this.pendingLinkEmail,
+      pendingLinkPassword: pendingLinkPassword ?? this.pendingLinkPassword,
+      needsPasswordLinkConfirmation:
+          needsPasswordLinkConfirmation ?? this.needsPasswordLinkConfirmation,
     );
   }
 }

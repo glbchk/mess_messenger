@@ -10,6 +10,7 @@ class MessTextField extends StatelessWidget {
   final void Function(bool)? onFocusChange;
   final String? label;
   final double? spaceLabel;
+  final double? height;
   final String? hint;
   final String? error;
   final Widget? suffixIcon;
@@ -38,6 +39,7 @@ class MessTextField extends StatelessWidget {
     this.onFocusChange,
     this.label,
     this.spaceLabel,
+    this.height,
     this.hint,
     this.error,
     this.suffixIcon,
@@ -85,89 +87,86 @@ class MessTextField extends StatelessWidget {
         Focus(
           onFocusChange: onFocusChange,
           canRequestFocus: !(readOnly ?? false),
-          child: SizedBox(
-            height: 40,
-            child: TextFormField(
-              controller: controller,
-              readOnly: readOnly ?? false,
-              initialValue: initialValue,
-              focusNode: focusNode,
-              autofocus: autofocus ?? false,
-              obscureText: isPassword == true
-                  ? !(showPassword ?? false)
-                  : false,
-              enableSuggestions: isPassword == false,
-              autocorrect: isPassword == false,
-              keyboardType: keyboardType,
-              textInputAction: textInputAction,
-              autofillHints: isPassword ?? false
-                  ? const [AutofillHints.password]
-                  : null,
-              inputFormatters: inputFormatters,
-              validator: validator,
-              style: textTheme.bodyMedium?.copyWith(
-                color: colors.textPlaceHolder,
-              ),
-              textCapitalization: textCapitalization ?? TextCapitalization.none,
-              onTapUpOutside: (event) {
-                FocusManager.instance.primaryFocus?.unfocus();
-              },
-              onTap: onTap,
-              onChanged: (String value) => onChanged?.call(value),
-              decoration: InputDecoration(
-                hintText: hint,
-                hintStyle: textTheme.bodySmall?.copyWith(
-                  color: colors.textHint,
-                ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                prefixIcon: prefixIcon != null
-                    ? GestureDetector(
-                        onTap: onPrefixIconTap,
-                        child: IconTheme(
-                          data: IconThemeData(
-                            color: prefixIconColor ?? colors.text1,
-                            size: 24,
-                          ),
+          child: TextFormField(
+            controller: controller,
+            readOnly: readOnly ?? false,
+            initialValue: initialValue,
+            focusNode: focusNode,
+            autofocus: autofocus ?? false,
+            obscureText: isPassword == true ? !(showPassword ?? false) : false,
+            enableSuggestions: isPassword == false,
+            autocorrect: isPassword == false,
+            keyboardType: keyboardType,
+            textInputAction: textInputAction,
+            autofillHints: isPassword ?? false
+                ? const [AutofillHints.password]
+                : null,
+            inputFormatters: inputFormatters,
+            validator: validator,
+            style: textTheme.bodyMedium?.copyWith(
+              color: colors.textPlaceHolder,
+            ),
+            textCapitalization: textCapitalization ?? TextCapitalization.none,
+            onTapUpOutside: (event) {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            onTap: onTap,
+            onChanged: (String value) => onChanged?.call(value),
+            decoration: InputDecoration(
+              hintText: hint,
+              prefix: prefixIcon != null ? const SizedBox(width: 8) : null,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+              hintStyle: textTheme.bodyMedium?.copyWith(color: colors.textHint),
+              prefixIcon: prefixIcon != null
+                  ? GestureDetector(
+                      onTap: onPrefixIconTap,
+                      child: IconTheme(
+                        data: IconThemeData(
+                          color: prefixIconColor ?? colors.text1,
+                          size: 24,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16.0),
                           child: SizedBox(
                             width: 24,
                             height: 24,
                             child: Center(child: prefixIcon!),
                           ),
                         ),
-                      )
-                    : null,
-                suffixIcon: isPassword == true
-                    ? SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: GestureDetector(
-                          onTap: onSuffixIconTap,
-                          child: showPassword != true
-                              ? SvgPicture.asset(
-                                  'assets/icons/view_off.svg',
-                                  width: 16,
-                                  height: 16,
-                                  fit: BoxFit.scaleDown,
-                                )
-                              : SvgPicture.asset(
-                                  'assets/icons/view.svg',
-                                  width: 16,
-                                  height: 16,
-                                  fit: BoxFit.scaleDown,
-                                ),
-                        ),
-                      )
-                    : suffixIcon,
-                filled: true,
-                fillColor: colors.surface2,
-                hoverColor: colors.surface4,
-                border: borderStyle,
-                enabledBorder: borderStyle,
-                focusedBorder: borderStyle,
-                disabledBorder: borderStyle,
-                errorBorder: borderStyle,
-                focusedErrorBorder: borderStyle,
-              ),
+                      ),
+                    )
+                  : null,
+              suffixIcon: isPassword == true
+                  ? SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: GestureDetector(
+                        onTap: onSuffixIconTap,
+                        child: showPassword != true
+                            ? SvgPicture.asset(
+                                'assets/icons/view_off.svg',
+                                width: 16,
+                                height: 16,
+                                fit: BoxFit.scaleDown,
+                              )
+                            : SvgPicture.asset(
+                                'assets/icons/view.svg',
+                                width: 16,
+                                height: 16,
+                                fit: BoxFit.scaleDown,
+                              ),
+                      ),
+                    )
+                  : suffixIcon,
+              filled: true,
+              fillColor: colors.surface2,
+              hoverColor: colors.surface4,
+              border: borderStyle,
+              enabledBorder: borderStyle,
+              focusedBorder: borderStyle,
+              disabledBorder: borderStyle,
+              errorBorder: borderStyle,
+              focusedErrorBorder: borderStyle,
             ),
           ),
         ),

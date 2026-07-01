@@ -18,5 +18,8 @@
   "rememberFor30Days": "Remember for 30 days",
   "forgotPassword": "Forgot password",
   "signInWithGoogle": "Sign in with Google",
-  "dontHaveAnAccount": "Don't have an account?"
+  "dontHaveAnAccount": "Don't have an account?",
+  "chats": "Chats",
+  "groups": "Groups",
+  "chat": "Chat"
 }

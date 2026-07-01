@@ -16,6 +16,9 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color textHint;
   final Color buttonPrimary;
   final Color link;
+  final Color border2;
+  final Color bg;
+
   // final Color background;
   // final Color foreground;
   // final Color card;
@@ -37,6 +40,8 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.textHint,
     required this.buttonPrimary,
     required this.link,
+    required this.border2,
+    required this.bg,
 
     // required this.background,
     // required this.foreground,
@@ -62,6 +67,8 @@ class AppColors extends ThemeExtension<AppColors> {
     textHint: AppPalette.textHintLight,
     buttonPrimary: AppPalette.buttonPrimaryLight,
     link: AppPalette.linkLight,
+    border2: AppPalette.border2Light,
+    bg: AppPalette.bgLight,
 
     // background: AppPalette.background,
     // foreground: AppPalette.foreground,
@@ -87,6 +94,8 @@ class AppColors extends ThemeExtension<AppColors> {
     textHint: AppPalette.textHintDark,
     buttonPrimary: AppPalette.buttonPrimaryDark,
     link: AppPalette.linkDark,
+    border2: AppPalette.border2Dark,
+    bg: AppPalette.bgDark,
 
     // background: AppPalette.darkBackground,
     // foreground: AppPalette.darkForeground,
@@ -111,6 +120,9 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? textHint,
     Color? buttonPrimary,
     Color? link,
+    Color? border2,
+    Color? bg,
+
     // Color? background,
     // Color? foreground,
     // Color? card,
@@ -133,6 +145,9 @@ class AppColors extends ThemeExtension<AppColors> {
       textHint: textHint ?? this.textHint,
       buttonPrimary: buttonPrimary ?? this.buttonPrimary,
       link: link ?? this.link,
+      border2: border2 ?? this.border2,
+      bg: bg ?? this.bg,
+
       // background: background ?? this.background,
       // foreground: foreground ?? this.foreground,
       // card: card ?? this.card,
@@ -160,6 +175,8 @@ class AppColors extends ThemeExtension<AppColors> {
       textHint: Color.lerp(textHint, other.textHint, t)!,
       buttonPrimary: Color.lerp(buttonPrimary, other.buttonPrimary, t)!,
       link: Color.lerp(link, other.link, t)!,
+      border2: Color.lerp(border2, other.border2, t)!,
+      bg: Color.lerp(bg, other.bg, t)!,
 
       // background: Color.lerp(background, other.background, t)!,
       // foreground: Color.lerp(foreground, other.foreground, t)!,

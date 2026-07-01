@@ -48,11 +48,19 @@ class SignInFormWidget extends ConsumerWidget {
 
     final l10n = AppLocalizations.of(context)!;
 
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SvgPicture.asset('assets/icons/mess_logo.svg', height: 64, width: 64),
+        SvgPicture.asset(
+          isDarkMode
+              ? 'assets/icons/mess_logo_dark.svg'
+              : 'assets/icons/mess_logo_light.svg',
+          height: 64,
+          width: 64,
+        ),
         AppSpacing.p24.gapV,
         Text(
           l10n.signIn,

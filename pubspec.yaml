@@ -51,6 +51,8 @@ dependencies:
   flutter_svg: ^2.3.0
   google_sign_in: ^7.2.0
   app_links: ^7.1.2
+  responsive_framework: ^1.5.1
+  lottie: ^3.3.3
 
 dev_dependencies:
   flutter_test:
@@ -80,8 +82,11 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/images/user_images/
     - assets/icons/
     - assets/icons/colored/
+    - assets/icons/nav_bar/
+    - assets/animations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
