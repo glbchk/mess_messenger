@@ -21,5 +21,13 @@
   "dontHaveAnAccount": "Don't have an account?",
   "chats": "Chats",
   "groups": "Groups",
-  "chat": "Chat"
+  "chat": "Chat",
+  "searchHere": "Search here...",
+  "calls": "Calls",
+  "contacts": "Contacts",
+  "favorites": "Favorites",
+  "archive": "Archive",
+  "settings": "Settings",
+  "messenger": "Messenger",
+  "chatsEmptyScreenText": "Your personal messages are end-to-end \nencrypted."
 }

@@ -229,6 +229,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Chat'**
   String get chat;
+
+  /// No description provided for @searchHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Search here...'**
+  String get searchHere;
+
+  /// No description provided for @calls.
+  ///
+  /// In en, this message translates to:
+  /// **'Calls'**
+  String get calls;
+
+  /// No description provided for @contacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts'**
+  String get contacts;
+
+  /// No description provided for @favorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites'**
+  String get favorites;
+
+  /// No description provided for @archive.
+  ///
+  /// In en, this message translates to:
+  /// **'Archive'**
+  String get archive;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @messenger.
+  ///
+  /// In en, this message translates to:
+  /// **'Messenger'**
+  String get messenger;
+
+  /// No description provided for @chatsEmptyScreenText.
+  ///
+  /// In en, this message translates to:
+  /// **'Your personal messages are end-to-end \nencrypted.'**
+  String get chatsEmptyScreenText;
 }
 
 class _AppLocalizationsDelegate

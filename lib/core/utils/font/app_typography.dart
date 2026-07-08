@@ -4,15 +4,6 @@ const fontFamily = "RobotoFlex";
 //https://fonts.google.com/specimen/Roboto+Flex
 
 TextTheme buildTextTheme({required bool isDesktop}) {
-  // final double headingXXXL = isDesktop ? 60.0 : 60.0;
-  // final double headingXL = isDesktop ? 36.0 : 36.0;
-  // final double headingL = isDesktop ? 28.0 : 28.0;
-  // final double bodyL = isDesktop ? 20.0 : 18.0;
-  // final double bodyS = isDesktop ? 14.0 : 14.0;
-  // final double bodyXS = isDesktop ? 12.0 : 12.0;
-  // final double labelLStrong = isDesktop ? 16.0 : 16.0;
-  // final double labelSStrong = isDesktop ? 14.0 : 14.0;
-
   final double displayLarge = 60.0; //Medium 500
   final double displayMedium = 36.0; //Medium 500
   final double displaySmall = 28.0; //Medium 500

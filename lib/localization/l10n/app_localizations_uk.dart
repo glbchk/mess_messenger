@@ -74,4 +74,29 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get chat => 'Чат';
+
+  @override
+  String get searchHere => 'Знайти...';
+
+  @override
+  String get calls => 'Дзвінки';
+
+  @override
+  String get contacts => 'Контакти';
+
+  @override
+  String get favorites => 'Улюблене';
+
+  @override
+  String get archive => 'Архив';
+
+  @override
+  String get settings => 'Налаштування';
+
+  @override
+  String get messenger => 'Месенджер';
+
+  @override
+  String get chatsEmptyScreenText =>
+      'Твої особисті повідомлення зашифровані \nвід початку до кінця.';
 }

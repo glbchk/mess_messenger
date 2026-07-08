@@ -3,14 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mess_messenger_app/core/utils/layouts/responsive_layout_wrapper.dart';
+import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
 import 'package:mess_messenger_app/features/auth/presentation/pages/layouts/auth_desktop_layout.dart';
 import 'package:mess_messenger_app/features/auth/presentation/pages/layouts/auth_mobile_layout.dart';
 import 'package:mess_messenger_app/features/auth/presentation/pages/layouts/auth_tablet_layout.dart';
 import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.dart';
 import 'package:mess_messenger_app/features/auth/presentation/widgets/sign_in_form_widget.dart';
 import 'package:mess_messenger_app/features/auth/presentation/widgets/sign_up_form_widget.dart';
-import 'package:mess_messenger_app/features/auth/providers/auth_provider.dart';
-import 'package:mess_messenger_app/features/chat/presentation/pages/chats_page.dart';
+import 'package:mess_messenger_app/features/chats/presentation/pages/chats_page.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class AuthPage extends ConsumerStatefulWidget {
@@ -194,7 +194,7 @@ class _AuthPageState extends ConsumerState<AuthPage> {
                     child: SvgPicture.asset(
                       isDarkMode
                           ? 'assets/icons/mess_logo_dark.svg'
-                          : 'assets/icons/mess_logo_light.svg',
+                          : 'assets/icons/mess_logo.svg',
                       height: 40,
                     ),
                   ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mess_messenger_app/core/constants/svg_icons.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
+import 'package:mess_messenger_app/core/widgets/mess_password_field.dart';
 import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
@@ -57,7 +59,7 @@ class SignInFormWidget extends ConsumerWidget {
         SvgPicture.asset(
           isDarkMode
               ? 'assets/icons/mess_logo_dark.svg'
-              : 'assets/icons/mess_logo_light.svg',
+              : 'assets/icons/mess_logo.svg',
           height: 64,
           width: 64,
         ),
@@ -83,8 +85,7 @@ class SignInFormWidget extends ConsumerWidget {
           hint: l10n.emailHint,
         ),
         AppSpacing.p16.gapV,
-        MessTextField(
-          isPassword: true,
+        MessPasswordField(
           controller: passwordController,
           showPassword: showPassword,
           label: l10n.passwordLabel,
@@ -99,10 +100,10 @@ class SignInFormWidget extends ConsumerWidget {
               children: [
                 GestureDetector(
                   onTap: onToggleRememberMe,
-                  child: Icon(
-                    rememberMe
-                        ? Icons.check_box
-                        : Icons.check_box_outline_blank,
+                  child: SvgPicture.asset(
+                    rememberMe ? SvgIcons.checkboxChecked : SvgIcons.checkbox,
+                    width: 18,
+                    height: 18,
                   ),
                 ),
                 AppSpacing.p8.gapH,
@@ -132,7 +133,7 @@ class SignInFormWidget extends ConsumerWidget {
           onPressed: onPressedSignInWithGoogle,
           backgroundColor: colors.surface2,
           textStyle: textTheme.labelLarge?.copyWith(color: colors.text1),
-          iconPath: 'assets/icons/colored/google.svg',
+          iconPath: SvgIcons.google,
         ),
 
         AppSpacing.p24.gapV,

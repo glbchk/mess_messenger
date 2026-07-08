@@ -73,4 +73,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chat => 'Chat';
+
+  @override
+  String get searchHere => 'Search here...';
+
+  @override
+  String get calls => 'Calls';
+
+  @override
+  String get contacts => 'Contacts';
+
+  @override
+  String get favorites => 'Favorites';
+
+  @override
+  String get archive => 'Archive';
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get messenger => 'Messenger';
+
+  @override
+  String get chatsEmptyScreenText =>
+      'Your personal messages are end-to-end \nencrypted.';
 }

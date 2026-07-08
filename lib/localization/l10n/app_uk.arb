@@ -21,5 +21,13 @@
   "dontHaveAnAccount": "Немає облікового запису?",
   "chats": "Чати",
   "groups": "Групи",
-  "chat": "Чат"
+  "chat": "Чат",
+  "searchHere": "Знайти...",
+    "calls": "Дзвінки",
+    "contacts": "Контакти",
+    "favorites": "Улюблене",
+    "archive": "Архив",
+    "settings": "Налаштування",
+    "messenger": "Месенджер",
+    "chatsEmptyScreenText": "Твої особисті повідомлення зашифровані \nвід початку до кінця."
 }

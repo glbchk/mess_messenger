@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mess_messenger_app/core/constants/svg_icons.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
+import 'package:mess_messenger_app/core/widgets/mess_password_field.dart';
 import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
@@ -73,8 +75,7 @@ class SignUpFormWidget extends ConsumerWidget {
           hint: l10n.emailHint,
         ),
         AppSpacing.p16.gapV,
-        MessTextField(
-          isPassword: true,
+        MessPasswordField(
           controller: passwordController,
           showPassword: showPassword,
           label: l10n.passwordLabel,
@@ -98,7 +99,7 @@ class SignUpFormWidget extends ConsumerWidget {
           onPressed: onPressedSignUpWithGoogle,
           backgroundColor: colors.surface2,
           textStyle: textTheme.labelLarge?.copyWith(color: colors.text1),
-          iconPath: 'assets/icons/colored/google.svg',
+          iconPath: SvgIcons.google,
         ),
 
         AppSpacing.p24.gapV,

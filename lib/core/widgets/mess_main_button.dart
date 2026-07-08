@@ -6,6 +6,7 @@ import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class MessMainButton extends StatelessWidget {
   final String label;
+  final double? height;
   final double? width;
   final VoidCallback? onPressed;
   final bool? isLoading;
@@ -19,6 +20,7 @@ class MessMainButton extends StatelessWidget {
   const MessMainButton({
     super.key,
     required this.label,
+    this.height,
     this.width,
     this.onPressed,
     this.isLoading,
@@ -37,7 +39,7 @@ class MessMainButton extends StatelessWidget {
 
     return Container(
       width: width ?? double.infinity,
-      height: 44,
+      height: height ?? 48,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(32)),
       child: FilledButton(
         onPressed: onPressed,
@@ -49,7 +51,7 @@ class MessMainButton extends StatelessWidget {
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          spacing: AppSpacing.p12,
+          spacing: iconPath != null ? AppSpacing.p12 : 0,
           children: [
             iconPath != null
                 ? SvgPicture.asset(iconPath ?? '')
@@ -59,6 +61,7 @@ class MessMainButton extends StatelessWidget {
               style:
                   textStyle ??
                   textTheme.labelLarge?.copyWith(color: colors.textInverse),
+              textAlign: TextAlign.center,
             ),
           ],
         ),

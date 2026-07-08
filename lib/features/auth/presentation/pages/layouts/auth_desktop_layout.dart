@@ -68,7 +68,7 @@ class AuthDesktopLayout extends StatelessWidget {
           padding: const EdgeInsets.only(left: 32.0, top: 32.0),
           child: Row(
             children: [
-              SvgPicture.asset('assets/icons/mess_logo_light.svg', height: 34),
+              SvgPicture.asset('assets/icons/mess_logo.svg', height: 34),
               const SizedBox(width: 10),
               Text(
                 'Mess Messenger',

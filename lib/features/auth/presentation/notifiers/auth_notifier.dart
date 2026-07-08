@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
 import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.dart';
-import 'package:mess_messenger_app/features/auth/providers/auth_provider.dart';
 
 class AuthNotifier extends Notifier<AuthState> {
   String? _validateEmail(String value) {

@@ -85,7 +85,8 @@ flutter:
     - assets/images/user_images/
     - assets/icons/
     - assets/icons/colored/
-    - assets/icons/nav_bar/
+    - assets/icons/menu/
+    - assets/icons/bottom_input_bar/
     - assets/animations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
