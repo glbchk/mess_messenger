@@ -3,22 +3,32 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/core/utils/layouts/responsive_layout_wrapper.dart';
 import 'package:mess_messenger_app/features/chats/chats_providers/chats_provider.dart';
 import 'package:mess_messenger_app/features/chats/chats_providers/open_chat_provider.dart';
-import 'package:mess_messenger_app/features/chats/presentation/pages/layouts/chats/chats_desktop_layout.dart';
-import 'package:mess_messenger_app/features/chats/presentation/pages/layouts/chats/chats_mobile_layout.dart';
-import 'package:mess_messenger_app/features/chats/presentation/pages/layouts/chats/chats_tablet_layout.dart';
 import 'package:mess_messenger_app/features/chats/presentation/pages/mobile_open_chat_page.dart';
+import 'package:mess_messenger_app/features/contacts/presentation/pages/layouts/contacts_desktop_layout.dart';
+import 'package:mess_messenger_app/features/contacts/presentation/pages/layouts/contacts_mobile_layout.dart';
+import 'package:mess_messenger_app/features/contacts/presentation/pages/layouts/contacts_tablet_layout.dart';
 import 'package:mess_messenger_app/features/profile/data/models/user_model.dart';
 import 'package:mess_messenger_app/features/profile/user_providers/user_providers.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-class ChatsPage extends ConsumerStatefulWidget {
-  const ChatsPage({super.key});
+// class ContactsPage extends ConsumerWidget {
+//   const ContactsPage({super.key});
+//
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     // fetch/watch a contacts list here, once you build that feature
+//     return const Center(child: Text('Contacts — coming soon'));
+//   }
+// }
+
+class ContactsPage extends ConsumerStatefulWidget {
+  const ContactsPage({super.key});
 
   @override
-  ConsumerState<ChatsPage> createState() => _ChatsPageState();
+  ConsumerState<ContactsPage> createState() => _ContactsPageState();
 }
 
-class _ChatsPageState extends ConsumerState<ChatsPage> {
+class _ContactsPageState extends ConsumerState<ContactsPage> {
   final TextEditingController messageController = TextEditingController();
 
   @override
@@ -90,12 +100,12 @@ class _ChatsPageState extends ConsumerState<ChatsPage> {
     }
 
     return ResponsiveLayout(
-      mobile: ChatsMobileLayout(
+      mobile: ContactsMobileLayout(
         userData: userData,
         chats: chatsListState.chats,
         onPressed: () => openChattingPage(),
       ),
-      tablet: ChatsTabletLayout(
+      tablet: ContactsTabletLayout(
         userData: userData,
         chats: chatsListState.chats,
         selectedChatId: selectedChatId ?? '',
@@ -107,7 +117,7 @@ class _ChatsPageState extends ConsumerState<ChatsPage> {
         },
         onDeselectChat: () => deselectChat(),
       ),
-      desktop: ChatsDesktopLayout(
+      desktop: ContactsDesktopLayout(
         userData: userData,
         chats: chatsListState.chats,
         selectedChatId: selectedChatId ?? '',

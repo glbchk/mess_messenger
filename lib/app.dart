@@ -7,7 +7,7 @@ import 'package:mess_messenger_app/core/utils/font/app_typography.dart';
 import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
 import 'package:mess_messenger_app/features/auth/presentation/pages/auth_page.dart';
 import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.dart';
-import 'package:mess_messenger_app/features/chats/presentation/pages/chats_page.dart';
+import 'package:mess_messenger_app/features/ui_app_root/app_shell.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/providers/theme_provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -64,7 +64,7 @@ class MyApp extends ConsumerWidget {
         ],
       ),
       home: authState is AuthAuthenticated
-          ? const ChatsPage()
+          ? const AppShell()
           : const AuthPage(),
     );
   }

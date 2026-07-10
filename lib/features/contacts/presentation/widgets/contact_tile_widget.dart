@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
-class ChatTileWidget extends ConsumerWidget {
-  final String iconPath;
+class ContactTileWidget extends ConsumerWidget {
   final String? photoPath;
-  final String chatId;
+  final String contactId;
   final String title;
   final String subtitle;
   final VoidCallback onPressed;
 
-  const ChatTileWidget({
+  const ContactTileWidget({
     super.key,
-    required this.iconPath,
     this.photoPath,
-    required this.chatId,
+    required this.contactId,
     required this.title,
     required this.subtitle,
     required this.onPressed,
@@ -41,14 +39,7 @@ class ChatTileWidget extends ConsumerWidget {
                 borderRadius: BorderRadius.all(Radius.circular(40)),
                 color: colors.surface4,
               ),
-              child: photoPath == null
-                  ? Center(
-                      child: SvgPicture.asset(iconPath, height: 16, width: 16),
-                    )
-                  : ClipRRect(
-                      borderRadius: BorderRadius.circular(40),
-                      child: Image.asset(photoPath ?? '', fit: BoxFit.cover),
-                    ),
+              child: UserAvatarWidget(userName: title, photoPath: photoPath),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +48,7 @@ class ChatTileWidget extends ConsumerWidget {
               children: [
                 Text(
                   title,
-                  style: textTheme.bodyMedium?.copyWith(color: colors.text1),
+                  style: textTheme.titleMedium?.copyWith(color: colors.text1),
                 ),
                 Text(
                   subtitle,
@@ -71,3 +62,30 @@ class ChatTileWidget extends ConsumerWidget {
     );
   }
 }
+
+// Row(
+// spacing: 12,
+// children: [
+// UserAvatarWidget(
+// userName: appBarUserName ?? 'Joe Doe',
+// photoPath: appBarUserPhotoPath,
+// ),
+// Column(
+// crossAxisAlignment: CrossAxisAlignment.start,
+// children: [
+// Text(
+// appBarUserName ?? 'Some Cool Name',
+// style: textTheme.headlineMedium?.copyWith(
+// color: colors.text1,
+// ),
+// ),
+// Text(
+// appBarPhoneNumber ?? '+419901250285',
+// style: textTheme.bodyLarge?.copyWith(
+// color: colors.text2,
+// ),
+// ),
+// ],
+// ),
+// ],
+// )

@@ -14,7 +14,7 @@ import 'package:mess_messenger_app/features/profile/data/models/user_model.dart'
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
-class ChatsTabletLayout extends ConsumerWidget {
+class ContactsTabletLayout extends ConsumerWidget {
   final UserModel userData;
   final List<ChatModel> chats;
   final String selectedChatId;
@@ -24,7 +24,7 @@ class ChatsTabletLayout extends ConsumerWidget {
   final VoidCallback onSendMessage;
   final VoidCallback onDeselectChat;
 
-  const ChatsTabletLayout({
+  const ContactsTabletLayout({
     super.key,
     required this.userData,
     required this.chats,

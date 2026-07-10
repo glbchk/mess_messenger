@@ -37,13 +37,13 @@ class MobileNavigationBar extends StatelessWidget {
               Expanded(
                 child: Row(
                   children: [
-                    Expanded(child: _buildNavItem(SvgIcons.chats, 1, context)),
-                    Expanded(child: _buildNavItem(SvgIcons.calls, 2, context)),
+                    Expanded(child: _buildNavItem(SvgIcons.chats, 0, context)),
+                    Expanded(child: _buildNavItem(SvgIcons.calls, 1, context)),
                     Expanded(
-                      child: _buildNavItem(SvgIcons.contacts, 3, context),
+                      child: _buildNavItem(SvgIcons.contacts, 2, context),
                     ),
                     Expanded(
-                      child: _buildNavItem(SvgIcons.settings, 4, context),
+                      child: _buildNavItem(SvgIcons.settings, 3, context),
                     ),
                   ],
                 ),

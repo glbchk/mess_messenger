@@ -10,7 +10,7 @@ import 'package:mess_messenger_app/features/auth/presentation/pages/layouts/auth
 import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.dart';
 import 'package:mess_messenger_app/features/auth/presentation/widgets/sign_in_form_widget.dart';
 import 'package:mess_messenger_app/features/auth/presentation/widgets/sign_up_form_widget.dart';
-import 'package:mess_messenger_app/features/chats/presentation/pages/chats_page.dart';
+import 'package:mess_messenger_app/features/ui_app_root/app_shell.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class AuthPage extends ConsumerStatefulWidget {
@@ -65,7 +65,7 @@ class _AuthPageState extends ConsumerState<AuthPage> {
       if (next is AuthAuthenticated) {
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (_) => const ChatsPage()),
+          MaterialPageRoute(builder: (_) => const AppShell()),
           (route) => false,
         );
       }

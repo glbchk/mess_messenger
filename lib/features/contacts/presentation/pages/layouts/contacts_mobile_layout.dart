@@ -8,19 +8,17 @@ import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
 import 'package:mess_messenger_app/core/widgets/mobile_widgets/app_bar/mobile_app_bar.dart';
 import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
 import 'package:mess_messenger_app/features/chats/data/models/chat_model.dart';
-import 'package:mess_messenger_app/features/chats/presentation/pages/mobile_open_chat_page.dart';
-import 'package:mess_messenger_app/features/chats/presentation/widgets/chat_tile_widget.dart';
-import 'package:mess_messenger_app/features/chats/presentation/widgets/chats_header_section_widget.dart';
+import 'package:mess_messenger_app/features/contacts/presentation/widgets/contact_tile_widget.dart';
 import 'package:mess_messenger_app/features/profile/data/models/user_model.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
-class ChatsMobileLayout extends ConsumerStatefulWidget {
+class ContactsMobileLayout extends ConsumerStatefulWidget {
   final UserModel userData;
   final List<ChatModel> chats;
   final Future<void> Function() onPressed;
 
-  const ChatsMobileLayout({
+  const ContactsMobileLayout({
     super.key,
     required this.userData,
     required this.chats,
@@ -28,10 +26,11 @@ class ChatsMobileLayout extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ChatsMobileLayout> createState() => _ChatsMobileLayoutState();
+  ConsumerState<ContactsMobileLayout> createState() =>
+      _ContactsMobileLayoutState();
 }
 
-class _ChatsMobileLayoutState extends ConsumerState<ChatsMobileLayout> {
+class _ContactsMobileLayoutState extends ConsumerState<ContactsMobileLayout> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
@@ -39,8 +38,8 @@ class _ChatsMobileLayoutState extends ConsumerState<ChatsMobileLayout> {
 
     final l10n = AppLocalizations.of(context)!;
 
-    final directChats = widget.chats.where((c) => !c.isGroup).toList();
-    final groupChats = widget.chats.where((c) => c.isGroup).toList();
+    // final directChats = widget.chats.where((c) => !c.isGroup).toList();
+    // final groupChats = widget.chats.where((c) => c.isGroup).toList();
 
     return Scaffold(
       backgroundColor: colors.bg,
@@ -48,17 +47,12 @@ class _ChatsMobileLayoutState extends ConsumerState<ChatsMobileLayout> {
         appBarBackgroundColor: colors.transparent,
         resizeToAvoidBottomInset: false,
         showAppBarContent: false,
-        title: l10n.chats,
+        title: 'Contacts', //l10n.chats,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.logout, color: Colors.red),
-            onPressed: () =>
-                widget.onPressed, //ref.read(authProvider.notifier).logout(),
-          ),
-          AppSpacing.p16.gapH,
           MessIconButton(
             SvgIcons.add,
             onPressed: () async {
+              //HERE NEED TO REDIRECT TO ADD A NEW CONTACT
               await widget.onPressed();
             },
           ),
@@ -91,46 +85,29 @@ class _ChatsMobileLayoutState extends ConsumerState<ChatsMobileLayout> {
             child: widget.chats.isNotEmpty
                 ? SingleChildScrollView(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 22.0),
+                      padding: const EdgeInsets.only(
+                        left: 22,
+                        top: 22,
+                        right: 22,
+                      ),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           //Groups
-                          ChatsHeaderSectionWidget(
-                            sectionTitle: l10n.groups,
+                          Text(
+                            'A',
+                            style: textTheme.headlineMedium?.copyWith(
+                              color: colors.text1,
+                            ),
+                          ),
+                          AppSpacing.p16.gapV,
+                          // for (final groupChat in groupChats)
+                          ContactTileWidget(
+                            contactId: '',
+                            title: 'Some',
+                            subtitle: 'Something',
                             onPressed: () {},
                           ),
-                          for (final groupChat in groupChats)
-                            ChatTileWidget(
-                              iconPath: SvgIcons.folders,
-                              chatId: groupChat.id,
-                              title:
-                                  'In future should be group messages!', //groupChat.id.substring(0, 12),
-                              subtitle: groupChat.lastMessage,
-                              onPressed: () {},
-                            ),
-
-                          //Chats
-                          ChatsHeaderSectionWidget(
-                            sectionTitle: l10n.chats,
-                            onPressed: () {},
-                          ),
-                          for (final directChat in directChats)
-                            ChatTileWidget(
-                              iconPath: SvgIcons.folders,
-                              chatId: directChat.id,
-                              title: directChat.id.substring(0, 12),
-                              subtitle: directChat.lastMessage,
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => MobileOpenChatPage(
-                                      chatId: directChat.id,
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
                         ],
                       ),
                     ),

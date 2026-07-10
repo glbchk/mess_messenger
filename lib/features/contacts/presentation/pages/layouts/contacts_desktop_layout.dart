@@ -16,7 +16,7 @@ import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-class ChatsDesktopLayout extends ConsumerWidget {
+class ContactsDesktopLayout extends ConsumerWidget {
   final UserModel userData;
   final List<ChatModel> chats;
   final String selectedChatId;
@@ -25,7 +25,7 @@ class ChatsDesktopLayout extends ConsumerWidget {
   final TextEditingController messageController;
   final VoidCallback onSendMessage;
 
-  const ChatsDesktopLayout({
+  const ContactsDesktopLayout({
     super.key,
     required this.userData,
     required this.chats,

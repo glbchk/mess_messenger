@@ -61,7 +61,7 @@ class MessTextField extends StatelessWidget {
     final textTheme = context.textStyles;
 
     final borderStyle = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(24),
       borderSide: BorderSide.none,
     );
 
@@ -107,7 +107,7 @@ class MessTextField extends StatelessWidget {
               onChanged: (String value) => onChanged?.call(value),
               decoration: InputDecoration(
                 hintText: hint,
-                prefix: prefixIcon != null ? const SizedBox(width: 8) : null,
+                prefix: prefixIcon != null ? const SizedBox(width: 12) : null,
                 hintStyle: textTheme.bodyMedium?.copyWith(
                   color: colors.textHint,
                 ),
@@ -125,7 +125,7 @@ class MessTextField extends StatelessWidget {
                             size: 24,
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
+                            padding: const EdgeInsets.only(left: 20.0),
                             child: SizedBox(
                               width: 24,
                               height: 24,
