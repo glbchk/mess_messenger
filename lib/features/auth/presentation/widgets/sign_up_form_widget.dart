@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
@@ -8,7 +7,7 @@ import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
-class SignUpFormWidget extends ConsumerWidget {
+class SignUpFormWidget extends StatelessWidget {
   final TextEditingController nameController;
   final TextEditingController emailController;
   final TextEditingController passwordController;
@@ -39,7 +38,7 @@ class SignUpFormWidget extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final colors = context.colors;
     final textTheme = context.textStyles;
 
@@ -120,18 +119,6 @@ class SignUpFormWidget extends ConsumerWidget {
             ),
           ],
         ),
-        // AppSpacing.p32.gapV,
-        // MessMainButton(
-        //   label: l10n.changeLanguage,
-        //   onPressed: () {
-        //     final currentLocale = ref.read(appLanguageProvider);
-        //     final nextLocale = currentLocale.languageCode == 'en'
-        //         ? const Locale('uk')
-        //         : const Locale('en');
-        //
-        //     ref.read(appLanguageProvider.notifier).changeLanguage(nextLocale);
-        //   },
-        // ),
       ],
     );
   }

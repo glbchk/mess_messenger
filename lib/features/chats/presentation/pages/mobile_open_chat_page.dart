@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mess_messenger_app/core/constants/svg_icons.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
+import 'package:mess_messenger_app/core/widgets/mess_icon_button.dart';
 import 'package:mess_messenger_app/core/widgets/mobile_widgets/app_bar/mobile_app_bar.dart';
 import 'package:mess_messenger_app/core/widgets/mobile_widgets/mobile_bottom_input_bar.dart';
 import 'package:mess_messenger_app/features/chats/chats_providers/open_chat_provider.dart';
-import 'package:mess_messenger_app/features/profile/data/models/user_model.dart';
-import 'package:mess_messenger_app/features/profile/user_providers/user_providers.dart';
-import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class MobileOpenChatPage extends ConsumerStatefulWidget {
@@ -54,16 +54,11 @@ class _OpenChatPageState extends ConsumerState<MobileOpenChatPage> {
     final colors = context.colors;
     final textTheme = context.textStyles;
 
-    final l10n = AppLocalizations.of(context)!;
-
     final chatState = ref.watch(chatsNotifierProvider(widget.chatId ?? ''));
 
     if (widget.chatId?.isEmpty ?? false) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
-
-    final userData =
-        ref.watch(userNotifierProvider).userData ?? UserModel(id: '');
 
     return Scaffold(
       backgroundColor: colors.bg,
@@ -75,24 +70,11 @@ class _OpenChatPageState extends ConsumerState<MobileOpenChatPage> {
         onPressedBack: () => Navigator.pop(context),
         // title: 'Chats',
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(left: 16.0),
-            child: Center(
-              child: SizedBox(
-                width: 40,
-                height: 40,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: ColoredBox(
-                    color: colors.surface2,
-                    child: IconButton(
-                      icon: Icon(Icons.more_vert, color: colors.icon1),
-                      onPressed: () {},
-                    ),
-                  ),
-                ),
-              ),
-            ),
+          MessIconButton(
+            SvgIcons.menuVert,
+            isButtonFilled: true,
+            borderWidth: 0,
+            onPressed: () {},
           ),
           AppSpacing.p16.gapH,
         ],

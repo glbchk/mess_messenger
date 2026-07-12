@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class MessIconButton extends StatelessWidget {
@@ -7,7 +7,9 @@ class MessIconButton extends StatelessWidget {
   final double iconSize;
   final double buttonSize;
   final Color? color;
+  final double? borderWidth;
   final VoidCallback? onPressed;
+  final bool isButtonFilled;
 
   const MessIconButton(
     this.svgAsset, {
@@ -15,37 +17,60 @@ class MessIconButton extends StatelessWidget {
     this.iconSize = 24,
     this.buttonSize = 44,
     this.color,
+    this.borderWidth,
     this.onPressed,
+    this.isButtonFilled = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
 
+    final effectiveBorderWidth = borderWidth ?? 1.0;
+
     return Material(
-      shape: CircleBorder(side: BorderSide(color: colors.border2, width: 1.0)),
-      color: colors.bg,
+      shape: effectiveBorderWidth > 0
+          ? CircleBorder(
+              side: BorderSide(
+                color: colors.border2,
+                width: effectiveBorderWidth,
+              ),
+            )
+          : const CircleBorder(),
+      color: isButtonFilled ? colors.surface2 : colors.bg,
       child: InkWell(
         onTap: onPressed,
-        hoverColor: colors.surface2,
+        hoverColor: isButtonFilled ? colors.surface4 : colors.surface2,
         splashColor: colors.surface4,
         customBorder: const CircleBorder(),
         child: SizedBox(
           height: buttonSize,
           width: buttonSize,
           child: Center(
-            child: SvgPicture.asset(
-              svgAsset,
-              width: iconSize,
-              height: iconSize,
-              colorFilter: ColorFilter.mode(
-                color ?? context.colors.icon1,
-                BlendMode.srcIn,
-              ),
-            ),
+            child: MessIcon(svgAsset, size: iconSize, color: color),
           ),
         ),
       ),
     );
   }
 }
+
+// Padding(
+// padding: const EdgeInsets.only(left: 16.0),
+// child: Center(
+// child: SizedBox(
+// width: 40,
+// height: 40,
+// child: ClipRRect(
+// borderRadius: BorderRadius.circular(50),
+// child: ColoredBox(
+// color: colors.surface2,
+// child: IconButton(
+// icon: Icon(Icons.more_vert, color: colors.icon1),
+// onPressed: () {},
+// ),
+// ),
+// ),
+// ),
+// ),
+// ),

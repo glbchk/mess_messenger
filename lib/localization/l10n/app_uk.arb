@@ -23,11 +23,12 @@
   "groups": "Групи",
   "chat": "Чат",
   "searchHere": "Знайти...",
-    "calls": "Дзвінки",
-    "contacts": "Контакти",
-    "favorites": "Улюблене",
-    "archive": "Архив",
-    "settings": "Налаштування",
-    "messenger": "Месенджер",
-    "chatsEmptyScreenText": "Твої особисті повідомлення зашифровані \nвід початку до кінця."
+  "startChat": "Почати Чат",
+  "calls": "Дзвінки",
+  "contacts": "Контакти",
+  "favorites": "Улюблене",
+  "archive": "Архив",
+  "settings": "Налаштування",
+  "messenger": "Месенджер",
+  "chatsEmptyScreenText": "Твої особисті повідомлення зашифровані \nвід початку до кінця."
 }

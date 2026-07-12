@@ -6,7 +6,7 @@ import 'package:mess_messenger_app/features/auth/domain/auth_repositories/auth_r
 import 'package:mess_messenger_app/features/auth/domain/auth_use_cases/auth_use_cases.dart';
 import 'package:mess_messenger_app/features/auth/presentation/notifiers/auth_notifier.dart';
 import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.dart';
-import 'package:mess_messenger_app/features/profile/user_providers/user_providers.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
 import 'package:mess_messenger_app/providers/firebase_provider.dart';
 
 final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>((ref) {

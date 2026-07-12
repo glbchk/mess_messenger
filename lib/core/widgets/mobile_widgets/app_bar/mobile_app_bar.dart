@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
-import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
+import 'package:mess_messenger_app/core/widgets/mess_icon_button.dart';
 import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
+import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool? extendBodyBehindAppBar;
   final bool resizeToAvoidBottomInset;
 
-  // final bool showLeadingIcon;
   final double? toolBarHeight;
   final bool showAppBarContent;
-  // final Image? profileImagePath;
-  // final String? userName;
-  // final String? phoneNumber;
-  final String? appBarUserName;
-  final String? appBarPhoneNumber;
+  final UserModel? userData;
   final String? appBarUserPhotoPath;
   final String? title;
   final bool? centerTitle;
@@ -37,11 +33,7 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
     // this.showLeadingIcon = true,
     this.toolBarHeight,
     required this.showAppBarContent,
-    // this.profileImagePath,
-    // this.userName,
-    // this.phoneNumber,
-    this.appBarUserName,
-    this.appBarPhoneNumber,
+    this.userData,
     this.appBarUserPhotoPath,
     this.title,
     this.centerTitle,
@@ -74,21 +66,11 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
         leading: showAppBarContent == true
             ? Padding(
                 padding: const EdgeInsets.only(left: 16.0),
-                child: Center(
-                  child: SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: ColoredBox(
-                        color: colors.surface2,
-                        child: IconButton(
-                          icon: MessIcon(SvgIcons.arrowLeft),
-                          onPressed: onPressedBack,
-                        ),
-                      ),
-                    ),
-                  ),
+                child: MessIconButton(
+                  SvgIcons.arrowLeft,
+                  isButtonFilled: true,
+                  borderWidth: 0,
+                  onPressed: onPressedBack,
                 ),
               )
             : null,
@@ -97,20 +79,20 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
                 spacing: 12,
                 children: [
                   UserAvatarWidget(
-                    userName: appBarUserName ?? 'Joe Doe',
+                    userName: userData?.name ?? 'Joe Doe',
                     photoPath: appBarUserPhotoPath,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        appBarUserName ?? 'Some Cool Name',
+                        userData?.name ?? 'Some Cool Name',
                         style: textTheme.headlineMedium?.copyWith(
                           color: colors.text1,
                         ),
                       ),
                       Text(
-                        appBarPhoneNumber ?? '+419901250285',
+                        userData?.phoneNumber ?? '+419901250285',
                         style: textTheme.bodyLarge?.copyWith(
                           color: colors.text2,
                         ),

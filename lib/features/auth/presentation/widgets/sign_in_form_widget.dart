@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
+import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
 import 'package:mess_messenger_app/core/widgets/mess_password_field.dart';
 import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
-class SignInFormWidget extends ConsumerWidget {
+class SignInFormWidget extends StatelessWidget {
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final bool isRegisterMode;
@@ -44,25 +43,17 @@ class SignInFormWidget extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final colors = context.colors;
     final textTheme = context.textStyles;
 
     final l10n = AppLocalizations.of(context)!;
 
-    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SvgPicture.asset(
-          isDarkMode
-              ? 'assets/icons/mess_logo_dark.svg'
-              : 'assets/icons/mess_logo.svg',
-          height: 64,
-          width: 64,
-        ),
+        MessIcon(SvgIcons.logo, size: 64),
         AppSpacing.p24.gapV,
         Text(
           l10n.signIn,
@@ -100,10 +91,9 @@ class SignInFormWidget extends ConsumerWidget {
               children: [
                 GestureDetector(
                   onTap: onToggleRememberMe,
-                  child: SvgPicture.asset(
+                  child: MessIcon(
                     rememberMe ? SvgIcons.checkboxChecked : SvgIcons.checkbox,
-                    width: 18,
-                    height: 18,
+                    size: 18,
                   ),
                 ),
                 AppSpacing.p8.gapH,
@@ -154,18 +144,6 @@ class SignInFormWidget extends ConsumerWidget {
             ),
           ],
         ),
-        // AppSpacing.p32.gapV,
-        // MessMainButton(
-        //   label: l10n.changeLanguage,
-        //   onPressed: () {
-        //     final currentLocale = ref.read(appLanguageProvider);
-        //     final nextLocale = currentLocale.languageCode == 'en'
-        //         ? const Locale('uk')
-        //         : const Locale('en');
-        //
-        //     ref.read(appLanguageProvider.notifier).changeLanguage(nextLocale);
-        //   },
-        // ),
       ],
     );
   }

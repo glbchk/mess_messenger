@@ -10,7 +10,7 @@ class AppTheme extends _$AppTheme {
     return ThemeMode.system;
   }
 
-  void toggleTheme() {
-    state = state == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+  void setTheme(ThemeMode mode) {
+    state = mode;
   }
 }

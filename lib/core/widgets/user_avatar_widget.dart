@@ -3,13 +3,13 @@ import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class UserAvatarWidget extends StatelessWidget {
   final String userName;
-  final double size;
+  final double? size;
   final String? photoPath;
 
   const UserAvatarWidget({
     super.key,
     required this.userName,
-    this.size = 24,
+    this.size,
     this.photoPath,
   });
 
@@ -18,8 +18,8 @@ class UserAvatarWidget extends StatelessWidget {
     final colors = context.colors;
 
     return Container(
-      height: 48,
-      width: 48,
+      height: size ?? 48,
+      width: size ?? 48,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(30)),
         color: colors.surface4,

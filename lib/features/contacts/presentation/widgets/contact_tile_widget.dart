@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
-class ContactTileWidget extends ConsumerWidget {
+class ContactTileWidget extends StatelessWidget {
   final String? photoPath;
   final String contactId;
   final String title;
@@ -20,7 +19,7 @@ class ContactTileWidget extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final colors = context.colors;
     final textTheme = context.textStyles;
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon_button.dart';
@@ -9,17 +8,19 @@ import 'package:mess_messenger_app/core/widgets/mobile_widgets/app_bar/mobile_ap
 import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
 import 'package:mess_messenger_app/features/chats/data/models/chat_model.dart';
 import 'package:mess_messenger_app/features/contacts/presentation/widgets/contact_tile_widget.dart';
-import 'package:mess_messenger_app/features/profile/data/models/user_model.dart';
+import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class ContactsMobileLayout extends ConsumerStatefulWidget {
+  final String pageTitle;
   final UserModel userData;
   final List<ChatModel> chats;
   final Future<void> Function() onPressed;
 
   const ContactsMobileLayout({
     super.key,
+    required this.pageTitle,
     required this.userData,
     required this.chats,
     required this.onPressed,
@@ -47,7 +48,7 @@ class _ContactsMobileLayoutState extends ConsumerState<ContactsMobileLayout> {
         appBarBackgroundColor: colors.transparent,
         resizeToAvoidBottomInset: false,
         showAppBarContent: false,
-        title: 'Contacts', //l10n.chats,
+        title: widget.pageTitle ?? 'Contacts',
         actions: [
           MessIconButton(
             SvgIcons.add,
@@ -71,12 +72,9 @@ class _ContactsMobileLayoutState extends ConsumerState<ContactsMobileLayout> {
             padding: const EdgeInsets.only(left: 16.0, top: 10, right: 16),
             child: MessTextField(
               height: 56,
+              radius: 24,
               hint: l10n.searchHere,
-              prefixIcon: SvgPicture.asset(
-                SvgIcons.search,
-                height: 24,
-                width: 24,
-              ),
+              prefixIcon: SvgIcons.search,
             ),
           ),
           AppSpacing.p12.gapV,

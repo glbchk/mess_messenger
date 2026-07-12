@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
+import 'package:mess_messenger_app/core/widgets/mess_icon_button.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class WebInputBar extends StatelessWidget {
@@ -36,8 +37,11 @@ class WebInputBar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          IconButton(
-            icon: MessIcon(size: 18, SvgIcons.attachment),
+          MessIconButton(
+            SvgIcons.attachment,
+            borderWidth: 0,
+            iconSize: 18,
+            buttonSize: 30,
             onPressed: onPressedAttachment,
           ),
           AppSpacing.p16.gapH,
@@ -51,12 +55,15 @@ class WebInputBar extends StatelessWidget {
             ),
           ),
 
-          IconButton(
-            icon: MessIcon(size: 18, SvgIcons.emoji),
+          MessIconButton(
+            SvgIcons.emoji,
+            borderWidth: 0,
+            iconSize: 18,
+            buttonSize: 30,
             onPressed: onPressedEmoji,
           ),
 
-          AppSpacing.p4.gapH,
+          AppSpacing.p8.gapH,
 
           GestureDetector(
             onTap: textNewLineOrSend == true
@@ -71,10 +78,10 @@ class WebInputBar extends StatelessWidget {
               ),
               child: Center(
                 child: MessIcon(
-                  size: 18,
                   textNewLineOrSend == true
                       ? SvgIcons.send
                       : SvgIcons.textNewLine,
+                  size: 18,
                   color: colors.bg,
                 ),
               ),

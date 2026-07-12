@@ -236,6 +236,12 @@ abstract class AppLocalizations {
   /// **'Search here...'**
   String get searchHere;
 
+  /// No description provided for @startChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Chat'**
+  String get startChat;
+
   /// No description provided for @calls.
   ///
   /// In en, this message translates to:

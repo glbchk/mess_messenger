@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
+import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
-class ChatTileWidget extends ConsumerWidget {
+class ChatTileWidget extends StatelessWidget {
   final String iconPath;
   final String? photoPath;
   final String chatId;
+  final bool isGroup;
   final String title;
   final String subtitle;
   final VoidCallback onPressed;
@@ -16,13 +17,14 @@ class ChatTileWidget extends ConsumerWidget {
     required this.iconPath,
     this.photoPath,
     required this.chatId,
+    this.isGroup = false,
     required this.title,
     required this.subtitle,
     required this.onPressed,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final colors = context.colors;
     final textTheme = context.textStyles;
 
@@ -41,14 +43,9 @@ class ChatTileWidget extends ConsumerWidget {
                 borderRadius: BorderRadius.all(Radius.circular(40)),
                 color: colors.surface4,
               ),
-              child: photoPath == null
-                  ? Center(
-                      child: SvgPicture.asset(iconPath, height: 16, width: 16),
-                    )
-                  : ClipRRect(
-                      borderRadius: BorderRadius.circular(40),
-                      child: Image.asset(photoPath ?? '', fit: BoxFit.cover),
-                    ),
+              child: !isGroup
+                  ? Center(child: MessIcon(iconPath, size: 16))
+                  : UserAvatarWidget(userName: title, photoPath: photoPath),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

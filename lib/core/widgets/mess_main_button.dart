@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/utils/spacing/spacing_modifier.dart';
+import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class MessMainButton extends StatelessWidget {
@@ -54,7 +54,7 @@ class MessMainButton extends StatelessWidget {
           spacing: iconPath != null ? AppSpacing.p12 : 0,
           children: [
             iconPath != null
-                ? SvgPicture.asset(iconPath ?? '')
+                ? MessIcon(iconPath ?? '')
                 : SpacingModifier.empty(),
             Text(
               label,

@@ -11,14 +11,19 @@ class MessIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color? filterColor;
+
+    if (!svgAsset.contains('colored')) {
+      filterColor = color ?? context.colors.icon1;
+    }
+
     return SvgPicture.asset(
       svgAsset,
       width: size,
       height: size,
-      colorFilter: ColorFilter.mode(
-        color ?? context.colors.icon1,
-        BlendMode.srcIn,
-      ),
+      colorFilter: filterColor != null
+          ? ColorFilter.mode(filterColor, BlendMode.srcIn)
+          : null,
     );
   }
 }

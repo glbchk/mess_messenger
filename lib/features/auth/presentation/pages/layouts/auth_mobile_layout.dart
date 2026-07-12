@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:mess_messenger_app/core/constants/svg_icons.dart';
+import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class AuthMobileLayout extends StatelessWidget {
   final Widget formContent;
   final PreferredSizeWidget? appBar;
+  final VoidCallback onSignOutPressed;
 
-  const AuthMobileLayout({super.key, required this.formContent, this.appBar});
+  const AuthMobileLayout({
+    super.key,
+    required this.formContent,
+    this.appBar,
+    required this.onSignOutPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +23,45 @@ class AuthMobileLayout extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: colors.surface0,
-      appBar: appBar,
+      appBar: AppBar(
+        backgroundColor: colors.surface0,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 16),
+          child: MessIcon(SvgIcons.logo, size: 40),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: colors.surface2,
+              ),
+              child: IconButton(
+                onPressed: () => onSignOutPressed(),
+                icon: const Icon(Icons.logout, color: Colors.red),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: colors.surface2,
+              ),
+              child: IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.more_vert),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {

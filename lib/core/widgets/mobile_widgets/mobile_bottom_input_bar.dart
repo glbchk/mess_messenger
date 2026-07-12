@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
+import 'package:mess_messenger_app/core/widgets/mess_icon_button.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class MobileBottomInputBar extends StatelessWidget {
@@ -44,8 +45,9 @@ class MobileBottomInputBar extends StatelessWidget {
           ),
           child: Row(
             children: [
-              IconButton(
-                icon: MessIcon(SvgIcons.attachment),
+              MessIconButton(
+                SvgIcons.attachment,
+                borderWidth: 0,
                 onPressed: onPressedAttachment,
               ),
               AppSpacing.p20.gapH,
@@ -59,8 +61,9 @@ class MobileBottomInputBar extends StatelessWidget {
                 ),
               ),
 
-              IconButton(
-                icon: MessIcon(SvgIcons.emoji),
+              MessIconButton(
+                SvgIcons.emoji,
+                borderWidth: 0,
                 onPressed: onPressedEmoji,
               ),
 

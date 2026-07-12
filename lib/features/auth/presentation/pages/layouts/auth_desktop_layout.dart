@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mess_messenger_app/core/utils/colors/app_colors.dart';
+import 'package:mess_messenger_app/core/constants/app_images.dart';
+import 'package:mess_messenger_app/features/auth/presentation/pages/ui_helpers/footer_row_widget.dart';
+import 'package:mess_messenger_app/features/auth/presentation/pages/ui_helpers/logo_row_widget.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -28,7 +29,7 @@ class AuthDesktopLayout extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildLogoRow(colors, textTheme),
+                  buildLogoRow(colors, textTheme),
                   Expanded(
                     child: Center(
                       child: ConstrainedBox(
@@ -37,7 +38,7 @@ class AuthDesktopLayout extends StatelessWidget {
                       ),
                     ),
                   ),
-                  _buildFooter(colors, textTheme),
+                  buildFooter(colors, textTheme),
                 ],
               ),
             ),
@@ -48,7 +49,7 @@ class AuthDesktopLayout extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(32),
                 child: Image.asset(
-                  'assets/images/signup_image.png',
+                  AppImages.signUpPageImage,
                   fit: BoxFit.cover,
                   width: double.infinity,
                   height: double.infinity,
@@ -60,36 +61,19 @@ class AuthDesktopLayout extends StatelessWidget {
       ),
     );
   }
-
-  Widget _buildLogoRow(AppColors colors, TextTheme textTheme) {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 32.0, top: 32.0),
-          child: Row(
-            children: [
-              SvgPicture.asset('assets/icons/mess_logo.svg', height: 34),
-              const SizedBox(width: 10),
-              Text(
-                'Mess Messenger',
-                style: textTheme.headlineLarge?.copyWith(color: colors.text1),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFooter(AppColors colors, TextTheme textTheme) {
-    return Container(
-      height: 68,
-      color: colors.surface0,
-      padding: const EdgeInsets.only(top: 26, left: 32, bottom: 26),
-      child: Text(
-        '©Mess Messenger 2026',
-        style: textTheme.bodyMedium?.copyWith(color: colors.text2),
-      ),
-    );
-  }
 }
+
+//TODO: Need to add option to change language on the entrance in the app
+
+// AppSpacing.p32.gapV,
+// MessMainButton(
+//   label: l10n.changeLanguage,
+//   onPressed: () {
+//     final currentLocale = ref.read(appLanguageProvider);
+//     final nextLocale = currentLocale.languageCode == 'en'
+//         ? const Locale('uk')
+//         : const Locale('en');
+//
+//     ref.read(appLanguageProvider.notifier).changeLanguage(nextLocale);
+//   },
+// ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
+import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class MessPasswordField extends StatelessWidget {
@@ -14,11 +14,8 @@ class MessPasswordField extends StatelessWidget {
   final double? height;
   final String? hint;
   final String? error;
-  final Widget? suffixIcon;
-  final Color? suffixIconColor;
   final VoidCallback? onSuffixIconTap;
-  final Widget? prefixIcon;
-  final Color? prefixIconColor;
+  final String? prefixIcon;
   final VoidCallback? onPrefixIconTap;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
@@ -26,7 +23,6 @@ class MessPasswordField extends StatelessWidget {
   final VoidCallback? onTap;
   final Function(String?)? onChanged;
   final TextCapitalization? textCapitalization;
-  // final bool? isPassword;
   final bool? showPassword;
   final bool? autofocus;
   final bool? readOnly;
@@ -41,13 +37,9 @@ class MessPasswordField extends StatelessWidget {
     this.height,
     this.hint,
     this.error,
-    this.suffixIcon,
-    this.suffixIconColor,
     this.onSuffixIconTap,
     this.prefixIcon,
-    this.prefixIconColor,
     this.onPrefixIconTap,
-    // this.isPassword,
     this.showPassword,
     this.keyboardType,
     this.textInputAction,
@@ -117,23 +109,15 @@ class MessPasswordField extends StatelessWidget {
                 ),
                 filled: true,
                 contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                prefixIcon:
-                    prefixIcon !=
-                        null //TODO: NEED TO FIX AND APPLY RIGHT SVG WITH COLORS
+                prefixIcon: prefixIcon != null
                     ? GestureDetector(
                         onTap: onPrefixIconTap,
-                        child: IconTheme(
-                          data: IconThemeData(
-                            color: prefixIconColor ?? colors.text1,
-                            size: 24,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: SizedBox(
-                              width: 24,
-                              height: 24,
-                              child: Center(child: prefixIcon!),
-                            ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20.0),
+                          child: SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: MessIcon(prefixIcon ?? ''),
                           ),
                         ),
                       )
@@ -147,11 +131,9 @@ class MessPasswordField extends StatelessWidget {
                       right: 16,
                       bottom: 12,
                     ),
-                    child: SvgPicture.asset(
+                    child: MessIcon(
                       showPassword != true ? SvgIcons.viewOff : SvgIcons.view,
-                      width: 18,
-                      height: 18,
-                      fit: BoxFit.contain,
+                      size: 18,
                     ),
                   ),
                 ),

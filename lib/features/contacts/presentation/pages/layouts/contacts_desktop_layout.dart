@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
+import 'package:mess_messenger_app/core/widgets/header_widget.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
 import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
-import 'package:mess_messenger_app/core/widgets/mobile_widgets/mobile_header_widget.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/web_side_menu.dart';
 import 'package:mess_messenger_app/features/chats/data/models/chat_model.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/chat_detail_panel.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/chat_tile_widget.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/chats_header_section_widget.dart';
-import 'package:mess_messenger_app/features/profile/data/models/user_model.dart';
+import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class ContactsDesktopLayout extends ConsumerWidget {
+  final String pageTitle;
   final UserModel userData;
   final List<ChatModel> chats;
   final String selectedChatId;
@@ -27,6 +27,7 @@ class ContactsDesktopLayout extends ConsumerWidget {
 
   const ContactsDesktopLayout({
     super.key,
+    required this.pageTitle,
     required this.userData,
     required this.chats,
     required this.selectedChatId,
@@ -69,19 +70,16 @@ class ContactsDesktopLayout extends ConsumerWidget {
               ),
               child: Column(
                 children: [
-                  MobileHeaderWidget(
+                  HeaderWidget(
                     title: l10n.chats,
                     iconPath: SvgIcons.add,
                     onPressed: onPressed,
                   ),
                   MessTextField(
                     height: 56,
+                    radius: 24,
                     hint: l10n.searchHere,
-                    prefixIcon: SvgPicture.asset(
-                      SvgIcons.search,
-                      height: 24,
-                      width: 24,
-                    ),
+                    prefixIcon: SvgIcons.search,
                   ),
                   AppSpacing.p12.gapV,
 

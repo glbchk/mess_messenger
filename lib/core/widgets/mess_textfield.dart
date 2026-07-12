@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
+import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class MessTextField extends StatelessWidget {
@@ -11,13 +11,12 @@ class MessTextField extends StatelessWidget {
   final String? label;
   final double? spaceLabel;
   final double? height;
+  final double? radius;
   final String? hint;
   final String? error;
   final String? suffixIcon;
-  final Color? suffixIconColor;
   final VoidCallback? onSuffixIconTap;
-  final Widget? prefixIcon;
-  final Color? prefixIconColor;
+  final String? prefixIcon;
   final VoidCallback? onPrefixIconTap;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
@@ -36,13 +35,12 @@ class MessTextField extends StatelessWidget {
     this.label,
     this.spaceLabel,
     this.height,
+    this.radius,
     this.hint,
     this.error,
     this.suffixIcon,
-    this.suffixIconColor,
     this.onSuffixIconTap,
     this.prefixIcon,
-    this.prefixIconColor,
     this.onPrefixIconTap,
     this.keyboardType,
     this.textInputAction,
@@ -61,7 +59,7 @@ class MessTextField extends StatelessWidget {
     final textTheme = context.textStyles;
 
     final borderStyle = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: BorderRadius.circular(radius ?? 16),
       borderSide: BorderSide.none,
     );
 
@@ -114,25 +112,15 @@ class MessTextField extends StatelessWidget {
                 // isDense: true, Needed to increase vertical padding
                 filled: true,
                 contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                prefixIcon:
-                    prefixIcon !=
-                        null //TODO: NEED TO FIX AND APPLY RIGHT SVG WITH COLORS
+                prefixIcon: prefixIcon != null
                     ? GestureDetector(
                         onTap: onPrefixIconTap,
-                        child: IconTheme(
-                          data: IconThemeData(
-                            color: prefixIconColor ?? colors.text1,
-                            size: 24,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 20.0),
-                            child: SizedBox(
-                              width: 24,
-                              height: 24,
-                              child: Center(
-                                child: prefixIcon ?? const SizedBox(),
-                              ),
-                            ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20.0),
+                          child: SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: MessIcon(prefixIcon ?? ''),
                           ),
                         ),
                       )
@@ -143,12 +131,7 @@ class MessTextField extends StatelessWidget {
                         height: 24,
                         child: GestureDetector(
                           onTap: onSuffixIconTap,
-                          child: SvgPicture.asset(
-                            suffixIcon ?? '',
-                            width: 16,
-                            height: 16,
-                            fit: BoxFit.scaleDown,
-                          ),
+                          child: MessIcon(suffixIcon ?? '', size: 16),
                         ),
                       )
                     : null,

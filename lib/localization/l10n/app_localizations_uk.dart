@@ -79,6 +79,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get searchHere => 'Знайти...';
 
   @override
+  String get startChat => 'Почати Чат';
+
+  @override
   String get calls => 'Дзвінки';
 
   @override

@@ -78,6 +78,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchHere => 'Search here...';
 
   @override
+  String get startChat => 'Start Chat';
+
+  @override
   String get calls => 'Calls';
 
   @override

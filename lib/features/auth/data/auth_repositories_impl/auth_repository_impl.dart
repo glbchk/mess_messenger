@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mess_messenger_app/features/auth/data/data_source/auth_local_data_source.dart';
 import 'package:mess_messenger_app/features/auth/data/data_source/auth_remote_data_source.dart';
 import 'package:mess_messenger_app/features/auth/domain/auth_repositories/auth_repository.dart';
-import 'package:mess_messenger_app/features/profile/data/data_source/user_remote_data_source.dart';
-import 'package:mess_messenger_app/features/profile/data/models/user_model.dart';
+import 'package:mess_messenger_app/features/settings/data/data_source/user_remote_data_source.dart';
+import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource authRemoteDataSource;

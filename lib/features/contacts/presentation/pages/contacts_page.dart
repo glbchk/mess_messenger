@@ -7,19 +7,10 @@ import 'package:mess_messenger_app/features/chats/presentation/pages/mobile_open
 import 'package:mess_messenger_app/features/contacts/presentation/pages/layouts/contacts_desktop_layout.dart';
 import 'package:mess_messenger_app/features/contacts/presentation/pages/layouts/contacts_mobile_layout.dart';
 import 'package:mess_messenger_app/features/contacts/presentation/pages/layouts/contacts_tablet_layout.dart';
-import 'package:mess_messenger_app/features/profile/data/models/user_model.dart';
-import 'package:mess_messenger_app/features/profile/user_providers/user_providers.dart';
+import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
+import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-
-// class ContactsPage extends ConsumerWidget {
-//   const ContactsPage({super.key});
-//
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     // fetch/watch a contacts list here, once you build that feature
-//     return const Center(child: Text('Contacts — coming soon'));
-//   }
-// }
 
 class ContactsPage extends ConsumerStatefulWidget {
   const ContactsPage({super.key});
@@ -59,6 +50,8 @@ class _ContactsPageState extends ConsumerState<ContactsPage> {
     final selectedChatId = ref.watch(selectedChatIdProvider);
 
     final bp = ResponsiveBreakpoints.of(context);
+
+    final l10n = AppLocalizations.of(context)!;
 
     Future<void> openChattingPage() async {
       final currentUserId = ref.read(userNotifierProvider).userData?.id;
@@ -101,11 +94,13 @@ class _ContactsPageState extends ConsumerState<ContactsPage> {
 
     return ResponsiveLayout(
       mobile: ContactsMobileLayout(
+        pageTitle: l10n.contacts,
         userData: userData,
         chats: chatsListState.chats,
         onPressed: () => openChattingPage(),
       ),
       tablet: ContactsTabletLayout(
+        pageTitle: l10n.contacts,
         userData: userData,
         chats: chatsListState.chats,
         selectedChatId: selectedChatId ?? '',
@@ -118,6 +113,7 @@ class _ContactsPageState extends ConsumerState<ContactsPage> {
         onDeselectChat: () => deselectChat(),
       ),
       desktop: ContactsDesktopLayout(
+        pageTitle: l10n.contacts,
         userData: userData,
         chats: chatsListState.chats,
         selectedChatId: selectedChatId ?? '',

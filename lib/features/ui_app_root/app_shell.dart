@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mess_messenger_app/core/widgets/mobile_widgets/mobile_navigation_bar.dart';
+import 'package:mess_messenger_app/core/widgets/mobile_widgets/navigation_bar/mobile_navigation_bar.dart';
 import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
 import 'package:mess_messenger_app/features/auth/presentation/pages/auth_page.dart';
 import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.dart';
 import 'package:mess_messenger_app/features/chats/presentation/pages/chats_page.dart';
 import 'package:mess_messenger_app/features/contacts/presentation/pages/contacts_page.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/settings_page.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class AppShell extends ConsumerStatefulWidget {
@@ -41,7 +42,7 @@ class _AppShellState extends ConsumerState<AppShell> {
           ChatsPage(), // index 0
           Center(child: Text('Calls — coming soon')),
           ContactsPage(), // index 3
-          Center(child: Text('Settings — coming soon')),
+          SettingsPage(),
         ],
       ),
       bottomNavigationBar: bp.isMobile

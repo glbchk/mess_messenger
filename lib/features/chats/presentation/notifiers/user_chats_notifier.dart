@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/features/chats/chats_providers/chats_provider.dart';
 import 'package:mess_messenger_app/features/chats/data/models/chat_model.dart';
 import 'package:mess_messenger_app/features/chats/presentation/states/user_chats_state.dart';
-import 'package:mess_messenger_app/features/profile/user_providers/user_providers.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
 
 class UserChatsNotifier extends Notifier<UserChatsState> {
   StreamSubscription<List<ChatModel>>? _chatsSubscription;

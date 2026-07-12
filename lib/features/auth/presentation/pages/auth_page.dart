@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mess_messenger_app/core/utils/layouts/responsive_layout_wrapper.dart';
 import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
 import 'package:mess_messenger_app/features/auth/presentation/pages/layouts/auth_desktop_layout.dart';
@@ -11,7 +10,6 @@ import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.
 import 'package:mess_messenger_app/features/auth/presentation/widgets/sign_in_form_widget.dart';
 import 'package:mess_messenger_app/features/auth/presentation/widgets/sign_up_form_widget.dart';
 import 'package:mess_messenger_app/features/ui_app_root/app_shell.dart';
-import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class AuthPage extends ConsumerStatefulWidget {
   const AuthPage({super.key});
@@ -83,6 +81,7 @@ class _AuthPageState extends ConsumerState<AuthPage> {
       }
       if (next is AuthUnauthenticated && next.needsGoogleLinkConfirmation) {
         showDialog(
+          //TODO: Need to change the popup because it's not finished
           context: context,
           builder: (_) => AlertDialog(
             title: const Text('Account exists'),
@@ -107,8 +106,6 @@ class _AuthPageState extends ConsumerState<AuthPage> {
       }
     });
 
-    final colors = context.colors;
-
     final authState = ref.watch(authProvider);
     final isLoading = authState is AuthLoading;
     final unauthState = authState is AuthUnauthenticated ? authState : null;
@@ -116,8 +113,6 @@ class _AuthPageState extends ConsumerState<AuthPage> {
     final isRegisterMode = authState is AuthUnauthenticated
         ? authState.isRegisterMode
         : true;
-
-    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     final signUpForm = SignUpFormWidget(
       nameController: _nameController,
@@ -186,37 +181,9 @@ class _AuthPageState extends ConsumerState<AuthPage> {
       child: ResponsiveLayout(
         mobile: AuthMobileLayout(
           formContent: isRegisterMode ? signUpForm : signInForm,
-          appBar: isRegisterMode
-              ? AppBar(
-                  backgroundColor: colors.surface0,
-                  leading: Padding(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: SvgPicture.asset(
-                      isDarkMode
-                          ? 'assets/icons/mess_logo_dark.svg'
-                          : 'assets/icons/mess_logo.svg',
-                      height: 40,
-                    ),
-                  ),
-                  actions: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 16),
-                      child: Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: colors.surface2,
-                        ),
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.more_vert),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              : null,
+          onSignOutPressed: () {
+            ref.read(authProvider.notifier).logout();
+          },
         ),
         tablet: AuthTabletLayout(
           formContent: isRegisterMode ? signUpForm : signInForm,
