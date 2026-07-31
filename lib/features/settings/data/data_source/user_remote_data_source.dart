@@ -23,4 +23,18 @@ class UserRemoteDataSource {
 
     return null;
   }
+
+  Future<void> updateUserName(String userId, String newName) async {
+    await firestore.collection('users').doc(userId).update({'name': newName});
+  }
+
+  Future<void> updateUserBirthday(String userId, String newBirthday) async {
+    await firestore.collection('users').doc(userId).update({
+      'birthday': newBirthday,
+    });
+  }
+
+  Future<void> updateUserEmail(String userId, String newEmail) async {
+    await firestore.collection('users').doc(userId).update({'email': newEmail});
+  }
 }

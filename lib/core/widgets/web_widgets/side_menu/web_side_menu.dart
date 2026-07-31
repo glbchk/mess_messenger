@@ -5,7 +5,10 @@ import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/build_header_widget.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/build_menu_item_widget.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/menu_entry.dart';
+import 'package:mess_messenger_app/features/chats/presentation/pages/chats_page.dart';
+import 'package:mess_messenger_app/features/contacts/presentation/pages/contacts_page.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/settings_page.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 
 class WebSideMenu extends StatefulWidget {
@@ -35,24 +38,54 @@ class _WebSideMenuState extends State<WebSideMenu>
     final l10n = AppLocalizations.of(context)!;
 
     final List<MenuEntry> menuItems = [
-      MenuItem(id: 'chats', iconPath: SvgIcons.chats, label: l10n.chats),
-      MenuItem(id: 'calls', iconPath: SvgIcons.calls, label: l10n.calls),
+      MenuItem(
+        id: 'chats',
+        iconPath: SvgIcons.chats,
+        label: l10n.chats,
+        onTap: () {
+          Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (context) => const ChatsPage()));
+        },
+      ),
+      MenuItem(
+        id: 'calls',
+        iconPath: SvgIcons.calls,
+        label: l10n.calls,
+        onTap: () {},
+      ),
       MenuItem(
         id: 'contacts',
         iconPath: SvgIcons.contacts,
         label: l10n.contacts,
+        onTap: () {
+          Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (context) => const ContactsPage()));
+        },
       ),
       const FlexSpacer(),
       MenuItem(
         id: 'favorites',
         iconPath: SvgIcons.favorites,
         label: l10n.favorites,
+        onTap: () {},
       ),
-      MenuItem(id: 'archive', iconPath: SvgIcons.archive, label: l10n.archive),
+      MenuItem(
+        id: 'archive',
+        iconPath: SvgIcons.archive,
+        label: l10n.archive,
+        onTap: () {},
+      ),
       MenuItem(
         id: 'settings',
         iconPath: SvgIcons.settings,
         label: l10n.settings,
+        onTap: () {
+          Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (context) => const SettingsPage()));
+        },
       ),
       const ColumnExtension(),
     ];
@@ -87,7 +120,10 @@ class _WebSideMenuState extends State<WebSideMenu>
                   context: context,
                   item: entry,
                   selectedId: _selectedId,
-                  onTap: () => setState(() => _selectedId = entry.id),
+                  onTap: () {
+                    setState(() => _selectedId = entry.id);
+                    entry.onTap.call();
+                  },
                   isExpanded: _isExpanded,
                   menuDuration: _menuDuration,
                 ),

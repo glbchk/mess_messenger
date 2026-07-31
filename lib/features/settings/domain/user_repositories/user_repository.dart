@@ -4,4 +4,7 @@ import 'package:mess_messenger_app/features/settings/domain/entities/user_entity
 abstract class UserRepository {
   Future<void> createUser(UserEntity user);
   Future<UserModel?> fetchUserData(String uid);
+  Future<void> updateUserName(String userId, String newName);
+  Future<void> updateUserBirthday(String userId, String newBirthday);
+  Future<void> updateUserEmail(String newEmail, {String? currentPassword});
 }

@@ -160,14 +160,14 @@ class ContactsTabletLayout extends ConsumerWidget {
                         Text(
                           l10n.messenger,
                           style: textTheme.headlineLarge?.copyWith(
-                            color: colors.text1,
+                            iconColor: colors.text1,
                           ),
                         ),
                         AppSpacing.p8.gapV,
                         Text(
                           l10n.chatsEmptyScreenText,
                           style: textTheme.bodyLarge?.copyWith(
-                            color: colors.text2,
+                            iconColor: colors.text2,
                           ),
                           textAlign: TextAlign.center,
                         ),

@@ -5,6 +5,7 @@ class UserEntity {
   final String? email;
   final bool? isEmailVerified;
   final String? phoneNumber;
+  final String? birthday;
   final bool isOnboardingCompleted;
   final String? language;
 
@@ -15,6 +16,7 @@ class UserEntity {
     this.email,
     this.isEmailVerified,
     this.phoneNumber,
+    this.birthday,
     required this.isOnboardingCompleted,
     this.language,
   });

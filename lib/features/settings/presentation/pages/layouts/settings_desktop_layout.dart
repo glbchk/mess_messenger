@@ -2,37 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
-import 'package:mess_messenger_app/core/widgets/header_widget.dart';
-import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
-import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
+import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/web_side_menu.dart';
-import 'package:mess_messenger_app/features/chats/data/models/chat_model.dart';
-import 'package:mess_messenger_app/features/chats/presentation/widgets/chat_detail_panel.dart';
-import 'package:mess_messenger_app/features/chats/presentation/widgets/chat_tile_widget.dart';
-import 'package:mess_messenger_app/features/chats/presentation/widgets/chats_header_section_widget.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/account_tab/account_desktop_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/api_tab/api_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/billing_tab/billing_desktop_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/general_tab/general_desktop_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/notification_tab/notification_desktop_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/personalization_tab/personalisation_desktop_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/widgets/settings_user_data_panel_widget.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class SettingsDesktopLayout extends ConsumerWidget {
   final UserModel userData;
-  final List<ChatModel> chats;
-  final String selectedChatId;
   final Future<void> Function() onPressed;
-  final void Function(String chatId) onChatSelected;
-  final TextEditingController messageController;
-  final VoidCallback onSendMessage;
+  final TabController tabController;
+  final TextEditingController nameController;
+  final TextEditingController birthdayController;
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
 
   const SettingsDesktopLayout({
     super.key,
     required this.userData,
-    required this.chats,
-    required this.selectedChatId,
     required this.onPressed,
-    required this.onChatSelected,
-    required this.messageController,
-    required this.onSendMessage,
+    required this.tabController,
+    required this.nameController,
+    required this.birthdayController,
+    required this.emailController,
+    required this.passwordController,
   });
 
   @override
@@ -47,184 +48,163 @@ class SettingsDesktopLayout extends ConsumerWidget {
 
     final l10n = AppLocalizations.of(context)!;
 
-    final directChats = chats.where((c) => !c.isGroup).toList();
-    final groupChats = chats.where((c) => c.isGroup).toList();
-
     return Scaffold(
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           WebSideMenu(userData: userData),
 
-          Container(
-            width: sectionWidth,
-            color: colors.surface0,
+          Expanded(
             child: Container(
-              padding: EdgeInsets.only(left: 24, top: 12, right: 24),
-              margin: EdgeInsets.only(left: 20, top: 20, right: 16, bottom: 20),
+              margin: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(24)),
                 color: colors.bg,
+                borderRadius: BorderRadius.circular(24),
               ),
-              child: Column(
+              child: Stack(
                 children: [
-                  HeaderWidget(
-                    title: l10n.chats,
-                    iconPath: SvgIcons.add,
-                    onPressed: onPressed,
-                  ),
-                  MessTextField(
-                    height: 56,
-                    radius: 24,
-                    hint: l10n.searchHere,
-                    prefixIcon: SvgIcons.search,
-                  ),
-                  AppSpacing.p12.gapV,
-
-                  Expanded(
-                    child: chats.isNotEmpty
-                        ? SingleChildScrollView(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 22.0,
-                              ),
-                              child: Column(
-                                children: [
-                                  //Groups
-                                  ChatsHeaderSectionWidget(
-                                    sectionTitle: l10n.groups,
-                                    onPressed: () {},
-                                  ),
-                                  for (final groupChat in groupChats)
-                                    ChatTileWidget(
-                                      iconPath: SvgIcons.folders,
-                                      chatId: groupChat.id,
-                                      title:
-                                          'In future should be group messages!', //groupChat.id.substring(0, 12),
-                                      subtitle: groupChat.lastMessage,
-                                      onPressed: () {},
-                                    ),
-
-                                  //Chats
-                                  ChatsHeaderSectionWidget(
-                                    sectionTitle: l10n.chats,
-                                    onPressed: () {},
-                                  ),
-                                  for (final directChat in directChats)
-                                    ChatTileWidget(
-                                      iconPath: SvgIcons.folders,
-                                      chatId: directChat.id,
-                                      title: directChat.id.substring(0, 12),
-                                      subtitle: directChat.lastMessage,
-                                      onPressed: () =>
-                                          onChatSelected(directChat.id),
-                                    ),
-                                ],
-                              ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 220,
+                        width: double.infinity,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(24),
+                            topRight: Radius.circular(24),
+                          ),
+                        ),
+                        child: Image.asset(
+                          'assets/images/settings_header.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      AppSpacing.p20.gapV,
+                      SettingsUserDataPanelWidget(
+                        userData: userData,
+                        isChangeApplied: true,
+                        onPressedLogout: () {},
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(
+                          bottom: 16.0,
+                          left: 16.0,
+                          top: 24.0,
+                        ),
+                        child: TabBar(
+                          controller: tabController,
+                          isScrollable: true,
+                          labelPadding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                          ),
+                          tabAlignment: TabAlignment.start,
+                          dividerColor: colors.transparent,
+                          indicatorSize: TabBarIndicatorSize.label,
+                          indicator: BoxDecoration(
+                            color: colors.textInverse,
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          labelColor: colors.text2,
+                          unselectedLabelColor: colors.text2,
+                          labelStyle: textTheme.titleMedium,
+                          overlayColor: const WidgetStatePropertyAll(
+                            Colors.transparent,
+                          ),
+                          splashFactory: NoSplash.splashFactory,
+                          mouseCursor: SystemMouseCursors.click,
+                          tabs: const [
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 18),
+                              child: Tab(text: 'General'),
                             ),
-                          )
-                        : Center(
-                            child: LayoutBuilder(
-                              builder: (context, constraints) {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 22.0,
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        'assets/images/empty_screen_logo.png',
-                                        width: 300,
-                                        height: 300,
-                                      ),
-                                      AppSpacing.p20.gapV,
-                                      Text(
-                                        l10n.messenger,
-                                        style: textTheme.headlineLarge
-                                            ?.copyWith(color: colors.text1),
-                                      ),
-                                      AppSpacing.p8.gapV,
-                                      Text(
-                                        l10n.chatsEmptyScreenText,
-                                        style: textTheme.bodyLarge?.copyWith(
-                                          color: colors.text2,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      if (chats.isEmpty)
-                                        MessMainButton(
-                                          width: constraints.maxWidth * 0.3,
-                                          label: 'Start Chat',
-                                          onPressed: () {
-                                            //TODO: Need to open Pop up search window
-                                            // Navigator.push(
-                                            //   context,
-                                            //   MaterialPageRoute(
-                                            //       builder: (_) =>
-                                            //           OpenChatPage()),
-                                            // );
-                                          },
-                                        ),
-                                    ],
-                                  ),
-                                );
-                              },
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 18),
+                              child: Tab(text: 'Account'),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 18),
+                              child: Tab(text: 'Personalisation'),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 18),
+                              child: Tab(text: 'Billing'),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 18),
+                              child: Tab(text: 'Notification'),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 18),
+                              child: Tab(text: 'API'),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      Expanded(
+                        child: TabBarView(
+                          controller: tabController,
+                          children: [
+                            GeneralDesktopTabWidget(),
+                            AccountDesktopTabWidget(
+                              nameController: nameController,
+                              birthdayController: birthdayController,
+                              emailController: emailController,
+                              passwordController: passwordController,
+                            ),
+                            PersonalisationDesktopTabWidget(),
+                            BillingDesktopTabWidget(),
+                            NotificationDesktopTabWidget(),
+                            ApiTabWidget(),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  Positioned(
+                    left: 32,
+                    top: 116,
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        CircleAvatar(
+                          radius: 96,
+                          backgroundColor: colors.surface4,
+                          child: Text(
+                            'S',
+                            style: textTheme.displayLarge?.copyWith(
+                              color: colors.iconContrast,
                             ),
                           ),
+                        ),
+
+                        Positioned(
+                          right: 15,
+                          bottom: 15,
+                          child: Stack(
+                            children: [
+                              MessIcon(
+                                SvgIcons.verifiedLabel,
+                                color: colors.componentSpecific,
+                                size: 32,
+                              ),
+                              MessIcon(
+                                SvgIcons.verifiedCheckmark,
+                                color: colors.bg,
+                                size: 32,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
-          ),
-
-          Expanded(
-            child: selectedChatId == ''
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/empty_screen_logo.png',
-                        width: 300,
-                        height: 300,
-                      ),
-                      AppSpacing.p20.gapV,
-                      Text(
-                        l10n.messenger,
-                        style: textTheme.headlineLarge?.copyWith(
-                          color: colors.text1,
-                        ),
-                      ),
-                      AppSpacing.p8.gapV,
-                      Text(
-                        l10n.chatsEmptyScreenText,
-                        style: textTheme.bodyLarge?.copyWith(
-                          color: colors.text2,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  )
-                : Container(
-                    margin: const EdgeInsets.only(
-                      top: 20,
-                      right: 20,
-                      bottom: 20,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
-                      color: colors.bg,
-                    ),
-                    child: ChatDetailPanel(
-                      chatId: selectedChatId,
-                      userData: userData,
-                      controller: messageController,
-                      onPressedAttachment: () {},
-                      onPressedEmoji: () {},
-                      onPressedTextNewLine: () {},
-                      onPressedSend: onSendMessage,
-                    ),
-                  ),
           ),
         ],
       ),

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,6 +34,7 @@ class MyApp extends ConsumerWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       themeMode: currentThemeMode,
+      scrollBehavior: MyScrollBehavior(),
 
       theme: ThemeData(
         brightness: Brightness.light,
@@ -68,4 +71,14 @@ class MyApp extends ConsumerWidget {
           : const AuthPage(),
     );
   }
+}
+
+class MyScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+    PointerDeviceKind.trackpad,
+    PointerDeviceKind.stylus,
+  };
 }

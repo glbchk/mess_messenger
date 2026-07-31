@@ -7,10 +7,11 @@ import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool? extendBodyBehindAppBar;
-  final bool resizeToAvoidBottomInset;
+  final bool? resizeToAvoidBottomInset;
 
   final double? toolBarHeight;
   final bool showAppBarContent;
+  final bool showBackButton;
   final UserModel? userData;
   final String? appBarUserPhotoPath;
   final String? title;
@@ -29,10 +30,11 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MobileAppBar({
     super.key,
     this.extendBodyBehindAppBar,
-    required this.resizeToAvoidBottomInset,
+    this.resizeToAvoidBottomInset,
     // this.showLeadingIcon = true,
     this.toolBarHeight,
     required this.showAppBarContent,
+    this.showBackButton = false,
     this.userData,
     this.appBarUserPhotoPath,
     this.title,
@@ -57,65 +59,62 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
     final colors = context.colors;
     final textTheme = context.textStyles;
 
-    return PreferredSize(
-      preferredSize: preferredSize,
-      child: AppBar(
-        backgroundColor: appBarBackgroundColor ?? colors.surface0,
-        elevation: 0,
-        toolbarHeight: 58,
-        leading: showAppBarContent == true
-            ? Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: MessIconButton(
-                  SvgIcons.arrowLeft,
-                  isButtonFilled: true,
-                  borderWidth: 0,
-                  onPressed: onPressedBack,
-                ),
-              )
-            : null,
-        title: showAppBarContent == true
-            ? Row(
-                spacing: 12,
-                children: [
-                  UserAvatarWidget(
-                    userName: userData?.name ?? 'Joe Doe',
-                    photoPath: appBarUserPhotoPath,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        userData?.name ?? 'Some Cool Name',
-                        style: textTheme.headlineMedium?.copyWith(
-                          color: colors.text1,
-                        ),
-                      ),
-                      Text(
-                        userData?.phoneNumber ?? '+419901250285',
-                        style: textTheme.bodyLarge?.copyWith(
-                          color: colors.text2,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              )
-            : Text(
-                title ?? '',
-                style: textTheme.displaySmall?.copyWith(
-                  color: titleColor ?? colors.text1,
-                ),
+    final currentHeight = toolBarHeight ?? 72;
+
+    return AppBar(
+      backgroundColor: appBarBackgroundColor ?? colors.surface0,
+      elevation: 0,
+      toolbarHeight: currentHeight,
+      leading: showAppBarContent == true || showBackButton == true
+          ? Padding(
+              padding: const EdgeInsets.only(left: 16.0),
+              child: MessIconButton(
+                SvgIcons.arrowLeft,
+                isButtonFilled: true,
+                borderWidth: 0,
+                onPressed: onPressedBack,
               ),
-        centerTitle: showAppBarContent == true ? null : false,
-        actions: actions,
-        bottom: showBottomLine == true
-            ? PreferredSize(
-                preferredSize: const Size.fromHeight(1.0),
-                child: Container(color: colors.border2, height: 1.0),
-              )
-            : null,
-      ),
+            )
+          : null,
+      title: showAppBarContent == true
+          ? Row(
+              spacing: 12,
+              children: [
+                UserAvatarWidget(
+                  userName: userData?.name ?? 'Joe Doe',
+                  photoPath: appBarUserPhotoPath,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      userData?.name ?? 'Some Cool Name',
+                      style: textTheme.headlineMedium?.copyWith(
+                        color: colors.text1,
+                      ),
+                    ),
+                    Text(
+                      userData?.phoneNumber ?? '+419901250285',
+                      style: textTheme.bodyLarge?.copyWith(color: colors.text2),
+                    ),
+                  ],
+                ),
+              ],
+            )
+          : Text(
+              title ?? '',
+              style: textTheme.displaySmall?.copyWith(
+                color: titleColor ?? colors.text1,
+              ),
+            ),
+      centerTitle: showAppBarContent == true ? null : false,
+      actions: actions,
+      bottom: showBottomLine == true
+          ? PreferredSize(
+              preferredSize: const Size.fromHeight(1.0),
+              child: Container(color: colors.border2, height: 1.0),
+            )
+          : null,
     );
   }
 }

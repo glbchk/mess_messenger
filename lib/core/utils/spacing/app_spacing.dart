@@ -21,6 +21,8 @@ class AppSpacing {
   static const double p56 = 56.0;
   static const double p60 = 60.0;
   static const double p64 = 64.0;
+  static const double p80 = 80.0;
+  static const double p192 = 192.0;
 }
 
 // Optional: Extension for cleaner SizedBox usage

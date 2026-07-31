@@ -28,5 +28,18 @@ abstract final class SvgIcons {
   static const String textNewLine =
       'assets/icons/bottom_input_bar/text_new_line.svg';
   static const String send = 'assets/icons/bottom_input_bar/send.svg';
-  //Messages
+  //Settings
+  static const String verifiedLabel = 'assets/icons/verified_label.svg';
+  static const String verifiedCheckmark = 'assets/icons/verified_checkmark.svg';
+  static const String logout = 'assets/icons/settings/logout.svg';
+  static const String menuHorizontal =
+      'assets/icons/settings/menu_horizontal.svg';
+  static const String globe = 'assets/icons/settings/globe.svg';
+  static const String chevronDown = 'assets/icons/settings/chevron_down.svg';
+  static const String chevronUp = 'assets/icons/settings/chevron_up.svg';
+  static const String colorPalette = 'assets/icons/settings/color_palette.svg';
+  static const String download = 'assets/icons/settings/cloud_download.svg';
+  static const String information =
+      'assets/icons/settings/information_filled.svg';
+  static const String copy = 'assets/icons/settings/copy.svg';
 }

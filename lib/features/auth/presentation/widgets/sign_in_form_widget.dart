@@ -123,7 +123,7 @@ class SignInFormWidget extends StatelessWidget {
           onPressed: onPressedSignInWithGoogle,
           backgroundColor: colors.surface2,
           textStyle: textTheme.labelLarge?.copyWith(color: colors.text1),
-          iconPath: SvgIcons.google,
+          prefixIconPath: SvgIcons.google,
         ),
 
         AppSpacing.p24.gapV,

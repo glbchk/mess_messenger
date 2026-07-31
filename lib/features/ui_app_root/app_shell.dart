@@ -19,6 +19,18 @@ class AppShell extends ConsumerStatefulWidget {
 class _AppShellState extends ConsumerState<AppShell> {
   int _selectedIndex = 0;
 
+  void _onItemTapped(int index) {
+    if (index == 3) {
+      Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (context) => const SettingsPage()));
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     print('DEBUG: AppShell is building');
@@ -42,13 +54,13 @@ class _AppShellState extends ConsumerState<AppShell> {
           ChatsPage(), // index 0
           Center(child: Text('Calls — coming soon')),
           ContactsPage(), // index 3
-          SettingsPage(),
+          SizedBox.shrink(),
         ],
       ),
       bottomNavigationBar: bp.isMobile
           ? MobileNavigationBar(
               selectedIndex: _selectedIndex,
-              onItemTapped: (index) => setState(() => _selectedIndex = index),
+              onItemTapped: _onItemTapped,
             )
           : null,
     );

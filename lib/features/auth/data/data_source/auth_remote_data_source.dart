@@ -93,6 +93,22 @@ class AuthRemoteDataSource {
     await auth.sendPasswordResetEmail(email: email);
   }
 
+  Future<void> verifyBeforeUpdateEmail(String newEmail) async {
+    final user = auth.currentUser;
+    if (user == null) throw Exception('No authenticated user');
+    await user.verifyBeforeUpdateEmail(newEmail);
+  }
+
+  Future<void> reauthenticateWithPassword(String currentPassword) async {
+    final user = auth.currentUser;
+    if (user == null) throw Exception('No authenticated user');
+    final credential = EmailAuthProvider.credential(
+      email: user.email!,
+      password: currentPassword,
+    );
+    await user.reauthenticateWithCredential(credential);
+  }
+
   Future<void> logout() async {
     return await auth.signOut();
   }

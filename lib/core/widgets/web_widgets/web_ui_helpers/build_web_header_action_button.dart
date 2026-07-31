@@ -15,7 +15,7 @@ MessIconButton buildWebHeaderActionButton({
     iconPath,
     iconSize: size ?? 20,
     buttonSize: buttonSize ?? 36,
-    color: colors.icon1,
+    iconColor: colors.icon1,
     onPressed: () {
       onPressed();
     },

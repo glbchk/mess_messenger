@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
+import 'package:mess_messenger_app/core/widgets/mess_icon_button.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class AuthMobileLayout extends StatelessWidget {
@@ -54,9 +55,11 @@ class AuthMobileLayout extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 color: colors.surface2,
               ),
-              child: IconButton(
+              child: MessIconButton(
+                SvgIcons.menuVert,
+                isButtonFilled: true,
+                borderWidth: 0,
                 onPressed: () {},
-                icon: const Icon(Icons.more_vert),
               ),
             ),
           ),

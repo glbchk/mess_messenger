@@ -7,6 +7,7 @@ class UserModel {
   final String? email;
   final bool? isEmailVerified;
   final String? phoneNumber;
+  final String? birthday;
   // final bool isOnboardingCompleted;
   final String? language;
 
@@ -17,6 +18,7 @@ class UserModel {
     this.email,
     this.isEmailVerified,
     this.phoneNumber,
+    this.birthday,
     // required this.isOnboardingCompleted,
     this.language,
   });
@@ -29,6 +31,7 @@ class UserModel {
       email: json['email'] ?? '',
       isEmailVerified: json['is_email_verified'] ?? false,
       phoneNumber: json['phone_number'] ?? '',
+      birthday: json['birthday'] ?? '',
       // isOnboardingCompleted: json['is_onboarding_completed'],
       language: json['language'],
     );
@@ -42,6 +45,7 @@ class UserModel {
       'email': email,
       'is_email_verified': isEmailVerified,
       'phone_number': phoneNumber,
+      'birthday': birthday,
       // 'is_onboarding_completed': isOnboardingCompleted,
       'language': language,
     };
@@ -55,6 +59,7 @@ class UserModel {
       email: entity.email,
       isEmailVerified: entity.isEmailVerified ?? false,
       phoneNumber: entity.phoneNumber ?? '',
+      birthday: entity.birthday ?? '',
       // isOnboardingCompleted: entity.isOnboardingCompleted,
       language: entity.language,
     );
@@ -67,6 +72,7 @@ class UserModel {
     String? email,
     bool? isEmailVerified,
     String? phoneNumber,
+    String? birthday,
     bool? isOnboardingCompleted,
     String? language,
   }) {
@@ -77,6 +83,7 @@ class UserModel {
       email: email ?? this.email,
       isEmailVerified: isEmailVerified ?? this.isEmailVerified,
       phoneNumber: phoneNumber ?? this.phoneNumber,
+      birthday: birthday ?? this.birthday,
       // isOnboardingCompleted:
       //     isOnboardingCompleted ?? this.isOnboardingCompleted,
       language: language ?? this.language,

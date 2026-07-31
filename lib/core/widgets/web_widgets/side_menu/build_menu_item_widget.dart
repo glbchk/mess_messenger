@@ -17,7 +17,7 @@ Widget buildMenuItem({
   final isSelected = selectedId == item.id;
 
   return GestureDetector(
-    onTap: () => onTap, //setState(() => selectedId = item.id),
+    onTap: onTap, //setState(() => selectedId = item.id),
     child: Container(
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),

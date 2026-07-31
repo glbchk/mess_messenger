@@ -11,6 +11,7 @@ class MessTextField extends StatelessWidget {
   final String? label;
   final double? spaceLabel;
   final double? height;
+  final double? width;
   final double? radius;
   final String? hint;
   final String? error;
@@ -35,6 +36,7 @@ class MessTextField extends StatelessWidget {
     this.label,
     this.spaceLabel,
     this.height,
+    this.width,
     this.radius,
     this.hint,
     this.error,
@@ -77,6 +79,7 @@ class MessTextField extends StatelessWidget {
         spaceLabel != 0 ? AppSpacing.p8.gapV : SizedBox(height: spaceLabel),
         SizedBox(
           height: height ?? 46,
+          width: width ?? double.infinity,
           child: Focus(
             onFocusChange: onFocusChange,
             canRequestFocus: !(readOnly ?? false),
@@ -126,12 +129,15 @@ class MessTextField extends StatelessWidget {
                       )
                     : null,
                 suffixIcon: suffixIcon != null
-                    ? SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: GestureDetector(
-                          onTap: onSuffixIconTap,
-                          child: MessIcon(suffixIcon ?? '', size: 16),
+                    ? GestureDetector(
+                        onTap: onSuffixIconTap,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 16.0),
+                          child: SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: MessIcon(suffixIcon ?? ''),
+                          ),
                         ),
                       )
                     : null,

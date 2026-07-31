@@ -14,3 +14,30 @@ class FetchUserDataUseCase extends UserUseCase {
     return userRepository.fetchUserData(uid);
   }
 }
+
+class UpdateUserNameUseCase extends UserUseCase {
+  UpdateUserNameUseCase(super.userRepository);
+
+  Future<void> execute(String userId, String newName) {
+    return userRepository.updateUserName(userId, newName);
+  }
+}
+
+class UpdateUserBirthdayUseCase extends UserUseCase {
+  UpdateUserBirthdayUseCase(super.userRepository);
+
+  Future<void> execute(String userId, String newBirthday) {
+    return userRepository.updateUserBirthday(userId, newBirthday);
+  }
+}
+
+class UpdateUserEmailUseCase extends UserUseCase {
+  UpdateUserEmailUseCase(super.userRepository);
+
+  Future<void> execute(String newEmail, {String? currentPassword}) {
+    return userRepository.updateUserEmail(
+      newEmail,
+      currentPassword: currentPassword,
+    );
+  }
+}
