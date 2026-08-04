@@ -6,13 +6,15 @@ import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class DropdownMenuWidget extends StatefulWidget {
   final List<String> languages;
-  final MenuController menuController;
+  final String value;
+  final ValueChanged<String> onChanged;
   final double constraintSize;
 
   const DropdownMenuWidget({
     super.key,
     required this.languages,
-    required this.menuController,
+    required this.value,
+    required this.onChanged,
     this.constraintSize = 288,
   });
 
@@ -21,8 +23,8 @@ class DropdownMenuWidget extends StatefulWidget {
 }
 
 class _DropdownMenuWidgetState extends State<DropdownMenuWidget> {
-  bool isOpen = false;
-  String _selectedLanguage = 'Default';
+  final MenuController _menuController = MenuController();
+  // String _selectedLanguage = 'Default';
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class _DropdownMenuWidgetState extends State<DropdownMenuWidget> {
     return Align(
       alignment: Alignment.centerLeft,
       child: MenuAnchor(
-        controller: widget.menuController,
+        controller: _menuController,
         alignmentOffset: const Offset(0, 8),
         style: MenuStyle(
           backgroundColor: WidgetStatePropertyAll(colors.bg),
@@ -52,9 +54,12 @@ class _DropdownMenuWidgetState extends State<DropdownMenuWidget> {
           for (final language in widget.languages)
             BuildDropdownItemWidget(
               value: language,
-              selectedValue: _selectedLanguage,
+              selectedValue: widget.value,
               constraintSize: widget.constraintSize,
-              onPressed: () => setState(() => _selectedLanguage = language),
+              onPressed: () {
+                widget.onChanged(language);
+                _menuController.close();
+              },
             ),
         ],
 
@@ -63,42 +68,49 @@ class _DropdownMenuWidgetState extends State<DropdownMenuWidget> {
 
           return ConstrainedBox(
             constraints: BoxConstraints(maxWidth: widget.constraintSize),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(16),
-              hoverColor: colors.surface4,
-              splashColor: colors.surface2,
-              onTap: () =>
-                  isOpen ? localController.close() : localController.open(),
-              child: Ink(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
+            child: Container(
+              decoration: BoxDecoration(
+                color: isOpen ? colors.bg : colors.surface2,
+                border: Border.all(
+                  color: isOpen ? colors.border2 : colors.transparent,
+                  width: 1,
                 ),
-                decoration: BoxDecoration(
-                  color: isOpen ? colors.bg : colors.surface2,
-                  border: Border.all(
-                    color: isOpen ? colors.border2 : colors.transparent,
-                    width: 1,
-                  ),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Material(
+                color: colors.transparent,
+                borderRadius: BorderRadius.circular(16),
+                clipBehavior: Clip.antiAlias,
+                child: InkWell(
                   borderRadius: BorderRadius.circular(16),
-                ),
-                child: Row(
-                  children: [
-                    MessIcon(SvgIcons.globe, color: colors.text1, size: 20),
-                    const SizedBox(width: 12),
-                    Text(
-                      _selectedLanguage,
-                      style: textTheme.labelLarge?.copyWith(
-                        color: colors.text1,
-                      ),
+                  hoverColor: colors.surface4,
+                  splashColor: colors.surface2,
+                  onTap: () =>
+                      isOpen ? localController.close() : localController.open(),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
                     ),
-                    const Spacer(),
-                    MessIcon(
-                      isOpen ? SvgIcons.chevronUp : SvgIcons.chevronDown,
-                      color: colors.text1,
-                      size: 20,
+                    child: Row(
+                      children: [
+                        MessIcon(SvgIcons.globe, color: colors.text1, size: 20),
+                        const SizedBox(width: 12),
+                        Text(
+                          widget.value,
+                          style: textTheme.labelLarge?.copyWith(
+                            color: colors.text1,
+                          ),
+                        ),
+                        const Spacer(),
+                        MessIcon(
+                          isOpen ? SvgIcons.chevronUp : SvgIcons.chevronDown,
+                          color: colors.text1,
+                          size: 20,
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),

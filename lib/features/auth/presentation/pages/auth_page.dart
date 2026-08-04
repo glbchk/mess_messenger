@@ -36,7 +36,11 @@ class _AuthPageState extends ConsumerState<AuthPage> {
       // Trigger Sign Up Notifier Method
       ref
           .read(authProvider.notifier)
-          .signUp(_emailController.text, _passwordController.text);
+          .signUp(
+            _emailController.text,
+            _passwordController.text,
+            _nameController.text,
+          );
     } else {
       // Trigger Sign In Notifier Method
       ref
@@ -128,7 +132,11 @@ class _AuthPageState extends ConsumerState<AuthPage> {
       onPressedGetStarted: () {
         ref
             .read(authProvider.notifier)
-            .signUp(_emailController.text, _passwordController.text);
+            .signUp(
+              _emailController.text,
+              _passwordController.text,
+              _nameController.text,
+            );
       },
       onPressedSignUpWithGoogle: () {
         ref.read(authProvider.notifier).signInWithGoogle();

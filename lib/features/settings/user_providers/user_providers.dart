@@ -27,6 +27,16 @@ final fetchUserDataUseCaseProvider = Provider<FetchUserDataUseCase>((ref) {
   return FetchUserDataUseCase(ref.read(userRepositoryProvider));
 });
 
+final updateGeneralSettingsUseCaseProvider =
+    Provider<UpdateGeneralSettingsUseCase>((ref) {
+      return UpdateGeneralSettingsUseCase(ref.read(userRepositoryProvider));
+    });
+
+final updateApplicationLanguageUseCaseProvider =
+    Provider<UpdateApplicationLanguageUseCase>((ref) {
+      return UpdateApplicationLanguageUseCase(ref.read(userRepositoryProvider));
+    });
+
 final updateUserNameUseCaseProvider = Provider<UpdateUserNameUseCase>((ref) {
   return UpdateUserNameUseCase(ref.read(userRepositoryProvider));
 });

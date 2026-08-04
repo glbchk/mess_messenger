@@ -9,6 +9,15 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get systemDefault => 'System Default';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get ukrainian => 'Ukrainian';
+
+  @override
   String get signUp => 'Sign up';
 
   @override
@@ -101,4 +110,61 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get chatsEmptyScreenText =>
       'Your personal messages are end-to-end \nencrypted.';
+
+  @override
+  String get general => 'General';
+
+  @override
+  String get account => 'Account';
+
+  @override
+  String get personalisation => 'Personalisation';
+
+  @override
+  String get billing => 'Billing';
+
+  @override
+  String get notification => 'Notification';
+
+  @override
+  String get api => 'API';
+
+  @override
+  String get login => 'Login';
+
+  @override
+  String get on => 'On';
+
+  @override
+  String get off => 'Off';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get photo => 'Photo';
+
+  @override
+  String get audio => 'Audio';
+
+  @override
+  String get video => 'Video';
+
+  @override
+  String get document => 'Document';
+
+  @override
+  String get messages => 'Messages';
+
+  @override
+  String get archiveAll => 'Archive All';
+
+  @override
+  String get saveChanges => 'Save Changes';
+
+  @override
+  String get applyChanges => 'Apply Changes...';
 }

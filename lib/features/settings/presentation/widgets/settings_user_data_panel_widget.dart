@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
-import 'package:mess_messenger_app/core/widgets/mess_cancellation_button.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon_button.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
@@ -57,46 +56,28 @@ class SettingsUserDataPanelWidget extends StatelessWidget {
         Spacer(),
         Padding(
           padding: const EdgeInsets.only(right: 32),
-          child: isChangeApplied
-              ? Row(
-                  spacing: 12,
-                  children: [
-                    MessMainButton(
-                      height: 36,
-                      width: 160,
-                      label: 'Save Changes',
-                      onPressed: () {},
-                    ),
-                    MessCancellationButton(
-                      height: 36,
-                      width: 110,
-                      label: 'Cancel',
-                      onPressed: () {},
-                    ),
-                  ],
-                )
-              : Row(
-                  spacing: 12,
-                  children: [
-                    MessMainButton(
-                      height: 36,
-                      width: 128,
-                      label: 'Log out',
-                      suffixIconPath: SvgIcons.logout,
-                      suffixIconSize: 20,
-                      textColor: colors.text1,
-                      backgroundColor: colors.surface2,
-                      hoverColor: colors.surface4,
-                      onPressed: onPressedLogout,
-                    ),
-                    MessIconButton(
-                      SvgIcons.menuHorizontal,
-                      buttonSize: 36,
-                      isButtonFilled: true,
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
+          child: Row(
+            spacing: 12,
+            children: [
+              MessMainButton(
+                height: 36,
+                width: 128,
+                label: 'Log out',
+                suffixIconPath: SvgIcons.logout,
+                suffixIconSize: 20,
+                textColor: colors.text1,
+                backgroundColor: colors.surface2,
+                hoverColor: colors.surface4,
+                onPressed: onPressedLogout,
+              ),
+              MessIconButton(
+                SvgIcons.menuHorizontal,
+                buttonSize: 36,
+                isButtonFilled: true,
+                onPressed: () {},
+              ),
+            ],
+          ),
         ),
       ],
     );

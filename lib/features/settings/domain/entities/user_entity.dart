@@ -1,3 +1,5 @@
+import 'package:mess_messenger_app/features/settings/data/models/general_settings_model.dart';
+
 class UserEntity {
   final bool? isAnonymous;
   final String id;
@@ -8,6 +10,7 @@ class UserEntity {
   final String? birthday;
   final bool isOnboardingCompleted;
   final String? language;
+  final GeneralSettingsModel? generalSettings;
 
   UserEntity({
     this.isAnonymous,
@@ -19,5 +22,6 @@ class UserEntity {
     this.birthday,
     required this.isOnboardingCompleted,
     this.language,
+    this.generalSettings,
   });
 }

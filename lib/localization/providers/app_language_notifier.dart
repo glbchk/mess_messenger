@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mess_messenger_app/localization/localization_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
@@ -9,21 +11,26 @@ final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
 class AppLanguageNotifier extends Notifier<Locale> {
   @override
   Locale build() {
-    // Read synchronously from the overridden provider
     final prefs = ref.watch(sharedPreferencesProvider);
-    final String? languageCode = prefs.getString('language_code');
-    return Locale(languageCode ?? 'en');
+    final savedCode = prefs.getString('language_code');
+    if (savedCode != null && savedCode.isNotEmpty) {
+      return Locale(savedCode);
+    }
+    return LocalizationService.resolveSystemLocale();
   }
 
   Future<void> changeLanguage(Locale newLocale) async {
+    if (newLocale.languageCode.isEmpty) return;
     if (state != newLocale) {
       state = newLocale;
       final prefs = ref.read(sharedPreferencesProvider);
       await prefs.setString('language_code', newLocale.languageCode);
     }
   }
-}
 
-final appLanguageProvider = NotifierProvider<AppLanguageNotifier, Locale>(() {
-  return AppLanguageNotifier();
-});
+  Future<void> resetToSystemDefault() async {
+    final prefs = ref.read(sharedPreferencesProvider);
+    await prefs.remove('language_code');
+    state = LocalizationService.resolveSystemLocale();
+  }
+}

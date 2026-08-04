@@ -9,6 +9,7 @@ import 'package:mess_messenger_app/features/settings/data/models/user_model.dart
 import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/build_title_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/checkbox_row_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/palette_widget.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -38,6 +39,9 @@ class _PersonalisationMobileTabWidgetState
 
     final bool isVisibleButtons = true;
 
+    final currentTheme = [];
+    final currentTextSize = [];
+
     return Stack(
       children: [
         SingleChildScrollView(
@@ -56,8 +60,16 @@ class _PersonalisationMobileTabWidgetState
                 AppSpacing.p12.gapV,
                 DropdownMenuWidget(
                   languages: ['System Default', 'English', 'Spanish'],
-                  menuController: themeMenuController,
                   constraintSize: 400,
+                  value: 'System Default',
+                  // constraintSize: bp.screenWidth * 0.8,
+                  onChanged: (selectedTheme) {
+                    final userId = ref.read(userNotifierProvider).userData?.id;
+                    if (userId == null) return;
+                    ref
+                        .read(userNotifierProvider.notifier)
+                        .updateApplicationLanguage(userId, selectedTheme);
+                  },
                 ),
                 AppSpacing.p24.gapV,
                 Text(
@@ -83,8 +95,16 @@ class _PersonalisationMobileTabWidgetState
                 AppSpacing.p12.gapV,
                 DropdownMenuWidget(
                   languages: ['100%', '80%', '60%'],
-                  menuController: textSizeMenuController,
                   constraintSize: 400,
+                  value: '100%',
+                  // constraintSize: bp.screenWidth * 0.8,
+                  onChanged: (selectedTheme) {
+                    final userId = ref.read(userNotifierProvider).userData?.id;
+                    if (userId == null) return;
+                    ref
+                        .read(userNotifierProvider.notifier)
+                        .updateApplicationLanguage(userId, '100%');
+                  },
                 ),
                 AppSpacing.p4.gapV,
                 Text(

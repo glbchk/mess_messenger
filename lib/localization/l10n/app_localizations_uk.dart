@@ -9,6 +9,15 @@ class AppLocalizationsUk extends AppLocalizations {
   AppLocalizationsUk([String locale = 'uk']) : super(locale);
 
   @override
+  String get systemDefault => 'За замовчуванням';
+
+  @override
+  String get english => 'Англійська';
+
+  @override
+  String get ukrainian => 'Українська';
+
+  @override
   String get signUp => 'Зареєструватися';
 
   @override
@@ -102,4 +111,61 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get chatsEmptyScreenText =>
       'Твої особисті повідомлення зашифровані \nвід початку до кінця.';
+
+  @override
+  String get general => 'Загальні';
+
+  @override
+  String get account => 'Аккаунт';
+
+  @override
+  String get personalisation => 'Персоналізація';
+
+  @override
+  String get billing => 'Оплати';
+
+  @override
+  String get notification => 'Сповіщання';
+
+  @override
+  String get api => 'API';
+
+  @override
+  String get login => 'Вхід';
+
+  @override
+  String get on => 'Включено';
+
+  @override
+  String get off => 'Виключено';
+
+  @override
+  String get language => 'Мова';
+
+  @override
+  String get password => 'Пароль';
+
+  @override
+  String get photo => 'Фото';
+
+  @override
+  String get audio => 'Аудіо';
+
+  @override
+  String get video => 'Відео';
+
+  @override
+  String get document => 'Документ';
+
+  @override
+  String get messages => 'Повідомлення';
+
+  @override
+  String get archiveAll => 'Архівувати все';
+
+  @override
+  String get saveChanges => 'Зберегти зміни';
+
+  @override
+  String get applyChanges => 'Примінити зміни...';
 }

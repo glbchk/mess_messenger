@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mess_messenger_app/features/auth/data/data_source/auth_remote_data_source.dart';
 import 'package:mess_messenger_app/features/settings/data/data_source/user_remote_data_source.dart';
+import 'package:mess_messenger_app/features/settings/data/models/general_settings_model.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/features/settings/domain/entities/user_entity.dart';
 import 'package:mess_messenger_app/features/settings/domain/user_repositories/user_repository.dart';
@@ -20,7 +21,6 @@ class UserRepositoryImpl implements UserRepository {
       email: user.email,
       phoneNumber: user.phoneNumber,
       // isOnboardingCompleted: user.isOnboardingCompleted,
-      language: user.language,
     );
 
     await userRemoteDataSource.createUser(userModel);
@@ -29,6 +29,25 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<UserModel?> fetchUserData(String uid) async {
     return await userRemoteDataSource.fetchUserData(uid);
+  }
+
+  @override
+  Future<void> updateGeneralSettings(
+    String userId,
+    GeneralSettingsModel settings,
+  ) async {
+    return await userRemoteDataSource.updateGeneralSettings(userId, settings);
+  }
+
+  @override
+  Future<void> updateApplicationLanguage(
+    String userId,
+    String? selectedLanguage,
+  ) async {
+    return await userRemoteDataSource.updateApplicationLanguage(
+      userId,
+      selectedLanguage,
+    );
   }
 
   @override

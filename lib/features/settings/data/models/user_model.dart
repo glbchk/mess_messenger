@@ -1,3 +1,4 @@
+import 'package:mess_messenger_app/features/settings/data/models/general_settings_model.dart';
 import 'package:mess_messenger_app/features/settings/domain/entities/user_entity.dart';
 
 class UserModel {
@@ -9,7 +10,7 @@ class UserModel {
   final String? phoneNumber;
   final String? birthday;
   // final bool isOnboardingCompleted;
-  final String? language;
+  final GeneralSettingsModel? generalSettings;
 
   UserModel({
     this.isAnonymous,
@@ -20,8 +21,25 @@ class UserModel {
     this.phoneNumber,
     this.birthday,
     // required this.isOnboardingCompleted,
-    this.language,
+    this.generalSettings,
   });
+
+  factory UserModel.newUser({
+    required String id,
+    required String email,
+    required String name,
+  }) {
+    return UserModel(
+      id: id,
+      email: email,
+      isAnonymous: false,
+      isEmailVerified: false,
+      name: name,
+      phoneNumber: '',
+      birthday: '',
+      generalSettings: GeneralSettingsModel.defaults(),
+    );
+  }
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
@@ -33,7 +51,9 @@ class UserModel {
       phoneNumber: json['phone_number'] ?? '',
       birthday: json['birthday'] ?? '',
       // isOnboardingCompleted: json['is_onboarding_completed'],
-      language: json['language'],
+      generalSettings: json['general_settings'] != null
+          ? GeneralSettingsModel.fromJson(json['general_settings'])
+          : null,
     );
   }
 
@@ -47,7 +67,7 @@ class UserModel {
       'phone_number': phoneNumber,
       'birthday': birthday,
       // 'is_onboarding_completed': isOnboardingCompleted,
-      'language': language,
+      'general_settings': generalSettings?.toJson(),
     };
   }
 
@@ -61,7 +81,7 @@ class UserModel {
       phoneNumber: entity.phoneNumber ?? '',
       birthday: entity.birthday ?? '',
       // isOnboardingCompleted: entity.isOnboardingCompleted,
-      language: entity.language,
+      generalSettings: entity.generalSettings,
     );
   }
 
@@ -74,7 +94,7 @@ class UserModel {
     String? phoneNumber,
     String? birthday,
     bool? isOnboardingCompleted,
-    String? language,
+    GeneralSettingsModel? generalSettings,
   }) {
     return UserModel(
       isAnonymous: isAnonymous ?? this.isAnonymous,
@@ -86,7 +106,7 @@ class UserModel {
       birthday: birthday ?? this.birthday,
       // isOnboardingCompleted:
       //     isOnboardingCompleted ?? this.isOnboardingCompleted,
-      language: language ?? this.language,
+      generalSettings: generalSettings ?? this.generalSettings,
     );
   }
 }

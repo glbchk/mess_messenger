@@ -3,8 +3,9 @@ import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class BuildTitleWidget extends StatelessWidget {
   final String title;
+  final Color? textColor;
 
-  const BuildTitleWidget({super.key, required this.title});
+  const BuildTitleWidget({super.key, required this.title, this.textColor});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class BuildTitleWidget extends StatelessWidget {
 
     return Text(
       title,
-      style: textTheme.titleMedium?.copyWith(color: colors.text2),
+      style: textTheme.titleMedium?.copyWith(color: textColor ?? colors.text2),
     );
   }
 }

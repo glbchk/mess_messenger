@@ -18,8 +18,8 @@ class IsLoggedInUserUseCase extends AuthUserUseCase {
 class SignUpUserUseCase extends AuthUserUseCase {
   SignUpUserUseCase(super.authRepository);
 
-  Future<void> execute(String email, String password) {
-    return authRepository.signUp(email, password);
+  Future<void> execute(String email, String password, String name) {
+    return authRepository.signUp(email, password, name);
   }
 }
 

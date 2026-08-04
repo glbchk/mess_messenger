@@ -46,7 +46,7 @@ class AuthNotifier extends Notifier<AuthState> {
     }
   }
 
-  Future<void> signUp(String email, String password) async {
+  Future<void> signUp(String email, String password, String name) async {
     final emailError = _validateEmail(email);
     final passwordError = _validatePassword(password);
 
@@ -61,7 +61,7 @@ class AuthNotifier extends Notifier<AuthState> {
     state = AuthLoading();
 
     try {
-      await ref.read(signUpUseCaseProvider).execute(email, password);
+      await ref.read(signUpUseCaseProvider).execute(email, password, name);
       state = AuthAuthenticated();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {

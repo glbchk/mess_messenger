@@ -7,6 +7,8 @@ import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.
 import 'package:mess_messenger_app/features/chats/presentation/pages/chats_page.dart';
 import 'package:mess_messenger_app/features/contacts/presentation/pages/contacts_page.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/settings_page.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
+import 'package:mess_messenger_app/providers/global_providers.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class AppShell extends ConsumerStatefulWidget {
@@ -42,6 +44,16 @@ class _AppShellState extends ConsumerState<AppShell> {
           MaterialPageRoute(builder: (_) => const AuthPage()),
           (route) => false,
         );
+      }
+    });
+
+    ref.listen(userNotifierProvider, (previous, next) {
+      final remoteLang = next.userData?.generalSettings?.language;
+      if (remoteLang != null && remoteLang.isNotEmpty) {
+        final remoteLocale = Locale(remoteLang);
+        if (ref.read(appLanguageProvider) != remoteLocale) {
+          ref.read(appLanguageProvider.notifier).changeLanguage(remoteLocale);
+        }
       }
     });
 

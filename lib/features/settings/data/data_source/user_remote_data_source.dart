@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mess_messenger_app/features/settings/data/models/general_settings_model.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 
 class UserRemoteDataSource {
@@ -22,6 +23,24 @@ class UserRemoteDataSource {
     }
 
     return null;
+  }
+
+  Future<void> updateGeneralSettings(
+    String userId,
+    GeneralSettingsModel settings,
+  ) async {
+    await firestore.collection('users').doc(userId).update({
+      'general_settings': settings.toJson(),
+    });
+  }
+
+  Future<void> updateApplicationLanguage(
+    String userId,
+    String? selectedLanguage,
+  ) async {
+    await firestore.collection('users').doc(userId).update({
+      'general_settings.language': selectedLanguage,
+    });
   }
 
   Future<void> updateUserName(String userId, String newName) async {

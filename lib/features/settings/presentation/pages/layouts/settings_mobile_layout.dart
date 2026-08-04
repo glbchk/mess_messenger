@@ -12,6 +12,7 @@ import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/general_tab/general_mobile_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/notification_tab/notification_mobile_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/personalization_tab/personalisation_mobile_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/general_settings_draft_provider.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
@@ -54,7 +55,10 @@ class _SettingsMobileLayoutState extends ConsumerState<SettingsMobileLayout> {
         appBarBackgroundColor: colors.transparent,
         showAppBarContent: false,
         showBackButton: true,
-        onPressedBack: Navigator.of(context).pop,
+        onPressedBack: () {
+          ref.read(generalSettingsDraftProvider.notifier).reset();
+          Navigator.of(context).pop();
+        },
         actions: [
           MessIconButton(
             SvgIcons.menuVert,
@@ -131,30 +135,30 @@ class _SettingsMobileLayoutState extends ConsumerState<SettingsMobileLayout> {
                       Colors.transparent,
                     ),
                     splashFactory: NoSplash.splashFactory,
-                    tabs: const [
+                    tabs: [
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 18),
-                        child: Tab(text: 'General'),
+                        child: Tab(text: l10n.general),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 18),
-                        child: Tab(text: 'Account'),
+                        child: Tab(text: l10n.account),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 18),
-                        child: Tab(text: 'Personalisation'),
+                        child: Tab(text: l10n.personalisation),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 18),
-                        child: Tab(text: 'Billing'),
+                        child: Tab(text: l10n.billing),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 18),
-                        child: Tab(text: 'Notification'),
+                        child: Tab(text: l10n.notification),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 18),
-                        child: Tab(text: 'API'),
+                        child: Tab(text: l10n.api),
                       ),
                     ],
                   ),
@@ -167,7 +171,7 @@ class _SettingsMobileLayoutState extends ConsumerState<SettingsMobileLayout> {
                     controller: widget.tabController,
                     children: [
                       // Tab 1: General (Uses our clean helper layout function below)
-                      GeneralMobileTabWidget(),
+                      GeneralMobileTabWidget(userData: widget.userData),
 
                       // Tab 2: Account
                       AccountMobileTabWidget(
@@ -205,7 +209,7 @@ class _SettingsMobileLayoutState extends ConsumerState<SettingsMobileLayout> {
                     radius: 48,
                     backgroundColor: colors.surface4,
                     child: Text(
-                      'S',
+                      widget.userData.name?.substring(0, 1) ?? '?',
                       style: textTheme.displayMedium?.copyWith(
                         color: colors.iconContrast,
                       ),

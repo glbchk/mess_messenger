@@ -107,30 +107,30 @@ class SettingsTabletLayout extends ConsumerWidget {
                             Colors.transparent,
                           ),
                           splashFactory: NoSplash.splashFactory,
-                          tabs: const [
+                          tabs: [
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 18),
-                              child: Tab(text: 'General'),
+                              child: Tab(text: l10n.general),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 18),
-                              child: Tab(text: 'Account'),
+                              child: Tab(text: l10n.account),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 18),
-                              child: Tab(text: 'Personalisation'),
+                              child: Tab(text: l10n.personalisation),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 18),
-                              child: Tab(text: 'Billing'),
+                              child: Tab(text: l10n.billing),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 18),
-                              child: Tab(text: 'Notification'),
+                              child: Tab(text: l10n.notification),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 18),
-                              child: Tab(text: 'API'),
+                              child: Tab(text: l10n.api),
                             ),
                           ],
                         ),
@@ -167,7 +167,7 @@ class SettingsTabletLayout extends ConsumerWidget {
                           radius: 96,
                           backgroundColor: colors.surface4,
                           child: Text(
-                            'S',
+                            userData.name?.substring(0, 1) ?? '?',
                             style: textTheme.displayLarge?.copyWith(
                               color: colors.iconContrast,
                             ),

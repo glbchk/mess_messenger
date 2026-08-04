@@ -11,10 +11,10 @@ import 'package:mess_messenger_app/features/auth/presentation/pages/auth_page.da
 import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.dart';
 import 'package:mess_messenger_app/features/ui_app_root/app_shell.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
+import 'package:mess_messenger_app/localization/localization_service.dart';
+import 'package:mess_messenger_app/providers/global_providers.dart';
 import 'package:mess_messenger_app/theme/providers/theme_provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-
-import 'localization/providers/app_language_notifier.dart';
 
 ///TODO: Here should be MyApp configuration for MaterialApp.router,
 ///theme, localization, router setup, global builders and global app configuration
@@ -50,7 +50,9 @@ class MyApp extends ConsumerWidget {
         textTheme: buildTextTheme(isDesktop: isDesktop),
       ),
       locale: appLocale,
-      supportedLocales: const [Locale('en', ''), Locale('uk', '')],
+      supportedLocales: LocalizationService.supportedCodes
+          .map((code) => Locale(code, ''))
+          .toList(),
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

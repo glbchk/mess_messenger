@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/dropdown_menu_widget.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
+import 'package:mess_messenger_app/features/settings/data/models/general_settings_model.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/build_title_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/checkbox_row_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/widgets/custom_switch.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/general_settings_draft_provider.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
+import 'package:mess_messenger_app/localization/supported_locales.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-
-final loginSwitchProvider = StateProvider<bool>((ref) => true);
-final photoCheckboxProvider = StateProvider<bool>((ref) => true);
-final audioCheckboxProvider = StateProvider<bool>((ref) => true);
-final videoCheckboxProvider = StateProvider<bool>((ref) => true);
-final documentCheckboxProvider = StateProvider<bool>((ref) => false);
 
 class GeneralDesktopTabWidget extends ConsumerStatefulWidget {
   final UserModel? userData;
@@ -39,15 +36,30 @@ class _GeneralDesktopTabWidgetState
 
     final bp = ResponsiveBreakpoints.of(context);
 
-    // bool isOn = true;
+    final draft = ref.watch(generalSettingsDraftProvider);
 
-    late final menuController = MenuController();
+    final saved =
+        ref.watch(userNotifierProvider).userData?.generalSettings ??
+        GeneralSettingsModel.defaults();
 
-    final isOn = ref.watch(loginSwitchProvider);
-    final isPhotoChecked = ref.watch(photoCheckboxProvider);
-    final isAudioChecked = ref.watch(audioCheckboxProvider);
-    final isVideoChecked = ref.watch(videoCheckboxProvider);
-    final isDocumentChecked = ref.watch(documentCheckboxProvider);
+    final hasChanges = draft != saved;
+
+    final isOn = draft.isLoggedIn ?? false;
+    final isPhotoChecked = draft.isPhotoPasswordProtected ?? false;
+    final isAudioChecked = draft.isAudioPasswordProtected ?? false;
+    final isVideoChecked = draft.isVideoPasswordProtected ?? false;
+    final isDocumentChecked = draft.isDocumentPasswordProtected ?? false;
+
+    final languages = getSupportedLanguages(l10n);
+
+    final currentLanguageCode = draft.language;
+    final currentLanguageDisplay = currentLanguageCode == null
+        ? l10n.systemDefault
+        : (languages
+                  .where((l) => l.code == currentLanguageCode)
+                  .firstOrNull
+                  ?.displayName ??
+              l10n.systemDefault);
 
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
@@ -57,7 +69,7 @@ class _GeneralDesktopTabWidgetState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'General',
+              l10n.general,
               style: textTheme.headlineLarge?.copyWith(color: colors.text1),
             ),
             AppSpacing.p32.gapV,
@@ -68,7 +80,7 @@ class _GeneralDesktopTabWidgetState
                 SizedBox(
                   width:
                       320, // 💡 Adjust this width value to shift the middle column left or right
-                  child: BuildTitleWidget(title: 'Login'),
+                  child: BuildTitleWidget(title: l10n.login),
                 ),
                 Expanded(
                   child: Row(
@@ -77,15 +89,12 @@ class _GeneralDesktopTabWidgetState
                     children: [
                       CustomSwitch(
                         value: isOn,
-                        onChanged: (bool value) {
-                          setState(() {
-                            ref.read(loginSwitchProvider.notifier).state =
-                                value;
-                          });
-                        },
+                        onChanged: (value) => ref
+                            .read(generalSettingsDraftProvider.notifier)
+                            .setLogin(value),
                       ),
                       Text(
-                        isOn ? 'On' : 'Off',
+                        isOn ? l10n.on : l10n.off,
                         style: textTheme.bodyLarge?.copyWith(
                           color: colors.text1,
                         ),
@@ -103,11 +112,32 @@ class _GeneralDesktopTabWidgetState
                 SizedBox(
                   width:
                       320, // 💡 Adjust this width value to shift the middle column left or right
-                  child: BuildTitleWidget(title: 'Language'),
+                  child: BuildTitleWidget(title: l10n.language),
                 ),
                 DropdownMenuWidget(
-                  languages: ['Default', 'English', 'Spanish'],
-                  menuController: menuController,
+                  languages: [
+                    l10n.systemDefault,
+                    ...languages.map((l) => l.displayName),
+                  ],
+                  value: currentLanguageDisplay,
+                  constraintSize: 400,
+                  // constraintSize: bp.screenWidth * 0.8,
+                  onChanged: (selectedLanguage) {
+                    final isSystemDefault =
+                        selectedLanguage == l10n.systemDefault;
+                    final localeCode = isSystemDefault
+                        ? null
+                        : languages
+                              .where((l) => l.displayName == selectedLanguage)
+                              .firstOrNull
+                              ?.code;
+
+                    if (!isSystemDefault && localeCode == null) return;
+
+                    ref
+                        .read(generalSettingsDraftProvider.notifier)
+                        .setLanguage(localeCode);
+                  },
                 ),
               ],
             ),
@@ -118,42 +148,38 @@ class _GeneralDesktopTabWidgetState
                 SizedBox(
                   width:
                       320, // 💡 Adjust this width value to shift the middle column left or right
-                  child: BuildTitleWidget(title: 'Password'),
+                  child: BuildTitleWidget(title: l10n.password),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CheckboxRowWidget(
-                      title: 'Photo',
+                      title: l10n.photo,
                       isChecked: isPhotoChecked,
-                      onTap: () {
-                        ref.read(photoCheckboxProvider.notifier).state =
-                            !isPhotoChecked;
-                      },
+                      onTap: () => ref
+                          .read(generalSettingsDraftProvider.notifier)
+                          .togglePhoto(),
                     ),
                     CheckboxRowWidget(
-                      title: 'Audio',
+                      title: l10n.audio,
                       isChecked: isAudioChecked,
-                      onTap: () {
-                        ref.read(audioCheckboxProvider.notifier).state =
-                            !isAudioChecked;
-                      },
+                      onTap: () => ref
+                          .read(generalSettingsDraftProvider.notifier)
+                          .toggleAudio(),
                     ),
                     CheckboxRowWidget(
-                      title: 'Video',
+                      title: l10n.video,
                       isChecked: isVideoChecked,
-                      onTap: () {
-                        ref.read(videoCheckboxProvider.notifier).state =
-                            !isVideoChecked;
-                      },
+                      onTap: () => ref
+                          .read(generalSettingsDraftProvider.notifier)
+                          .toggleVideo(),
                     ),
                     CheckboxRowWidget(
-                      title: 'Document',
+                      title: l10n.document,
                       isChecked: isDocumentChecked,
-                      onTap: () {
-                        ref.read(documentCheckboxProvider.notifier).state =
-                            !isDocumentChecked;
-                      },
+                      onTap: () => ref
+                          .read(generalSettingsDraftProvider.notifier)
+                          .toggleDocument(),
                     ),
                   ],
                 ),
@@ -167,18 +193,46 @@ class _GeneralDesktopTabWidgetState
                 SizedBox(
                   width:
                       320, // 💡 Adjust this width value to shift the middle column left or right
-                  child: BuildTitleWidget(title: 'Messages'),
+                  child: BuildTitleWidget(title: l10n.messages),
                 ),
                 MessMainButton(
                   height: 32,
-                  width: 122,
-                  label: 'Archive All',
+                  width: 192,
+                  label: l10n.archiveAll,
                   textColor: colors.text1,
                   backgroundColor: colors.surface2,
                   onPressed: () {},
                 ),
               ],
             ),
+            AppSpacing.p32.gapV,
+            if (hasChanges)
+              Row(
+                children: [
+                  SizedBox(
+                    width: 320,
+                    child: BuildTitleWidget(
+                      title: l10n.applyChanges,
+                      textColor: colors.textPlaceHolder,
+                    ),
+                  ),
+                  MessMainButton(
+                    height: 36,
+                    width: 192,
+                    label: l10n.saveChanges,
+                    onPressed: () {
+                      final userId = ref
+                          .read(userNotifierProvider)
+                          .userData
+                          ?.id;
+                      if (userId == null) return;
+                      ref
+                          .read(userNotifierProvider.notifier)
+                          .saveGeneralSettings(userId, draft);
+                    },
+                  ),
+                ],
+              ),
           ],
         ),
       ),

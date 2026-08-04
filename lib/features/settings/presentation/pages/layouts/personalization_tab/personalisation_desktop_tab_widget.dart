@@ -10,6 +10,7 @@ import 'package:mess_messenger_app/features/settings/data/models/user_model.dart
 import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/build_title_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/checkbox_row_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/palette_widget.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -46,6 +47,9 @@ class _PersonalisationDesktopTabWidgetState
 
     final selectedColor = ref.watch(selectedBgColorProvider);
 
+    final currentTheme = [];
+    final currentTextSize = [];
+
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Padding(
@@ -71,7 +75,15 @@ class _PersonalisationDesktopTabWidgetState
                 ),
                 DropdownMenuWidget(
                   languages: ['System Default', 'English', 'Spanish'],
-                  menuController: themeMenuController,
+                  value: 'System Default',
+                  constraintSize: bp.screenWidth * 0.8,
+                  onChanged: (selectedTheme) {
+                    final userId = ref.read(userNotifierProvider).userData?.id;
+                    if (userId == null) return;
+                    ref
+                        .read(userNotifierProvider.notifier)
+                        .updateApplicationLanguage(userId, selectedTheme);
+                  },
                 ),
               ],
             ),
@@ -124,7 +136,15 @@ class _PersonalisationDesktopTabWidgetState
                 ),
                 DropdownMenuWidget(
                   languages: ['100%', '80%', '60%'],
-                  menuController: textSizeMenuController,
+                  value: '100%',
+                  constraintSize: bp.screenWidth * 0.8,
+                  onChanged: (selectedTheme) {
+                    final userId = ref.read(userNotifierProvider).userData?.id;
+                    if (userId == null) return;
+                    ref
+                        .read(userNotifierProvider.notifier)
+                        .updateApplicationLanguage(userId, '100%');
+                  },
                 ),
               ],
             ),
