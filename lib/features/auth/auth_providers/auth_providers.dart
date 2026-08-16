@@ -29,6 +29,10 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
   );
 });
 
+final authNotifierProvider = NotifierProvider<AuthNotifier, AuthState>(() {
+  return AuthNotifier();
+});
+
 final isLoggedInUseCaseProvider = Provider<IsLoggedInUserUseCase>((ref) {
   final authRepo = ref.read(authRepositoryProvider);
   return IsLoggedInUserUseCase(authRepo);
@@ -53,12 +57,17 @@ final signInWithGoogleUseCaseProvider = Provider<SignInWithGoogleUseCase>((
   return SignInWithGoogleUseCase(authRepo);
 });
 
-final sendPasswordResetUseCaseProvider = Provider<SendPasswordResetUserUseCase>(
-  (ref) {
-    final authRepo = ref.read(authRepositoryProvider);
-    return SendPasswordResetUserUseCase(authRepo);
-  },
-);
+final updatePasswordUseCaseProvider = Provider<UpdatePasswordUseCase>((ref) {
+  final authRepo = ref.read(authRepositoryProvider);
+  return UpdatePasswordUseCase(authRepo);
+});
+
+final sendPasswordResetUseCaseProvider = Provider<SendPasswordResetUseCase>((
+  ref,
+) {
+  final authRepo = ref.read(authRepositoryProvider);
+  return SendPasswordResetUseCase(authRepo);
+});
 
 final logoutUseCaseProvider = Provider<LogoutUserUseCase>((ref) {
   final authRepo = ref.read(authRepositoryProvider);
@@ -79,6 +88,20 @@ final linkGoogleAccountUseCaseProvider = Provider<LinkGoogleAccountUseCase>((
   return LinkGoogleAccountUseCase(authRepo);
 });
 
-final authProvider = NotifierProvider<AuthNotifier, AuthState>(() {
-  return AuthNotifier();
-});
+class PostSignOutMessageNotifier extends Notifier<String?> {
+  @override
+  String? build() => null;
+
+  void set(String message) {
+    state = message;
+  }
+
+  void clear() {
+    state = null;
+  }
+}
+
+final postSignOutMessageProvider =
+    NotifierProvider<PostSignOutMessageNotifier, String?>(
+      PostSignOutMessageNotifier.new,
+    );

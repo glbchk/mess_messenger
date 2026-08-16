@@ -5,9 +5,11 @@ import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
 import 'package:mess_messenger_app/features/settings/data/models/invoice_model.dart';
 import 'package:mess_messenger_app/features/settings/presentation/widgets/status_widget.dart';
+import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class TableWebWidget extends StatefulWidget {
+  final AppLocalizations l10n;
   final String title;
   final List<InvoiceModel> sampleInvoices;
   final VoidCallback? onPressedDownloadAll;
@@ -16,6 +18,7 @@ class TableWebWidget extends StatefulWidget {
 
   const TableWebWidget({
     super.key,
+    required this.l10n,
     required this.title,
     required this.sampleInvoices,
     this.onPressedDownloadAll,
@@ -91,8 +94,8 @@ class _TableWebWidgetState extends State<TableWebWidget> {
         _selectedCount == 0 || _selectedCount == _invoices.length;
 
     final String buttonLabel = isAllOrNone
-        ? 'Download all'
-        : 'Download selected';
+        ? widget.l10n.downloadAllInvoices
+        : widget.l10n.downloadSelected;
 
     final VoidCallback? buttonAction = isAllOrNone
         ? widget.onPressedDownloadAll
@@ -114,7 +117,7 @@ class _TableWebWidgetState extends State<TableWebWidget> {
                 spacing: 36,
                 children: [
                   Text(
-                    '${_selectedInvoices.length} selected',
+                    '${_selectedInvoices.length} ${widget.l10n.selected}',
                     style: textTheme.labelLarge?.copyWith(color: colors.text1),
                   ),
                   MessMainButton(
@@ -127,16 +130,6 @@ class _TableWebWidgetState extends State<TableWebWidget> {
                   ),
                 ],
               ),
-
-            // MessMainButton(
-            //   width: 142,
-            //   height: 38,
-            //   label: 'Download all',
-            //   textColor: colors.text1,
-            //   backgroundColor: colors.surface2,
-            //   hoverColor: colors.surface4,
-            //   onPressed: widget.onPressedDownloadAll,
-            // ),
           ],
         ),
 
@@ -166,28 +159,28 @@ class _TableWebWidgetState extends State<TableWebWidget> {
               Expanded(
                 flex: 4,
                 child: Text(
-                  'Invoice',
+                  widget.l10n.invoice,
                   style: textTheme.labelLarge?.copyWith(color: colors.text1),
                 ),
               ),
               Expanded(
                 flex: 2,
                 child: Text(
-                  'Amount',
+                  widget.l10n.amount,
                   style: textTheme.labelLarge?.copyWith(color: colors.text1),
                 ),
               ),
               Expanded(
                 flex: 2,
                 child: Text(
-                  'Date',
+                  widget.l10n.date,
                   style: textTheme.labelLarge?.copyWith(color: colors.text1),
                 ),
               ),
               Expanded(
                 flex: 2,
                 child: Text(
-                  'Status',
+                  widget.l10n.status,
                   style: textTheme.labelLarge?.copyWith(color: colors.text1),
                 ),
               ),
@@ -254,7 +247,9 @@ class _TableWebWidgetState extends State<TableWebWidget> {
                     flex: 2,
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: StatusWidget(status: invoice.status),
+                      child: StatusWidget(
+                        status: invoice.status,
+                      ), //TODO: Need to create different statuses
                     ),
                   ),
                   // Action Column

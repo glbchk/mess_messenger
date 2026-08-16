@@ -9,6 +9,8 @@ import 'package:mess_messenger_app/core/utils/font/app_typography.dart';
 import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
 import 'package:mess_messenger_app/features/auth/presentation/pages/auth_page.dart';
 import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/confirm_email_page.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
 import 'package:mess_messenger_app/features/ui_app_root/app_shell.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/localization/localization_service.dart';
@@ -18,18 +20,46 @@ import 'package:responsive_framework/responsive_framework.dart';
 
 ///TODO: Here should be MyApp configuration for MaterialApp.router,
 ///theme, localization, router setup, global builders and global app configuration
+enum AppPhase {
+  unauthenticated,
+  loadingUser,
+  needsEmailConfirmation,
+  authenticated,
+}
+
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentThemeMode = ref.watch(appThemeProvider);
-    final authState = ref.watch(authProvider);
+    final authState = ref.watch(authNotifierProvider);
+    final userData = ref.watch(userNotifierProvider).userData;
 
     final windowSize = MediaQueryData.fromView(View.of(context)).size;
     final isDesktop = windowSize.width > 1100;
 
     final appLocale = ref.watch(appLanguageProvider);
+
+    final AppPhase phase;
+    if (authState is! AuthAuthenticated) {
+      phase = AppPhase.unauthenticated;
+    } else if (userData == null) {
+      phase = AppPhase.loadingUser;
+    } else if (userData.isEmailVerified == false) {
+      phase = AppPhase.needsEmailConfirmation;
+    } else {
+      phase = AppPhase.authenticated;
+    }
+
+    final Widget home = switch (phase) {
+      AppPhase.unauthenticated => const AuthPage(),
+      AppPhase.loadingUser => const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      ),
+      AppPhase.needsEmailConfirmation => const ConfirmEmailPage(),
+      AppPhase.authenticated => const AppShell(),
+    };
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -68,9 +98,10 @@ class MyApp extends ConsumerWidget {
           const Breakpoint(start: 1100, end: double.infinity, name: DESKTOP),
         ],
       ),
-      home: authState is AuthAuthenticated
-          ? const AppShell()
-          : const AuthPage(),
+      home: Navigator(
+        key: ValueKey(phase), // only THIS Navigator resets on phase change
+        onGenerateRoute: (settings) => MaterialPageRoute(builder: (_) => home),
+      ),
     );
   }
 }

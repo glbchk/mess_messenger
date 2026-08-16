@@ -8,6 +8,7 @@ class BuildDropdownItemWidget extends StatelessWidget {
   final String value;
   final String selectedValue;
   final double constraintSize;
+  final Color? textColor;
   final VoidCallback onPressed;
 
   const BuildDropdownItemWidget({
@@ -15,6 +16,7 @@ class BuildDropdownItemWidget extends StatelessWidget {
     required this.value,
     required this.selectedValue,
     required this.constraintSize,
+    this.textColor,
     required this.onPressed,
   });
 
@@ -41,7 +43,7 @@ class BuildDropdownItemWidget extends StatelessWidget {
               Text(
                 value,
                 style: textTheme.bodyLarge?.copyWith(
-                  color: colors.text1,
+                  color: textColor ?? colors.text1,
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
                 ),
               ),

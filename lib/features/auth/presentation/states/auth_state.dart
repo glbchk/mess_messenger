@@ -1,10 +1,40 @@
+import 'package:mess_messenger_app/core/errors/auth_failure.dart';
+
 abstract class AuthState {}
 
 // class AuthInitial extends AuthState {}
 
-class AuthLoading extends AuthState {}
+class AuthLoading extends AuthState {
+  final bool isRegisterMode;
+  AuthLoading({this.isRegisterMode = true});
+}
 
-class AuthAuthenticated extends AuthState {}
+class AuthAuthenticated extends AuthState {
+  final bool isUpdatingPassword;
+  final AuthFailure? passwordUpdateError;
+  final bool passwordUpdateSuccess;
+
+  AuthAuthenticated({
+    this.isUpdatingPassword = false,
+    this.passwordUpdateError,
+    this.passwordUpdateSuccess = false,
+  });
+
+  AuthAuthenticated copyWith({
+    bool? isUpdatingPassword,
+    AuthFailure? Function()? passwordUpdateError,
+    bool? passwordUpdateSuccess,
+  }) {
+    return AuthAuthenticated(
+      isUpdatingPassword: isUpdatingPassword ?? this.isUpdatingPassword,
+      passwordUpdateError: passwordUpdateError != null
+          ? passwordUpdateError()
+          : this.passwordUpdateError,
+      passwordUpdateSuccess:
+          passwordUpdateSuccess ?? this.passwordUpdateSuccess,
+    );
+  }
+}
 
 class AuthUnauthenticated extends AuthState {
   final bool isRegisterMode;
@@ -71,4 +101,12 @@ class AuthUnauthenticated extends AuthState {
 class AuthError extends AuthState {
   final String message;
   AuthError(this.message);
+}
+
+extension AuthStateX on AuthState {
+  bool get isRegisterMode => switch (this) {
+    AuthUnauthenticated(:final isRegisterMode) => isRegisterMode,
+    AuthLoading(:final isRegisterMode) => isRegisterMode,
+    _ => true,
+  };
 }

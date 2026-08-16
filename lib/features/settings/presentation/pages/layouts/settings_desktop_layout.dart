@@ -4,6 +4,7 @@ import 'package:mess_messenger_app/core/constants/svg_icons.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/web_side_menu.dart';
+import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/account_tab/account_desktop_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/api_tab/api_tab_widget.dart';
@@ -16,28 +17,42 @@ import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-class SettingsDesktopLayout extends ConsumerWidget {
+class SettingsDesktopLayout extends ConsumerStatefulWidget {
+  final AppLocalizations l10n;
   final UserModel userData;
   final Future<void> Function() onPressed;
   final TabController tabController;
   final TextEditingController nameController;
-  final TextEditingController birthdayController;
+  final MenuController birthdayController;
+  final DateTime? selectedDate;
   final TextEditingController emailController;
-  final TextEditingController passwordController;
+  final TextEditingController phoneNumberController;
+  final TextEditingController currentPasswordController;
+  final TextEditingController newPasswordController;
 
   const SettingsDesktopLayout({
     super.key,
+    required this.l10n,
     required this.userData,
     required this.onPressed,
     required this.tabController,
     required this.nameController,
     required this.birthdayController,
+    required this.selectedDate,
     required this.emailController,
-    required this.passwordController,
+    required this.phoneNumberController,
+    required this.currentPasswordController,
+    required this.newPasswordController,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SettingsDesktopLayout> createState() =>
+      _SettingsDesktopLayoutState();
+}
+
+class _SettingsDesktopLayoutState extends ConsumerState<SettingsDesktopLayout> {
+  @override
+  Widget build(BuildContext context) {
     final colors = context.colors;
     final textTheme = context.textStyles;
     final bp = ResponsiveBreakpoints.of(context);
@@ -46,13 +61,11 @@ class SettingsDesktopLayout extends ConsumerWidget {
         ? bp.screenWidth * 0.25
         : bp.screenWidth * 0.35;
 
-    final l10n = AppLocalizations.of(context)!;
-
     return Scaffold(
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          WebSideMenu(userData: userData),
+          WebSideMenu(userData: widget.userData),
 
           Expanded(
             child: Container(
@@ -83,9 +96,12 @@ class SettingsDesktopLayout extends ConsumerWidget {
                       ),
                       AppSpacing.p20.gapV,
                       SettingsUserDataPanelWidget(
-                        userData: userData,
+                        l10n: widget.l10n,
+                        userData: widget.userData,
                         isChangeApplied: true,
-                        onPressedLogout: () {},
+                        onPressedLogout: () {
+                          ref.read(authNotifierProvider.notifier).logout();
+                        },
                       ),
                       Container(
                         margin: const EdgeInsets.only(
@@ -94,7 +110,7 @@ class SettingsDesktopLayout extends ConsumerWidget {
                           top: 24.0,
                         ),
                         child: TabBar(
-                          controller: tabController,
+                          controller: widget.tabController,
                           isScrollable: true,
                           labelPadding: const EdgeInsets.symmetric(
                             horizontal: 8,
@@ -117,27 +133,27 @@ class SettingsDesktopLayout extends ConsumerWidget {
                           tabs: [
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 18),
-                              child: Tab(text: l10n.general),
+                              child: Tab(text: widget.l10n.general),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 18),
-                              child: Tab(text: l10n.account),
+                              child: Tab(text: widget.l10n.account),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 18),
-                              child: Tab(text: l10n.personalisation),
+                              child: Tab(text: widget.l10n.personalisation),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 18),
-                              child: Tab(text: l10n.billing),
+                              child: Tab(text: widget.l10n.billing),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 18),
-                              child: Tab(text: l10n.notification),
+                              child: Tab(text: widget.l10n.notification),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 18),
-                              child: Tab(text: l10n.api),
+                              child: Tab(text: widget.l10n.api),
                             ),
                           ],
                         ),
@@ -145,17 +161,34 @@ class SettingsDesktopLayout extends ConsumerWidget {
 
                       Expanded(
                         child: TabBarView(
-                          controller: tabController,
+                          controller: widget.tabController,
                           children: [
-                            GeneralDesktopTabWidget(),
-                            AccountDesktopTabWidget(
-                              nameController: nameController,
-                              birthdayController: birthdayController,
-                              emailController: emailController,
-                              passwordController: passwordController,
+                            GeneralDesktopTabWidget(
+                              l10n: widget.l10n,
+                              userData: widget.userData,
                             ),
-                            PersonalisationDesktopTabWidget(),
-                            BillingDesktopTabWidget(),
+                            AccountDesktopTabWidget(
+                              l10n: widget.l10n,
+                              userData: widget.userData,
+                              nameController: widget.nameController,
+                              birthdayController: widget.birthdayController,
+                              selectedDate: widget.selectedDate,
+                              emailController: widget.emailController,
+                              phoneNumberController:
+                                  widget.phoneNumberController,
+                              currentPasswordController:
+                                  widget.currentPasswordController,
+                              newPasswordController:
+                                  widget.newPasswordController,
+                            ),
+                            PersonalisationDesktopTabWidget(
+                              l10n: widget.l10n,
+                              userData: widget.userData,
+                            ),
+                            BillingDesktopTabWidget(
+                              l10n: widget.l10n,
+                              userData: widget.userData,
+                            ),
                             NotificationDesktopTabWidget(),
                             ApiTabWidget(),
                           ],
@@ -174,7 +207,7 @@ class SettingsDesktopLayout extends ConsumerWidget {
                           radius: 96,
                           backgroundColor: colors.surface4,
                           child: Text(
-                            userData.name?.substring(0, 1) ?? '?',
+                            widget.userData.name?.substring(0, 1) ?? '?',
                             style: textTheme.displayLarge?.copyWith(
                               color: colors.iconContrast,
                             ),

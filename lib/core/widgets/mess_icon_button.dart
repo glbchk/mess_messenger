@@ -54,23 +54,3 @@ class MessIconButton extends StatelessWidget {
     );
   }
 }
-
-// Padding(
-// padding: const EdgeInsets.only(left: 16.0),
-// child: Center(
-// child: SizedBox(
-// width: 40,
-// height: 40,
-// child: ClipRRect(
-// borderRadius: BorderRadius.circular(50),
-// child: ColoredBox(
-// color: colors.surface2,
-// child: IconButton(
-// icon: Icon(Icons.more_vert, color: colors.icon1),
-// onPressed: () {},
-// ),
-// ),
-// ),
-// ),
-// ),
-// ),

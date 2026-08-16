@@ -85,14 +85,14 @@ Widget buildChatList({
                       Text(
                         l10n.messenger,
                         style: textTheme.headlineLarge?.copyWith(
-                          iconColor: colors.text1,
+                          color: colors.text1,
                         ),
                       ),
                       AppSpacing.p8.gapV,
                       Text(
                         l10n.chatsEmptyScreenText,
                         style: textTheme.bodyLarge?.copyWith(
-                          iconColor: colors.text2,
+                          color: colors.text2,
                         ),
                         textAlign: TextAlign.center,
                       ),

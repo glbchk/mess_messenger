@@ -27,19 +27,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nameLabel => 'Name*';
 
   @override
-  String get nameHint => 'Enter your name';
+  String get nameHint => 'Enter your name...';
 
   @override
   String get emailLabel => 'Email address*';
 
   @override
-  String get emailHint => 'Enter your email';
+  String get emailHint => 'Enter your email...';
 
   @override
   String get passwordLabel => 'Password*';
 
   @override
-  String get passwordHint => 'Create a password';
+  String get passwordHint => 'Create a password...';
 
   @override
   String get getStarted => 'Get started';
@@ -115,21 +115,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get general => 'General';
 
   @override
-  String get account => 'Account';
-
-  @override
-  String get personalisation => 'Personalisation';
-
-  @override
-  String get billing => 'Billing';
-
-  @override
-  String get notification => 'Notification';
-
-  @override
-  String get api => 'API';
-
-  @override
   String get login => 'Login';
 
   @override
@@ -167,4 +152,186 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get applyChanges => 'Apply Changes...';
+
+  @override
+  String get account => 'Account';
+
+  @override
+  String get userName => 'Username';
+
+  @override
+  String get userNameHint => 'Input name...';
+
+  @override
+  String get birthday => 'Birthday';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get phoneNumber => 'Phone number';
+
+  @override
+  String get phoneNumberHint => 'Input phone number...';
+
+  @override
+  String get personalisation => 'Personalisation';
+
+  @override
+  String get theme => 'Theme';
+
+  @override
+  String get background => 'Background';
+
+  @override
+  String get defaultBackground => 'Default background';
+
+  @override
+  String get textSize => 'Text size';
+
+  @override
+  String get textSizeDescription =>
+      'Use +/- to increase or decrease your text size';
+
+  @override
+  String get billing => 'Billing';
+
+  @override
+  String get subscriptionPlans => 'Subscription plans';
+
+  @override
+  String get free => 'Free';
+
+  @override
+  String get freePlanDescription => 'Limited features for individuals.';
+
+  @override
+  String get basic => 'Basic';
+
+  @override
+  String get perMonth => 'per month';
+
+  @override
+  String get basicPlanDescription =>
+      'Limited users and access to all features.';
+
+  @override
+  String get pro => 'Pro';
+
+  @override
+  String get proPlanDescription =>
+      'Unlimited users and access to all features.';
+
+  @override
+  String get learnMore => 'Learn more';
+
+  @override
+  String get billingHistory => 'Billing history';
+
+  @override
+  String get invoice => 'Invoice';
+
+  @override
+  String get amount => 'Amount';
+
+  @override
+  String get date => 'Date';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get awaitingStatus => 'Awaiting';
+
+  @override
+  String get paidStatus => 'Paid';
+
+  @override
+  String get overdueStatus => 'Overdue';
+
+  @override
+  String get refundedStatus => 'Refunded';
+
+  @override
+  String get downloadAllInvoices => 'Download all';
+
+  @override
+  String get downloadSelected => 'Download selected';
+
+  @override
+  String get selected => 'selected';
+
+  @override
+  String get notification => 'Notification';
+
+  @override
+  String get importantNotifications => 'Important notifications';
+
+  @override
+  String get dismiss => 'Dismiss';
+
+  @override
+  String get communication => 'Communication';
+
+  @override
+  String get communicationDescription =>
+      'Receive notifications for comments, tags, change request and any new activity.';
+
+  @override
+  String get reminder => 'Reminder';
+
+  @override
+  String get reminderDescription =>
+      'These are notifications to remind you of updates you might have missed.';
+
+  @override
+  String get announcementAndUpdate => 'Announcement and update';
+
+  @override
+  String get announcementAndUpdateDescription =>
+      'Receive notifications about product updates, our newest features, improvements and bug fixes.';
+
+  @override
+  String get tips => 'Tips';
+
+  @override
+  String get tipsDescription =>
+      'Receive notifications with helpful advice on how to use features and suggested events.';
+
+  @override
+  String get desktop => 'Desktop';
+
+  @override
+  String get push => 'Push';
+
+  @override
+  String get api => 'API';
+
+  @override
+  String get currentPassword => 'Current password';
+
+  @override
+  String get newPassword => 'New password';
+
+  @override
+  String get incorrectPassword =>
+      'That password doesn\'t look right. Please try again.';
+
+  @override
+  String get pleaseSignInAgain =>
+      'For your security, please sign in again to continue.';
+
+  @override
+  String get emailAlreadyInUse =>
+      'That email is already linked to another account.';
+
+  @override
+  String get passwordRequired => 'Please enter your password.';
+
+  @override
+  String get somethingWentWrong => 'Something went wrong. Please try again.';
+
+  @override
+  String get sessionRevoked =>
+      'User token has been revoked. Please sign in again.';
 }

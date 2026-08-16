@@ -27,14 +27,42 @@ final fetchUserDataUseCaseProvider = Provider<FetchUserDataUseCase>((ref) {
   return FetchUserDataUseCase(ref.read(userRepositoryProvider));
 });
 
-final updateGeneralSettingsUseCaseProvider =
-    Provider<UpdateGeneralSettingsUseCase>((ref) {
-      return UpdateGeneralSettingsUseCase(ref.read(userRepositoryProvider));
+final updateIsLoggedInUseCaseProvider = Provider<UpdateIsLoggedInUseCase>((
+  ref,
+) {
+  return UpdateIsLoggedInUseCase(ref.read(userRepositoryProvider));
+});
+
+final updateLanguageUseCaseProvider = Provider<UpdateLanguageUseCase>((ref) {
+  return UpdateLanguageUseCase(ref.read(userRepositoryProvider));
+});
+
+final updateIsPhotoPasswordProtectedUseCaseProvider =
+    Provider<UpdateIsPhotoPasswordProtectedUseCase>((ref) {
+      return UpdateIsPhotoPasswordProtectedUseCase(
+        ref.read(userRepositoryProvider),
+      );
     });
 
-final updateApplicationLanguageUseCaseProvider =
-    Provider<UpdateApplicationLanguageUseCase>((ref) {
-      return UpdateApplicationLanguageUseCase(ref.read(userRepositoryProvider));
+final updateIsAudioPasswordProtectedUseCaseProvider =
+    Provider<UpdateIsAudioPasswordProtectedUseCase>((ref) {
+      return UpdateIsAudioPasswordProtectedUseCase(
+        ref.read(userRepositoryProvider),
+      );
+    });
+
+final updateIsVideoPasswordProtectedUseCaseProvider =
+    Provider<UpdateIsVideoPasswordProtectedUseCase>((ref) {
+      return UpdateIsVideoPasswordProtectedUseCase(
+        ref.read(userRepositoryProvider),
+      );
+    });
+
+final updateIsDocumentPasswordProtectedUseCaseProvider =
+    Provider<UpdateIsDocumentPasswordProtectedUseCase>((ref) {
+      return UpdateIsDocumentPasswordProtectedUseCase(
+        ref.read(userRepositoryProvider),
+      );
     });
 
 final updateUserNameUseCaseProvider = Provider<UpdateUserNameUseCase>((ref) {
@@ -50,3 +78,22 @@ final updateUserBirthdayUseCaseProvider = Provider<UpdateUserBirthdayUseCase>((
 final updateUserEmailUseCaseProvider = Provider<UpdateUserEmailUseCase>((ref) {
   return UpdateUserEmailUseCase(ref.read(userRepositoryProvider));
 });
+
+final updateUserPhoneNumberUseCaseProvider =
+    Provider<UpdateUserPhoneNumberUseCase>((ref) {
+      return UpdateUserPhoneNumberUseCase(ref.read(userRepositoryProvider));
+    });
+
+final updateThemeModeUseCaseProvider = Provider<UpdateThemeModeUseCase>((ref) {
+  return UpdateThemeModeUseCase(ref.read(userRepositoryProvider));
+});
+
+final updateBackgroundColorUseCaseProvider =
+    Provider<UpdateBackgroundColorUseCase>((ref) {
+      return UpdateBackgroundColorUseCase(ref.read(userRepositoryProvider));
+    });
+
+final updateSubscriptionPlanUseCaseProvider =
+    Provider<UpdateSubscriptionPlanUseCase>((ref) {
+      return UpdateSubscriptionPlanUseCase(ref.read(userRepositoryProvider));
+    });

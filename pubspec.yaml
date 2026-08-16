@@ -53,6 +53,7 @@ dependencies:
   app_links: ^7.1.2
   responsive_framework: ^1.5.1
   lottie: ^3.3.3
+  open_mail: ^1.2.1
 
 dev_dependencies:
   flutter_test:

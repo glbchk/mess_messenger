@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:mess_messenger_app/core/enums/enums.dart';
+import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/features/settings/presentation/widgets/subscription_plan_card.dart';
+import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class SubscriptionPlanSelector extends StatelessWidget {
-  final int selectedPlanIndex;
+  final AppLocalizations l10n;
+  final UserModel? userData;
+  final SubscriptionPlan selectedPlan;
   final VoidCallback onTapFree;
   final VoidCallback onTapBasic;
   final VoidCallback onTapPro;
@@ -11,7 +16,9 @@ class SubscriptionPlanSelector extends StatelessWidget {
 
   const SubscriptionPlanSelector({
     super.key,
-    required this.selectedPlanIndex,
+    required this.l10n,
+    required this.userData,
+    required this.selectedPlan,
     required this.onTapFree,
     required this.onTapBasic,
     required this.onTapPro,
@@ -22,31 +29,33 @@ class SubscriptionPlanSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     final bp = ResponsiveBreakpoints.of(context);
 
+    final selectedPlan = userData?.subscriptionPlan;
+
     return bp.screenWidth < 810
         ? Column(
             spacing: 32,
             children: [
               SubscriptionPlanCard(
-                value: selectedPlanIndex == 0,
+                value: selectedPlan == SubscriptionPlan.free,
                 onTap: onTapFree,
-                label: 'Free',
-                description: 'Limited features for individuals.',
+                label: l10n.free,
+                description: l10n.freePlanDescription,
                 onPressedLearnMore: () {},
               ),
               SubscriptionPlanCard(
-                value: selectedPlanIndex == 1,
+                value: selectedPlan == SubscriptionPlan.basic,
                 onTap: onTapBasic,
-                label: 'Free',
+                label: l10n.basic,
+                description: l10n.basicPlanDescription,
                 price: 10,
-                description: 'Limited features for individuals.',
                 onPressedLearnMore: () {},
               ),
               SubscriptionPlanCard(
-                value: selectedPlanIndex == 2,
+                value: selectedPlan == SubscriptionPlan.pro,
                 onTap: onTapPro,
-                label: 'Free',
+                label: l10n.pro,
+                description: l10n.proPlanDescription,
                 price: 24,
-                description: 'Limited features for individuals.',
                 onPressedLearnMore: () {},
               ),
             ],
@@ -58,65 +67,36 @@ class SubscriptionPlanSelector extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: SubscriptionPlanCard(
-                  value: selectedPlanIndex == 0,
+                  value: selectedPlan == SubscriptionPlan.free,
                   onTap: onTapFree,
-                  label: 'Free',
-                  description: 'Limited features for individuals.',
+                  label: l10n.free,
+                  description: l10n.freePlanDescription,
                   onPressedLearnMore: () {},
                 ),
               ),
               Expanded(
                 flex: 1,
                 child: SubscriptionPlanCard(
-                  value: selectedPlanIndex == 1,
+                  value: selectedPlan == SubscriptionPlan.basic,
                   onTap: onTapBasic,
-                  label: 'Free',
                   price: 10,
-                  description: 'Limited features for individuals.',
+                  label: l10n.basic,
+                  description: l10n.basicPlanDescription,
                   onPressedLearnMore: () {},
                 ),
               ),
               Expanded(
                 flex: 1,
                 child: SubscriptionPlanCard(
-                  value: selectedPlanIndex == 2,
+                  value: selectedPlan == SubscriptionPlan.pro,
                   onTap: onTapPro,
-                  label: 'Free',
                   price: 24,
-                  description: 'Limited features for individuals.',
+                  label: l10n.pro,
+                  description: l10n.proPlanDescription,
                   onPressedLearnMore: () {},
                 ),
               ),
             ],
           );
-
-    //   Column(
-    //   spacing: 32,
-    //   children: [
-    //     SubscriptionPlanCard(
-    //       value: selectedPlanIndex == 0,
-    //       onTap: onTapFree,
-    //       label: 'Free',
-    //       description: 'Limited features for individuals.',
-    //       onPressedLearnMore: () {},
-    //     ),
-    //     SubscriptionPlanCard(
-    //       value: selectedPlanIndex == 1,
-    //       onTap: onTapBasic,
-    //       label: 'Basic',
-    //       price: 10,
-    //       description: 'Limited features for individuals.',
-    //       onPressedLearnMore: () {},
-    //     ),
-    //     SubscriptionPlanCard(
-    //       value: selectedPlanIndex == 2,
-    //       onTap: onTapPro,
-    //       label: 'Pro',
-    //       price: 24,
-    //       description: 'Limited features for individuals.',
-    //       onPressedLearnMore: () {},
-    //     ),
-    //   ],
-    // );
   }
 }

@@ -39,8 +39,22 @@ class SignInWithGoogleUseCase extends AuthUserUseCase {
   }
 }
 
-class SendPasswordResetUserUseCase extends AuthUserUseCase {
-  SendPasswordResetUserUseCase(super.authRepository);
+class UpdatePasswordUseCase extends AuthUserUseCase {
+  UpdatePasswordUseCase(super.authRepository);
+
+  Future<void> execute({
+    required String newPassword,
+    required String currentPassword,
+  }) {
+    return authRepository.updatePassword(
+      newPassword: newPassword,
+      currentPassword: currentPassword,
+    );
+  }
+}
+
+class SendPasswordResetUseCase extends AuthUserUseCase {
+  SendPasswordResetUseCase(super.authRepository);
 
   Future<void> execute(String email) {
     return authRepository.sendPasswordResetEmail(email);

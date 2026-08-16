@@ -1,35 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
-import 'package:mess_messenger_app/core/widgets/mess_icon_button.dart';
+import 'package:mess_messenger_app/core/utils/spacing/spacing_modifier.dart';
+import 'package:mess_messenger_app/core/widgets/dropdown_menu/dropdown_item_action_model.dart';
+import 'package:mess_messenger_app/core/widgets/dropdown_menu/mess_icon_dropdown_button.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class SettingsUserDataPanelWidget extends StatelessWidget {
+  final AppLocalizations l10n;
   final UserModel userData;
   final VoidCallback onPressedLogout;
   final bool isChangeApplied;
-  // final Color activeTrackColor;
-  // final Color inactiveTrackColor;
-  // final Color thumbColor;
 
   const SettingsUserDataPanelWidget({
     super.key,
+    required this.l10n,
     required this.userData,
     required this.onPressedLogout,
     this.isChangeApplied = false,
-    // this.activeTrackColor = colors.text1,
-    // this.inactiveTrackColor = colors.surface3,
-    // this.thumbColor = Colors.white,
   });
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final textTheme = context.textStyles;
-
-    final l10n = AppLocalizations.of(context)!;
+    final bp = ResponsiveBreakpoints.of(context);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,22 +57,37 @@ class SettingsUserDataPanelWidget extends StatelessWidget {
           child: Row(
             spacing: 12,
             children: [
-              MessMainButton(
-                height: 36,
-                width: 128,
-                label: 'Log out',
-                suffixIconPath: SvgIcons.logout,
-                suffixIconSize: 20,
-                textColor: colors.text1,
-                backgroundColor: colors.surface2,
-                hoverColor: colors.surface4,
-                onPressed: onPressedLogout,
-              ),
-              MessIconButton(
-                SvgIcons.menuHorizontal,
-                buttonSize: 36,
+              bp.isDesktop
+                  ? MessMainButton(
+                      height: 36,
+                      width: 128,
+                      label: 'Log out',
+                      suffixIconPath: SvgIcons.logout,
+                      suffixIconSize: 20,
+                      textColor: colors.text1,
+                      backgroundColor: colors.surface2,
+                      hoverColor: colors.surface4,
+                      onPressed: onPressedLogout,
+                    )
+                  : SpacingModifier.empty(),
+              MessIconDropdownButton<DropdownItemAction>(
+                svgAsset: SvgIcons.menuHorizontal,
                 isButtonFilled: true,
-                onPressed: () {},
+                borderWidth: 0,
+                itemLabelBuilder: (item) => item.label,
+                textColorBuilder: (item) => item.textColor,
+                onItemTap: (item) => item.onTap(),
+                items: [
+                  DropdownItemAction(label: 'Change avatar', onTap: () {}),
+                  DropdownItemAction(
+                    label: 'Export account data',
+                    onTap: () {},
+                  ),
+                  DropdownItemAction(label: 'Active sessions', onTap: () {}),
+                  DropdownItemAction(label: 'Contact support', onTap: () {}),
+                  if (!bp.isDesktop)
+                    DropdownItemAction(label: 'Log out', onTap: () {}),
+                ],
               ),
             ],
           ),

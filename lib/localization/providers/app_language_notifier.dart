@@ -2,11 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/localization/localization_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
-  throw UnimplementedError();
-});
+import 'package:mess_messenger_app/providers/global_providers.dart';
 
 class AppLanguageNotifier extends Notifier<Locale> {
   @override

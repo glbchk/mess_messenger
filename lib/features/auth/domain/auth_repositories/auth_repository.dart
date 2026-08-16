@@ -9,5 +9,9 @@ abstract class AuthRepository {
   Future<void> linkGoogleAccount();
   // Future<void> unlinkGoogleAccount();
   Future<void> sendPasswordResetEmail(String email);
+  Future<void> updatePassword({
+    required String newPassword,
+    required String currentPassword,
+  });
   Future<void> logout();
 }

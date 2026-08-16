@@ -15,6 +15,7 @@ class MessTextField extends StatelessWidget {
   final double? radius;
   final String? hint;
   final String? error;
+  final Color? errorColor;
   final String? suffixIcon;
   final VoidCallback? onSuffixIconTap;
   final String? prefixIcon;
@@ -40,6 +41,7 @@ class MessTextField extends StatelessWidget {
     this.radius,
     this.hint,
     this.error,
+    this.errorColor,
     this.suffixIcon,
     this.onSuffixIconTap,
     this.prefixIcon,
@@ -159,7 +161,9 @@ class MessTextField extends StatelessWidget {
             padding: const EdgeInsets.only(top: 4),
             child: Text(
               error ?? '',
-              style: textTheme.bodySmall?.copyWith(color: colors.textHint),
+              style: textTheme.bodySmall?.copyWith(
+                color: errorColor ?? colors.errorColor,
+              ),
             ),
           ),
       ],

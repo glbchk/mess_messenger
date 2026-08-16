@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mess_messenger_app/core/enums/enums.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
 import 'package:mess_messenger_app/features/settings/data/models/invoice_model.dart';
@@ -7,14 +8,17 @@ import 'package:mess_messenger_app/features/settings/data/models/user_model.dart
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/billing_tab/billing_desktop_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/widgets/subscription_plan_selector.dart';
 import 'package:mess_messenger_app/features/settings/presentation/widgets/table_mobile_widget.dart';
+import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class BillingMobileTabWidget extends ConsumerStatefulWidget {
+  final AppLocalizations l10n;
   final UserModel? userData;
   final ValueChanged<List<InvoiceModel>>? onDownloadInvoices;
 
   const BillingMobileTabWidget({
     super.key,
+    required this.l10n,
     this.userData,
     this.onDownloadInvoices,
   });
@@ -97,7 +101,11 @@ class _BillingMobileTabWidgetState
                 AppSpacing.p36.gapV,
 
                 SubscriptionPlanSelector(
-                  selectedPlanIndex: selectedPlanIndex,
+                  l10n: widget.l10n,
+                  userData: widget.userData,
+                  selectedPlan:
+                      widget.userData?.subscriptionPlan ??
+                      SubscriptionPlan.free,
                   onTapFree: () =>
                       ref.read(selectedPlanIndexProvider.notifier).state = 0,
                   onTapBasic: () =>

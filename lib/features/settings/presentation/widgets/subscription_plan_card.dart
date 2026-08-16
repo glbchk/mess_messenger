@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
+import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -28,6 +29,7 @@ class SubscriptionPlanCard extends StatelessWidget {
     final colors = context.colors;
     final textTheme = context.textStyles;
 
+    final l10n = AppLocalizations.of(context);
     final bp = ResponsiveBreakpoints.of(context);
 
     return GestureDetector(
@@ -74,7 +76,7 @@ class SubscriptionPlanCard extends StatelessWidget {
                           ),
                           AppSpacing.p4.gapH,
                           Text(
-                            'per month',
+                            l10n?.perMonth ?? '',
                             style: textTheme.bodyLarge?.copyWith(
                               color: colors.text2,
                             ),
@@ -82,7 +84,7 @@ class SubscriptionPlanCard extends StatelessWidget {
                         ],
                       )
                     : Text(
-                        'Free',
+                        l10n?.free ?? '',
                         style: textTheme.displayMedium?.copyWith(
                           color: colors.text1,
                         ),
@@ -95,7 +97,7 @@ class SubscriptionPlanCard extends StatelessWidget {
                 GestureDetector(
                   onTap: onPressedLearnMore,
                   child: Text(
-                    'Learn more',
+                    l10n?.learnMore ?? '',
                     style: textTheme.bodyLarge?.copyWith(color: colors.link),
                   ),
                 ),

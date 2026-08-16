@@ -20,6 +20,7 @@ abstract final class SvgIcons {
   static const String dropDownUnfold = 'assets/icons/unfold.svg';
   static const String folders = 'assets/icons/folders.svg';
   static const String arrowLeft = 'assets/icons/arrow_left.svg';
+  static const String arrowRight = 'assets/icons/arrow_right.svg';
   static const String menuVert = 'assets/icons/menu_vert.svg';
   //Bottom Input Bar
   static const String attachment =
@@ -42,4 +43,5 @@ abstract final class SvgIcons {
   static const String information =
       'assets/icons/settings/information_filled.svg';
   static const String copy = 'assets/icons/settings/copy.svg';
+  static const String calendar = 'assets/icons/settings/calendar.svg';
 }

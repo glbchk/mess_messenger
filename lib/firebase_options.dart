@@ -70,6 +70,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1019906540743',
     projectId: 'mess-messenger-77af2',
     storageBucket: 'mess-messenger-77af2.firebasestorage.app',
+    androidClientId: '1019906540743-mfms1inmgfk20l128eqd1ml30gfff9e6.apps.googleusercontent.com',
+    iosClientId: '1019906540743-dp7iqemel490ql3kvjmh0big7o696qcl.apps.googleusercontent.com',
     iosBundleId: 'com.messmessenger.messMessengerApp',
   );
 

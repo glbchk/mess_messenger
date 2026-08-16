@@ -2,29 +2,27 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/dropdown_menu_widget.dart';
-import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/build_title_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/checkbox_row_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/palette_widget.dart';
 import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
+import 'package:mess_messenger_app/theme/providers/theme_provider.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-final loginSwitchProvider = StateProvider<bool>((ref) => true);
-final photoCheckboxProvider = StateProvider<bool>((ref) => true);
-final audioCheckboxProvider = StateProvider<bool>((ref) => true);
-final videoCheckboxProvider = StateProvider<bool>((ref) => true);
-final documentCheckboxProvider = StateProvider<bool>((ref) => false);
-
 class PersonalisationDesktopTabWidget extends ConsumerStatefulWidget {
+  final AppLocalizations l10n;
   final UserModel? userData;
 
-  const PersonalisationDesktopTabWidget({super.key, this.userData});
+  const PersonalisationDesktopTabWidget({
+    super.key,
+    required this.l10n,
+    this.userData,
+  });
 
   @override
   ConsumerState<PersonalisationDesktopTabWidget> createState() =>
@@ -41,14 +39,34 @@ class _PersonalisationDesktopTabWidgetState
     final l10n = AppLocalizations.of(context)!;
 
     final bp = ResponsiveBreakpoints.of(context);
+    final labelColumnWidth = (bp.screenWidth * 0.2).clamp(240.0, 380.0);
+    final fieldsWidth = bp.isDesktop
+        ? bp.screenWidth * 0.25
+        : bp.screenWidth * 0.4;
 
     late final themeMenuController = MenuController();
     late final textSizeMenuController = MenuController();
 
-    final selectedColor = ref.watch(selectedBgColorProvider);
+    final personalization = ref
+        .watch(userNotifierProvider)
+        .userData
+        ?.personalizationSettings;
+    final selectedIndex = personalization?.backgroundColorIndex ?? 0;
 
     final currentTheme = [];
     final currentTextSize = [];
+
+    final currentThemeMode = ref.watch(appThemeProvider);
+    String themeModeToLabel(ThemeMode mode) => switch (mode) {
+      ThemeMode.system => 'System Default',
+      ThemeMode.light => 'Light',
+      ThemeMode.dark => 'Dark',
+    };
+    ThemeMode labelToThemeMode(String label) => switch (label) {
+      'Light' => ThemeMode.light,
+      'Dark' => ThemeMode.dark,
+      _ => ThemeMode.system,
+    };
 
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
@@ -67,22 +85,18 @@ class _PersonalisationDesktopTabWidgetState
               children: [
                 // Left Column: Fixed Width Label
                 SizedBox(
-                  width: math.min(
-                    bp.screenWidth * 0.25,
-                    320,
-                  ), // 💡 Adjust this width value to shift the middle column left or right
+                  width:
+                      labelColumnWidth, // 💡 Adjust this width value to shift the middle column left or right
                   child: BuildTitleWidget(title: 'Theme'),
                 ),
                 DropdownMenuWidget(
-                  languages: ['System Default', 'English', 'Spanish'],
-                  value: 'System Default',
-                  constraintSize: bp.screenWidth * 0.8,
+                  languages: ['System Default', 'Light', 'Dark'],
+                  value: themeModeToLabel(currentThemeMode),
+                  constraintSize: fieldsWidth,
                   onChanged: (selectedTheme) {
-                    final userId = ref.read(userNotifierProvider).userData?.id;
-                    if (userId == null) return;
                     ref
                         .read(userNotifierProvider.notifier)
-                        .updateApplicationLanguage(userId, selectedTheme);
+                        .updateThemeMode(selectedTheme);
                   },
                 ),
               ],
@@ -95,7 +109,7 @@ class _PersonalisationDesktopTabWidgetState
                   children: [
                     // Left Column: Fixed Width Label
                     SizedBox(
-                      width: math.min(bp.screenWidth * 0.25, 320),
+                      width: labelColumnWidth,
                       // 💡 Adjust this width value to shift the middle column left or right
                       child: BuildTitleWidget(title: 'Background'),
                     ),
@@ -104,9 +118,13 @@ class _PersonalisationDesktopTabWidgetState
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           PaletteWidget(
-                            selectedColor: selectedColor,
-                            paletteWidth: math.min(bp.screenWidth * 0.25, 280),
-                            onTap: () {},
+                            selectedIndex: selectedIndex,
+                            paletteWidth: math.min(bp.screenWidth * 0.45, 330),
+                            onColorSelected: (index) {
+                              ref
+                                  .read(userNotifierProvider.notifier)
+                                  .updateBackgroundColor(index);
+                            },
                           ),
                           AppSpacing.p24.gapV,
                           CheckboxRowWidget(
@@ -127,46 +145,41 @@ class _PersonalisationDesktopTabWidgetState
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // Left Column: Fixed Width Label
-                SizedBox(
-                  width: math.min(
-                    bp.screenWidth * 0.25,
-                    320,
-                  ), // 💡 Adjust this width value to shift the middle column left or right
-                  child: BuildTitleWidget(title: 'Text size'),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 24.0),
+                  child: SizedBox(
+                    width:
+                        labelColumnWidth, // 💡 Adjust this width value to shift the middle column left or right
+                    child: BuildTitleWidget(title: 'Text size'),
+                  ),
                 ),
-                DropdownMenuWidget(
-                  languages: ['100%', '80%', '60%'],
-                  value: '100%',
-                  constraintSize: bp.screenWidth * 0.8,
-                  onChanged: (selectedTheme) {
-                    final userId = ref.read(userNotifierProvider).userData?.id;
-                    if (userId == null) return;
-                    ref
-                        .read(userNotifierProvider.notifier)
-                        .updateApplicationLanguage(userId, '100%');
-                  },
-                ),
-              ],
-            ),
-            AppSpacing.p32.gapV,
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Left Column: Fixed Width Label
-                SizedBox(
-                  width: math.min(
-                    bp.screenWidth * 0.25,
-                    320,
-                  ), // 💡 Adjust this width value to shift the middle column left or right
-                  child: BuildTitleWidget(title: 'Messages'),
-                ),
-                MessMainButton(
-                  height: 32,
-                  width: 122,
-                  label: 'Archive All',
-                  textColor: colors.text1,
-                  backgroundColor: colors.surface2,
-                  onPressed: () {},
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DropdownMenuWidget(
+                      languages: ['100%', '80%', '60%'],
+                      value: '100%',
+                      constraintSize: fieldsWidth,
+                      onChanged: (selectedTheme) {
+                        //TODO: NEED TO FIX, NOT SURE HOW IMPLEMENT
+                        final userId = ref
+                            .read(userNotifierProvider)
+                            .userData
+                            ?.id;
+                        if (userId == null) return;
+                        // ref
+                        //     .read(userNotifierProvider.notifier)
+                        //     .dropdownSelectLanguage(userId, '100%');
+                      },
+                    ),
+                    AppSpacing.p8.gapV,
+                    Text(
+                      'Use +/- to increase or decrease your text size',
+                      style: textTheme.labelMedium?.copyWith(
+                        color: colors.text2,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

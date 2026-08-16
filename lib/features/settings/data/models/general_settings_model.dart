@@ -33,21 +33,16 @@ class GeneralSettingsModel {
 
   factory GeneralSettingsModel.fromJson(Map<String, dynamic> json) {
     return GeneralSettingsModel(
-      isLoggedIn: json['general_settings.is_logged_in'] ?? false,
-      language: json['general_settings.general_settings.language'] ?? '',
-      isPhotoPasswordProtected:
-          json['general_settings.is_photo_password_protected'] ?? false,
-      isAudioPasswordProtected:
-          json['general_settings.is_audio_password_protected'] ?? false,
-      isVideoPasswordProtected:
-          json['general_settings.is_video_password_protected'] ?? false,
+      isLoggedIn: json['is_logged_in'] ?? false,
+      language: json['language'] ?? '',
+      isPhotoPasswordProtected: json['is_photo_password_protected'] ?? false,
+      isAudioPasswordProtected: json['is_audio_password_protected'] ?? false,
+      isVideoPasswordProtected: json['is_video_password_protected'] ?? false,
       isDocumentPasswordProtected:
-          json['general_settings.is_document_password_protected'] ?? false,
-      messages: json['general_settings.messages'] != null
+          json['is_document_password_protected'] ?? false,
+      messages: json['messages'] != null
           ? List<MessageModel>.from(
-              json['general_settings.messages'].map(
-                (m) => MessageModel.fromJson(m),
-              ),
+              json['messages'].map((m) => MessageModel.fromJson(m)),
             )
           : [],
     );
@@ -55,14 +50,13 @@ class GeneralSettingsModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'general_settings.is_logged_in': isLoggedIn,
-      'general_settings.language': language,
-      'general_settings.is_photo_password_protected': isPhotoPasswordProtected,
-      'general_settings.is_audio_password_protected': isAudioPasswordProtected,
-      'general_settings.is_video_password_protected': isVideoPasswordProtected,
-      'general_settings.is_document_password_protected':
-          isDocumentPasswordProtected,
-      'general_settings.messages': messages?.map((m) => m.toJson()).toList(),
+      'is_logged_in': isLoggedIn,
+      'language': language,
+      'is_photo_password_protected': isPhotoPasswordProtected,
+      'is_audio_password_protected': isAudioPasswordProtected,
+      'is_video_password_protected': isVideoPasswordProtected,
+      'is_document_password_protected': isDocumentPasswordProtected,
+      'messages': messages?.map((m) => m.toJson()).toList(),
     };
   }
 
