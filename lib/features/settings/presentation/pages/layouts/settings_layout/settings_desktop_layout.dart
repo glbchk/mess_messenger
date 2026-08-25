@@ -4,6 +4,7 @@ import 'package:mess_messenger_app/core/constants/svg_icons.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/web_side_menu.dart';
+import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/account_tab/account_desktop_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/api_tab/api_tab_widget.dart';
@@ -11,11 +12,13 @@ import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/general_tab/general_desktop_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/notification_tab/notification_desktop_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/personalization_tab/personalisation_desktop_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/support_page.dart';
 import 'package:mess_messenger_app/features/settings/presentation/widgets/settings_user_data_panel_widget.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
-class SettingsTabletLayout extends ConsumerStatefulWidget {
+class SettingsDesktopLayout extends ConsumerStatefulWidget {
   final AppLocalizations l10n;
   final UserModel userData;
   final Future<void> Function() onPressed;
@@ -27,8 +30,9 @@ class SettingsTabletLayout extends ConsumerStatefulWidget {
   final TextEditingController phoneNumberController;
   final TextEditingController currentPasswordController;
   final TextEditingController newPasswordController;
+  final VoidCallback onPressedChangeAvatar;
 
-  const SettingsTabletLayout({
+  const SettingsDesktopLayout({
     super.key,
     required this.l10n,
     required this.userData,
@@ -41,18 +45,24 @@ class SettingsTabletLayout extends ConsumerStatefulWidget {
     required this.phoneNumberController,
     required this.currentPasswordController,
     required this.newPasswordController,
+    required this.onPressedChangeAvatar,
   });
 
   @override
-  ConsumerState<SettingsTabletLayout> createState() =>
-      _SettingsTabletLayoutState();
+  ConsumerState<SettingsDesktopLayout> createState() =>
+      _SettingsDesktopLayoutState();
 }
 
-class _SettingsTabletLayoutState extends ConsumerState<SettingsTabletLayout> {
+class _SettingsDesktopLayoutState extends ConsumerState<SettingsDesktopLayout> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final textTheme = context.textStyles;
+    final bp = ResponsiveBreakpoints.of(context);
+
+    final sectionWidth = bp.isDesktop
+        ? bp.screenWidth * 0.25
+        : bp.screenWidth * 0.35;
 
     return Scaffold(
       body: Row(
@@ -91,8 +101,25 @@ class _SettingsTabletLayoutState extends ConsumerState<SettingsTabletLayout> {
                       SettingsUserDataPanelWidget(
                         l10n: widget.l10n,
                         userData: widget.userData,
-                        isChangeApplied: true,
-                        onPressedLogout: () {},
+                        onPressedChangeAvatar: widget.onPressedChangeAvatar,
+                        onPressedExportAccountData: () {},
+                        onPressedTerminateAllActiveSessions: () async {
+                          await ref
+                              .read(authNotifierProvider.notifier)
+                              .logoutFromAllDevices();
+                        },
+                        onPressedContactSupport: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return SupportPage();
+                              },
+                            ),
+                          );
+                        },
+                        onPressedLogout: () {
+                          ref.read(authNotifierProvider.notifier).logout();
+                        },
                       ),
                       Container(
                         margin: const EdgeInsets.only(
@@ -111,7 +138,7 @@ class _SettingsTabletLayoutState extends ConsumerState<SettingsTabletLayout> {
                           indicatorSize: TabBarIndicatorSize.label,
                           indicator: BoxDecoration(
                             color: colors.textInverse,
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(24),
                           ),
                           labelColor: colors.text2,
                           unselectedLabelColor: colors.text2,
@@ -120,6 +147,7 @@ class _SettingsTabletLayoutState extends ConsumerState<SettingsTabletLayout> {
                             Colors.transparent,
                           ),
                           splashFactory: NoSplash.splashFactory,
+                          mouseCursor: SystemMouseCursors.click,
                           tabs: [
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 18),
@@ -196,12 +224,19 @@ class _SettingsTabletLayoutState extends ConsumerState<SettingsTabletLayout> {
                         CircleAvatar(
                           radius: 96,
                           backgroundColor: colors.surface4,
-                          child: Text(
-                            widget.userData.name?.substring(0, 1) ?? '?',
-                            style: textTheme.displayLarge?.copyWith(
-                              color: colors.iconContrast,
-                            ),
-                          ),
+                          backgroundImage:
+                              (widget.userData.avatarUrl?.isNotEmpty ?? false)
+                              ? NetworkImage(widget.userData.avatarUrl!)
+                              : null,
+                          child:
+                              (widget.userData.avatarUrl?.isNotEmpty ?? false)
+                              ? null
+                              : Text(
+                                  widget.userData.name?.substring(0, 1) ?? '?',
+                                  style: textTheme.displayLarge?.copyWith(
+                                    color: colors.iconContrast,
+                                  ),
+                                ),
                         ),
 
                         Positioned(

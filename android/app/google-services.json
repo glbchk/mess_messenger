@@ -1,51 +1,26 @@
 {
   "project_info": {
-    "project_number": "1019906540743",
-    "project_id": "mess-messenger-77af2",
-    "storage_bucket": "mess-messenger-77af2.firebasestorage.app"
+    "project_number": "74270236491",
+    "project_id": "mess-messenger-14491",
+    "storage_bucket": "mess-messenger-14491.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1019906540743:android:40b1680986c457c507eae2",
+        "mobilesdk_app_id": "1:74270236491:android:fe1cb527fbb5ff95bbd2ce",
         "android_client_info": {
-          "package_name": "com.messmessenger.mess_messenger_app"
+          "package_name": "com.mess_messenger"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "1019906540743-mfms1inmgfk20l128eqd1ml30gfff9e6.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.messmessenger.mess_messenger_app",
-            "certificate_hash": "37a8d9a8666da2bbdc0b87d71f6b7a8d7d8a14dc"
-          }
-        },
-        {
-          "client_id": "1019906540743-fdhruhslf7dug9bllj0mc24obn31ifds.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDC603Krbs6D3zScQr3b1NUqFkCx3lbiew"
+          "current_key": "AIzaSyDz_WaRyGwjjJrVAw6Is4_SUN-LDCrI_MY"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1019906540743-fdhruhslf7dug9bllj0mc24obn31ifds.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "1019906540743-dp7iqemel490ql3kvjmh0big7o696qcl.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.messmessenger.messMessengerApp"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

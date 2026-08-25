@@ -2,24 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>1019906540743-dp7iqemel490ql3kvjmh0big7o696qcl.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1019906540743-dp7iqemel490ql3kvjmh0big7o696qcl</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>1019906540743-mfms1inmgfk20l128eqd1ml30gfff9e6.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDRTRbWSO3Meh5W3T4S34ms9UvFsLQrjVs</string>
+	<string>AIzaSyAVuBXm7DuGhITSqT5wwvVshiurCLYnS-U</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1019906540743</string>
+	<string>74270236491</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.messmessenger.messMessengerApp</string>
+	<string>mess-messenger</string>
 	<key>PROJECT_ID</key>
-	<string>mess-messenger-77af2</string>
+	<string>mess-messenger-14491</string>
 	<key>STORAGE_BUCKET</key>
-	<string>mess-messenger-77af2.firebasestorage.app</string>
+	<string>mess-messenger-14491.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1019906540743:ios:f4eb500bd117be5807eae2</string>
+	<string>1:74270236491:ios:8208c71b2305768bbbd2ce</string>
 </dict>
 </plist>
