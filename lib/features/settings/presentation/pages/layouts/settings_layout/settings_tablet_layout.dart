@@ -5,12 +5,12 @@ import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/web_side_menu.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/account_tab/account_desktop_tab_widget.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/api_tab/api_tab_widget.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/billing_tab/billing_desktop_tab_widget.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/general_tab/general_desktop_tab_widget.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/notification_tab/notification_desktop_tab_widget.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/personalization_tab/personalisation_desktop_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/account_tab/account_desktop_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/api_tab/api_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/billing_tab/billing_desktop_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/general_tab/general_desktop_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/notification_tab/notification_desktop_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/personalization_tab/personalisation_desktop_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/widgets/settings_user_data_panel_widget.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
@@ -201,12 +201,19 @@ class _SettingsTabletLayoutState extends ConsumerState<SettingsTabletLayout> {
                         CircleAvatar(
                           radius: 96,
                           backgroundColor: colors.surface4,
-                          child: Text(
-                            widget.userData.name?.substring(0, 1) ?? '?',
-                            style: textTheme.displayLarge?.copyWith(
-                              color: colors.iconContrast,
-                            ),
-                          ),
+                          backgroundImage:
+                              (widget.userData.avatarUrl?.isNotEmpty ?? false)
+                              ? NetworkImage(widget.userData.avatarUrl!)
+                              : null,
+                          child:
+                              (widget.userData.avatarUrl?.isNotEmpty ?? false)
+                              ? null
+                              : Text(
+                                  widget.userData.name?.substring(0, 1) ?? '?',
+                                  style: textTheme.displayLarge?.copyWith(
+                                    color: colors.iconContrast,
+                                  ),
+                                ),
                         ),
 
                         Positioned(

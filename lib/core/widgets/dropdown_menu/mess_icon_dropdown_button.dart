@@ -15,7 +15,6 @@ class MessIconDropdownButton<T> extends StatelessWidget {
   final Color? iconColor;
   final double? borderWidth;
   final bool isButtonFilled;
-  final double menuWidth;
 
   const MessIconDropdownButton({
     super.key,
@@ -30,52 +29,53 @@ class MessIconDropdownButton<T> extends StatelessWidget {
     this.iconColor,
     this.borderWidth,
     this.isButtonFilled = false,
-    this.menuWidth = 200,
   });
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
 
-    return MenuAnchor(
-      alignmentOffset: Offset(buttonSize - menuWidth, 8),
-      style: MenuStyle(
-        backgroundColor: WidgetStatePropertyAll(colors.bg),
-        surfaceTintColor: WidgetStatePropertyAll(colors.transparent),
-        elevation: const WidgetStatePropertyAll(12),
-        shadowColor: WidgetStatePropertyAll(
-          colors.shadowColor.withValues(alpha: 0.3),
-        ),
-        shape: WidgetStatePropertyAll(
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        ),
-        minimumSize: WidgetStatePropertyAll(Size(menuWidth, 0)),
-        maximumSize: WidgetStatePropertyAll(Size(menuWidth, 400)),
-      ),
-      menuChildren: [
-        for (final item in items)
-          BuildDropdownItemWidget(
-            value: itemLabelBuilder?.call(item) ?? item.toString(),
-            selectedValue: selectedValue?.toString() ?? '',
-            constraintSize: menuWidth,
-            textColor: textColorBuilder?.call(item),
-            onPressed: () {
-              onItemTap?.call(item);
-            },
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: MenuAnchor(
+        alignmentOffset: const Offset(0, 8),
+        style: MenuStyle(
+          backgroundColor: WidgetStatePropertyAll(colors.bg),
+          surfaceTintColor: WidgetStatePropertyAll(colors.transparent),
+          elevation: const WidgetStatePropertyAll(12),
+          shadowColor: WidgetStatePropertyAll(
+            colors.shadowColor.withValues(alpha: 0.3),
           ),
-      ],
-      builder: (context, controller, child) {
-        return MessIconButton(
-          svgAsset,
-          iconSize: iconSize,
-          buttonSize: buttonSize,
-          iconColor: iconColor,
-          borderWidth: borderWidth,
-          isButtonFilled: isButtonFilled,
-          onPressed: () =>
-              controller.isOpen ? controller.close() : controller.open(),
-        );
-      },
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          ),
+          minimumSize: WidgetStatePropertyAll(Size.zero),
+          maximumSize: WidgetStatePropertyAll(Size(320, 400)),
+        ),
+        menuChildren: [
+          for (final item in items)
+            BuildDropdownItemWidget(
+              value: itemLabelBuilder?.call(item) ?? item.toString(),
+              selectedValue: selectedValue?.toString() ?? '',
+              textColor: textColorBuilder?.call(item),
+              onPressed: () {
+                onItemTap?.call(item);
+              },
+            ),
+        ],
+        builder: (context, controller, child) {
+          return MessIconButton(
+            svgAsset,
+            iconSize: iconSize,
+            buttonSize: buttonSize,
+            iconColor: iconColor,
+            borderWidth: borderWidth,
+            isButtonFilled: isButtonFilled,
+            onPressed: () =>
+                controller.isOpen ? controller.close() : controller.open(),
+          );
+        },
+      ),
     );
   }
 }

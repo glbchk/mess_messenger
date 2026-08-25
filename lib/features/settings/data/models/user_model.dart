@@ -13,6 +13,7 @@ class UserModel {
   final String? pendingEmail;
   final String? phoneNumber;
   final String? birthday;
+  final String? avatarUrl;
   // final bool isOnboardingCompleted;
   final GeneralSettingsModel? generalSettings;
   final PersonalizationSettingsModel? personalizationSettings;
@@ -28,6 +29,7 @@ class UserModel {
     this.pendingEmail,
     this.phoneNumber,
     this.birthday,
+    this.avatarUrl,
     // required this.isOnboardingCompleted,
     this.generalSettings,
     this.personalizationSettings,
@@ -49,6 +51,7 @@ class UserModel {
       name: name,
       phoneNumber: '',
       birthday: '',
+      avatarUrl: '',
       generalSettings: GeneralSettingsModel.defaults(),
       personalizationSettings: PersonalizationSettingsModel.defaults(),
       subscriptionPlan: SubscriptionPlan.free,
@@ -66,6 +69,7 @@ class UserModel {
       pendingEmail: json['pending_email'] ?? '',
       phoneNumber: json['phone_number'] ?? '',
       birthday: json['birthday'] ?? '',
+      avatarUrl: json['avatar_url'] ?? '',
       // isOnboardingCompleted: json['is_onboarding_completed'],
       generalSettings: json['general_settings'] != null
           ? GeneralSettingsModel.fromJson(json['general_settings'])
@@ -75,7 +79,14 @@ class UserModel {
               json['personalization_settings'],
             )
           : null,
-      subscriptionPlan: json['subscription_plan'] ?? SubscriptionPlan.free,
+      subscriptionPlan: () {
+        final raw = json['subscription_plan'] as String?;
+        if (raw == null) return SubscriptionPlan.free;
+        return SubscriptionPlan.values.firstWhere(
+          (e) => e.name == raw || e.toString() == raw,
+          orElse: () => SubscriptionPlan.free,
+        );
+      }(),
       notificationSettings: json['notification_settings'] != null
           ? NotificationSettingsModel.fromJson(json['notification_settings'])
           : null,
@@ -92,10 +103,11 @@ class UserModel {
       'pending_email': pendingEmail,
       'phone_number': phoneNumber,
       'birthday': birthday,
+      'avatar_url': avatarUrl,
       // 'is_onboarding_completed': isOnboardingCompleted,
       'general_settings': generalSettings?.toJson(),
       'personalization_settings': personalizationSettings?.toJson(),
-      'subscription_plan': subscriptionPlan?.toString(),
+      'subscription_plan': subscriptionPlan?.name,
       'notification_settings': notificationSettings?.toJson(),
     };
   }
@@ -110,6 +122,7 @@ class UserModel {
       pendingEmail: entity.pendingEmail ?? '',
       phoneNumber: entity.phoneNumber ?? '',
       birthday: entity.birthday ?? '',
+      avatarUrl: entity.avatarUrl ?? '',
       // isOnboardingCompleted: entity.isOnboardingCompleted,
       generalSettings: entity.generalSettings,
       personalizationSettings: entity.personalizationSettings,
@@ -127,6 +140,7 @@ class UserModel {
     String? pendingEmail,
     String? phoneNumber,
     String? birthday,
+    String? avatarUrl,
     bool? isOnboardingCompleted,
     GeneralSettingsModel? generalSettings,
     PersonalizationSettingsModel? personalizationSettings,
@@ -142,6 +156,7 @@ class UserModel {
       pendingEmail: pendingEmail ?? this.pendingEmail,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       birthday: birthday ?? this.birthday,
+      avatarUrl: avatarUrl ?? this.avatarUrl,
       // isOnboardingCompleted:
       //     isOnboardingCompleted ?? this.isOnboardingCompleted,
       generalSettings: generalSettings ?? this.generalSettings,
@@ -164,6 +179,7 @@ class UserModel {
         other.pendingEmail == pendingEmail &&
         other.phoneNumber == phoneNumber &&
         other.birthday == birthday &&
+        other.avatarUrl == avatarUrl &&
         other.generalSettings == generalSettings &&
         other.personalizationSettings == personalizationSettings &&
         other.subscriptionPlan == subscriptionPlan &&
@@ -180,6 +196,7 @@ class UserModel {
     pendingEmail,
     phoneNumber,
     birthday,
+    avatarUrl,
     generalSettings,
     personalizationSettings,
     subscriptionPlan,

@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mess_messenger_app/core/providers/firebase_provider.dart';
 import 'package:mess_messenger_app/features/auth/data/auth_repositories_impl/auth_repository_impl.dart';
 import 'package:mess_messenger_app/features/auth/data/data_source/auth_local_data_source.dart';
 import 'package:mess_messenger_app/features/auth/data/data_source/auth_remote_data_source.dart';
@@ -7,7 +8,6 @@ import 'package:mess_messenger_app/features/auth/domain/auth_use_cases/auth_use_
 import 'package:mess_messenger_app/features/auth/presentation/notifiers/auth_notifier.dart';
 import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.dart';
 import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
-import 'package:mess_messenger_app/providers/firebase_provider.dart';
 
 final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>((ref) {
   final auth = ref.read(firebaseAuthProvider);
@@ -69,11 +69,6 @@ final sendPasswordResetUseCaseProvider = Provider<SendPasswordResetUseCase>((
   return SendPasswordResetUseCase(authRepo);
 });
 
-final logoutUseCaseProvider = Provider<LogoutUserUseCase>((ref) {
-  final authRepo = ref.read(authRepositoryProvider);
-  return LogoutUserUseCase(authRepo);
-});
-
 final linkEmailPasswordUseCaseProvider = Provider<LinkEmailPasswordUseCase>((
   ref,
 ) {
@@ -105,3 +100,14 @@ final postSignOutMessageProvider =
     NotifierProvider<PostSignOutMessageNotifier, String?>(
       PostSignOutMessageNotifier.new,
     );
+
+final logoutUseCaseProvider = Provider<LogoutUserUseCase>((ref) {
+  final authRepo = ref.read(authRepositoryProvider);
+  return LogoutUserUseCase(authRepo);
+});
+
+final logoutFromAllDevicesUseCaseProvider =
+    Provider<LogoutFromAllDevicesUseCase>((ref) {
+      final authRepo = ref.read(authRepositoryProvider);
+      return LogoutFromAllDevicesUseCase(authRepo);
+    });

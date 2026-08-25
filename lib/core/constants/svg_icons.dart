@@ -44,4 +44,7 @@ abstract final class SvgIcons {
       'assets/icons/settings/information_filled.svg';
   static const String copy = 'assets/icons/settings/copy.svg';
   static const String calendar = 'assets/icons/settings/calendar.svg';
+  static const String chat = 'assets/icons/settings/chat.svg';
+  static const String help = 'assets/icons/settings/help.svg';
+  static const String close = 'assets/icons/settings/close.svg';
 }

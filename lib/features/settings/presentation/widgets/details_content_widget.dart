@@ -4,13 +4,21 @@ import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon_button.dart';
 import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
+import 'package:mess_messenger_app/features/settings/presentation/widgets/tag_widget.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class SupportRequest {
-  final String name;
-  final String date;
+  final String? id;
+  final String? date;
+  final String question;
+  final String answer;
 
-  SupportRequest({required this.name, required this.date});
+  SupportRequest({
+    this.id,
+    this.date,
+    required this.question,
+    required this.answer,
+  });
 }
 
 class DetailsContentWidget extends StatelessWidget {
@@ -23,6 +31,7 @@ class DetailsContentWidget extends StatelessWidget {
   final List<String>? tags;
   final List<String>? assigned;
   final List<SupportRequest>? pastRequests;
+  final ValueChanged<SupportRequest>? onSelectRequest;
 
   const DetailsContentWidget({
     super.key,
@@ -35,6 +44,7 @@ class DetailsContentWidget extends StatelessWidget {
     this.tags,
     this.assigned,
     this.pastRequests,
+    this.onSelectRequest,
   });
 
   @override
@@ -51,7 +61,7 @@ class DetailsContentWidget extends StatelessWidget {
 
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 12,
+
         children: [
           Row(
             children: [
@@ -74,12 +84,13 @@ class DetailsContentWidget extends StatelessWidget {
                 ),
             ],
           ),
+          AppSpacing.p16.gapV,
 
           Row(
             spacing: 4,
             children: [
               if (tags?.isNotEmpty ?? false) ...[
-                for (final tag in tags ?? <String>[]) Chip(label: Text(tag)),
+                for (final tag in tags ?? <String>[]) TagWidget(label: tag),
               ],
             ],
           ),
@@ -98,7 +109,7 @@ class DetailsContentWidget extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: CircleAvatar(
-                        radius: 18,
+                        radius: 16,
                         backgroundColor: colors.textInverse,
                         child: Text(entry.value.substring(0, 1)),
                       ),
@@ -147,23 +158,31 @@ class DetailsContentWidget extends StatelessWidget {
           ],
 
           if (pastRequests?.isNotEmpty ?? false) ...[
-            Row(
-              spacing: 12,
-              children: [
-                MessIconButton(SvgIcons.send),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 2,
+            for (final request in pastRequests ?? <SupportRequest>[])
+              InkWell(
+                onTap: () => onSelectRequest?.call(request),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  spacing: 12,
                   children: [
-                    Text('How to restore a deleted conversation?'),
-                    Text('Help from support community'),
+                    MessIconButton(SvgIcons.chat),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: 2,
+                        children: [
+                          Text(request.answer),
+                          Text(request.question),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ],
-            ),
+              ),
           ],
 
-          AppSpacing.p28.gapV,
+          AppSpacing.p36.gapV,
         ],
       ),
     );

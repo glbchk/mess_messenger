@@ -12,6 +12,7 @@ class UserEntity {
   final String? pendingEmail;
   final String? phoneNumber;
   final String? birthday;
+  final String? avatarUrl;
   final bool isOnboardingCompleted;
   final String? language;
   final GeneralSettingsModel? generalSettings;
@@ -28,6 +29,7 @@ class UserEntity {
     this.pendingEmail,
     this.phoneNumber,
     this.birthday,
+    this.avatarUrl,
     required this.isOnboardingCompleted,
     this.language,
     this.generalSettings,

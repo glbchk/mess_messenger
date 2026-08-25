@@ -16,6 +16,14 @@ class FetchUserDataUseCase extends UserUseCase {
   }
 }
 
+class UpdateAvatarUseCase extends UserUseCase {
+  UpdateAvatarUseCase(super.userRepository);
+
+  Future<void> execute(String userId, String? avatarUrl) {
+    return userRepository.updateAvatar(userId, avatarUrl);
+  }
+}
+
 class UpdateIsLoggedInUseCase extends UserUseCase {
   UpdateIsLoggedInUseCase(super.userRepository);
 

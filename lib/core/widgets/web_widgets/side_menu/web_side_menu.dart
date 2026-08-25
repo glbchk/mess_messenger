@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/build_header_widget.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/build_menu_item_widget.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/menu_entry.dart';
-import 'package:mess_messenger_app/features/chats/presentation/pages/chats_page.dart';
-import 'package:mess_messenger_app/features/contacts/presentation/pages/contacts_page.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/settings_page.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 
 class WebSideMenu extends StatefulWidget {
@@ -43,9 +41,7 @@ class _WebSideMenuState extends State<WebSideMenu>
         iconPath: SvgIcons.chats,
         label: l10n.chats,
         onTap: () {
-          Navigator.of(
-            context,
-          ).push(MaterialPageRoute(builder: (context) => const ChatsPage()));
+          context.go('/chats');
         },
       ),
       MenuItem(
@@ -59,9 +55,7 @@ class _WebSideMenuState extends State<WebSideMenu>
         iconPath: SvgIcons.contacts,
         label: l10n.contacts,
         onTap: () {
-          Navigator.of(
-            context,
-          ).push(MaterialPageRoute(builder: (context) => const ContactsPage()));
+          context.go('/contacts');
         },
       ),
       const FlexSpacer(),
@@ -82,9 +76,7 @@ class _WebSideMenuState extends State<WebSideMenu>
         iconPath: SvgIcons.settings,
         label: l10n.settings,
         onTap: () {
-          Navigator.of(
-            context,
-          ).push(MaterialPageRoute(builder: (context) => const SettingsPage()));
+          context.go('/settings');
         },
       ),
       const ColumnExtension(),
@@ -137,8 +129,9 @@ class _WebSideMenuState extends State<WebSideMenu>
                         children: [
                           UserAvatarWidget(
                             userName:
-                                widget.userData.email ?? 'Joe Doe', //'Joe Doe',
+                                widget.userData.name ?? 'Joe Doe', //'Joe Doe',
                             photoPath:
+                                widget.userData.avatarUrl ??
                                 'assets/images/user_images/avatar_image.png',
                           ),
                           if (_isExpanded) AppSpacing.p12.gapH,

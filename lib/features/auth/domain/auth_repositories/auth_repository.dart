@@ -14,4 +14,5 @@ abstract class AuthRepository {
     required String currentPassword,
   });
   Future<void> logout();
+  Future<void> logoutFromAllDevices();
 }

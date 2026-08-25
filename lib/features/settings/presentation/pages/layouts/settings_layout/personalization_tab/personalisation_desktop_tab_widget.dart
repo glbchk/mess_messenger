@@ -90,7 +90,7 @@ class _PersonalisationDesktopTabWidgetState
                   child: BuildTitleWidget(title: 'Theme'),
                 ),
                 DropdownMenuWidget(
-                  languages: ['System Default', 'Light', 'Dark'],
+                  values: ['System Default', 'Light', 'Dark'],
                   value: themeModeToLabel(currentThemeMode),
                   constraintSize: fieldsWidth,
                   onChanged: (selectedTheme) {
@@ -157,7 +157,7 @@ class _PersonalisationDesktopTabWidgetState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     DropdownMenuWidget(
-                      languages: ['100%', '80%', '60%'],
+                      values: ['100%', '80%', '60%'],
                       value: '100%',
                       constraintSize: fieldsWidth,
                       onChanged: (selectedTheme) {

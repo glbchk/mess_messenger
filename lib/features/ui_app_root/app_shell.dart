@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mess_messenger_app/core/providers/global_providers.dart';
 import 'package:mess_messenger_app/core/widgets/mobile_widgets/navigation_bar/mobile_navigation_bar.dart';
 import 'package:mess_messenger_app/features/chats/presentation/pages/chats_page.dart';
 import 'package:mess_messenger_app/features/contacts/presentation/pages/contacts_page.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/settings_page.dart';
 import 'package:mess_messenger_app/features/settings/presentation/states/user_state.dart';
 import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
-import 'package:mess_messenger_app/providers/global_providers.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+const _shellTabNames = ['chats', 'calls', 'contacts'];
+
 class AppShell extends ConsumerStatefulWidget {
-  const AppShell({super.key});
+  final String initialTab;
+  const AppShell({super.key, this.initialTab = 'chats'});
 
   @override
   ConsumerState<AppShell> createState() => _AppShellState();
@@ -18,7 +21,9 @@ class AppShell extends ConsumerStatefulWidget {
 
 class _AppShellState extends ConsumerState<AppShell>
     with WidgetsBindingObserver {
-  int _selectedIndex = 0;
+  late int _selectedIndex = _shellTabNames
+      .indexOf(widget.initialTab)
+      .clamp(0, _shellTabNames.length - 1);
 
   @override
   void initState() {
@@ -48,13 +53,9 @@ class _AppShellState extends ConsumerState<AppShell>
 
   void _onItemTapped(int index) {
     if (index == 3) {
-      Navigator.of(
-        context,
-      ).push(MaterialPageRoute(builder: (context) => const SettingsPage()));
+      context.go('/settings');
     } else {
-      setState(() {
-        _selectedIndex = index;
-      });
+      context.go('/${_shellTabNames[index]}');
     }
   }
 

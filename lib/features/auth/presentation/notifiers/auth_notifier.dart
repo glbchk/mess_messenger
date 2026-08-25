@@ -227,6 +227,13 @@ class AuthNotifier extends Notifier<AuthState> {
     }
   }
 
+  void clearErrorMessage() {
+    final s = state;
+    if (s is AuthUnauthenticated) {
+      state = s.copyWith(errorMessage: () => null);
+    }
+  }
+
   Future<void> logout() async {
     try {
       await ref.read(logoutUseCaseProvider).execute();
@@ -236,10 +243,12 @@ class AuthNotifier extends Notifier<AuthState> {
     }
   }
 
-  void clearErrorMessage() {
-    final s = state;
-    if (s is AuthUnauthenticated) {
-      state = s.copyWith(errorMessage: () => null);
+  Future<void> logoutFromAllDevices() async {
+    try {
+      await ref.read(logoutFromAllDevicesUseCaseProvider).execute();
+      state = AuthUnauthenticated();
+    } catch (e) {
+      state = AuthError(e.toString());
     }
   }
 }

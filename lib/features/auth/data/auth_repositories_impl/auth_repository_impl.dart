@@ -93,4 +93,10 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> logout() async {
     await authRemoteDataSource.logout();
   }
+
+  @override
+  Future<void> logoutFromAllDevices() async {
+    await authRemoteDataSource.logoutFromAllDevices();
+    await authRemoteDataSource.logout();
+  }
 }

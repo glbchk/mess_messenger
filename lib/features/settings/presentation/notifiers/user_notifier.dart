@@ -2,15 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mess_messenger_app/core/enums/enums.dart';
 import 'package:mess_messenger_app/core/errors/auth_failure.dart';
+import 'package:mess_messenger_app/core/providers/cloudinary_provider.dart';
+import 'package:mess_messenger_app/core/providers/firebase_provider.dart';
+import 'package:mess_messenger_app/core/providers/global_providers.dart';
 import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
 import 'package:mess_messenger_app/features/settings/data/models/general_settings_model.dart';
 import 'package:mess_messenger_app/features/settings/data/models/personalization_settings_model.dart';
 import 'package:mess_messenger_app/features/settings/presentation/states/user_state.dart';
 import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
-import 'package:mess_messenger_app/providers/firebase_provider.dart';
-import 'package:mess_messenger_app/providers/global_providers.dart';
 import 'package:mess_messenger_app/theme/providers/theme_provider.dart';
 
 class UserNotifier extends Notifier<UserState> {
@@ -45,7 +47,36 @@ class UserNotifier extends Notifier<UserState> {
         await checkEmailVerificationStatus();
       }
     } catch (e) {
+      print('DEBUG: fetchUserData FAILED: $e');
       state = state.copyWith(isLoading: false, error: () => e.toString());
+    }
+  }
+
+  Future<void> updateAvatar(XFile imageFile) async {
+    final userId = ref.read(currentUserIdProvider);
+    if (userId == null) return;
+    final previousUser = state.userData;
+    if (previousUser == null) return;
+
+    try {
+      final bytes = await imageFile.readAsBytes();
+      final cloudinaryService = ref.read(cloudinaryServiceProvider);
+      final downloadUrl = await cloudinaryService.uploadImage(
+        bytes,
+        publicId: 'avatars/$userId-${DateTime.now().millisecondsSinceEpoch}',
+        filename: imageFile.name,
+      );
+
+      state = state.copyWith(
+        userData: previousUser.copyUserWith(avatarUrl: downloadUrl),
+      );
+
+      final useCase = ref.read(updateAvatarUseCaseProvider);
+      await useCase.execute(userId, downloadUrl);
+    } catch (e) {
+      // Roll back on failure
+      state = state.copyWith(userData: previousUser);
+      rethrow; // let the UI show an error if it wants to
     }
   }
 

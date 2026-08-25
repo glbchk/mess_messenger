@@ -4,7 +4,7 @@ import 'package:mess_messenger_app/core/constants/svg_icons.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/notification_tab/notification_desktop_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/notification_tab/notification_desktop_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/widgets/notification_selector.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';

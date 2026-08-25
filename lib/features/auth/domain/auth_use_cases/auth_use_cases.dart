@@ -84,3 +84,11 @@ class LogoutUserUseCase extends AuthUserUseCase {
     return authRepository.logout();
   }
 }
+
+class LogoutFromAllDevicesUseCase extends AuthUserUseCase {
+  LogoutFromAllDevicesUseCase(super.authRepository);
+
+  Future<void> execute() {
+    return authRepository.logoutFromAllDevices();
+  }
+}

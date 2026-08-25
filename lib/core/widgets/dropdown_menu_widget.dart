@@ -5,14 +5,14 @@ import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpe
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class DropdownMenuWidget extends StatefulWidget {
-  final List<String> languages;
+  final List<String> values;
   final String value;
   final ValueChanged<String> onChanged;
   final double constraintSize;
 
   const DropdownMenuWidget({
     super.key,
-    required this.languages,
+    required this.values,
     required this.value,
     required this.onChanged,
     this.constraintSize = 288,
@@ -51,11 +51,10 @@ class _DropdownMenuWidgetState extends State<DropdownMenuWidget> {
         ),
 
         menuChildren: [
-          for (final language in widget.languages)
+          for (final language in widget.values)
             BuildDropdownItemWidget(
               value: language,
               selectedValue: widget.value,
-              constraintSize: widget.constraintSize,
               onPressed: () {
                 widget.onChanged(language);
                 _menuController.close();

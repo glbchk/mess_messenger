@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mess_messenger_app/core/constants/support_faq_list.dart';
 import 'package:mess_messenger_app/features/chats/chats_providers/open_chat_provider.dart';
 import 'package:mess_messenger_app/features/chats/data/models/message_model.dart';
 import 'package:mess_messenger_app/features/chats/presentation/states/open_chat_state.dart';
@@ -50,5 +51,28 @@ class OpenChatNotifier extends Notifier<OpenChatState> {
     );
 
     await ref.read(sendMessageUseCaseProvider).execute(message);
+  }
+
+  Future<void> sendFaqExchange(String userId, SupportFaqItem item) async {
+    await sendMessage(userId, item.question);
+    await sendMessage(kFaqBotSenderId, item.answer);
+  }
+
+  Future<void> sendUserMessage(String userId, String text) async {
+    final trimmed = text.trim();
+    if (trimmed.isEmpty) return;
+
+    await sendMessage(userId, trimmed);
+
+    final match = findMatchingFaq(trimmed);
+    if (match != null) {
+      await sendMessage(kFaqBotSenderId, match.answer);
+    } else {
+      await sendMessage(
+        kFaqBotSenderId,
+        "I couldn't find an answer to that. You can reach our support "
+        "team directly at support@yourapp.com and we'll get back to you.",
+      );
+    }
   }
 }

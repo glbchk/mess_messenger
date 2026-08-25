@@ -75,7 +75,7 @@ class _PersonalisationMobileTabWidgetState
             BuildTitleWidget(title: 'Theme'),
             AppSpacing.p12.gapV,
             DropdownMenuWidget(
-              languages: ['System Default', 'Light', 'Dark'],
+              values: ['System Default', 'Light', 'Dark'],
               constraintSize: 400,
               value: themeModeToLabel(currentThemeMode),
               // constraintSize: bp.screenWidth * 0.8,
@@ -112,7 +112,7 @@ class _PersonalisationMobileTabWidgetState
             BuildTitleWidget(title: 'Text size'),
             AppSpacing.p12.gapV,
             DropdownMenuWidget(
-              languages: ['100%', '80%', '60%'],
+              values: ['100%', '80%', '60%'],
               constraintSize: 400,
               value: '100%',
               // constraintSize: bp.screenWidth * 0.8,

@@ -32,6 +32,11 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
+  Future<void> updateAvatar(String userId, String? avatarUrl) async {
+    return await userRemoteDataSource.updateAvatar(userId, avatarUrl);
+  }
+
+  @override
   Future<void> updateIsLoggedIn(String userId, bool isLoggedIn) async {
     return await userRemoteDataSource.updateIsLoggedIn(userId, isLoggedIn);
   }

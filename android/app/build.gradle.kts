@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.messmessenger.mess_messenger_app"
+    namespace = "com.mess_messenger"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -26,7 +26,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.messmessenger.mess_messenger_app"
+        applicationId = "com.mess_messenger"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion

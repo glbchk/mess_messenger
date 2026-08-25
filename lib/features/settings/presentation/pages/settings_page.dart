@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/utils/layouts/responsive_layout_wrapper.dart';
+import 'package:mess_messenger_app/core/widgets/mess_alert.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_desktop_layout.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_mobile_layout.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_tablet_layout.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/settings_desktop_layout.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/settings_mobile_layout.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/settings_tablet_layout.dart';
 import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+const _settingsTabNames = [
+  'general',
+  'account',
+  'personalisation',
+  'billing',
+  'notifications',
+  'api',
+];
+
 class SettingsPage extends ConsumerStatefulWidget {
-  const SettingsPage({super.key});
+  final String? initialTab;
+  const SettingsPage({super.key, this.initialTab});
 
   @override
   ConsumerState<SettingsPage> createState() => _SettingsPageState();
@@ -28,11 +41,44 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
   late final TextEditingController currentPasswordController;
   late final TextEditingController newPasswordController;
 
+  void _showChangeAvatarDialog() {
+    //TODO: Still need to fix, errors are not displaying properly and also it saves anything now
+
+    MessAlertWidget.show(
+      context: context,
+      ref: ref,
+      title: 'Change your avatar',
+      message: 'Take a picture or select one of your existing pictures.',
+      buttonLabel: 'Take a picture',
+      secondaryButtonLabel: 'Select photo',
+      onConfirmWithImage: (XFile? selectedImage) async {
+        if (selectedImage == null) return;
+        await ref
+            .read(userNotifierProvider.notifier)
+            .updateAvatar(selectedImage);
+      },
+      onSecondaryPressed: () async {},
+      pictureSelectorEnabled: true,
+    );
+  }
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    tabController = TabController(length: 6, vsync: this);
+    final initialIndex = _settingsTabNames.indexOf(
+      widget.initialTab ?? 'general',
+    );
+    tabController = TabController(
+      length: 6,
+      vsync: this,
+      initialIndex: initialIndex == -1 ? 0 : initialIndex,
+    );
+    tabController.addListener(() {
+      if (!tabController.indexIsChanging) {
+        context.go('/settings/${_settingsTabNames[tabController.index]}');
+      }
+    });
 
     final currentUserData = ref.read(userNotifierProvider).userData;
 
@@ -92,29 +138,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
       }
     });
 
-    Future<void> openChattingPage() async {
-      // final currentUserId = ref.read(userNotifierProvider).userData?.id;
-      // if (currentUserId == null) return;
-      //
-      // const otherUserId =
-      //     'nBEcLiKmQER28aVpq0BlCC3b25Y2'; // the second test user
-      //
-      // final chatId = await ref
-      //     .read(getOrCreateChatUseCaseProvider)
-      //     .execute(currentUserId, otherUserId);
-      // print('DEBUG: chatId = $chatId');
-      //
-      // if (!context.mounted) return;
-      //
-      // if (bp.isMobile) {
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(builder: (_) => MobileOpenChatPage(chatId: chatId)),
-      //   );
-      // } else {
-      //   ref.read(selectedChatIdProvider.notifier).state = chatId;
-      // }
-    }
+    Future<void> openChattingPage() async {}
 
     return ResponsiveLayout(
       mobile: SettingsMobileLayout(
@@ -129,6 +153,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
         phoneNumberController: phoneNumberController,
         newPasswordController: newPasswordController,
         currentPasswordController: currentPasswordController,
+        onPressedChangeAvatar: _showChangeAvatarDialog,
       ),
       tablet: SettingsTabletLayout(
         l10n: l10n,
@@ -142,6 +167,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
         phoneNumberController: phoneNumberController,
         newPasswordController: newPasswordController,
         currentPasswordController: currentPasswordController,
+        onPressedChangeAvatar: _showChangeAvatarDialog,
       ),
       desktop: SettingsDesktopLayout(
         l10n: l10n,
@@ -155,6 +181,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
         phoneNumberController: phoneNumberController,
         newPasswordController: newPasswordController,
         currentPasswordController: currentPasswordController,
+        onPressedChangeAvatar: _showChangeAvatarDialog,
       ),
     );
   }

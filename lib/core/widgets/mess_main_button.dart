@@ -21,6 +21,7 @@ class MessMainButton extends StatelessWidget {
   final Color? backgroundColor;
   final Color? hoverColor;
   final Color? buttonShadow;
+  final Color? borderColor;
 
   const MessMainButton({
     super.key,
@@ -40,6 +41,7 @@ class MessMainButton extends StatelessWidget {
     this.backgroundColor,
     this.hoverColor,
     this.buttonShadow,
+    this.borderColor,
   });
 
   @override
@@ -50,7 +52,21 @@ class MessMainButton extends StatelessWidget {
     return Container(
       width: width ?? double.infinity,
       height: height ?? 48,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(32)),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(32),
+        border: borderColor != null
+            ? Border.all(color: borderColor ?? colors.text1, width: 1)
+            : null,
+        boxShadow: [
+          if (buttonShadow != null)
+            BoxShadow(
+              color: buttonShadow?.withValues(alpha: 0.1) ?? colors.text1,
+              spreadRadius: 4, // Extends the shadow past the box
+              blurRadius: 6, // Softens the shadow
+              offset: const Offset(0, 2), // Moves shadow x-axis and y-axis
+            ),
+        ],
+      ),
       child: FilledButton(
         onPressed: onPressed,
         style: ButtonStyle(

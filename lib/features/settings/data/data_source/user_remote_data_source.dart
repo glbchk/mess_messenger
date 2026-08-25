@@ -25,6 +25,12 @@ class UserRemoteDataSource {
     return null;
   }
 
+  Future<void> updateAvatar(String userId, String? avatarUrl) async {
+    await firestore.collection('users').doc(userId).update({
+      'avatar_url': avatarUrl,
+    });
+  }
+
   Future<void> updateIsLoggedIn(String userId, bool isLoggedIn) async {
     await firestore.collection('users').doc(userId).update({
       'general_settings.is_logged_in': isLoggedIn,
@@ -139,7 +145,7 @@ class UserRemoteDataSource {
     SubscriptionPlan selectedPlan,
   ) async {
     await firestore.collection('users').doc(userId).update({
-      'subscription_plan': selectedPlan.toString(),
+      'subscription_plan': selectedPlan.name,
     });
   }
 }

@@ -26,6 +26,7 @@ class AccountMobileTabWidget extends ConsumerStatefulWidget {
   final TextEditingController phoneNumberController;
   final TextEditingController currentPasswordController;
   final TextEditingController newPasswordController;
+  final VoidCallback? onPressedDeleteAccount;
 
   const AccountMobileTabWidget({
     super.key,
@@ -38,6 +39,7 @@ class AccountMobileTabWidget extends ConsumerStatefulWidget {
     required this.phoneNumberController,
     required this.currentPasswordController,
     required this.newPasswordController,
+    this.onPressedDeleteAccount,
   });
 
   @override
@@ -309,6 +311,18 @@ class _AccountMobileTabWidgetState
               backgroundColor: colors.surface2,
               textColor: colors.text1,
               onPressed: _showChangePasswordDialog,
+            ),
+            AppSpacing.p24.gapV,
+            Text(
+              'Delete account',
+              style: textTheme.titleMedium?.copyWith(color: colors.text2),
+            ),
+            AppSpacing.p8.gapV,
+            MessMainButton(
+              label: 'Delete account',
+              backgroundColor: colors.errorColor,
+              textColor: colors.bg,
+              onPressed: widget.onPressedDeleteAccount,
             ),
             AppSpacing.p32.gapV,
           ],

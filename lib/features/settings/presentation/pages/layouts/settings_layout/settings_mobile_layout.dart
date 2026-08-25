@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/dropdown_menu/dropdown_item_action_model.dart';
 import 'package:mess_messenger_app/core/widgets/dropdown_menu/mess_icon_dropdown_button.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
 import 'package:mess_messenger_app/core/widgets/mobile_widgets/app_bar/mobile_app_bar.dart';
+import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/account_tab/account_mobile_tab_widget.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/api_tab/api_tab_widget.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/billing_tab/billing_mobile_tab_widget.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/general_tab/general_mobile_tab_widget.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/notification_tab/notification_mobile_tab_widget.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/personalization_tab/personalisation_mobile_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/account_tab/account_mobile_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/api_tab/api_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/billing_tab/billing_mobile_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/general_tab/general_mobile_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/notification_tab/notification_mobile_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/personalization_tab/personalisation_mobile_tab_widget.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
@@ -28,6 +30,7 @@ class SettingsMobileLayout extends ConsumerStatefulWidget {
   final TextEditingController phoneNumberController;
   final TextEditingController currentPasswordController;
   final TextEditingController newPasswordController;
+  final VoidCallback onPressedChangeAvatar;
 
   const SettingsMobileLayout({
     super.key,
@@ -42,6 +45,7 @@ class SettingsMobileLayout extends ConsumerStatefulWidget {
     required this.phoneNumberController,
     required this.currentPasswordController,
     required this.newPasswordController,
+    required this.onPressedChangeAvatar,
   });
 
   @override
@@ -78,25 +82,31 @@ class _SettingsMobileLayoutState extends ConsumerState<SettingsMobileLayout> {
             textColorBuilder: (item) => item.textColor,
             onItemTap: (item) => item.onTap(),
             items: [
-              DropdownItemAction(label: 'Change avatar', onTap: () {}),
-              DropdownItemAction(label: 'Export account data', onTap: () {}),
-              DropdownItemAction(label: 'Active sessions', onTap: () {}),
-              DropdownItemAction(label: 'Contact support', onTap: () {}),
               DropdownItemAction(
-                label: 'Delete account',
+                label: 'Change avatar',
+                onTap: widget.onPressedChangeAvatar,
+              ),
+              DropdownItemAction(label: 'Export account data', onTap: () {}),
+              DropdownItemAction(
+                label: 'Active sessions',
+                onTap: () async {
+                  await ref
+                      .read(authNotifierProvider.notifier)
+                      .logoutFromAllDevices();
+                },
+              ),
+              DropdownItemAction(
+                label: 'Contact support',
+                onTap: () {
+                  context.push('/support');
+                },
+              ),
+              DropdownItemAction(
+                label: 'Log out',
                 textColor: colors.errorColor,
-                onTap: () => _confirmDeleteAccount(),
+                onTap: () {},
               ),
             ],
-
-            // isButtonFilled: true,
-            // borderWidth: 0,
-            // // textColorBuilder: (item) {
-            // //   if (item == 'Delete account') {
-            // //     return colors.errorColor;
-            // //   }
-            // //   return null;
-            // // },
           ),
           AppSpacing.p16.gapH,
         ],
@@ -254,12 +264,18 @@ class _SettingsMobileLayoutState extends ConsumerState<SettingsMobileLayout> {
                   CircleAvatar(
                     radius: 48,
                     backgroundColor: colors.surface4,
-                    child: Text(
-                      widget.userData.name?.substring(0, 1) ?? '?',
-                      style: textTheme.displayMedium?.copyWith(
-                        color: colors.iconContrast,
-                      ),
-                    ),
+                    backgroundImage:
+                        (widget.userData.avatarUrl?.isNotEmpty ?? false)
+                        ? NetworkImage(widget.userData.avatarUrl!)
+                        : null,
+                    child: (widget.userData.avatarUrl?.isNotEmpty ?? false)
+                        ? null
+                        : Text(
+                            widget.userData.name?.substring(0, 1) ?? '?',
+                            style: textTheme.displayLarge?.copyWith(
+                              color: colors.iconContrast,
+                            ),
+                          ),
                   ),
                   Positioned(
                     right: -2,

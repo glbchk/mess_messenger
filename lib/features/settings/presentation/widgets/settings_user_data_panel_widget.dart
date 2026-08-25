@@ -12,15 +12,21 @@ import 'package:responsive_framework/responsive_framework.dart';
 class SettingsUserDataPanelWidget extends StatelessWidget {
   final AppLocalizations l10n;
   final UserModel userData;
+  final VoidCallback onPressedChangeAvatar;
+  final VoidCallback onPressedExportAccountData;
+  final VoidCallback onPressedContactSupport;
+  final VoidCallback onPressedTerminateAllActiveSessions;
   final VoidCallback onPressedLogout;
-  final bool isChangeApplied;
 
   const SettingsUserDataPanelWidget({
     super.key,
     required this.l10n,
     required this.userData,
+    required this.onPressedChangeAvatar,
+    required this.onPressedExportAccountData,
+    required this.onPressedTerminateAllActiveSessions,
+    required this.onPressedContactSupport,
     required this.onPressedLogout,
-    this.isChangeApplied = false,
   });
 
   @override
@@ -38,14 +44,14 @@ class SettingsUserDataPanelWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                userData.name ?? 'Sylvia Reyes',
+                userData.name ?? 'No Name',
                 style: textTheme.displaySmall?.copyWith(color: colors.text1),
               ),
 
               const SizedBox(height: 4),
 
               Text(
-                '+44656548060', //userData.phoneNumber ?? '+44656548060',
+                userData.phoneNumber ?? '+44656548060',
                 style: textTheme.headlineMedium?.copyWith(color: colors.text2),
               ),
             ],
@@ -78,15 +84,27 @@ class SettingsUserDataPanelWidget extends StatelessWidget {
                 textColorBuilder: (item) => item.textColor,
                 onItemTap: (item) => item.onTap(),
                 items: [
-                  DropdownItemAction(label: 'Change avatar', onTap: () {}),
+                  DropdownItemAction(
+                    label: 'Change avatar',
+                    onTap: onPressedChangeAvatar,
+                  ),
                   DropdownItemAction(
                     label: 'Export account data',
-                    onTap: () {},
+                    onTap: onPressedExportAccountData,
                   ),
-                  DropdownItemAction(label: 'Active sessions', onTap: () {}),
-                  DropdownItemAction(label: 'Contact support', onTap: () {}),
+                  DropdownItemAction(
+                    label: 'Contact support',
+                    onTap: onPressedContactSupport,
+                  ),
+                  DropdownItemAction(
+                    label: 'Terminate all active sessions',
+                    onTap: onPressedTerminateAllActiveSessions,
+                  ),
                   if (!bp.isDesktop)
-                    DropdownItemAction(label: 'Log out', onTap: () {}),
+                    DropdownItemAction(
+                      label: 'Log out',
+                      onTap: onPressedLogout,
+                    ),
                 ],
               ),
             ],

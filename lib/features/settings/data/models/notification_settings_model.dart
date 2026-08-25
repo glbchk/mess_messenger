@@ -46,18 +46,18 @@ class NotificationSettingsModel {
 
   factory NotificationSettingsModel.fromJson(Map<String, dynamic> json) {
     return NotificationSettingsModel(
-      communicationEmail: json['communication_email'],
-      communicationDesktop: json['communication_desktop'],
-      communicationPush: json['communication_push'],
-      reminderEmail: json['reminder_email'],
-      reminderDesktop: json['reminder_desktop'],
-      reminderPush: json['reminder_push'],
-      announcementEmail: json['announcement_email'],
-      announcementDesktop: json['announcement_desktop'],
-      announcementPush: json['announcement_push'],
-      tipsEmail: json['tips_email'],
-      tipsDesktop: json['tips_desktop'],
-      tipsPush: json['tips_push'],
+      communicationEmail: json['communication_email'] ?? true,
+      communicationDesktop: json['communication_desktop'] ?? true,
+      communicationPush: json['communication_push'] ?? true,
+      reminderEmail: json['reminder_email'] ?? true,
+      reminderDesktop: json['reminder_desktop'] ?? true,
+      reminderPush: json['reminder_push'] ?? true,
+      announcementEmail: json['announcement_email'] ?? true,
+      announcementDesktop: json['announcement_desktop'] ?? true,
+      announcementPush: json['announcement_push'] ?? true,
+      tipsEmail: json['tips_email'] ?? true,
+      tipsDesktop: json['tips_desktop'] ?? true,
+      tipsPush: json['tips_push'] ?? true,
     );
   }
 

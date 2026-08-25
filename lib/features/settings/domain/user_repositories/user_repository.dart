@@ -5,6 +5,7 @@ import 'package:mess_messenger_app/features/settings/domain/entities/user_entity
 abstract class UserRepository {
   Future<void> createUser(UserEntity user);
   Future<UserModel?> fetchUserData(String uid);
+  Future<void> updateAvatar(String userId, String? avatarUrl);
   Future<void> updateIsLoggedIn(String userId, bool isLoggedIn);
   Future<void> updateLanguage(String userId, String? language);
   Future<void> updateIsPhotoPasswordProtected(String userId, bool isProtected);

@@ -16,6 +16,9 @@ class UserAvatarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final textTheme = context.textStyles;
+    final hasPhoto = photoPath?.isNotEmpty ?? false;
+    final initial = userName.isNotEmpty ? userName.substring(0, 1) : '?';
 
     return Container(
       height: size ?? 48,
@@ -24,12 +27,24 @@ class UserAvatarWidget extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(30)),
         color: colors.surface4,
       ),
-      child: photoPath != null
-          ? Padding(
-              padding: const EdgeInsets.all(3.0),
-              child: ClipOval(child: Image.asset(photoPath ?? '')),
-            )
-          : Center(child: Text(userName.substring(0, 1))),
+      child: Padding(
+        padding: const EdgeInsets.all(3.0),
+        child: CircleAvatar(
+          radius: 96,
+          backgroundColor: colors.surface4,
+          backgroundImage: hasPhoto ? NetworkImage(photoPath ?? '') : null,
+          child: hasPhoto
+              ? null
+              : Center(
+                  child: Text(
+                    initial,
+                    style: textTheme.headlineLarge?.copyWith(
+                      color: colors.text1,
+                    ),
+                  ),
+                ),
+        ),
+      ),
     );
   }
 }

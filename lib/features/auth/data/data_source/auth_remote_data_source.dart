@@ -1,3 +1,4 @@
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -141,5 +142,14 @@ class AuthRemoteDataSource {
 
   Future<void> logout() async {
     return await auth.signOut();
+  }
+
+  Future<void> logoutFromAllDevices() async {
+    final result = await FirebaseFunctions.instance
+        .httpsCallable('logoutFromAllDevices')
+        .call();
+    if (result.data['success'] != true) {
+      throw Exception('Failed to revoke sessions');
+    }
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mess_messenger_app/core/widgets/web_widgets/desktop_header_widget.dart';
+import 'package:mess_messenger_app/core/widgets/web_widgets/desktop_chat_header_widget.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/web_input_bar.dart';
 import 'package:mess_messenger_app/features/chats/chats_providers/open_chat_provider.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
@@ -39,7 +39,7 @@ class ChatDetailPanel extends ConsumerWidget {
 
     return Column(
       children: [
-        DesktopHeaderWidget(
+        DesktopChatHeaderWidget(
           showBackButton: true,
           onBackButtonPressed: onBackButtonPressed,
           userData: userData,

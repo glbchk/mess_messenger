@@ -101,7 +101,7 @@ class _GeneralMobileTabWidgetState
             BuildTitleWidget(title: widget.l10n.language),
             AppSpacing.p12.gapV,
             DropdownMenuWidget(
-              languages: [
+              values: [
                 widget.l10n.systemDefault,
                 ...languages.map((l) => l.displayName),
               ],

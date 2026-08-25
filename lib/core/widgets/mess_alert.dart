@@ -1,8 +1,12 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
 import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
+import 'package:mess_messenger_app/features/settings/presentation/widgets/image_selector.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class MessAlertWidget extends ConsumerStatefulWidget {
@@ -20,6 +24,8 @@ class MessAlertWidget extends ConsumerStatefulWidget {
   final String? secondaryButtonLabel; // NEW — e.g. "Later"
   final VoidCallback? onSecondaryPressed; // NEW — defaults to just closing
   final Future<void> Function()? onConfirm;
+  final Future<void> Function(XFile? selectedImage)? onConfirmWithImage;
+  final bool? pictureSelectorEnabled;
 
   const MessAlertWidget({
     super.key,
@@ -37,6 +43,8 @@ class MessAlertWidget extends ConsumerStatefulWidget {
     this.secondaryButtonLabel,
     this.onSecondaryPressed,
     this.onConfirm,
+    this.onConfirmWithImage,
+    this.pictureSelectorEnabled = false,
   });
 
   static Future<void> show({
@@ -56,6 +64,8 @@ class MessAlertWidget extends ConsumerStatefulWidget {
     String? secondaryButtonLabel,
     VoidCallback? onSecondaryPressed,
     Future<void> Function()? onConfirm,
+    Future<void> Function(XFile? selectedImage)? onConfirmWithImage,
+    bool? pictureSelectorEnabled,
   }) {
     return showDialog(
       context: context,
@@ -77,6 +87,8 @@ class MessAlertWidget extends ConsumerStatefulWidget {
           if (dialogContext.mounted) Navigator.pop(dialogContext);
         },
         onConfirm: onConfirm,
+        onConfirmWithImage: onConfirmWithImage,
+        pictureSelectorEnabled: pictureSelectorEnabled,
       ),
     );
   }
@@ -90,6 +102,9 @@ class _MessAlertWidgetState extends ConsumerState<MessAlertWidget> {
   String? _error2;
   bool _isLoading = false;
 
+  Uint8List? _previewBytes;
+  final ImagePicker _picker = ImagePicker();
+
   @override
   void initState() {
     super.initState();
@@ -97,11 +112,10 @@ class _MessAlertWidgetState extends ConsumerState<MessAlertWidget> {
     _error2 = widget.textfield2Error;
   }
 
-  Future<void> _validateAndSubmit() async {
+  bool _validateFields() {
     final val1 = widget.textfieldController?.text.trim() ?? '';
     final val2 = widget.textfield2Controller?.text.trim() ?? '';
 
-    // Reset local errors before validating
     setState(() {
       _error1 = null;
       _error2 = null;
@@ -109,49 +123,85 @@ class _MessAlertWidgetState extends ConsumerState<MessAlertWidget> {
 
     bool isValid = true;
 
-    // 1. First field validation
     if (widget.textfieldController != null && val1.isEmpty) {
       _error1 = 'This field is required';
       isValid = false;
     }
 
-    // 2. Second field validation
     if (widget.textfield2Controller != null) {
       if (val2.isEmpty) {
         _error2 = 'This field is required';
         isValid = false;
       } else if (widget.textfieldController != null && val1 == val2) {
-        // Same password check
         _error2 = 'New password cannot be the same as current password';
         isValid = false;
       }
     }
 
-    if (!isValid) {
-      setState(() {});
-      return;
-    }
+    if (!isValid) setState(() {});
+    return isValid;
+  }
 
-    // 3. Perform confirm action if validation passes
+  Future<void> _submit(Future<void> Function() action) async {
     try {
       setState(() => _isLoading = true);
-      await widget.onConfirm?.call();
+      await action();
       if (mounted) Navigator.pop(context);
     } catch (e) {
       if (mounted) {
         setState(() {
           _isLoading = false;
-          // Display API / Auth exception message in dialog
           _error1 = e.toString().replaceAll('Exception: ', '');
         });
       }
     }
   }
 
+  Future<void> _handleConfirm() async {
+    if (!_validateFields()) return;
+    await _submit(() => widget.onConfirm?.call() ?? Future.value());
+  }
+
+  Future<void> _handleImagePick(ImageSource source) async {
+    final XFile? pickedFile = await _picker.pickImage(source: source);
+    if (pickedFile == null) return;
+    final bytes = await pickedFile.readAsBytes();
+    setState(() => _previewBytes = bytes);
+    await _submit(
+      () => widget.onConfirmWithImage?.call(pickedFile) ?? Future.value(),
+    );
+  }
+
+  // Widget _buildImagePreview(dynamic colors) {
+  //   return Column(
+  //     children: [
+  //       Container(
+  //         height: 120,
+  //         width: 120,
+  //         decoration: BoxDecoration(
+  //           color: colors.componentSpecific ?? Colors.grey[200],
+  //           shape: BoxShape.circle,
+  //           image: _selectedImage != null
+  //               ? DecorationImage(
+  //                   image: FileImage(_selectedImage!),
+  //                   fit: BoxFit.cover,
+  //                 )
+  //               : null,
+  //         ),
+  //         child: _selectedImage == null
+  //             ? const Icon(Icons.add_a_photo, size: 40, color: Colors.grey)
+  //             : null,
+  //       ),
+  //       const SizedBox(height: 20),
+  //     ],
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final textTheme = context.textStyles;
+    final isPictureMode = widget.pictureSelectorEnabled ?? false;
 
     return AlertDialog(
       backgroundColor: colors.bg,
@@ -183,7 +233,7 @@ class _MessAlertWidgetState extends ConsumerState<MessAlertWidget> {
               ],
             ),
           ),
-          // Only render the password field(s) if a controller was actually given
+          if (isPictureMode) ImageSelector(imageBytes: _previewBytes),
           if (widget.textfieldController != null) ...[
             MessTextField(
               label: widget.textfieldLabel ?? 'Label',
@@ -212,22 +262,47 @@ class _MessAlertWidgetState extends ConsumerState<MessAlertWidget> {
           ],
         ],
       ),
-      actions: [
-        if (widget.textfieldController != null)
-          MessMainButton(
-            label: _isLoading ? 'Saving...' : (widget.buttonLabel ?? 'Confirm'),
-            onPressed: _isLoading ? null : _validateAndSubmit,
-          ),
-        if (widget.secondaryButtonLabel != null) ...[
-          AppSpacing.p16.gapV,
-          MessMainButton(
-            label: widget.secondaryButtonLabel ?? '',
-            backgroundColor: colors.surface2,
-            textColor: colors.text1,
-            onPressed: widget.onSecondaryPressed,
-          ),
-        ],
-      ],
+      actions: isPictureMode
+          ? [
+              MessMainButton(
+                label: _isLoading
+                    ? 'Saving...'
+                    : (widget.buttonLabel ?? 'Take a picture'),
+                onPressed: _isLoading
+                    ? null
+                    : () => _handleImagePick(ImageSource.camera),
+              ),
+              if (widget.secondaryButtonLabel != null) ...[
+                AppSpacing.p16.gapV,
+                MessMainButton(
+                  label: widget.secondaryButtonLabel!,
+                  backgroundColor: colors.surface2,
+                  textColor: colors.text1,
+                  onPressed: _isLoading
+                      ? null
+                      : () => _handleImagePick(ImageSource.gallery),
+                ),
+              ],
+            ]
+          : [
+              if (widget.textfieldController != null ||
+                  widget.onConfirm != null)
+                MessMainButton(
+                  label: _isLoading
+                      ? 'Saving...'
+                      : (widget.buttonLabel ?? 'Confirm'),
+                  onPressed: _isLoading ? null : _handleConfirm,
+                ),
+              if (widget.secondaryButtonLabel != null) ...[
+                AppSpacing.p16.gapV,
+                MessMainButton(
+                  label: widget.secondaryButtonLabel!,
+                  backgroundColor: colors.surface2,
+                  textColor: colors.text1,
+                  onPressed: widget.onSecondaryPressed,
+                ),
+              ],
+            ],
     );
   }
 }

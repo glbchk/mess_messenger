@@ -6,13 +6,13 @@ import 'package:mess_messenger_app/core/widgets/web_widgets/web_ui_helpers/build
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
-class DesktopHeaderWidget extends StatelessWidget {
+class DesktopChatHeaderWidget extends StatelessWidget {
   final UserModel userData;
   final VoidCallback onPressed;
   final bool showBackButton;
   final VoidCallback? onBackButtonPressed;
 
-  const DesktopHeaderWidget({
+  const DesktopChatHeaderWidget({
     super.key,
     required this.userData,
     required this.onPressed,
@@ -37,6 +37,7 @@ class DesktopHeaderWidget extends StatelessWidget {
         padding: const EdgeInsets.only(left: 24, top: 24, right: 24),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             UserDataContentWidget(userData: userData),
             Spacer(),

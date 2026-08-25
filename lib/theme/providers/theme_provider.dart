@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mess_messenger_app/providers/global_providers.dart';
+import 'package:mess_messenger_app/core/providers/global_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'theme_provider.g.dart';

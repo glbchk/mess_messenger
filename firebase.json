@@ -1,0 +1,63 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "mess-messenger-14491",
+          "appId": "1:74270236491:android:fe1cb527fbb5ff95bbd2ce",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "mess-messenger-14491",
+          "appId": "1:74270236491:ios:608ec786663c624cbbd2ce",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "mess-messenger-14491",
+          "configurations": {
+            "android": "1:74270236491:android:fe1cb527fbb5ff95bbd2ce",
+            "ios": "1:74270236491:ios:608ec786663c624cbbd2ce",
+            "web": "1:74270236491:web:d5d9d84cd259bb09bbd2ce"
+          }
+        }
+      }
+    }
+  },
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "firestore": {
+      "port": 8080
+    },
+    "storage": {
+      "port": 9199
+    },
+    "ui": {
+      "enabled": false
+    },
+    "singleProjectMode": true
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "disallowLegacyRuntimeConfig": true,
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint"
+      ]
+    }
+  ]
+}
