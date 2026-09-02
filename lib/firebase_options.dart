@@ -47,30 +47,29 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyC1FnmBaOpuJhAXL-2UI6yuPKo7vaPMD0Y',
-    appId: '1:1019906540743:web:f6bb696ab152b53307eae2',
-    messagingSenderId: '1019906540743',
-    projectId: 'mess-messenger-77af2',
-    authDomain: 'mess-messenger-77af2.firebaseapp.com',
-    storageBucket: 'mess-messenger-77af2.firebasestorage.app',
-    measurementId: 'G-X8GFZVCYSL',
+    apiKey: 'AIzaSyB27jVd8NKF1HnwBmeZxDmNMfVNfdpyAaQ',
+    appId: '1:74270236491:web:d5d9d84cd259bb09bbd2ce',
+    messagingSenderId: '74270236491',
+    projectId: 'mess-messenger-14491',
+    authDomain: 'mess-messenger-14491.firebaseapp.com',
+    storageBucket: 'mess-messenger-14491.firebasestorage.app',
+    measurementId: 'G-R9JF986DWG',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDC603Krbs6D3zScQr3b1NUqFkCx3lbiew',
-    appId: '1:1019906540743:android:40b1680986c457c507eae2',
-    messagingSenderId: '1019906540743',
-    projectId: 'mess-messenger-77af2',
-    storageBucket: 'mess-messenger-77af2.firebasestorage.app',
+    apiKey: 'AIzaSyDz_WaRyGwjjJrVAw6Is4_SUN-LDCrI_MY',
+    appId: '1:74270236491:android:fe1cb527fbb5ff95bbd2ce',
+    messagingSenderId: '74270236491',
+    projectId: 'mess-messenger-14491',
+    storageBucket: 'mess-messenger-14491.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDRTRbWSO3Meh5W3T4S34ms9UvFsLQrjVs',
-    appId: '1:1019906540743:ios:f4eb500bd117be5807eae2',
-    messagingSenderId: '1019906540743',
-    projectId: 'mess-messenger-77af2',
-    storageBucket: 'mess-messenger-77af2.firebasestorage.app',
+    apiKey: 'AIzaSyAVuBXm7DuGhITSqT5wwvVshiurCLYnS-U',
+    appId: '1:74270236491:ios:608ec786663c624cbbd2ce',
+    messagingSenderId: '74270236491',
+    projectId: 'mess-messenger-14491',
+    storageBucket: 'mess-messenger-14491.firebasestorage.app',
+    androidClientId: '74270236491-hgm53fpbekj4i74i74i6tgloq2k5rj5i.apps.googleusercontent.com',
     iosBundleId: 'com.messmessenger.messMessengerApp',
   );
-
 }

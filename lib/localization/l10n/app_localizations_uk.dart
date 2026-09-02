@@ -9,6 +9,15 @@ class AppLocalizationsUk extends AppLocalizations {
   AppLocalizationsUk([String locale = 'uk']) : super(locale);
 
   @override
+  String get systemDefault => 'За замовчуванням';
+
+  @override
+  String get english => 'Англійська';
+
+  @override
+  String get ukrainian => 'Українська';
+
+  @override
   String get signUp => 'Зареєструватися';
 
   @override
@@ -18,19 +27,19 @@ class AppLocalizationsUk extends AppLocalizations {
   String get nameLabel => 'Ім\'я*';
 
   @override
-  String get nameHint => 'Введіть своє ім\'я';
+  String get nameHint => 'Введіть своє ім\'я...';
 
   @override
   String get emailLabel => 'Електрона пошта*';
 
   @override
-  String get emailHint => 'Введіть електронну пошту';
+  String get emailHint => 'Введіть електронну пошту...';
 
   @override
   String get passwordLabel => 'Пароль*';
 
   @override
-  String get passwordHint => 'Створіть пароль';
+  String get passwordHint => 'Створіть пароль...';
 
   @override
   String get getStarted => 'Почати';
@@ -102,4 +111,228 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get chatsEmptyScreenText =>
       'Твої особисті повідомлення зашифровані \nвід початку до кінця.';
+
+  @override
+  String get general => 'Загальні';
+
+  @override
+  String get login => 'Вхід';
+
+  @override
+  String get on => 'Включено';
+
+  @override
+  String get off => 'Виключено';
+
+  @override
+  String get language => 'Мова';
+
+  @override
+  String get password => 'Пароль';
+
+  @override
+  String get photo => 'Фото';
+
+  @override
+  String get audio => 'Аудіо';
+
+  @override
+  String get video => 'Відео';
+
+  @override
+  String get document => 'Документ';
+
+  @override
+  String get messages => 'Повідомлення';
+
+  @override
+  String get archiveAll => 'Архівувати все';
+
+  @override
+  String get saveChanges => 'Зберегти зміни';
+
+  @override
+  String get applyChanges => 'Примінити зміни...';
+
+  @override
+  String get account => 'Аккаунт';
+
+  @override
+  String get userName => 'Нікнейм';
+
+  @override
+  String get userNameHint => 'Ввести імʼя...';
+
+  @override
+  String get birthday => 'День народження';
+
+  @override
+  String get email => 'Електрона пошта';
+
+  @override
+  String get phoneNumber => 'Номер телефону';
+
+  @override
+  String get phoneNumberHint => 'Ввести номер телефону...';
+
+  @override
+  String get personalisation => 'Персоналізація';
+
+  @override
+  String get theme => 'Тема';
+
+  @override
+  String get background => 'Фон';
+
+  @override
+  String get defaultBackground => 'Фон за замовчуванням';
+
+  @override
+  String get textSize => 'Розмір тексту';
+
+  @override
+  String get textSizeDescription =>
+      'Використовуйте +/-, щоб збільшити або зменшити розмір тексту';
+
+  @override
+  String get billing => 'Оплати';
+
+  @override
+  String get subscriptionPlans => 'Плани підписок';
+
+  @override
+  String get free => 'Безкоштовний';
+
+  @override
+  String get freePlanDescription => 'Обмежені можливості для окремих осіб.';
+
+  @override
+  String get basic => 'Базовий';
+
+  @override
+  String get perMonth => 'на місяць';
+
+  @override
+  String get basicPlanDescription =>
+      'Обмежена кількість користувачів та доступ до всіх функцій.';
+
+  @override
+  String get pro => 'Про';
+
+  @override
+  String get proPlanDescription =>
+      'Необмежена кількість користувачів та доступ до всіх функцій.';
+
+  @override
+  String get learnMore => 'Дізнатися більше';
+
+  @override
+  String get billingHistory => 'Історія оплат';
+
+  @override
+  String get invoice => 'Інвойс';
+
+  @override
+  String get amount => 'Сума';
+
+  @override
+  String get date => 'Дата';
+
+  @override
+  String get status => 'Статус';
+
+  @override
+  String get awaitingStatus => 'Очікується';
+
+  @override
+  String get paidStatus => 'Сплачено';
+
+  @override
+  String get overdueStatus => 'Прострочено';
+
+  @override
+  String get refundedStatus => 'Повернено кошти';
+
+  @override
+  String get downloadAllInvoices => 'Завантажити все';
+
+  @override
+  String get downloadSelected => 'Завантажити вибране';
+
+  @override
+  String get selected => 'вибране';
+
+  @override
+  String get notification => 'Сповіщання';
+
+  @override
+  String get importantNotifications => 'Важливі сповіщення';
+
+  @override
+  String get dismiss => 'Відхилити';
+
+  @override
+  String get communication => 'Комунікація';
+
+  @override
+  String get communicationDescription =>
+      'Отримуйте сповіщення про коментарі, теги, запити на зміни та будь-яку нову активність.';
+
+  @override
+  String get reminder => 'Нагадування';
+
+  @override
+  String get reminderDescription =>
+      'Ці сповіщення, які нагадують вам про оновлення, які ви могли пропустити.';
+
+  @override
+  String get announcementAndUpdate => 'Оголошення та оновлення';
+
+  @override
+  String get announcementAndUpdateDescription =>
+      'Отримуйте сповіщення про оновлення продукту, наші найновіші функції, покращення та виправлення помилок.';
+
+  @override
+  String get tips => 'Поради';
+
+  @override
+  String get tipsDescription =>
+      'Отримуйте сповіщення з корисними порадами щодо використання функцій та запропонованих подій.';
+
+  @override
+  String get desktop => 'Десктоп';
+
+  @override
+  String get push => 'Push-сповіщання';
+
+  @override
+  String get api => 'API';
+
+  @override
+  String get currentPassword => 'Поточний пароль';
+
+  @override
+  String get newPassword => 'Новий пароль';
+
+  @override
+  String get incorrectPassword =>
+      'Цей пароль виглядає неправильним. Спробуйте ще раз.';
+
+  @override
+  String get pleaseSignInAgain =>
+      'Заради вашої безпеки, будь ласка, увійдіть ще раз, щоб продовжити.';
+
+  @override
+  String get emailAlreadyInUse =>
+      'Ця електронна адреса вже пов\'язана з іншим обліковим записом.';
+
+  @override
+  String get passwordRequired => 'Будь ласка, введіть свій пароль.';
+
+  @override
+  String get somethingWentWrong => 'Щось пішло не так. Спробуйте ще раз.';
+
+  @override
+  String get sessionRevoked =>
+      'Ваш токен скасовано. Будь ласка, виконайте вхід ще раз.';
 }

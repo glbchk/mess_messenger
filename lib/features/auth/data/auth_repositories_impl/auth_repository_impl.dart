@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mess_messenger_app/core/errors/auth_failure.dart';
 import 'package:mess_messenger_app/features/auth/data/data_source/auth_local_data_source.dart';
 import 'package:mess_messenger_app/features/auth/data/data_source/auth_remote_data_source.dart';
 import 'package:mess_messenger_app/features/auth/domain/auth_repositories/auth_repository.dart';
@@ -24,9 +25,11 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> signUp(String email, String password) async {
+  Future<void> signUp(String email, String password, String name) async {
     final uid = await authRemoteDataSource.signUp(email, password);
-    await userRemoteDataSource.createUser(UserModel(id: uid, email: email));
+    await userRemoteDataSource.createUser(
+      UserModel.newUser(id: uid, email: email, name: name),
+    );
   }
 
   @override
@@ -69,12 +72,31 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<void> updatePassword({
+    required String newPassword,
+    required String currentPassword,
+  }) async {
+    try {
+      await authRemoteDataSource.updatePassword(newPassword);
+    } on RequiresRecentLoginFailure {
+      await authRemoteDataSource.reauthenticateWithPassword(currentPassword);
+      await authRemoteDataSource.updatePassword(newPassword);
+    }
+  }
+
+  @override
   Future<void> sendPasswordResetEmail(String email) async {
-    await authRemoteDataSource.sendPasswordResetEmail(email);
+    return await authRemoteDataSource.sendPasswordResetEmail(email);
   }
 
   @override
   Future<void> logout() async {
+    await authRemoteDataSource.logout();
+  }
+
+  @override
+  Future<void> logoutFromAllDevices() async {
+    await authRemoteDataSource.logoutFromAllDevices();
     await authRemoteDataSource.logout();
   }
 }

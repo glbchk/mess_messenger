@@ -12,6 +12,7 @@ class WebInputBar extends StatelessWidget {
   final VoidCallback onPressedEmoji;
   final VoidCallback onPressedTextNewLine;
   final VoidCallback onPressedSend;
+  final VoidCallback? onPressedFAQ;
 
   const WebInputBar({
     super.key,
@@ -21,6 +22,7 @@ class WebInputBar extends StatelessWidget {
     required this.onPressedEmoji,
     required this.onPressedTextNewLine,
     required this.onPressedSend,
+    this.onPressedFAQ,
   });
 
   @override
@@ -37,6 +39,16 @@ class WebInputBar extends StatelessWidget {
       ),
       child: Row(
         children: [
+          if (onPressedFAQ != null) ...[
+            AppSpacing.p8.gapH,
+            MessIconButton(
+              SvgIcons.help,
+              borderWidth: 0,
+              iconSize: 18,
+              buttonSize: 30,
+              onPressed: onPressedFAQ,
+            ),
+          ],
           MessIconButton(
             SvgIcons.attachment,
             borderWidth: 0,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/utils/layouts/responsive_layout_wrapper.dart';
 import 'package:mess_messenger_app/features/chats/chats_providers/chats_provider.dart';
 import 'package:mess_messenger_app/features/chats/chats_providers/open_chat_provider.dart';
@@ -8,7 +9,7 @@ import 'package:mess_messenger_app/features/chats/presentation/pages/layouts/cha
 import 'package:mess_messenger_app/features/chats/presentation/pages/layouts/chats_tablet_layout.dart';
 import 'package:mess_messenger_app/features/chats/presentation/pages/mobile_open_chat_page.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
-import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -51,7 +52,7 @@ class _ChatsPageState extends ConsumerState<ChatsPage> {
 
     final bp = ResponsiveBreakpoints.of(context);
 
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
 
     Future<void> openChattingPage() async {
       final currentUserId = ref.read(userNotifierProvider).userData?.id;

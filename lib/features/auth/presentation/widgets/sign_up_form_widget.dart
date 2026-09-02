@@ -8,11 +8,13 @@ import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class SignUpFormWidget extends StatelessWidget {
+  final AppLocalizations l10n;
   final TextEditingController nameController;
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final bool isRegisterMode;
   final bool isLoading;
+  final String? nameError;
   final String? emailError;
   final String? passwordError;
   final bool? showPassword;
@@ -23,11 +25,13 @@ class SignUpFormWidget extends StatelessWidget {
 
   const SignUpFormWidget({
     super.key,
+    required this.l10n,
     required this.nameController,
     required this.emailController,
     required this.passwordController,
     required this.isRegisterMode,
     required this.isLoading,
+    this.nameError,
     this.emailError,
     this.passwordError,
     this.showPassword = false,
@@ -41,8 +45,6 @@ class SignUpFormWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final textTheme = context.textStyles;
-
-    final l10n = AppLocalizations.of(context)!;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -66,12 +68,14 @@ class SignUpFormWidget extends StatelessWidget {
           controller: nameController,
           label: l10n.nameLabel,
           hint: l10n.nameHint,
+          error: nameError,
         ),
         AppSpacing.p16.gapV,
         MessTextField(
           controller: emailController,
           label: l10n.emailLabel,
           hint: l10n.emailHint,
+          error: emailError,
         ),
         AppSpacing.p16.gapV,
         MessPasswordField(
@@ -79,7 +83,7 @@ class SignUpFormWidget extends StatelessWidget {
           showPassword: showPassword,
           label: l10n.passwordLabel,
           hint: l10n.passwordHint,
-          error: 'Some cool error', //TODO: Replace with real error
+          error: passwordError, //TODO: Replace with real error
           onSuffixIconTap: onToggleIconShowPassword,
         ),
         AppSpacing.p24.gapV,
@@ -98,7 +102,7 @@ class SignUpFormWidget extends StatelessWidget {
           onPressed: onPressedSignUpWithGoogle,
           backgroundColor: colors.surface2,
           textStyle: textTheme.labelLarge?.copyWith(color: colors.text1),
-          iconPath: SvgIcons.google,
+          prefixIconPath: SvgIcons.google,
         ),
 
         AppSpacing.p24.gapV,

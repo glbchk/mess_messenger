@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/utils/layouts/responsive_layout_wrapper.dart';
 import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
 import 'package:mess_messenger_app/features/auth/presentation/pages/layouts/auth_desktop_layout.dart';
@@ -9,7 +10,7 @@ import 'package:mess_messenger_app/features/auth/presentation/pages/layouts/auth
 import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.dart';
 import 'package:mess_messenger_app/features/auth/presentation/widgets/sign_in_form_widget.dart';
 import 'package:mess_messenger_app/features/auth/presentation/widgets/sign_up_form_widget.dart';
-import 'package:mess_messenger_app/features/ui_app_root/app_shell.dart';
+import 'package:mess_messenger_app/core/providers/ui_providers/textfield_provider.dart';
 
 class AuthPage extends ConsumerStatefulWidget {
   const AuthPage({super.key});
@@ -26,27 +27,48 @@ class _AuthPageState extends ConsumerState<AuthPage> {
 
   void _handleFormSubmit() {
     // Read the current state once when the button/Enter key is pressed
-    final authState = ref.read(authProvider);
+    final authState = ref.read(authNotifierProvider);
 
-    final isRegisterMode = authState is AuthUnauthenticated
-        ? authState.isRegisterMode
-        : true;
+    final isRegisterMode = authState.isRegisterMode;
 
     if (isRegisterMode) {
       // Trigger Sign Up Notifier Method
       ref
-          .read(authProvider.notifier)
-          .signUp(_emailController.text, _passwordController.text);
+          .read(authNotifierProvider.notifier)
+          .signUp(
+            _emailController.text,
+            _passwordController.text,
+            _nameController.text,
+          );
     } else {
+      final rememberMe = switch (authState) {
+        AuthUnauthenticated(:final rememberMe) => rememberMe,
+        _ => true,
+      };
+
       // Trigger Sign In Notifier Method
       ref
-          .read(authProvider.notifier)
+          .read(authNotifierProvider.notifier)
           .signInWithEmail(
             _emailController.text,
             _passwordController.text,
-            authState.rememberMe,
+            rememberMe,
           );
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final message = ref.read(postSignOutMessageProvider);
+      if (message != null) {
+        ref.read(postSignOutMessageProvider.notifier).clear();
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(message)));
+      }
+    });
   }
 
   @override
@@ -59,25 +81,20 @@ class _AuthPageState extends ConsumerState<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<AuthState>(authProvider, (previous, next) {
-      if (next is AuthAuthenticated) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (_) => const AppShell()),
-          (route) => false,
-        );
-      }
+    final l10n = context.l10n;
+
+    ref.listen<AuthState>(authNotifierProvider, (previous, next) {
       if (next is AuthUnauthenticated && next.errorMessage != null) {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text(next.errorMessage!)));
-        ref.read(authProvider.notifier).clearErrorMessage();
+        ref.read(authNotifierProvider.notifier).clearErrorMessage();
       }
       if (next is AuthUnauthenticated && next.successMessage != null) {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text(next.successMessage!)));
-        ref.read(authProvider.notifier).clearSuccessMessage();
+        ref.read(authNotifierProvider.notifier).clearSuccessMessage();
       }
       if (next is AuthUnauthenticated && next.needsGoogleLinkConfirmation) {
         showDialog(
@@ -96,7 +113,9 @@ class _AuthPageState extends ConsumerState<AuthPage> {
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
-                  ref.read(authProvider.notifier).confirmGoogleLinkAndSignIn();
+                  ref
+                      .read(authNotifierProvider.notifier)
+                      .confirmGoogleLinkAndSignIn();
                 },
                 child: const Text('Sign in with Google'),
               ),
@@ -106,15 +125,17 @@ class _AuthPageState extends ConsumerState<AuthPage> {
       }
     });
 
-    final authState = ref.watch(authProvider);
+    final authState = ref.watch(authNotifierProvider);
     final isLoading = authState is AuthLoading;
     final unauthState = authState is AuthUnauthenticated ? authState : null;
 
-    final isRegisterMode = authState is AuthUnauthenticated
-        ? authState.isRegisterMode
-        : true;
+    final isRegisterMode = authState.isRegisterMode;
+
+    //TODO: Need to finish update for textfields
+    // final signUpTextfields = ref.watch(formFieldsProvider('signIn').notifier);
 
     final signUpForm = SignUpFormWidget(
+      l10n: l10n,
       nameController: _nameController,
       emailController: _emailController,
       passwordController: _passwordController,
@@ -127,18 +148,23 @@ class _AuthPageState extends ConsumerState<AuthPage> {
           setState(() => _showPassword = !_showPassword),
       onPressedGetStarted: () {
         ref
-            .read(authProvider.notifier)
-            .signUp(_emailController.text, _passwordController.text);
+            .read(authNotifierProvider.notifier)
+            .signUp(
+              _emailController.text,
+              _passwordController.text,
+              _nameController.text,
+            );
       },
       onPressedSignUpWithGoogle: () {
-        ref.read(authProvider.notifier).signInWithGoogle();
+        ref.read(authNotifierProvider.notifier).signInWithGoogle();
       },
       onPressedLogIn: () {
-        ref.read(authProvider.notifier).toggleAuthMode();
+        ref.read(authNotifierProvider.notifier).toggleAuthMode();
       },
     );
 
     final signInForm = SignInFormWidget(
+      l10n: l10n,
       emailController: _emailController,
       passwordController: _passwordController,
       isRegisterMode: isRegisterMode,
@@ -150,7 +176,7 @@ class _AuthPageState extends ConsumerState<AuthPage> {
           setState(() => _showPassword = !_showPassword),
       onPressedSignIn: () {
         ref
-            .read(authProvider.notifier)
+            .read(authNotifierProvider.notifier)
             .signInWithEmail(
               _emailController.text,
               _passwordController.text,
@@ -158,19 +184,24 @@ class _AuthPageState extends ConsumerState<AuthPage> {
             );
       },
       onPressedSignInWithGoogle: () {
-        ref.read(authProvider.notifier).signInWithGoogle();
+        ref.read(authNotifierProvider.notifier).signInWithGoogle();
       },
       onPressedSignUp: () {
-        ref.read(authProvider.notifier).toggleAuthMode();
+        ref.read(authNotifierProvider.notifier).toggleAuthMode();
       },
       rememberMe: unauthState?.rememberMe ?? true,
       onToggleRememberMe: () {
-        ref.read(authProvider.notifier).toggleRememberMe();
+        ref.read(authNotifierProvider.notifier).toggleRememberMe();
       },
       onPressedForgotPassword: () {
-        ref
-            .read(authProvider.notifier)
-            .sendPasswordResetEmail(_emailController.text);
+        final email = _emailController.text;
+        if (email.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Enter your email first')),
+          );
+          return;
+        }
+        ref.read(authNotifierProvider.notifier).sendPasswordResetEmail(email);
       },
     );
 
@@ -182,7 +213,7 @@ class _AuthPageState extends ConsumerState<AuthPage> {
         mobile: AuthMobileLayout(
           formContent: isRegisterMode ? signUpForm : signInForm,
           onSignOutPressed: () {
-            ref.read(authProvider.notifier).logout();
+            ref.read(authNotifierProvider.notifier).logout();
           },
         ),
         tablet: AuthTabletLayout(

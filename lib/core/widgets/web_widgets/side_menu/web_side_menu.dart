@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
@@ -35,24 +36,48 @@ class _WebSideMenuState extends State<WebSideMenu>
     final l10n = AppLocalizations.of(context)!;
 
     final List<MenuEntry> menuItems = [
-      MenuItem(id: 'chats', iconPath: SvgIcons.chats, label: l10n.chats),
-      MenuItem(id: 'calls', iconPath: SvgIcons.calls, label: l10n.calls),
+      MenuItem(
+        id: 'chats',
+        iconPath: SvgIcons.chats,
+        label: l10n.chats,
+        onTap: () {
+          context.go('/chats');
+        },
+      ),
+      MenuItem(
+        id: 'calls',
+        iconPath: SvgIcons.calls,
+        label: l10n.calls,
+        onTap: () {},
+      ),
       MenuItem(
         id: 'contacts',
         iconPath: SvgIcons.contacts,
         label: l10n.contacts,
+        onTap: () {
+          context.go('/contacts');
+        },
       ),
       const FlexSpacer(),
       MenuItem(
         id: 'favorites',
         iconPath: SvgIcons.favorites,
         label: l10n.favorites,
+        onTap: () {},
       ),
-      MenuItem(id: 'archive', iconPath: SvgIcons.archive, label: l10n.archive),
+      MenuItem(
+        id: 'archive',
+        iconPath: SvgIcons.archive,
+        label: l10n.archive,
+        onTap: () {},
+      ),
       MenuItem(
         id: 'settings',
         iconPath: SvgIcons.settings,
         label: l10n.settings,
+        onTap: () {
+          context.go('/settings');
+        },
       ),
       const ColumnExtension(),
     ];
@@ -87,7 +112,10 @@ class _WebSideMenuState extends State<WebSideMenu>
                   context: context,
                   item: entry,
                   selectedId: _selectedId,
-                  onTap: () => setState(() => _selectedId = entry.id),
+                  onTap: () {
+                    setState(() => _selectedId = entry.id);
+                    entry.onTap.call();
+                  },
                   isExpanded: _isExpanded,
                   menuDuration: _menuDuration,
                 ),
@@ -101,8 +129,9 @@ class _WebSideMenuState extends State<WebSideMenu>
                         children: [
                           UserAvatarWidget(
                             userName:
-                                widget.userData.email ?? 'Joe Doe', //'Joe Doe',
+                                widget.userData.name ?? 'Joe Doe', //'Joe Doe',
                             photoPath:
+                                widget.userData.avatarUrl ??
                                 'assets/images/user_images/avatar_image.png',
                           ),
                           if (_isExpanded) AppSpacing.p12.gapH,

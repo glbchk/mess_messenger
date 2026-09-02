@@ -56,8 +56,9 @@ class _ChatsMobileLayoutState extends ConsumerState<ChatsMobileLayout> {
           IconButton(
             //TODO: MUST BE DELETED LATER
             icon: const Icon(Icons.logout, color: Colors.red),
-            onPressed: () =>
-                ref.read(authProvider.notifier).logout(), // widget.onPressed,
+            onPressed: () => ref
+                .read(authNotifierProvider.notifier)
+                .logout(), // widget.onPressed,
           ),
           AppSpacing.p16.gapH,
           MessIconButton(
@@ -69,7 +70,7 @@ class _ChatsMobileLayoutState extends ConsumerState<ChatsMobileLayout> {
           AppSpacing.p16.gapH,
           UserAvatarWidget(
             userName: widget.userData.email ?? 'Joe Doe', //'Joe Doe',
-            photoPath: 'assets/images/user_images/avatar_image.png',
+            photoPath: widget.userData.avatarUrl, //widget.userData.photoPath,
           ),
           AppSpacing.p16.gapH,
         ],

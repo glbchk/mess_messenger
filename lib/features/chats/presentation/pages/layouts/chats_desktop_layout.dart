@@ -155,9 +155,11 @@ class ChatsDesktopLayout extends ConsumerWidget {
                                         ),
                                         textAlign: TextAlign.center,
                                       ),
-                                      if (chats.isEmpty)
+
+                                      if (chats.isEmpty) ...[
+                                        AppSpacing.p16.gapV,
                                         MessMainButton(
-                                          width: constraints.maxWidth * 0.3,
+                                          // width: constraints.maxWidth * 0.3,
                                           label: l10n.startChat,
                                           onPressed: () {
                                             //TODO: Need to open Pop up search window
@@ -169,6 +171,7 @@ class ChatsDesktopLayout extends ConsumerWidget {
                                             // );
                                           },
                                         ),
+                                      ],
                                     ],
                                   ),
                                 );

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mess_messenger_app/core/errors/auth_failure.dart';
 import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
 import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.dart';
 
@@ -46,7 +47,7 @@ class AuthNotifier extends Notifier<AuthState> {
     }
   }
 
-  Future<void> signUp(String email, String password) async {
+  Future<void> signUp(String email, String password, String name) async {
     final emailError = _validateEmail(email);
     final passwordError = _validatePassword(password);
 
@@ -61,7 +62,7 @@ class AuthNotifier extends Notifier<AuthState> {
     state = AuthLoading();
 
     try {
-      await ref.read(signUpUseCaseProvider).execute(email, password);
+      await ref.read(signUpUseCaseProvider).execute(email, password, name);
       state = AuthAuthenticated();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
@@ -104,22 +105,24 @@ class AuthNotifier extends Notifier<AuthState> {
     String password,
     bool rememberMe,
   ) async {
+    final currentState = state is AuthUnauthenticated
+        ? state as AuthUnauthenticated
+        : AuthUnauthenticated();
+
     final emailError = _validateEmail(email);
     final passwordError = _validatePassword(password);
 
     if (emailError != null || passwordError != null) {
-      state = AuthUnauthenticated(
-        emailError: emailError,
-        passwordError: passwordError,
+      state = currentState.copyWith(
+        emailError: () => emailError,
+        passwordError: () => passwordError,
       );
       return;
     }
 
-    final hadPendingGoogleLink =
-        (state is AuthUnauthenticated) &&
-        (state as AuthUnauthenticated).needsPasswordLinkConfirmation;
+    final hadPendingGoogleLink = currentState.needsPasswordLinkConfirmation;
 
-    state = AuthLoading();
+    state = AuthLoading(isRegisterMode: currentState.isRegisterMode);
 
     try {
       await ref
@@ -132,7 +135,7 @@ class AuthNotifier extends Notifier<AuthState> {
 
       state = AuthAuthenticated();
     } catch (e) {
-      state = AuthUnauthenticated(errorMessage: e.toString());
+      state = currentState.copyWith(errorMessage: () => e.toString());
     }
   }
 
@@ -165,14 +168,55 @@ class AuthNotifier extends Notifier<AuthState> {
   }
 
   Future<void> sendPasswordResetEmail(String email) async {
-    state = AuthLoading();
+    if (email.isEmpty) {
+      state = AuthUnauthenticated(
+        errorMessage: 'Enter your email first' /* other required fields */,
+      );
+      return;
+    }
+
     try {
       await ref.read(sendPasswordResetUseCaseProvider).execute(email);
       state = AuthUnauthenticated(
-        successMessage: 'Check your inbox for a reset link!',
+        successMessage: 'Password reset link sent to $email',
+        /* preserve other AuthUnauthenticated fields like isRegisterMode, rememberMe */
       );
-    } catch (e) {
-      state = AuthUnauthenticated(errorMessage: e.toString());
+    } on FirebaseAuthException catch (e) {
+      final message = switch (e.code) {
+        'user-not-found' => 'No account found with that email',
+        'invalid-email' => 'Enter a valid email address',
+        _ => 'Something went wrong. Try again.',
+      };
+      state = AuthUnauthenticated(errorMessage: message /* other fields */);
+    }
+  }
+
+  Future<void> updatePassword(
+    String newPassword,
+    String currentPassword,
+  ) async {
+    final s = state;
+    if (s is! AuthAuthenticated) return;
+
+    state = s.copyWith(
+      isUpdatingPassword: true,
+      passwordUpdateError: () => null,
+    );
+
+    try {
+      await ref
+          .read(updatePasswordUseCaseProvider)
+          .execute(newPassword: newPassword, currentPassword: currentPassword);
+
+      state = (state as AuthAuthenticated).copyWith(
+        isUpdatingPassword: false,
+        passwordUpdateSuccess: true,
+      );
+    } on AuthFailure catch (e) {
+      state = (state as AuthAuthenticated).copyWith(
+        isUpdatingPassword: false,
+        passwordUpdateError: () => e,
+      );
     }
   }
 
@@ -180,6 +224,13 @@ class AuthNotifier extends Notifier<AuthState> {
     final s = state;
     if (s is AuthUnauthenticated) {
       state = s.copyWith(successMessage: () => null);
+    }
+  }
+
+  void clearErrorMessage() {
+    final s = state;
+    if (s is AuthUnauthenticated) {
+      state = s.copyWith(errorMessage: () => null);
     }
   }
 
@@ -192,10 +243,12 @@ class AuthNotifier extends Notifier<AuthState> {
     }
   }
 
-  void clearErrorMessage() {
-    final s = state;
-    if (s is AuthUnauthenticated) {
-      state = s.copyWith(errorMessage: () => null);
+  Future<void> logoutFromAllDevices() async {
+    try {
+      await ref.read(logoutFromAllDevicesUseCaseProvider).execute();
+      state = AuthUnauthenticated();
+    } catch (e) {
+      state = AuthError(e.toString());
     }
   }
 }

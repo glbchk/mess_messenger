@@ -20,6 +20,7 @@ abstract final class SvgIcons {
   static const String dropDownUnfold = 'assets/icons/unfold.svg';
   static const String folders = 'assets/icons/folders.svg';
   static const String arrowLeft = 'assets/icons/arrow_left.svg';
+  static const String arrowRight = 'assets/icons/arrow_right.svg';
   static const String menuVert = 'assets/icons/menu_vert.svg';
   //Bottom Input Bar
   static const String attachment =
@@ -28,5 +29,22 @@ abstract final class SvgIcons {
   static const String textNewLine =
       'assets/icons/bottom_input_bar/text_new_line.svg';
   static const String send = 'assets/icons/bottom_input_bar/send.svg';
-  //Messages
+  //Settings
+  static const String verifiedLabel = 'assets/icons/verified_label.svg';
+  static const String verifiedCheckmark = 'assets/icons/verified_checkmark.svg';
+  static const String logout = 'assets/icons/settings/logout.svg';
+  static const String menuHorizontal =
+      'assets/icons/settings/menu_horizontal.svg';
+  static const String globe = 'assets/icons/settings/globe.svg';
+  static const String chevronDown = 'assets/icons/settings/chevron_down.svg';
+  static const String chevronUp = 'assets/icons/settings/chevron_up.svg';
+  static const String colorPalette = 'assets/icons/settings/color_palette.svg';
+  static const String download = 'assets/icons/settings/cloud_download.svg';
+  static const String information =
+      'assets/icons/settings/information_filled.svg';
+  static const String copy = 'assets/icons/settings/copy.svg';
+  static const String calendar = 'assets/icons/settings/calendar.svg';
+  static const String chat = 'assets/icons/settings/chat.svg';
+  static const String help = 'assets/icons/settings/help.svg';
+  static const String close = 'assets/icons/settings/close.svg';
 }

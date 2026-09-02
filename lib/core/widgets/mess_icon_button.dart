@@ -6,7 +6,7 @@ class MessIconButton extends StatelessWidget {
   final String svgAsset;
   final double iconSize;
   final double buttonSize;
-  final Color? color;
+  final Color? iconColor;
   final double? borderWidth;
   final VoidCallback? onPressed;
   final bool isButtonFilled;
@@ -16,7 +16,7 @@ class MessIconButton extends StatelessWidget {
     super.key,
     this.iconSize = 24,
     this.buttonSize = 44,
-    this.color,
+    this.iconColor,
     this.borderWidth,
     this.onPressed,
     this.isButtonFilled = false,
@@ -32,7 +32,7 @@ class MessIconButton extends StatelessWidget {
       shape: effectiveBorderWidth > 0
           ? CircleBorder(
               side: BorderSide(
-                color: colors.border2,
+                color: !isButtonFilled ? colors.border2 : colors.transparent,
                 width: effectiveBorderWidth,
               ),
             )
@@ -47,30 +47,10 @@ class MessIconButton extends StatelessWidget {
           height: buttonSize,
           width: buttonSize,
           child: Center(
-            child: MessIcon(svgAsset, size: iconSize, color: color),
+            child: MessIcon(svgAsset, size: iconSize, color: iconColor),
           ),
         ),
       ),
     );
   }
 }
-
-// Padding(
-// padding: const EdgeInsets.only(left: 16.0),
-// child: Center(
-// child: SizedBox(
-// width: 40,
-// height: 40,
-// child: ClipRRect(
-// borderRadius: BorderRadius.circular(50),
-// child: ColoredBox(
-// color: colors.surface2,
-// child: IconButton(
-// icon: Icon(Icons.more_vert, color: colors.icon1),
-// onPressed: () {},
-// ),
-// ),
-// ),
-// ),
-// ),
-// ),

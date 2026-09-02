@@ -11,9 +11,11 @@ class MessTextField extends StatelessWidget {
   final String? label;
   final double? spaceLabel;
   final double? height;
+  final double? width;
   final double? radius;
   final String? hint;
   final String? error;
+  final Color? errorColor;
   final String? suffixIcon;
   final VoidCallback? onSuffixIconTap;
   final String? prefixIcon;
@@ -35,9 +37,11 @@ class MessTextField extends StatelessWidget {
     this.label,
     this.spaceLabel,
     this.height,
+    this.width,
     this.radius,
     this.hint,
     this.error,
+    this.errorColor,
     this.suffixIcon,
     this.onSuffixIconTap,
     this.prefixIcon,
@@ -77,6 +81,7 @@ class MessTextField extends StatelessWidget {
         spaceLabel != 0 ? AppSpacing.p8.gapV : SizedBox(height: spaceLabel),
         SizedBox(
           height: height ?? 46,
+          width: width ?? double.infinity,
           child: Focus(
             onFocusChange: onFocusChange,
             canRequestFocus: !(readOnly ?? false),
@@ -126,12 +131,15 @@ class MessTextField extends StatelessWidget {
                       )
                     : null,
                 suffixIcon: suffixIcon != null
-                    ? SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: GestureDetector(
-                          onTap: onSuffixIconTap,
-                          child: MessIcon(suffixIcon ?? '', size: 16),
+                    ? GestureDetector(
+                        onTap: onSuffixIconTap,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 16.0),
+                          child: SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: MessIcon(suffixIcon ?? ''),
+                          ),
                         ),
                       )
                     : null,
@@ -153,7 +161,9 @@ class MessTextField extends StatelessWidget {
             padding: const EdgeInsets.only(top: 4),
             child: Text(
               error ?? '',
-              style: textTheme.bodySmall?.copyWith(color: colors.textHint),
+              style: textTheme.bodySmall?.copyWith(
+                color: errorColor ?? colors.errorColor,
+              ),
             ),
           ),
       ],
