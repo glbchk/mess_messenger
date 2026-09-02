@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mess_messenger_app/app.dart';
-import 'package:mess_messenger_app/core/providers/global_providers.dart';
+import 'package:mess_messenger_app/core/providers/data_providers/global_providers.dart';
 import 'package:mess_messenger_app/firebase_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

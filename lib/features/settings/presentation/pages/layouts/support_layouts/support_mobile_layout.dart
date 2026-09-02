@@ -7,13 +7,11 @@ import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon_button.dart';
 import 'package:mess_messenger_app/core/widgets/mobile_widgets/app_bar/mobile_app_bar.dart';
 import 'package:mess_messenger_app/core/widgets/mobile_widgets/mobile_bottom_input_bar.dart';
-import 'package:mess_messenger_app/features/chats/chats_providers/open_chat_provider.dart';
 import 'package:mess_messenger_app/features/settings/data/models/chat_message_model.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
-import 'package:mess_messenger_app/features/settings/presentation/widgets/details_content_widget.dart';
-import 'package:mess_messenger_app/features/settings/presentation/widgets/details_panel_widget.dart';
-import 'package:mess_messenger_app/features/settings/presentation/widgets/support_chat_section_widget.dart';
-import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
+import 'package:mess_messenger_app/features/settings/presentation/widgets/support_widgets/details_content_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/widgets/support_widgets/details_panel_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/widgets/support_widgets/support_chat_section_widget.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
@@ -67,7 +65,7 @@ class _SupportMobileLayoutState extends ConsumerState<SupportMobileLayout> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final textTheme = context.textStyles;
+    // final textTheme = context.textStyles;
 
     final sectionWidth = double.infinity;
 

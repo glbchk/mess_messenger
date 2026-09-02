@@ -11,9 +11,9 @@ import 'package:mess_messenger_app/features/settings/data/models/user_model.dart
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/support_layouts/support_desktop_layout.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/support_layouts/support_mobile_layout.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/support_layouts/support_tablet_layout.dart';
-import 'package:mess_messenger_app/features/settings/presentation/widgets/details_content_widget.dart';
-import 'package:mess_messenger_app/features/settings/user_providers/support_chat_providers.dart';
-import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
+import 'package:mess_messenger_app/features/settings/presentation/widgets/support_widgets/details_content_widget.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/data_providers/support_chat_providers.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class SupportPage extends ConsumerStatefulWidget {

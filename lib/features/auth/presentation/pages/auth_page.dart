@@ -10,6 +10,7 @@ import 'package:mess_messenger_app/features/auth/presentation/pages/layouts/auth
 import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.dart';
 import 'package:mess_messenger_app/features/auth/presentation/widgets/sign_in_form_widget.dart';
 import 'package:mess_messenger_app/features/auth/presentation/widgets/sign_up_form_widget.dart';
+import 'package:mess_messenger_app/core/providers/ui_providers/textfield_provider.dart';
 
 class AuthPage extends ConsumerStatefulWidget {
   const AuthPage({super.key});
@@ -129,6 +130,9 @@ class _AuthPageState extends ConsumerState<AuthPage> {
     final unauthState = authState is AuthUnauthenticated ? authState : null;
 
     final isRegisterMode = authState.isRegisterMode;
+
+    //TODO: Need to finish update for textfields
+    // final signUpTextfields = ref.watch(formFieldsProvider('signIn').notifier);
 
     final signUpForm = SignUpFormWidget(
       l10n: l10n,

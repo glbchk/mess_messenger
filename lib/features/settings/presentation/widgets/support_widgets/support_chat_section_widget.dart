@@ -9,7 +9,7 @@ import 'package:mess_messenger_app/core/widgets/web_widgets/web_input_bar.dart';
 import 'package:mess_messenger_app/features/settings/data/models/chat_message_model.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/features/settings/presentation/widgets/simple_header_widget.dart';
-import 'package:mess_messenger_app/features/settings/presentation/widgets/support_faq_chat_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/widgets/support_widgets/support_faq_chat_widget.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 enum _FaqVisibility { open, collapsed, hidden }

@@ -70,7 +70,7 @@ class _ChatsMobileLayoutState extends ConsumerState<ChatsMobileLayout> {
           AppSpacing.p16.gapH,
           UserAvatarWidget(
             userName: widget.userData.email ?? 'Joe Doe', //'Joe Doe',
-            photoPath: 'assets/images/user_images/avatar_image.png',
+            photoPath: widget.userData.avatarUrl, //widget.userData.photoPath,
           ),
           AppSpacing.p16.gapH,
         ],

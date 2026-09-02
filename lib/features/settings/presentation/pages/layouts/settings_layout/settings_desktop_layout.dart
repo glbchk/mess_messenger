@@ -7,6 +7,8 @@ import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/web_side_menu.dart';
 import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/controllers/account_settings_controller.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/controllers/general_settings_controller.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/account_tab/account_desktop_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/api_tab/api_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/billing_tab/billing_desktop_tab_widget.dart';
@@ -14,38 +16,49 @@ import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/notification_tab/notification_desktop_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/personalization_tab/personalisation_desktop_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/widgets/settings_user_data_panel_widget.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/ui_providers/general_settings_ui_provider.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
+import 'package:mess_messenger_app/localization/supported_locales.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
-import 'package:responsive_framework/responsive_framework.dart';
 
 class SettingsDesktopLayout extends ConsumerStatefulWidget {
   final AppLocalizations l10n;
   final UserModel userData;
-  final Future<void> Function() onPressed;
+  final GeneralSettingsUiNotifier view;
+  final GeneralSettingsController generalSettingsController;
+  final List<SupportedLanguage> languages;
   final TabController tabController;
+  final VoidCallback onPressedChangeAvatar;
+  final VoidCallback onPressedLogoutFromAllDevices;
+  final VoidCallback onPressedArchiveAllMessages;
+  final AccountSettingsController accountSettingsController;
   final TextEditingController nameController;
   final MenuController birthdayController;
   final DateTime? selectedDate;
   final TextEditingController emailController;
-  final TextEditingController phoneNumberController;
   final TextEditingController currentPasswordController;
   final TextEditingController newPasswordController;
-  final VoidCallback onPressedChangeAvatar;
+  final TextEditingController phoneNumberController;
 
   const SettingsDesktopLayout({
     super.key,
     required this.l10n,
     required this.userData,
-    required this.onPressed,
+    required this.view,
+    required this.generalSettingsController,
+    required this.languages,
     required this.tabController,
+    required this.onPressedChangeAvatar,
+    required this.onPressedLogoutFromAllDevices,
+    required this.onPressedArchiveAllMessages,
+    required this.accountSettingsController,
     required this.nameController,
     required this.birthdayController,
     required this.selectedDate,
     required this.emailController,
-    required this.phoneNumberController,
     required this.currentPasswordController,
     required this.newPasswordController,
-    required this.onPressedChangeAvatar,
+    required this.phoneNumberController,
   });
 
   @override
@@ -58,11 +71,11 @@ class _SettingsDesktopLayoutState extends ConsumerState<SettingsDesktopLayout> {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final textTheme = context.textStyles;
-    final bp = ResponsiveBreakpoints.of(context);
+    // final bp = ResponsiveBreakpoints.of(context);
 
-    final sectionWidth = bp.isDesktop
-        ? bp.screenWidth * 0.25
-        : bp.screenWidth * 0.35;
+    // final sectionWidth = bp.isDesktop
+    //     ? bp.screenWidth * 0.25
+    //     : bp.screenWidth * 0.35;
 
     return Scaffold(
       body: Row(
@@ -103,11 +116,8 @@ class _SettingsDesktopLayoutState extends ConsumerState<SettingsDesktopLayout> {
                         userData: widget.userData,
                         onPressedChangeAvatar: widget.onPressedChangeAvatar,
                         onPressedExportAccountData: () {},
-                        onPressedTerminateAllActiveSessions: () async {
-                          await ref
-                              .read(authNotifierProvider.notifier)
-                              .logoutFromAllDevices();
-                        },
+                        onPressedTerminateAllActiveSessions:
+                            widget.onPressedLogoutFromAllDevices,
                         onPressedContactSupport: () {
                           context.go('/support');
                         },
@@ -132,7 +142,7 @@ class _SettingsDesktopLayoutState extends ConsumerState<SettingsDesktopLayout> {
                           indicatorSize: TabBarIndicatorSize.label,
                           indicator: BoxDecoration(
                             color: colors.textInverse,
-                            borderRadius: BorderRadius.circular(24),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                           labelColor: colors.text2,
                           unselectedLabelColor: colors.text2,
@@ -178,20 +188,29 @@ class _SettingsDesktopLayoutState extends ConsumerState<SettingsDesktopLayout> {
                             GeneralDesktopTabWidget(
                               l10n: widget.l10n,
                               userData: widget.userData,
+                              view: widget.view,
+                              generalSettingsController:
+                                  widget.generalSettingsController,
+                              languages: widget.languages,
+                              onPressedArchiveAllMessages:
+                                  widget.onPressedArchiveAllMessages,
                             ),
                             AccountDesktopTabWidget(
                               l10n: widget.l10n,
                               userData: widget.userData,
+                              accountSettingsController:
+                                  widget.accountSettingsController,
                               nameController: widget.nameController,
                               birthdayController: widget.birthdayController,
                               selectedDate: widget.selectedDate,
+                              emailFocusNode: FocusNode(),
                               emailController: widget.emailController,
-                              phoneNumberController:
-                                  widget.phoneNumberController,
                               currentPasswordController:
                                   widget.currentPasswordController,
                               newPasswordController:
                                   widget.newPasswordController,
+                              phoneNumberController:
+                                  widget.phoneNumberController,
                             ),
                             PersonalisationDesktopTabWidget(
                               l10n: widget.l10n,

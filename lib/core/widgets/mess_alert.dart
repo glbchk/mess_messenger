@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
 import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
-import 'package:mess_messenger_app/features/settings/presentation/widgets/image_selector.dart';
+import 'package:mess_messenger_app/core/widgets/mess_image_selector.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class MessAlertWidget extends ConsumerStatefulWidget {
@@ -233,7 +233,7 @@ class _MessAlertWidgetState extends ConsumerState<MessAlertWidget> {
               ],
             ),
           ),
-          if (isPictureMode) ImageSelector(imageBytes: _previewBytes),
+          if (isPictureMode) MessImageSelector(imageBytes: _previewBytes),
           if (widget.textfieldController != null) ...[
             MessTextField(
               label: widget.textfieldLabel ?? 'Label',

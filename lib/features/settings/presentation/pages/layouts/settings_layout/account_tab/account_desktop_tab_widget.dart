@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
-import 'package:mess_messenger_app/core/errors/auth_failure.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/date_picker_dropdown_widget.dart';
-import 'package:mess_messenger_app/core/widgets/mess_alert.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
 import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
-import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
-import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/controllers/account_settings_controller.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/build_title_widget.dart';
-import 'package:mess_messenger_app/features/settings/user_providers/account_settings_provider.dart';
-import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
-import 'package:mess_messenger_app/localization/errors/auth_failure_l10n.dart';
+import 'package:mess_messenger_app/core/providers/ui_providers/textfield_provider.dart';
+import 'package:mess_messenger_app/core/constants/textfields_ids.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -21,25 +17,29 @@ import 'package:responsive_framework/responsive_framework.dart';
 class AccountDesktopTabWidget extends ConsumerStatefulWidget {
   final AppLocalizations l10n;
   final UserModel? userData;
+  final AccountSettingsController accountSettingsController;
   final TextEditingController nameController;
   final MenuController birthdayController;
   final DateTime? selectedDate;
+  final FocusNode emailFocusNode;
   final TextEditingController emailController;
-  final TextEditingController phoneNumberController;
   final TextEditingController currentPasswordController;
   final TextEditingController newPasswordController;
+  final TextEditingController phoneNumberController;
 
   const AccountDesktopTabWidget({
     super.key,
     required this.l10n,
     this.userData,
+    required this.accountSettingsController,
     required this.nameController,
     required this.birthdayController,
     required this.selectedDate,
+    required this.emailFocusNode,
     required this.emailController,
-    required this.phoneNumberController,
     required this.currentPasswordController,
     required this.newPasswordController,
+    required this.phoneNumberController,
   });
 
   @override
@@ -49,150 +49,6 @@ class AccountDesktopTabWidget extends ConsumerStatefulWidget {
 
 class _AccountDesktopTabWidgetState
     extends ConsumerState<AccountDesktopTabWidget> {
-  final _emailFocusNode = FocusNode();
-  final _currentPasswordFieldController = TextEditingController();
-  final _newPasswordFieldController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _emailFocusNode.dispose();
-    super.dispose();
-  }
-
-  Future<void> _handleEmailChangeTap() async {
-    final saved = ref.read(userNotifierProvider).userData?.email;
-    final typed = widget.emailController.text;
-    final fieldsNotifier = ref.read(accountFieldsProvider.notifier);
-
-    if (typed.isEmpty) {
-      fieldsNotifier.setStatus(
-        'email',
-        const FieldSaveState(message: 'Enter an email first', isError: true),
-      );
-      return;
-    }
-
-    if (typed == saved) {
-      fieldsNotifier.setStatus(
-        'email',
-        const FieldSaveState(
-          message: "That's already your email",
-          isError: true,
-        ),
-      );
-      return;
-    }
-
-    await MessAlertWidget.show(
-      textfieldController: _currentPasswordFieldController,
-      context: context,
-      ref: ref,
-      title: 'Confirm your password',
-      message: 'Enter your current password to change your email.',
-      buttonLabel: widget.l10n.saveChanges,
-      onConfirm: () async {
-        final currentPassword = _currentPasswordFieldController.text;
-
-        try {
-          await ref
-              .read(userNotifierProvider.notifier)
-              .updateUserEmail(currentPassword);
-
-          if (!mounted) return;
-          fieldsNotifier.setStatus(
-            'email',
-            const FieldSaveState(
-              message: 'Confirmation email sent — check your inbox',
-            ),
-            clearAfter: const Duration(seconds: 5),
-          );
-          // That's it. No second dialog. Next time this screen rebuilds
-          // (or the app resumes), the app-level gate will redirect them
-          // to ConfirmEmailPage on its own — nothing more to do here.
-        } on AuthFailure catch (e) {
-          if (mounted) {
-            fieldsNotifier.setStatus(
-              'email',
-              FieldSaveState(message: e.message(widget.l10n), isError: true),
-            );
-            widget.emailController.text = saved ?? '';
-          }
-        } catch (e) {
-          if (mounted) {
-            fieldsNotifier.setStatus(
-              'email',
-              const FieldSaveState(
-                message: 'Something went wrong',
-                isError: true,
-              ),
-            );
-            widget.emailController.text = saved ?? '';
-          }
-        }
-      },
-    );
-  }
-
-  void _showChangePasswordDialog() {
-    //TODO: Still need to fix, errors are not displaying properly and also it saves anything now
-    String? newPasswordError;
-    String? currentPasswordError;
-
-    MessAlertWidget.show(
-      textfieldController: _currentPasswordFieldController,
-      textfield2Controller: _newPasswordFieldController,
-      context: context,
-      ref: ref,
-      title: 'Confirm your password',
-      message: 'Enter your current password to set a new one.',
-      textfieldLabel: widget.l10n.currentPassword,
-      textfieldHint: widget.l10n.passwordHint,
-      textfieldError: currentPasswordError,
-      textfield2Label: widget.l10n.newPassword,
-      textfield2Hint: widget.l10n.passwordHint,
-      textfield2Error: newPasswordError,
-      buttonLabel: widget.l10n.saveChanges,
-      onConfirm: () async {
-        final currentPassword = _currentPasswordFieldController.text;
-        final newPassword = _newPasswordFieldController.text;
-
-        if (newPassword.isEmpty) {
-          newPasswordError = 'Enter a new password first';
-        } else {
-          newPasswordError = null;
-        }
-
-        if (newPassword == currentPassword) {
-          newPasswordError = 'Enter a new password first';
-        } else {
-          newPasswordError = null;
-        }
-
-        try {
-          await ref
-              .read(authNotifierProvider.notifier)
-              .updatePassword(newPassword, currentPassword);
-
-          _newPasswordFieldController.clear();
-          _currentPasswordFieldController.clear();
-        } on AuthFailure catch (e) {
-          if (mounted) {
-            newPasswordError = e.message(widget.l10n);
-          }
-        } catch (e) {
-          if (mounted) {
-            newPasswordError = e.toString();
-          }
-        }
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
@@ -204,21 +60,20 @@ class _AccountDesktopTabWidgetState
         ? bp.screenWidth * 0.25
         : bp.screenWidth * 0.4;
 
-    final userNotifier = ref.read(userNotifierProvider.notifier);
-    final fieldsNotifier = ref.watch(accountFieldsProvider.notifier);
-    ref.watch(accountFieldsProvider);
+    final nameStatus = ref.watch(
+      textfieldStatusProvider(TextfieldIds.accountName),
+    );
+    final birthdayStatus = ref.watch(
+      textfieldStatusProvider(TextfieldIds.accountBirthday),
+    );
+    final emailStatus = ref.watch(
+      textfieldStatusProvider(TextfieldIds.accountEmail),
+    );
+    final phoneStatus = ref.watch(
+      textfieldStatusProvider(TextfieldIds.accountPhone),
+    );
 
-    ref.listen<AuthState>(authNotifierProvider, (previous, next) {
-      if (next is AuthAuthenticated && next.passwordUpdateError != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(next.passwordUpdateError!.message(widget.l10n)),
-          ),
-        );
-      }
-    });
-
-    Color? statusColor(FieldSaveState s) => s.message == null
+    Color? statusColor(FieldStatus s) => s.message == null
         ? null
         : (s.isError ? colors.errorColor : colors.componentSpecific);
 
@@ -247,13 +102,10 @@ class _AccountDesktopTabWidgetState
                     controller: widget.nameController,
                     width: fieldsWidth,
                     hint: widget.l10n.userNameHint,
-                    onChanged: (value) => fieldsNotifier.onFieldChanged(
-                      'name',
-                      value ?? '',
-                      userNotifier.updateUserName,
-                    ),
-                    error: fieldsNotifier.statusFor('name').message,
-                    errorColor: statusColor(fieldsNotifier.statusFor('name')),
+                    onChanged: (v) =>
+                        widget.accountSettingsController.onNameChanged(v ?? ''),
+                    error: nameStatus.message,
+                    errorColor: statusColor(nameStatus),
                   ),
                 ),
               ],
@@ -273,17 +125,10 @@ class _AccountDesktopTabWidgetState
                     menuWidth: fieldsWidth,
                     firstDate: DateTime(1900),
                     lastDate: DateTime.now(),
-                    onDateSelected: (DateTime newDate) {
-                      fieldsNotifier.onFieldChanged(
-                        'birthday',
-                        newDate.toString(),
-                        userNotifier.updateUserBirthday,
-                      );
-                    },
-                    error: fieldsNotifier.statusFor('birthday').message,
-                    errorColor: statusColor(
-                      fieldsNotifier.statusFor('birthday'),
-                    ),
+                    onDateSelected:
+                        widget.accountSettingsController.onBirthdayChanged,
+                    error: birthdayStatus.message,
+                    errorColor: statusColor(birthdayStatus),
                   ),
                 ),
               ],
@@ -302,10 +147,18 @@ class _AccountDesktopTabWidgetState
                     width: fieldsWidth,
                     hint: widget.l10n.emailHint,
                     suffixIcon: SvgIcons.arrowRight,
-                    onSuffixIconTap: _handleEmailChangeTap,
-                    focusNode: _emailFocusNode,
-                    error: fieldsNotifier.statusFor('email').message,
-                    errorColor: statusColor(fieldsNotifier.statusFor('email')),
+                    onSuffixIconTap: () =>
+                        widget.accountSettingsController.handleEmailUpdate(
+                          context: context,
+                          ref: ref,
+                          l10n: widget.l10n,
+                          emailController: widget.emailController,
+                          currentPasswordController:
+                              widget.currentPasswordController,
+                        ),
+                    focusNode: widget.emailFocusNode,
+                    error: emailStatus.message,
+                    errorColor: statusColor(emailStatus),
                   ),
                 ),
               ],
@@ -323,13 +176,10 @@ class _AccountDesktopTabWidgetState
                     controller: widget.phoneNumberController,
                     width: fieldsWidth,
                     hint: widget.l10n.phoneNumberHint,
-                    onChanged: (value) => fieldsNotifier.onFieldChanged(
-                      'phone',
-                      value ?? '',
-                      userNotifier.updateUserPhoneNumber,
-                    ),
-                    error: fieldsNotifier.statusFor('phone').message,
-                    errorColor: statusColor(fieldsNotifier.statusFor('phone')),
+                    onChanged: (v) => widget.accountSettingsController
+                        .onPhoneChanged(v ?? ''),
+                    error: phoneStatus.message,
+                    errorColor: statusColor(phoneStatus),
                   ),
                 ),
               ],
@@ -347,7 +197,15 @@ class _AccountDesktopTabWidgetState
                   width: fieldsWidth,
                   backgroundColor: colors.surface2,
                   textColor: colors.text1,
-                  onPressed: _showChangePasswordDialog,
+                  onPressed: () =>
+                      widget.accountSettingsController.handleChangePassword(
+                        context: context,
+                        ref: ref,
+                        l10n: widget.l10n,
+                        currentPasswordController:
+                            widget.currentPasswordController,
+                        newPasswordController: widget.newPasswordController,
+                      ),
                 ),
               ],
             ),
@@ -364,7 +222,14 @@ class _AccountDesktopTabWidgetState
                   width: fieldsWidth,
                   backgroundColor: colors.errorColor,
                   textColor: colors.bg,
-                  onPressed: () {}, //TODO: Need to finish
+                  onPressed: () =>
+                      widget.accountSettingsController.handleDeleteAccount(
+                        context: context,
+                        ref: ref,
+                        l10n: widget.l10n,
+                        currentPasswordController:
+                            widget.currentPasswordController,
+                      ),
                 ),
               ],
             ),

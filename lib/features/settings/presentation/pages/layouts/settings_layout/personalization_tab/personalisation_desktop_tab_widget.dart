@@ -8,7 +8,7 @@ import 'package:mess_messenger_app/features/settings/data/models/user_model.dart
 import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/build_title_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/checkbox_row_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/palette_widget.dart';
-import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/providers/theme_provider.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';

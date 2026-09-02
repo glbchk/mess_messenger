@@ -5,12 +5,14 @@ class UserAvatarWidget extends StatelessWidget {
   final String userName;
   final double? size;
   final String? photoPath;
+  final double borderWidth;
 
   const UserAvatarWidget({
     super.key,
     required this.userName,
     this.size,
     this.photoPath,
+    this.borderWidth = 3.0,
   });
 
   @override
@@ -19,18 +21,16 @@ class UserAvatarWidget extends StatelessWidget {
     final textTheme = context.textStyles;
     final hasPhoto = photoPath?.isNotEmpty ?? false;
     final initial = userName.isNotEmpty ? userName.substring(0, 1) : '?';
+    final effectiveSize = size ?? 48;
 
     return Container(
-      height: size ?? 48,
-      width: size ?? 48,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(30)),
-        color: colors.surface4,
-      ),
+      height: effectiveSize,
+      width: effectiveSize,
+      decoration: BoxDecoration(color: colors.surface4, shape: BoxShape.circle),
       child: Padding(
-        padding: const EdgeInsets.all(3.0),
+        padding: EdgeInsets.all(borderWidth),
         child: CircleAvatar(
-          radius: 96,
+          radius: (effectiveSize / 2) - borderWidth,
           backgroundColor: colors.surface4,
           backgroundImage: hasPhoto ? NetworkImage(photoPath ?? '') : null,
           child: hasPhoto

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mess_messenger_app/core/enums/enums.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
-import 'package:mess_messenger_app/features/settings/presentation/widgets/subscription_plan_card.dart';
+import 'package:mess_messenger_app/features/settings/presentation/widgets/settings_widgets/subscription_plan_card.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 

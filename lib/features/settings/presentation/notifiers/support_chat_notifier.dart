@@ -5,8 +5,8 @@ import 'package:mess_messenger_app/core/constants/support_faq_list.dart';
 import 'package:mess_messenger_app/features/chats/data/models/message_model.dart';
 import 'package:mess_messenger_app/features/settings/data/models/support_chat_model.dart';
 import 'package:mess_messenger_app/features/settings/presentation/states/support_chat_state.dart';
-import 'package:mess_messenger_app/features/settings/user_providers/support_chat_providers.dart';
-import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/data_providers/support_chat_providers.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
 
 class SupportChatNotifier extends Notifier<SupportChatState> {
   StreamSubscription<List<MessageModel>>? _messagesSubscription;

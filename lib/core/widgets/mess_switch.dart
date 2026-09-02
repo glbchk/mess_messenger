@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
-class CustomSwitch extends StatelessWidget {
+class MessSwitch extends StatelessWidget {
   final bool value;
   final ValueChanged<bool> onChanged;
   // final Color activeTrackColor;
   // final Color inactiveTrackColor;
   // final Color thumbColor;
 
-  const CustomSwitch({
+  const MessSwitch({
     super.key,
     required this.value,
     required this.onChanged,

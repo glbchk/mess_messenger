@@ -5,6 +5,8 @@ import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/web_side_menu.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/controllers/account_settings_controller.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/controllers/general_settings_controller.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/account_tab/account_desktop_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/api_tab/api_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/billing_tab/billing_desktop_tab_widget.dart';
@@ -12,37 +14,49 @@ import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/notification_tab/notification_desktop_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/personalization_tab/personalisation_desktop_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/widgets/settings_user_data_panel_widget.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/ui_providers/general_settings_ui_provider.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
+import 'package:mess_messenger_app/localization/supported_locales.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class SettingsTabletLayout extends ConsumerStatefulWidget {
   final AppLocalizations l10n;
   final UserModel userData;
-  final Future<void> Function() onPressed;
+  final GeneralSettingsUiNotifier view;
   final TabController tabController;
+  final VoidCallback onPressedChangeAvatar;
+  final VoidCallback onPressedLogoutFromAllDevices;
+  final List<SupportedLanguage> languages;
+  final GeneralSettingsController generalSettingsController;
+  final VoidCallback onPressedArchiveAllMessages;
+  final DateTime? selectedDate;
   final TextEditingController nameController;
   final MenuController birthdayController;
-  final DateTime? selectedDate;
   final TextEditingController emailController;
-  final TextEditingController phoneNumberController;
   final TextEditingController currentPasswordController;
   final TextEditingController newPasswordController;
-  final VoidCallback onPressedChangeAvatar;
+  final TextEditingController phoneNumberController;
+  final AccountSettingsController accountSettingsController;
 
   const SettingsTabletLayout({
     super.key,
     required this.l10n,
     required this.userData,
-    required this.onPressed,
+    required this.view,
     required this.tabController,
+    required this.languages,
+    required this.generalSettingsController,
+    required this.onPressedArchiveAllMessages,
+    required this.selectedDate,
     required this.nameController,
     required this.birthdayController,
-    required this.selectedDate,
     required this.emailController,
-    required this.phoneNumberController,
     required this.currentPasswordController,
     required this.newPasswordController,
+    required this.phoneNumberController,
+    required this.accountSettingsController,
     required this.onPressedChangeAvatar,
+    required this.onPressedLogoutFromAllDevices,
   });
 
   @override
@@ -95,7 +109,8 @@ class _SettingsTabletLayoutState extends ConsumerState<SettingsTabletLayout> {
                         userData: widget.userData,
                         onPressedChangeAvatar: widget.onPressedChangeAvatar,
                         onPressedExportAccountData: () {},
-                        onPressedTerminateAllActiveSessions: () {},
+                        onPressedTerminateAllActiveSessions:
+                            widget.onPressedLogoutFromAllDevices,
                         onPressedContactSupport: () {},
                         onPressedLogout: () {},
                       ),
@@ -161,20 +176,29 @@ class _SettingsTabletLayoutState extends ConsumerState<SettingsTabletLayout> {
                             GeneralDesktopTabWidget(
                               l10n: widget.l10n,
                               userData: widget.userData,
+                              view: widget.view,
+                              generalSettingsController:
+                                  widget.generalSettingsController,
+                              languages: widget.languages,
+                              onPressedArchiveAllMessages:
+                                  widget.onPressedArchiveAllMessages,
                             ),
                             AccountDesktopTabWidget(
                               l10n: widget.l10n,
                               userData: widget.userData,
+                              accountSettingsController:
+                                  widget.accountSettingsController,
                               nameController: widget.nameController,
                               birthdayController: widget.birthdayController,
                               selectedDate: widget.selectedDate,
+                              emailFocusNode: FocusNode(),
                               emailController: widget.emailController,
-                              phoneNumberController:
-                                  widget.phoneNumberController,
                               currentPasswordController:
                                   widget.currentPasswordController,
                               newPasswordController:
                                   widget.newPasswordController,
+                              phoneNumberController:
+                                  widget.phoneNumberController,
                             ),
                             PersonalisationDesktopTabWidget(
                               l10n: widget.l10n,

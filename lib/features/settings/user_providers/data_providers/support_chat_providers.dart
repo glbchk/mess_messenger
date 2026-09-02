@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mess_messenger_app/core/providers/firebase_provider.dart';
+import 'package:mess_messenger_app/core/providers/data_providers/firebase_provider.dart';
 import 'package:mess_messenger_app/features/chats/data/models/message_model.dart';
 import 'package:mess_messenger_app/features/settings/data/data_source/support_chat_remote_data_source.dart';
 import 'package:mess_messenger_app/features/settings/data/models/support_chat_model.dart';
@@ -8,7 +8,7 @@ import 'package:mess_messenger_app/features/settings/domain/user_repositories/su
 import 'package:mess_messenger_app/features/settings/domain/user_use_cases/support_chat_use_cases.dart';
 import 'package:mess_messenger_app/features/settings/presentation/notifiers/support_chat_notifier.dart';
 import 'package:mess_messenger_app/features/settings/presentation/states/support_chat_state.dart';
-import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
 
 final supportChatRemoteDataSourceProvider =
     Provider<SupportChatRemoteDataSource>((ref) {

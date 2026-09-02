@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mess_messenger_app/core/providers/firebase_provider.dart';
+import 'package:mess_messenger_app/core/providers/data_providers/firebase_provider.dart';
 import 'package:mess_messenger_app/features/auth/data/auth_repositories_impl/auth_repository_impl.dart';
 import 'package:mess_messenger_app/features/auth/data/data_source/auth_local_data_source.dart';
 import 'package:mess_messenger_app/features/auth/data/data_source/auth_remote_data_source.dart';
@@ -7,7 +7,7 @@ import 'package:mess_messenger_app/features/auth/domain/auth_repositories/auth_r
 import 'package:mess_messenger_app/features/auth/domain/auth_use_cases/auth_use_cases.dart';
 import 'package:mess_messenger_app/features/auth/presentation/notifiers/auth_notifier.dart';
 import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.dart';
-import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
 
 final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>((ref) {
   final auth = ref.read(firebaseAuthProvider);

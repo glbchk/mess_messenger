@@ -1,298 +1,219 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
-import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/dropdown_menu/dropdown_item_action_model.dart';
 import 'package:mess_messenger_app/core/widgets/dropdown_menu/mess_icon_dropdown_button.dart';
-import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
-import 'package:mess_messenger_app/core/widgets/mobile_widgets/app_bar/mobile_app_bar.dart';
-import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/controllers/account_settings_controller.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/controllers/general_settings_controller.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/account_tab/account_mobile_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/api_tab/api_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/billing_tab/billing_mobile_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/general_tab/general_mobile_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/notification_tab/notification_mobile_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/personalization_tab/personalisation_mobile_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/profile_header_delegate.dart';
+import 'package:mess_messenger_app/features/settings/presentation/widgets/pinned_tab_bar_delegate.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/general_settings_ui_provider.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
+import 'package:mess_messenger_app/localization/supported_locales.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
-class SettingsMobileLayout extends ConsumerStatefulWidget {
+class SettingsMobileLayout extends StatefulWidget {
   final AppLocalizations l10n;
   final UserModel userData;
-  final Future<void> Function() onPressed;
+  final GeneralSettingsUiNotifier view;
   final TabController tabController;
+  final VoidCallback onPressedChangeAvatar;
+  final VoidCallback onPressedLogoutFromAllDevices;
+  final List<SupportedLanguage> languages;
+  final GeneralSettingsController generalSettingsController;
+  final VoidCallback onPressedArchiveAllMessages;
+  final DateTime? selectedDate;
   final TextEditingController nameController;
   final MenuController birthdayController;
-  final DateTime? selectedDate;
   final TextEditingController emailController;
-  final TextEditingController phoneNumberController;
   final TextEditingController currentPasswordController;
   final TextEditingController newPasswordController;
-  final VoidCallback onPressedChangeAvatar;
+  final TextEditingController phoneNumberController;
+  final AccountSettingsController accountSettingsController;
 
   const SettingsMobileLayout({
     super.key,
     required this.l10n,
     required this.userData,
-    required this.onPressed,
+    required this.view,
     required this.tabController,
+    required this.languages,
+    required this.generalSettingsController,
+    required this.onPressedArchiveAllMessages,
+    required this.selectedDate,
     required this.nameController,
     required this.birthdayController,
-    required this.selectedDate,
     required this.emailController,
-    required this.phoneNumberController,
     required this.currentPasswordController,
     required this.newPasswordController,
+    required this.phoneNumberController,
+    required this.accountSettingsController,
     required this.onPressedChangeAvatar,
+    required this.onPressedLogoutFromAllDevices,
   });
 
   @override
-  ConsumerState<SettingsMobileLayout> createState() =>
-      _SettingsMobileLayoutState();
+  State<SettingsMobileLayout> createState() => _SettingsMobileLayoutState();
 }
 
-class _SettingsMobileLayoutState extends ConsumerState<SettingsMobileLayout> {
-  void _confirmDeleteAccount() {
-    print('DEBUG: delete account');
-  }
-
+class _SettingsMobileLayoutState extends State<SettingsMobileLayout> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final textTheme = context.textStyles;
+    final topPadding = MediaQuery.paddingOf(context).top;
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: true,
-      appBar: MobileAppBar(
-        appBarBackgroundColor: colors.transparent,
-        showAppBarContent: false,
-        showBackButton: true,
-        onPressedBack: () {
-          Navigator.of(context).pop();
-        },
-        actions: [
-          MessIconDropdownButton<DropdownItemAction>(
-            svgAsset: SvgIcons.menuVert,
-            isButtonFilled: true,
-            borderWidth: 0,
-            itemLabelBuilder: (item) => item.label,
-            textColorBuilder: (item) => item.textColor,
-            onItemTap: (item) => item.onTap(),
-            items: [
-              DropdownItemAction(
-                label: 'Change avatar',
-                onTap: widget.onPressedChangeAvatar,
-              ),
-              DropdownItemAction(label: 'Export account data', onTap: () {}),
-              DropdownItemAction(
-                label: 'Active sessions',
-                onTap: () async {
-                  await ref
-                      .read(authNotifierProvider.notifier)
-                      .logoutFromAllDevices();
-                },
-              ),
-              DropdownItemAction(
-                label: 'Contact support',
-                onTap: () {
-                  context.push('/support');
-                },
-              ),
-              DropdownItemAction(
-                label: 'Log out',
-                textColor: colors.errorColor,
-                onTap: () {},
-              ),
-            ],
-          ),
-          AppSpacing.p16.gapH,
-        ],
-      ),
-      body: Container(
-        color: colors.bg,
-        child: Stack(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header Image Banner
-                SizedBox(
-                  height: 220,
-                  width: double.infinity,
-                  child: Image.asset(
-                    'assets/images/settings_header.png',
-                    fit: BoxFit.cover,
+      backgroundColor: colors.bg,
+      body: NestedScrollView(
+        physics: const BouncingScrollPhysics(),
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          SliverPersistentHeader(
+            pinned: true,
+            delegate: ProfileHeaderDelegate(
+              topInset: topPadding,
+              userData: widget.userData,
+              textTheme: textTheme,
+              colors: colors,
+              onBack: () => context.pop(),
+              actions: MessIconDropdownButton<DropdownItemAction>(
+                svgAsset: SvgIcons.menuVert,
+                isButtonFilled: true,
+                borderWidth: 0,
+                itemLabelBuilder: (item) => item.label,
+                textColorBuilder: (item) => item.textColor,
+                onItemTap: (item) => item.onTap(),
+                items: [
+                  DropdownItemAction(
+                    label: 'Change avatar',
+                    onTap: widget.onPressedChangeAvatar,
                   ),
-                ),
-                AppSpacing.p64.gapV,
-
-                // User Details
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.userData.name ?? 'Sylvia Reyes',
-                        style: textTheme.displaySmall?.copyWith(
-                          color: colors.text1,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        widget.userData.phoneNumber ?? '+44656548060',
-                        style: textTheme.headlineMedium?.copyWith(
-                          color: colors.text2,
-                        ),
-                      ),
-                    ],
+                  DropdownItemAction(
+                    label: 'Export account data',
+                    onTap: () {},
                   ),
-                ),
-
-                // Tab Navigation Bar
-                Container(
-                  margin: const EdgeInsets.only(
-                    bottom: 16.0,
-                    left: 16.0,
-                    top: 16.0,
+                  DropdownItemAction(
+                    label: 'Active sessions',
+                    onTap: widget.onPressedLogoutFromAllDevices,
                   ),
-                  child: TabBar(
-                    controller: widget.tabController,
-                    isScrollable: true,
-                    labelPadding: const EdgeInsets.symmetric(horizontal: 8),
-                    tabAlignment: TabAlignment.start,
-                    dividerColor: colors.transparent,
-                    indicatorSize: TabBarIndicatorSize.label,
-                    indicator: BoxDecoration(
-                      color: colors.textInverse,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    labelColor: colors.text2,
-                    unselectedLabelColor: colors.text2,
-                    labelStyle: textTheme.titleMedium,
-                    overlayColor: const WidgetStatePropertyAll(
-                      Colors.transparent,
-                    ),
-                    splashFactory: NoSplash.splashFactory,
-                    tabs: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 18),
-                        child: Tab(text: widget.l10n.general),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 18),
-                        child: Tab(text: widget.l10n.account),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 18),
-                        child: Tab(text: widget.l10n.personalisation),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 18),
-                        child: Tab(text: widget.l10n.billing),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 18),
-                        child: Tab(text: widget.l10n.notification),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 18),
-                        child: Tab(text: widget.l10n.api),
-                      ),
-                    ],
+                  DropdownItemAction(
+                    label: 'Contact support',
+                    onTap: () => context.push('/support'),
                   ),
-                ),
-
-                // 💡 The magic happens here!
-                // We wrap the TabBarView in an Expanded so it takes up the remaining screen height.
-                Expanded(
-                  child: TabBarView(
-                    controller: widget.tabController,
-                    children: [
-                      // Tab 1: General (Uses our clean helper layout function below)
-                      GeneralMobileTabWidget(
-                        l10n: widget.l10n,
-                        userData: widget.userData,
-                      ),
-
-                      // Tab 2: Account
-                      AccountMobileTabWidget(
-                        l10n: widget.l10n,
-                        userData: widget.userData,
-                        nameController: widget.nameController,
-                        birthdayController: widget.birthdayController,
-                        selectedDate: widget.selectedDate,
-                        emailController: widget.emailController,
-                        phoneNumberController: widget.phoneNumberController,
-                        newPasswordController: widget.newPasswordController,
-                        currentPasswordController:
-                            widget.currentPasswordController,
-                      ),
-
-                      PersonalisationMobileTabWidget(
-                        l10n: widget.l10n,
-                        userData: widget.userData,
-                      ),
-
-                      BillingMobileTabWidget(
-                        l10n: widget.l10n,
-                        userData: widget.userData,
-                        onDownloadInvoices: (invoicesToDownload) {
-                          // Perform download or API request here
-                        },
-                      ),
-
-                      NotificationMobileTabWidget(),
-
-                      ApiTabWidget(),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-
-            // Profile Avatar Stack Overlay
-            Positioned(
-              left: 24,
-              top: 170,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  CircleAvatar(
-                    radius: 48,
-                    backgroundColor: colors.surface4,
-                    backgroundImage:
-                        (widget.userData.avatarUrl?.isNotEmpty ?? false)
-                        ? NetworkImage(widget.userData.avatarUrl!)
-                        : null,
-                    child: (widget.userData.avatarUrl?.isNotEmpty ?? false)
-                        ? null
-                        : Text(
-                            widget.userData.name?.substring(0, 1) ?? '?',
-                            style: textTheme.displayLarge?.copyWith(
-                              color: colors.iconContrast,
-                            ),
-                          ),
-                  ),
-                  Positioned(
-                    right: -2,
-                    bottom: -2,
-                    child: Stack(
-                      children: [
-                        MessIcon(
-                          SvgIcons.verifiedLabel,
-                          color: colors.componentSpecific,
-                        ),
-                        MessIcon(SvgIcons.verifiedCheckmark, color: colors.bg),
-                      ],
-                    ),
+                  DropdownItemAction(
+                    label: 'Log out',
+                    textColor: colors.errorColor,
+                    onTap: () {},
                   ),
                 ],
               ),
             ),
+          ),
+          SliverPersistentHeader(
+            pinned: true,
+            delegate: PinnedTabBarDelegate(
+              height: 64,
+              backgroundColor: colors.bg,
+              shadowColor: const Color(0x14000000),
+              child: Container(
+                margin: const EdgeInsets.only(
+                  bottom: 16.0,
+                  left: 16.0,
+                  top: 16.0,
+                ),
+                child: TabBar(
+                  controller: widget.tabController,
+                  isScrollable: true,
+                  labelPadding: const EdgeInsets.symmetric(horizontal: 8),
+                  tabAlignment: TabAlignment.start,
+                  dividerColor: colors.transparent,
+                  indicatorSize: TabBarIndicatorSize.label,
+                  indicator: BoxDecoration(
+                    color: colors.textInverse,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  labelColor: colors.text2,
+                  unselectedLabelColor: colors.text2,
+                  labelStyle: textTheme.titleMedium,
+                  overlayColor: const WidgetStatePropertyAll(
+                    Colors.transparent,
+                  ),
+                  splashFactory: NoSplash.splashFactory,
+                  tabs: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
+                      child: Tab(text: widget.l10n.general),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
+                      child: Tab(text: widget.l10n.account),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
+                      child: Tab(text: widget.l10n.personalisation),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
+                      child: Tab(text: widget.l10n.billing),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
+                      child: Tab(text: widget.l10n.notification),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
+                      child: Tab(text: widget.l10n.api),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+        body: TabBarView(
+          controller: widget.tabController,
+
+          children: [
+            GeneralMobileTabWidget(
+              l10n: widget.l10n,
+              userData: widget.userData,
+              view: widget.view,
+              generalSettingsController: widget.generalSettingsController,
+              languages: widget.languages,
+              onPressedArchiveAllMessages: widget.onPressedArchiveAllMessages,
+            ),
+            AccountMobileTabWidget(
+              l10n: widget.l10n,
+              userData: widget.userData,
+              accountSettingsController: widget.accountSettingsController,
+              nameController: widget.nameController,
+              birthdayController: widget.birthdayController,
+              selectedDate: widget.selectedDate,
+              emailFocusNode: FocusNode(),
+              emailController: widget.emailController,
+              currentPasswordController: widget.currentPasswordController,
+              newPasswordController: widget.newPasswordController,
+              phoneNumberController: widget.phoneNumberController,
+            ),
+            PersonalisationMobileTabWidget(
+              l10n: widget.l10n,
+              userData: widget.userData,
+            ),
+            BillingMobileTabWidget(
+              l10n: widget.l10n,
+              userData: widget.userData,
+              onDownloadInvoices: (invoicesToDownload) {},
+            ),
+            NotificationMobileTabWidget(),
+            ApiTabWidget(),
           ],
         ),
       ),

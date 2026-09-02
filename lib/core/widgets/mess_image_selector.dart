@@ -3,16 +3,16 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
-class ImageSelector extends StatefulWidget {
+class MessImageSelector extends StatefulWidget {
   final Uint8List? imageBytes;
 
-  const ImageSelector({super.key, this.imageBytes});
+  const MessImageSelector({super.key, this.imageBytes});
 
   @override
-  State<ImageSelector> createState() => _ImageSelectorState();
+  State<MessImageSelector> createState() => _MessImageSelectorState();
 }
 
-class _ImageSelectorState extends State<ImageSelector> {
+class _MessImageSelectorState extends State<MessImageSelector> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;

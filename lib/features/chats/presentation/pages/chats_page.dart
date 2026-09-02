@@ -9,7 +9,7 @@ import 'package:mess_messenger_app/features/chats/presentation/pages/layouts/cha
 import 'package:mess_messenger_app/features/chats/presentation/pages/layouts/chats_tablet_layout.dart';
 import 'package:mess_messenger_app/features/chats/presentation/pages/mobile_open_chat_page.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
-import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 

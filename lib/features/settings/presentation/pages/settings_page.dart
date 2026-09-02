@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -5,12 +7,18 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/utils/layouts/responsive_layout_wrapper.dart';
 import 'package:mess_messenger_app/core/widgets/mess_alert.dart';
+import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
+import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/controllers/account_settings_controller.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/controllers/general_settings_controller.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/settings_desktop_layout.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/settings_mobile_layout.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/settings_tablet_layout.dart';
-import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
-import 'package:responsive_framework/responsive_framework.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/ui_providers/general_settings_ui_provider.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
+import 'package:mess_messenger_app/localization/errors/auth_failure_l10n.dart';
+import 'package:mess_messenger_app/localization/supported_locales.dart';
 
 const _settingsTabNames = [
   'general',
@@ -41,26 +49,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
   late final TextEditingController currentPasswordController;
   late final TextEditingController newPasswordController;
 
-  void _showChangeAvatarDialog() {
-    //TODO: Still need to fix, errors are not displaying properly and also it saves anything now
-
-    MessAlertWidget.show(
-      context: context,
-      ref: ref,
-      title: 'Change your avatar',
-      message: 'Take a picture or select one of your existing pictures.',
-      buttonLabel: 'Take a picture',
-      secondaryButtonLabel: 'Select photo',
-      onConfirmWithImage: (XFile? selectedImage) async {
-        if (selectedImage == null) return;
-        await ref
-            .read(userNotifierProvider.notifier)
-            .updateAvatar(selectedImage);
-      },
-      onSecondaryPressed: () async {},
-      pictureSelectorEnabled: true,
-    );
-  }
+  final Map<String, Timer> _debounce = {};
 
   @override
   void initState() {
@@ -106,6 +95,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
     emailController.dispose();
     currentPasswordController.dispose();
     newPasswordController.dispose();
+    for (final t in _debounce.values) {
+      t.cancel();
+    }
     super.dispose();
   }
 
@@ -116,13 +108,61 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
     }
   }
 
+  Future<void> openChattingPage() async {}
+
+  void _showChangeAvatarDialog() {
+    //TODO: Still need to fix, errors are not displaying properly and also it saves anything now
+
+    MessAlertWidget.show(
+      context: context,
+      ref: ref,
+      title: 'Change your avatar',
+      message: 'Take a picture or select one of your existing pictures.',
+      buttonLabel: 'Take a picture',
+      secondaryButtonLabel: 'Select photo',
+      onConfirmWithImage: (XFile? selectedImage) async {
+        if (selectedImage == null) return;
+        await ref
+            .read(userNotifierProvider.notifier)
+            .updateAvatar(selectedImage);
+      },
+      onSecondaryPressed: () async {},
+      pictureSelectorEnabled: true,
+    );
+  }
+
+  void _logoutFromAllDevices() {
+    ref.read(authNotifierProvider.notifier).logoutFromAllDevices();
+  }
+
+  void _onArchiveAllMessages() {
+    print('DEBUG: Archive all messages');
+    // TODO: implement archive-all
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final userData =
         ref.watch(userNotifierProvider).userData ?? UserModel(id: '');
+    // final userNotifier = ref.read(userNotifierProvider.notifier);
+    final languages = getSupportedLanguages(l10n);
+    final view = buildGeneralSettingsView(userData, l10n);
+    final generalSettingsController = ref.read(
+      generalSettingsControllerProvider,
+    );
 
-    final bp = ResponsiveBreakpoints.of(context);
+    final accountSettingsController = ref.read(
+      accountSettingsControllerProvider,
+    );
+
+    ref.listen<AuthState>(authNotifierProvider, (prev, next) {
+      if (next is AuthAuthenticated && next.passwordUpdateError != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(next.passwordUpdateError!.message(l10n))),
+        );
+      }
+    });
 
     ref.listen(userNotifierProvider, (previous, next) {
       final newName = next.userData?.name ?? '';
@@ -138,50 +178,63 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
       }
     });
 
-    Future<void> openChattingPage() async {}
-
     return ResponsiveLayout(
       mobile: SettingsMobileLayout(
         l10n: l10n,
         userData: userData,
         tabController: tabController,
-        onPressed: () => openChattingPage(),
+        onPressedArchiveAllMessages: _onArchiveAllMessages,
+        onPressedChangeAvatar: _showChangeAvatarDialog,
+        onPressedLogoutFromAllDevices: _logoutFromAllDevices,
+        view: view,
+        generalSettingsController: generalSettingsController,
+        languages: languages,
+        accountSettingsController: accountSettingsController,
         nameController: nameController,
         birthdayController: birthdayController,
         selectedDate: _selectedDate,
         emailController: emailController,
         phoneNumberController: phoneNumberController,
-        newPasswordController: newPasswordController,
         currentPasswordController: currentPasswordController,
-        onPressedChangeAvatar: _showChangeAvatarDialog,
+        newPasswordController: newPasswordController,
       ),
       tablet: SettingsTabletLayout(
         l10n: l10n,
         userData: userData,
         tabController: tabController,
-        onPressed: () => openChattingPage(),
+        onPressedArchiveAllMessages: _onArchiveAllMessages,
+        onPressedChangeAvatar: _showChangeAvatarDialog,
+        onPressedLogoutFromAllDevices: _logoutFromAllDevices,
+        view: view,
+        generalSettingsController: generalSettingsController,
+        languages: languages,
+        accountSettingsController: accountSettingsController,
         nameController: nameController,
         birthdayController: birthdayController,
         selectedDate: _selectedDate,
         emailController: emailController,
         phoneNumberController: phoneNumberController,
-        newPasswordController: newPasswordController,
         currentPasswordController: currentPasswordController,
-        onPressedChangeAvatar: _showChangeAvatarDialog,
+        newPasswordController: newPasswordController,
       ),
       desktop: SettingsDesktopLayout(
         l10n: l10n,
         userData: userData,
         tabController: tabController,
-        onPressed: () => openChattingPage(),
+        onPressedArchiveAllMessages: _onArchiveAllMessages,
+        onPressedChangeAvatar: _showChangeAvatarDialog,
+        onPressedLogoutFromAllDevices: _logoutFromAllDevices,
+        view: view,
+        generalSettingsController: generalSettingsController,
+        languages: languages,
+        accountSettingsController: accountSettingsController,
         nameController: nameController,
         birthdayController: birthdayController,
         selectedDate: _selectedDate,
         emailController: emailController,
         phoneNumberController: phoneNumberController,
-        newPasswordController: newPasswordController,
         currentPasswordController: currentPasswordController,
-        onPressedChangeAvatar: _showChangeAvatarDialog,
+        newPasswordController: newPasswordController,
       ),
     );
   }

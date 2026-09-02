@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mess_messenger_app/features/settings/presentation/widgets/custom_switch.dart';
+import 'package:mess_messenger_app/core/widgets/mess_switch.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -73,7 +73,7 @@ class NotificationSelector extends StatelessWidget {
                       spacing: 8,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        CustomSwitch(
+                        MessSwitch(
                           value: firstValue,
                           onChanged: (bool value) =>
                               onFirstSwitchChanged(!firstValue),
@@ -90,7 +90,7 @@ class NotificationSelector extends StatelessWidget {
                       spacing: 8,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        CustomSwitch(
+                        MessSwitch(
                           value: secondValue,
                           onChanged: (bool value) =>
                               onSecondSwitchChanged(!secondValue),
@@ -107,7 +107,7 @@ class NotificationSelector extends StatelessWidget {
                       spacing: 8,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        CustomSwitch(
+                        MessSwitch(
                           value: thirdValue,
                           onChanged: (bool value) =>
                               onThirdSwitchChanged(!thirdValue),
@@ -156,7 +156,7 @@ class NotificationSelector extends StatelessWidget {
                       spacing: 8,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        CustomSwitch(
+                        MessSwitch(
                           value: firstValue,
                           onChanged: (bool value) =>
                               onFirstSwitchChanged(!firstValue),
@@ -173,7 +173,7 @@ class NotificationSelector extends StatelessWidget {
                       spacing: 8,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        CustomSwitch(
+                        MessSwitch(
                           value: secondValue,
                           onChanged: (bool value) =>
                               onSecondSwitchChanged(!secondValue),
@@ -190,7 +190,7 @@ class NotificationSelector extends StatelessWidget {
                       spacing: 8,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        CustomSwitch(
+                        MessSwitch(
                           value: thirdValue,
                           onChanged: (bool value) =>
                               onThirdSwitchChanged(!thirdValue),

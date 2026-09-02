@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mess_messenger_app/core/providers/global_providers.dart';
+import 'package:mess_messenger_app/core/providers/data_providers/global_providers.dart';
 import 'package:mess_messenger_app/core/widgets/mobile_widgets/navigation_bar/mobile_navigation_bar.dart';
-import 'package:mess_messenger_app/features/chats/presentation/pages/chats_page.dart';
-import 'package:mess_messenger_app/features/contacts/presentation/pages/contacts_page.dart';
 import 'package:mess_messenger_app/features/settings/presentation/states/user_state.dart';
-import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-const _shellTabNames = ['chats', 'calls', 'contacts'];
+enum _ShellTab {
+  chats(isPushed: false),
+  calls(isPushed: false),
+  contacts(isPushed: false),
+  settings(isPushed: true);
+
+  final bool isPushed;
+  const _ShellTab({required this.isPushed});
+}
 
 class AppShell extends ConsumerStatefulWidget {
-  final String initialTab;
-  const AppShell({super.key, this.initialTab = 'chats'});
+  final StatefulNavigationShell navigationShell;
+  const AppShell({super.key, required this.navigationShell});
 
   @override
   ConsumerState<AppShell> createState() => _AppShellState();
@@ -21,10 +27,6 @@ class AppShell extends ConsumerStatefulWidget {
 
 class _AppShellState extends ConsumerState<AppShell>
     with WidgetsBindingObserver {
-  late int _selectedIndex = _shellTabNames
-      .indexOf(widget.initialTab)
-      .clamp(0, _shellTabNames.length - 1);
-
   @override
   void initState() {
     super.initState();
@@ -52,10 +54,11 @@ class _AppShellState extends ConsumerState<AppShell>
   }
 
   void _onItemTapped(int index) {
-    if (index == 3) {
-      context.go('/settings');
+    final tab = _ShellTab.values[index];
+    if (tab.isPushed) {
+      context.push('/${tab.name}');
     } else {
-      context.go('/${_shellTabNames[index]}');
+      widget.navigationShell.goBranch(index);
     }
   }
 
@@ -80,18 +83,10 @@ class _AppShellState extends ConsumerState<AppShell>
     final bp = ResponsiveBreakpoints.of(context);
 
     return Scaffold(
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: const [
-          ChatsPage(), // index 0
-          Center(child: Text('Calls — coming soon')),
-          ContactsPage(), // index 3
-          SizedBox.shrink(),
-        ],
-      ),
+      body: widget.navigationShell,
       bottomNavigationBar: bp.isMobile
           ? MobileNavigationBar(
-              selectedIndex: _selectedIndex,
+              selectedIndex: widget.navigationShell.currentIndex,
               onItemTapped: _onItemTapped,
             )
           : null,

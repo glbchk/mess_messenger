@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mess_messenger_app/core/providers/global_providers.dart';
+import 'package:mess_messenger_app/core/providers/data_providers/global_providers.dart';
 import 'package:mess_messenger_app/core/router/app_router.dart';
 import 'package:mess_messenger_app/core/utils/colors/app_colors.dart';
 import 'package:mess_messenger_app/core/utils/colors/app_palette.dart';

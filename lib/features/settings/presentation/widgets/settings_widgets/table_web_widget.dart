@@ -4,7 +4,7 @@ import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
 import 'package:mess_messenger_app/features/settings/data/models/invoice_model.dart';
-import 'package:mess_messenger_app/features/settings/presentation/widgets/status_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/widgets/settings_widgets/status_widget.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 

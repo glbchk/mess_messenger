@@ -63,6 +63,8 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return AppBar(
       backgroundColor: appBarBackgroundColor ?? colors.surface0,
+      surfaceTintColor: colors.transparent,
+      scrolledUnderElevation: 0,
       elevation: 0,
       toolbarHeight: currentHeight,
       leading: showAppBarContent == true || showBackButton == true

@@ -5,14 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mess_messenger_app/core/enums/enums.dart';
 import 'package:mess_messenger_app/core/errors/auth_failure.dart';
-import 'package:mess_messenger_app/core/providers/cloudinary_provider.dart';
-import 'package:mess_messenger_app/core/providers/firebase_provider.dart';
-import 'package:mess_messenger_app/core/providers/global_providers.dart';
+import 'package:mess_messenger_app/core/providers/data_providers/cloudinary_provider.dart';
+import 'package:mess_messenger_app/core/providers/data_providers/firebase_provider.dart';
+import 'package:mess_messenger_app/core/providers/data_providers/global_providers.dart';
 import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
 import 'package:mess_messenger_app/features/settings/data/models/general_settings_model.dart';
 import 'package:mess_messenger_app/features/settings/data/models/personalization_settings_model.dart';
 import 'package:mess_messenger_app/features/settings/presentation/states/user_state.dart';
-import 'package:mess_messenger_app/features/settings/user_providers/user_providers.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
 import 'package:mess_messenger_app/theme/providers/theme_provider.dart';
 
 class UserNotifier extends Notifier<UserState> {
