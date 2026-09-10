@@ -30,7 +30,6 @@ class UserChatsNotifier extends Notifier<UserChatsState> {
 
     state = state.copyWith(isLoading: true);
 
-    // Cancel old listener if it exists
     _chatsSubscription?.cancel();
 
     _chatsSubscription = ref
@@ -46,5 +45,22 @@ class UserChatsNotifier extends Notifier<UserChatsState> {
             print('DEBUG: fetchChats failed: $error');
           },
         );
+  }
+
+  void toggleChatList() {
+    state = state.copyWith(isChatListCollapsed: !state.isChatListCollapsed);
+  }
+
+  void toggleDisplayProfileDetails() {
+    final isCurrentlyDisplayed = state.isProfileDetailsDisplayed;
+
+    if (!isCurrentlyDisplayed) {
+      state = state.copyWith(
+        isProfileDetailsDisplayed: true,
+        isChatListCollapsed: true,
+      );
+    } else {
+      state = state.copyWith(isProfileDetailsDisplayed: false);
+    }
   }
 }

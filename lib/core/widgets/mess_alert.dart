@@ -209,7 +209,7 @@ class _MessAlertWidgetState extends ConsumerState<MessAlertWidget> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       content: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: .center,
         children: [
           Container(
             margin: const EdgeInsets.symmetric(

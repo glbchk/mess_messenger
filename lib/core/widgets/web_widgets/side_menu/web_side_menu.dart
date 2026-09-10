@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
+import 'package:mess_messenger_app/core/router/app_routes.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/build_header_widget.dart';
@@ -41,21 +42,23 @@ class _WebSideMenuState extends State<WebSideMenu>
         iconPath: SvgIcons.chats,
         label: l10n.chats,
         onTap: () {
-          context.go('/chats');
+          context.push(AppRoutes.chats);
         },
       ),
       MenuItem(
         id: 'calls',
         iconPath: SvgIcons.calls,
         label: l10n.calls,
-        onTap: () {},
+        onTap: () {
+          context.push(AppRoutes.calls);
+        },
       ),
       MenuItem(
         id: 'contacts',
         iconPath: SvgIcons.contacts,
         label: l10n.contacts,
         onTap: () {
-          context.go('/contacts');
+          context.push(AppRoutes.contacts);
         },
       ),
       const FlexSpacer(),
@@ -63,20 +66,25 @@ class _WebSideMenuState extends State<WebSideMenu>
         id: 'favorites',
         iconPath: SvgIcons.favorites,
         label: l10n.favorites,
-        onTap: () {},
+        onTap: () {
+          //widget.onPressedFavorites;
+        },
       ),
       MenuItem(
         id: 'archive',
         iconPath: SvgIcons.archive,
         label: l10n.archive,
-        onTap: () {},
+        onTap: () {
+          //widget.onPressedArchive;
+        },
       ),
       MenuItem(
         id: 'settings',
         iconPath: SvgIcons.settings,
         label: l10n.settings,
         onTap: () {
-          context.go('/settings');
+          context.push(AppRoutes.settings);
+          ;
         },
       ),
       const ColumnExtension(),
@@ -91,9 +99,8 @@ class _WebSideMenuState extends State<WebSideMenu>
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 28),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: .start,
           children: [
-            // ── Header ──────────────────────────────────────
             buildHeader(
               context: context,
               toggle: () => _toggle(),
@@ -105,7 +112,6 @@ class _WebSideMenuState extends State<WebSideMenu>
 
             AppSpacing.p8.gapV,
 
-            // ── Nav Items ───────────────────────────────────
             for (final entry in menuItems)
               switch (entry) {
                 MenuItem() => buildMenuItem(
@@ -123,45 +129,50 @@ class _WebSideMenuState extends State<WebSideMenu>
                 ColumnExtension() => Column(
                   children: [
                     AppSpacing.p28.gapV,
-                    Padding(
-                      padding: EdgeInsets.only(left: 33),
-                      child: Row(
-                        children: [
-                          UserAvatarWidget(
-                            userName:
-                                widget.userData.name ?? 'Joe Doe', //'Joe Doe',
-                            photoPath:
-                                widget.userData.avatarUrl ??
-                                'assets/images/user_images/avatar_image.png',
-                          ),
-                          if (_isExpanded) AppSpacing.p12.gapH,
-                          Flexible(
-                            child: ClipRect(
-                              child: AnimatedAlign(
-                                duration: _menuDuration,
-                                curve: Curves.easeInOut,
-                                alignment: Alignment.centerLeft,
-                                widthFactor: _isExpanded ? 1.0 : 0.0,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      widget.userData.name ?? 'Joe Doe',
-                                      overflow: TextOverflow.clip,
-                                      softWrap: false,
-                                    ),
-                                    Text(
-                                      widget.userData.email ?? 'fake@email.com',
-                                      overflow: TextOverflow.clip,
-                                      softWrap: false,
-                                    ),
-                                  ],
+                    GestureDetector(
+                      onTap: () {
+                        context.push(AppRoutes.settings);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 33),
+                        child: Row(
+                          children: [
+                            UserAvatarWidget(
+                              userName: widget.userData.name ?? 'Joe Doe',
+                              photoPath:
+                                  widget.userData.avatarUrl ??
+                                  'assets/images/user_images/avatar_image.png',
+                            ),
+                            if (_isExpanded) AppSpacing.p12.gapH,
+                            Flexible(
+                              child: ClipRect(
+                                child: AnimatedAlign(
+                                  duration: _menuDuration,
+                                  curve: Curves.easeInOut,
+                                  alignment: Alignment.centerLeft,
+                                  widthFactor: _isExpanded ? 1.0 : 0.0,
+                                  child: Column(
+                                    crossAxisAlignment: .start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        widget.userData.name ?? 'Joe Doe',
+                                        overflow: TextOverflow.clip,
+                                        softWrap: false,
+                                      ),
+                                      Text(
+                                        widget.userData.email ??
+                                            'fake@email.com',
+                                        overflow: TextOverflow.clip,
+                                        softWrap: false,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ],

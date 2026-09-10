@@ -59,7 +59,7 @@ class _NotificationMobileTabWidgetState
       child: Padding(
         padding: const EdgeInsets.only(left: 32, top: 12, right: 32),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: .start,
           children: [
             Text(
               'Notification',
@@ -78,14 +78,14 @@ class _NotificationMobileTabWidgetState
                     horizontal: 16.0,
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: .start,
                     children: [
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: .start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: .start,
                             children: [
                               Text(
                                 'Important notifications',

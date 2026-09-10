@@ -7,9 +7,9 @@ import 'package:mess_messenger_app/core/widgets/header_widget.dart';
 import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/web_side_menu.dart';
 import 'package:mess_messenger_app/features/chats/data/models/chat_model.dart';
-import 'package:mess_messenger_app/features/chats/presentation/widgets/chat_detail_panel.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/chat_tile_widget.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/chats_header_section_widget.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/opened_selected_chat_widget.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
@@ -19,7 +19,7 @@ class ContactsTabletLayout extends ConsumerWidget {
   final UserModel userData;
   final List<ChatModel> chats;
   final String selectedChatId;
-  final Future<void> Function() onPressed;
+  final VoidCallback onPressed;
   final void Function(String chatId) onChatSelected;
   final TextEditingController messageController;
   final VoidCallback onSendMessage;
@@ -50,7 +50,7 @@ class ContactsTabletLayout extends ConsumerWidget {
 
     return Scaffold(
       body: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: .stretch,
         children: [
           WebSideMenu(userData: userData),
 
@@ -181,7 +181,7 @@ class ContactsTabletLayout extends ConsumerWidget {
   }
 
   Widget _buildChatDetail(BuildContext context) {
-    return ChatDetailPanel(
+    return OpenedSelectedChatWidget(
       userData: userData,
       chatId: selectedChatId,
       controller: messageController,

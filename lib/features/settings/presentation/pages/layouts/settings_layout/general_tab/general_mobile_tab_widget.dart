@@ -8,7 +8,7 @@ import 'package:mess_messenger_app/features/settings/presentation/pages/controll
 import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/build_title_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/checkbox_row_widget.dart';
 import 'package:mess_messenger_app/core/widgets/mess_switch.dart';
-import 'package:mess_messenger_app/features/settings/user_providers/general_settings_ui_provider.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/ui_providers/general_settings_ui_provider.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/localization/supported_locales.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
@@ -91,7 +91,7 @@ class _GeneralMobileTabWidgetState
       child: Padding(
         padding: const EdgeInsets.only(left: 32, top: 12, right: 32),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: .start,
           children: [
             Text(
               widget.l10n.general,

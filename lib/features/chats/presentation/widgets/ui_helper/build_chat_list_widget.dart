@@ -7,25 +7,27 @@ import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
 import 'package:mess_messenger_app/features/chats/data/models/chat_model.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/chat_tile_widget.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/chats_header_section_widget.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/direct_chat_tile_widget.dart';
+import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 
 Widget buildChatList({
-  required String pageTitle,
   required BuildContext context,
+  required UserModel userData,
   required AppLocalizations l10n,
   required dynamic colors,
   required dynamic textTheme,
   required List<ChatModel> groupChats,
   required List<ChatModel> directChats,
-  required VoidCallback onPressed,
+  required VoidCallback onPressedCreateChat,
   required void Function(String chatId) onChatSelected,
 }) {
   return Column(
     children: [
       HeaderWidget(
-        title: pageTitle,
+        title: l10n.chats,
         iconPath: SvgIcons.add,
-        onPressed: onPressed,
+        onPressed: onPressedCreateChat,
       ),
       MessTextField(
         height: 56,
@@ -60,13 +62,20 @@ Widget buildChatList({
                       onPressed: () {},
                     ),
                     for (final directChat in directChats)
-                      ChatTileWidget(
-                        iconPath: SvgIcons.folders,
-                        chatId: directChat.id,
-                        title: directChat.id.substring(0, 12),
-                        subtitle: directChat.lastMessage,
+                      DirectChatTile(
+                        chat: directChat,
+                        otherUserId: userData.id,
                         onPressed: () => onChatSelected(directChat.id),
                       ),
+                    // ChatTileWidget(
+                    //   iconPath: SvgIcons.folders,
+                    //   chatId: directChat.id,
+                    //   title: directChat.id.length > 12
+                    //       ? directChat.id.substring(0, 12)
+                    //       : directChat.id,
+                    //   subtitle: directChat.lastMessage,
+                    //   onPressed: () => onChatSelected(directChat.id),
+                    // ),
                   ],
                 ),
               )

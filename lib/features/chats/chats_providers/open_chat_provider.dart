@@ -5,7 +5,10 @@ import 'package:mess_messenger_app/features/chats/data/datasources/chats_remote_
 import 'package:mess_messenger_app/features/chats/domain/chats_repositories/chats_repository.dart';
 import 'package:mess_messenger_app/features/chats/domain/chats_use_cases/chats_use_cases.dart';
 import 'package:mess_messenger_app/features/chats/presentation/notifiers/open_chat_notifier.dart';
+import 'package:mess_messenger_app/features/chats/presentation/notifiers/watched_user_norifier.dart';
 import 'package:mess_messenger_app/features/chats/presentation/states/open_chat_state.dart';
+import 'package:mess_messenger_app/features/chats/presentation/states/watched_user_state.dart';
+import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 
 final chatsRemoteDataSourceProvider = Provider<ChatsRemoteDataSource>((ref) {
   return ChatsRemoteDataSource(ref.read(firestoreProvider));
@@ -31,4 +34,21 @@ final fetchMessagesUseCaseProvider = Provider<FetchMessagesUseCase>((ref) {
 final chatsNotifierProvider =
     NotifierProvider.family<OpenChatNotifier, OpenChatState, String>(
       OpenChatNotifier.new,
+    );
+
+final watchUserUseCaseProvider = Provider<WatchUserUseCase>((ref) {
+  return WatchUserUseCase(ref.read(chatsRepositoryProvider));
+});
+
+final watchedUserProvider = StreamProvider.family<UserModel, String>((
+  ref,
+  userId,
+) {
+  if (userId.isEmpty) return const Stream.empty();
+  return ref.read(watchUserUseCaseProvider).execute(userId);
+});
+
+final watchedUserNotifierProvider =
+    NotifierProvider.family<WatchedUserNotifier, WatchedUserState, String>(
+      WatchedUserNotifier.new,
     );

@@ -6,15 +6,15 @@ import 'package:mess_messenger_app/core/widgets/dropdown_menu/mess_icon_dropdown
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/controllers/account_settings_controller.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/controllers/general_settings_controller.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/delegates/pinned_tab_bar_delegate.dart';
+import 'package:mess_messenger_app/features/settings/presentation/pages/delegates/profile_header_delegate.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/account_tab/account_mobile_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/api_tab/api_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/billing_tab/billing_mobile_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/general_tab/general_mobile_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/notification_tab/notification_mobile_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/personalization_tab/personalisation_mobile_tab_widget.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/profile_header_delegate.dart';
-import 'package:mess_messenger_app/features/settings/presentation/widgets/pinned_tab_bar_delegate.dart';
-import 'package:mess_messenger_app/features/settings/user_providers/general_settings_ui_provider.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/ui_providers/general_settings_ui_provider.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/localization/supported_locales.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
@@ -26,6 +26,7 @@ class SettingsMobileLayout extends StatefulWidget {
   final TabController tabController;
   final VoidCallback onPressedChangeAvatar;
   final VoidCallback onPressedLogoutFromAllDevices;
+  final VoidCallback onPressedContactSupport;
   final List<SupportedLanguage> languages;
   final GeneralSettingsController generalSettingsController;
   final VoidCallback onPressedArchiveAllMessages;
@@ -47,6 +48,9 @@ class SettingsMobileLayout extends StatefulWidget {
     required this.languages,
     required this.generalSettingsController,
     required this.onPressedArchiveAllMessages,
+    required this.onPressedChangeAvatar,
+    required this.onPressedLogoutFromAllDevices,
+    required this.onPressedContactSupport,
     required this.selectedDate,
     required this.nameController,
     required this.birthdayController,
@@ -55,8 +59,6 @@ class SettingsMobileLayout extends StatefulWidget {
     required this.newPasswordController,
     required this.phoneNumberController,
     required this.accountSettingsController,
-    required this.onPressedChangeAvatar,
-    required this.onPressedLogoutFromAllDevices,
   });
 
   @override
@@ -106,7 +108,7 @@ class _SettingsMobileLayoutState extends State<SettingsMobileLayout> {
                   ),
                   DropdownItemAction(
                     label: 'Contact support',
-                    onTap: () => context.push('/support'),
+                    onTap: widget.onPressedContactSupport,
                   ),
                   DropdownItemAction(
                     label: 'Log out',

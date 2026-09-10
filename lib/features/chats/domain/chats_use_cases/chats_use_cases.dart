@@ -1,6 +1,7 @@
 import 'package:mess_messenger_app/features/chats/data/models/chat_model.dart';
 import 'package:mess_messenger_app/features/chats/data/models/message_model.dart';
 import 'package:mess_messenger_app/features/chats/domain/chats_repositories/chats_repository.dart';
+import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 
 abstract class ChatsUserUseCase {
   final ChatsRepository chatsRepository;
@@ -37,5 +38,13 @@ class FetchUserChatsUseCase extends ChatsUserUseCase {
 
   Stream<List<ChatModel>> execute(String userId) {
     return chatsRepository.fetchUserChats(userId);
+  }
+}
+
+class WatchUserUseCase extends ChatsUserUseCase {
+  WatchUserUseCase(super.chatsRepository);
+
+  Stream<UserModel> execute(String userId) {
+    return chatsRepository.watchUser(userId);
   }
 }

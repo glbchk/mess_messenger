@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mess_messenger_app/core/router/app_routes.dart';
 import 'package:mess_messenger_app/core/utils/layouts/responsive_layout_wrapper.dart';
 import 'package:mess_messenger_app/features/chats/chats_providers/chats_provider.dart';
 import 'package:mess_messenger_app/features/chats/chats_providers/open_chat_provider.dart';
@@ -53,25 +55,17 @@ class _ContactsPageState extends ConsumerState<ContactsPage> {
 
     final l10n = AppLocalizations.of(context)!;
 
-    Future<void> openChattingPage() async {
-      final currentUserId = ref.read(userNotifierProvider).userData?.id;
-      if (currentUserId == null) return;
-
-      const otherUserId =
-          'nBEcLiKmQER28aVpq0BlCC3b25Y2'; // the second test user
+    Future<void> openChatWith(String otherUserId) async {
+      final myId = ref.read(userNotifierProvider).userData?.id;
+      if (myId == null) return;
 
       final chatId = await ref
           .read(getOrCreateChatUseCaseProvider)
-          .execute(currentUserId, otherUserId);
-      print('DEBUG: chatId = $chatId');
-
+          .execute(myId, otherUserId);
       if (!context.mounted) return;
 
       if (bp.isMobile) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => MobileOpenChatPage(chatId: chatId)),
-        );
+        context.push(AppRoutes.chatWith(chatId));
       } else {
         ref.read(selectedChatIdProvider.notifier).state = chatId;
       }
@@ -97,14 +91,14 @@ class _ContactsPageState extends ConsumerState<ContactsPage> {
         pageTitle: l10n.contacts,
         userData: userData,
         chats: chatsListState.chats,
-        onPressed: () => openChattingPage(),
+        onPressed: () {}, //=> openChatWith(),
       ),
       tablet: ContactsTabletLayout(
         pageTitle: l10n.contacts,
         userData: userData,
         chats: chatsListState.chats,
         selectedChatId: selectedChatId ?? '',
-        onPressed: () => openChattingPage(),
+        onPressed: () {}, //openChattingPage(),
         onChatSelected: selectChat,
         messageController: messageController,
         onSendMessage: () {
@@ -117,7 +111,7 @@ class _ContactsPageState extends ConsumerState<ContactsPage> {
         userData: userData,
         chats: chatsListState.chats,
         selectedChatId: selectedChatId ?? '',
-        onPressed: () => openChattingPage(),
+        onPressed: () {}, //openChattingPage(),
         onChatSelected: selectChat,
         messageController: messageController,
         onSendMessage: () {

@@ -11,6 +11,7 @@ abstract final class AppPalette {
   static const textInverseLight = Color(0xFFE1F1F8); //It's blueish color!
   static const icon1Light = Color(0xFF121F24);
   static const icon2Light = Color(0xFF4E4E4E);
+  static const icon3Light = Color(0xFF068AC2);
   static const textPlaceHolderLight = Color(0xFF6E6E6E);
   static const textHintLight = Color(0xFF4E4E4E);
   static const buttonPrimaryLight = Color(0xFF121F24);
@@ -21,6 +22,7 @@ abstract final class AppPalette {
   static const iconContrastLight = Color(0xFFFFFFFF);
   static const componentSpecificLight = Color(0xFF068AC2);
   static const shadowColorLight = Color(0xFF000000);
+  static const successColorLight = Color(0xFF1AAD63);
   static const errorColorLight = Color(0xFFE22616);
   static const infoColorLight = Color(0xFF0677F2);
 
@@ -34,6 +36,7 @@ abstract final class AppPalette {
   static const textInverseDark = Color(0xFF0B0B0B);
   static const icon1Dark = Color(0xFFCEE2EB);
   static const icon2Dark = Color(0xFFC2C2C2);
+  static const icon3Dark = Color(0xFF068AC2);
   static const textPlaceHolderDark = Color(0xFF7F7F7F);
   static const textHintDark = Color(0xFF6E6E6E);
   static const buttonPrimaryDark = Color(0xFFCEE2EB);
@@ -44,6 +47,7 @@ abstract final class AppPalette {
   static const iconContrastDark = Color(0xFFFFFFFF);
   static const componentSpecificDark = Color(0xFF068AC2);
   static const shadowColorDark = Color(0xFF000000);
+  static const successColorDark = Color(0xFF1AAD63);
   static const errorColorDark = Color(0xFFE94C3F);
   static const infoColorDark = Color(0xFF69A9EF);
 }

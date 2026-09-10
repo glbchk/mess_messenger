@@ -92,7 +92,7 @@ class _BillingMobileTabWidgetState
               bottom: _hasSelection ? 12 : 0,
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: .start,
               children: [
                 Text(
                   'Subscription plans',

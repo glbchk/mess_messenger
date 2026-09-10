@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
+import 'package:mess_messenger_app/core/router/app_routes.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon_button.dart';
 import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
 import 'package:mess_messenger_app/core/widgets/mobile_widgets/app_bar/mobile_app_bar.dart';
 import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
+import 'package:mess_messenger_app/features/chats/chats_providers/chats_provider.dart';
+import 'package:mess_messenger_app/features/chats/chats_providers/open_chat_provider.dart';
 import 'package:mess_messenger_app/features/chats/data/models/chat_model.dart';
-import 'package:mess_messenger_app/features/contacts/presentation/widgets/contact_tile_widget.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class ContactsMobileLayout extends ConsumerStatefulWidget {
   final String pageTitle;
   final UserModel userData;
   final List<ChatModel> chats;
-  final Future<void> Function() onPressed;
+  final VoidCallback onPressed;
 
   const ContactsMobileLayout({
     super.key,
@@ -39,6 +44,24 @@ class _ContactsMobileLayoutState extends ConsumerState<ContactsMobileLayout> {
 
     final l10n = AppLocalizations.of(context)!;
 
+    final bp = ResponsiveBreakpoints.of(context);
+
+    Future<void> openChatWith(String otherUserId) async {
+      final myId = ref.read(userNotifierProvider).userData?.id;
+      if (myId == null) return;
+
+      final chatId = await ref
+          .read(getOrCreateChatUseCaseProvider)
+          .execute(myId, otherUserId);
+      if (!context.mounted) return;
+
+      if (bp.isMobile) {
+        context.push(AppRoutes.chatWith(chatId));
+      } else {
+        ref.read(selectedChatIdProvider.notifier).state = chatId;
+      }
+    }
+
     // final directChats = widget.chats.where((c) => !c.isGroup).toList();
     // final groupChats = widget.chats.where((c) => c.isGroup).toList();
 
@@ -54,7 +77,7 @@ class _ContactsMobileLayoutState extends ConsumerState<ContactsMobileLayout> {
             SvgIcons.add,
             onPressed: () async {
               //HERE NEED TO REDIRECT TO ADD A NEW CONTACT
-              await widget.onPressed();
+              await widget.onPressed;
             },
           ),
           AppSpacing.p16.gapH,
@@ -80,67 +103,83 @@ class _ContactsMobileLayoutState extends ConsumerState<ContactsMobileLayout> {
           AppSpacing.p12.gapV,
 
           Expanded(
-            child: widget.chats.isNotEmpty
-                ? SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 22,
-                        top: 22,
-                        right: 22,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          //Groups
-                          Text(
-                            'A',
-                            style: textTheme.headlineMedium?.copyWith(
-                              color: colors.text1,
-                            ),
-                          ),
-                          AppSpacing.p16.gapV,
-                          // for (final groupChat in groupChats)
-                          ContactTileWidget(
-                            contactId: '',
-                            title: 'Some',
-                            subtitle: 'Something',
-                            onPressed: () {},
-                          ),
-                        ],
-                      ),
+            child: ListView(
+              children: [
+                for (final u in kSeedUsers)
+                  ListTile(
+                    leading: CircleAvatar(
+                      child: Text((u.name ?? '?').characters.first),
                     ),
-                  )
-                : Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 22.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/empty_screen_logo.png',
-                            width: 300,
-                            height: 300,
-                          ),
-                          AppSpacing.p20.gapV,
-                          Text(
-                            l10n.messenger,
-                            style: textTheme.headlineLarge?.copyWith(
-                              color: colors.text1,
-                            ),
-                          ),
-                          AppSpacing.p8.gapV,
-                          Text(
-                            l10n.chatsEmptyScreenText,
-                            style: textTheme.bodyLarge?.copyWith(
-                              color: colors.text2,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
+                    title: Text(u.name ?? u.id),
+                    subtitle: Text(u.email ?? ''),
+                    onTap: () => openChatWith(u.id),
                   ),
+              ],
+            ),
           ),
+
+          // Expanded(
+          //   child: widget.chats.isNotEmpty
+          //       ? SingleChildScrollView(
+          //           child: Padding(
+          //             padding: const EdgeInsets.only(
+          //               left: 22,
+          //               top: 22,
+          //               right: 22,
+          //             ),
+          //             child: Column(
+          //               crossAxisAlignment: .start,
+          //               children: [
+          //                 //Groups
+          //                 Text(
+          //                   'A',
+          //                   style: textTheme.headlineMedium?.copyWith(
+          //                     color: colors.text1,
+          //                   ),
+          //                 ),
+          //                 AppSpacing.p16.gapV,
+          //                 // for (final groupChat in groupChats)
+          //                 ContactTileWidget(
+          //                   contactId: '',
+          //                   title: 'Some',
+          //                   subtitle: 'Something',
+          //                   onPressed: () {},
+          //                 ),
+          //               ],
+          //             ),
+          //           ),
+          //         )
+          //       : Center(
+          //           child: Padding(
+          //             padding: const EdgeInsets.symmetric(horizontal: 22.0),
+          //             child: Column(
+          //               mainAxisAlignment: MainAxisAlignment.center,
+          //               children: [
+          //                 Image.asset(
+          //                   'assets/images/empty_screen_logo.png',
+          //                   width: 300,
+          //                   height: 300,
+          //                 ),
+          //                 AppSpacing.p20.gapV,
+          //                 Text(
+          //                   l10n.messenger,
+          //                   style: textTheme.headlineLarge?.copyWith(
+          //                     color: colors.text1,
+          //                   ),
+          //                 ),
+          //                 AppSpacing.p8.gapV,
+          //                 Text(
+          //                   l10n.chatsEmptyScreenText,
+          //                   style: textTheme.bodyLarge?.copyWith(
+          //                     color: colors.text2,
+          //                   ),
+          //                   textAlign: TextAlign.center,
+          //                 ),
+          //               ],
+          //             ),
+          //           ),
+          //         ),
+          // ),
         ],
       ),
     );

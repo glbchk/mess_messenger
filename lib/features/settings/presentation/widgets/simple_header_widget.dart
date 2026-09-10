@@ -37,7 +37,7 @@ class SimpleHeaderWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(left: 24, top: 24, right: 24),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: .start,
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: 12,
           children: [

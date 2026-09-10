@@ -5,13 +5,25 @@ import 'package:mess_messenger_app/features/settings/data/models/user_model.dart
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class UserDataContentWidget extends StatelessWidget {
-  final UserModel? userData;
+  final UserModel? otherUserData;
   final String? profileImagePath;
+  final double? avatarSize;
+  final TextStyle? titleSize;
+  final Color? titleColor;
+  final TextStyle? subtitleSize;
+  final Color? subtitleColor;
+  final MainAxisAlignment? mainAxisAlignment;
 
   const UserDataContentWidget({
     super.key,
-    this.userData,
+    this.otherUserData,
     this.profileImagePath,
+    this.avatarSize,
+    this.titleSize,
+    this.titleColor,
+    this.subtitleSize,
+    this.subtitleColor,
+    this.mainAxisAlignment,
   });
 
   @override
@@ -20,12 +32,12 @@ class UserDataContentWidget extends StatelessWidget {
     final textTheme = context.textStyles;
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: mainAxisAlignment ?? .center,
       children: [
         // User Avatar
         Container(
-          height: 64,
-          width: 64,
+          height: avatarSize ?? 64,
+          width: avatarSize ?? 64,
           decoration: BoxDecoration(
             color: colors.surface0,
             shape: BoxShape.circle,
@@ -39,38 +51,56 @@ class UserDataContentWidget extends StatelessWidget {
             ],
           ),
           child: CircleAvatar(
-            backgroundColor: colors.surface4, // Light blue background
+            backgroundColor: colors.textInverse,
             child: profileImagePath == null
                 ? Text(
-                    userData?.name?.substring(0, 1) ?? '?',
+                    otherUserData?.name?.substring(0, 1) ?? '?',
                     style: textTheme.headlineLarge?.copyWith(
                       color: colors.text1,
                     ),
                   )
                 : UserAvatarWidget(
-                    userName: userData?.name ?? '',
+                    userName: otherUserData?.name ?? '',
                     photoPath: profileImagePath ?? 'No path found',
                   ),
           ),
         ),
         AppSpacing.p16.gapH,
         // User Name and Number
+        // Expanded(
+        //   child:
         Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: .start,
           spacing: 4,
           children: [
             Text(
-              userData?.name ?? 'No name was found',
-              style: textTheme.displaySmall?.copyWith(color: colors.text1),
+              otherUserData?.name ?? 'No name was found',
+              style:
+                  titleSize ??
+                  textTheme.displaySmall?.copyWith(
+                    color: titleColor ?? colors.text1,
+                  ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
             Text(
-              '+447903754798',
-              // userData?.phoneNumber ?? '+447903754798',
-              style: textTheme.bodyLarge?.copyWith(color: colors.text2),
+              otherUserData?.phoneNumber ?? '+447903754798',
+              style:
+                  subtitleSize ??
+                  textTheme.bodyLarge?.copyWith(
+                    color: subtitleColor ?? colors.text2,
+                  ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),
+        // ),
+        //
+        // if (isEnabledIconButton == true) ...[
+        //   Spacer(),
+        //   MessIconButton(SvgIcons.favorites, onPressed: onPressedFavorites),
+        // ],
       ],
     );
   }

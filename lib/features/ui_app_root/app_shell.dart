@@ -1,21 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mess_messenger_app/core/enums/enums.dart';
 import 'package:mess_messenger_app/core/providers/data_providers/global_providers.dart';
 import 'package:mess_messenger_app/core/widgets/mobile_widgets/navigation_bar/mobile_navigation_bar.dart';
+import 'package:mess_messenger_app/features/chats/chats_providers/open_chat_provider.dart';
 import 'package:mess_messenger_app/features/settings/presentation/states/user_state.dart';
 import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-
-enum _ShellTab {
-  chats(isPushed: false),
-  calls(isPushed: false),
-  contacts(isPushed: false),
-  settings(isPushed: true);
-
-  final bool isPushed;
-  const _ShellTab({required this.isPushed});
-}
 
 class AppShell extends ConsumerStatefulWidget {
   final StatefulNavigationShell navigationShell;
@@ -32,11 +24,19 @@ class _AppShellState extends ConsumerState<AppShell>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _syncLocaleFromUser(ref.read(userNotifierProvider));
+
+    // //TODO: For testing only, must be deleted
+    // if (kDebugMode) {
+    //   Future(
+    //     () => seedUsers(FirebaseFirestore.instance),
+    //   ).catchError((e) => debugPrint('seedUsers failed: $e'));
+    // }
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _setOnline(false);
     super.dispose();
   }
 
@@ -51,10 +51,20 @@ class _AppShellState extends ConsumerState<AppShell>
         ref.read(userNotifierProvider.notifier).checkEmailVerificationStatus();
       }
     }
+
+    _setOnline(state == AppLifecycleState.resumed);
+  }
+
+  void _setOnline(bool isOnline) {
+    final userId = ref.read(userNotifierProvider).userData?.id;
+    if (userId == null) return;
+    ref
+        .read(chatsRemoteDataSourceProvider)
+        .setUserOnlineStatus(userId, isOnline);
   }
 
   void _onItemTapped(int index) {
-    final tab = _ShellTab.values[index];
+    final tab = ShellTab.values[index];
     if (tab.isPushed) {
       context.push('/${tab.name}');
     } else {
@@ -78,6 +88,9 @@ class _AppShellState extends ConsumerState<AppShell>
 
     ref.listen<UserState>(userNotifierProvider, (previous, next) {
       _syncLocaleFromUser(next);
+      if (previous?.userData?.id == null && next.userData?.id != null) {
+        _setOnline(true);
+      }
     });
 
     final bp = ResponsiveBreakpoints.of(context);

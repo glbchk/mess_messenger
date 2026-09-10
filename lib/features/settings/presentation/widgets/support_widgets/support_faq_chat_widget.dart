@@ -39,7 +39,7 @@ class SupportFaqPanel extends StatelessWidget {
         ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: .start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
@@ -71,7 +71,7 @@ class SupportFaqPanel extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: .start,
                   children: [
                     Container(
                       width: 32,
@@ -90,7 +90,7 @@ class SupportFaqPanel extends StatelessWidget {
                     AppSpacing.p12.gapH,
                     Expanded(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: .start,
                         children: [
                           Text(
                             item.question,

@@ -68,7 +68,7 @@ class MessTextField extends StatelessWidget {
     );
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: .start,
       children: [
         ?label != null
             ? Text(

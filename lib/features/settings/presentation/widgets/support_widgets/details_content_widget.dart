@@ -60,7 +60,7 @@ class DetailsContentWidget extends StatelessWidget {
       ),
 
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: .start,
 
         children: [
           Row(
@@ -134,7 +134,7 @@ class DetailsContentWidget extends StatelessWidget {
                     Flexible(
                       child: ClipRect(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: .start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
@@ -162,14 +162,14 @@ class DetailsContentWidget extends StatelessWidget {
               InkWell(
                 onTap: () => onSelectRequest?.call(request),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: .center,
                   spacing: 12,
                   children: [
                     MessIconButton(SvgIcons.chat),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: .start,
                         spacing: 2,
                         children: [
                           Text(request.answer),

@@ -27,7 +27,7 @@ class AuthTabletLayout extends StatelessWidget {
             child: Container(
               color: colors.surface0,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: .start,
                 children: [
                   buildLogoRow(colors, textTheme),
                   Expanded(

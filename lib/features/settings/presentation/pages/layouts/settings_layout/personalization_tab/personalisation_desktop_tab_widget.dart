@@ -73,7 +73,7 @@ class _PersonalisationDesktopTabWidgetState
       child: Padding(
         padding: const EdgeInsets.only(left: 32, top: 12, right: 32),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: .start,
           children: [
             Text(
               'Personalisation',
@@ -81,7 +81,7 @@ class _PersonalisationDesktopTabWidgetState
             ),
             AppSpacing.p32.gapV,
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: .center,
               children: [
                 // Left Column: Fixed Width Label
                 SizedBox(
@@ -105,7 +105,7 @@ class _PersonalisationDesktopTabWidgetState
             LayoutBuilder(
               builder: (context, constraints) {
                 return Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: .start,
                   children: [
                     // Left Column: Fixed Width Label
                     SizedBox(
@@ -115,7 +115,7 @@ class _PersonalisationDesktopTabWidgetState
                     ),
                     Expanded(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: .start,
                         children: [
                           PaletteWidget(
                             selectedIndex: selectedIndex,
@@ -142,7 +142,7 @@ class _PersonalisationDesktopTabWidgetState
 
             AppSpacing.p32.gapV,
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: .center,
               children: [
                 // Left Column: Fixed Width Label
                 Padding(
@@ -154,7 +154,7 @@ class _PersonalisationDesktopTabWidgetState
                   ),
                 ),
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: .start,
                   children: [
                     DropdownMenuWidget(
                       values: ['100%', '80%', '60%'],

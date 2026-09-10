@@ -123,7 +123,7 @@ class _DatePickerDropdownWidgetState extends State<DatePickerDropdownWidget> {
                 final hasValue = widget.selectedDate != null;
 
                 return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: .start,
                   children: [
                     Container(
                       width: menuWidth,

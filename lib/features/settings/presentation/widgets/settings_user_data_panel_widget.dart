@@ -36,12 +36,12 @@ class SettingsUserDataPanelWidget extends StatelessWidget {
     final bp = ResponsiveBreakpoints.of(context);
 
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: .center,
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 246),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: .start,
             children: [
               Text(
                 userData.name ?? 'No Name',
