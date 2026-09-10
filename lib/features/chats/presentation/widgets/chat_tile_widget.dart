@@ -43,24 +43,34 @@ class ChatTileWidget extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(40)),
                 color: colors.surface4,
               ),
-              child: !isGroup
+              child: isGroup
                   ? Center(child: MessIcon(iconPath, size: 16))
-                  : UserAvatarWidget(userName: title, photoPath: photoPath),
+                  : UserAvatarWidget(
+                      userName: title,
+                      photoPath: photoPath,
+                      // size: 32,
+                    ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              spacing: 1,
-              children: [
-                Text(
-                  title,
-                  style: textTheme.bodyMedium?.copyWith(color: colors.text1),
-                ),
-                Text(
-                  subtitle,
-                  style: textTheme.bodySmall?.copyWith(color: colors.text2),
-                ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: .start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 1,
+                children: [
+                  Text(
+                    title,
+                    style: textTheme.bodyMedium?.copyWith(color: colors.text1),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    subtitle,
+                    style: textTheme.bodySmall?.copyWith(color: colors.text2),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
             ),
           ],
         ),

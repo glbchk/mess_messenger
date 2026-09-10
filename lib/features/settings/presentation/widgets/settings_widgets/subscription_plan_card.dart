@@ -50,7 +50,7 @@ class SubscriptionPlanCard extends StatelessWidget {
               color: value ? colors.textInverse : colors.bg,
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: .start,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(

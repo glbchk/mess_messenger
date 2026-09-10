@@ -47,4 +47,9 @@ abstract final class SvgIcons {
   static const String chat = 'assets/icons/settings/chat.svg';
   static const String help = 'assets/icons/settings/help.svg';
   static const String close = 'assets/icons/settings/close.svg';
+  //Chats
+  static const String video = 'assets/icons/chats/video.svg';
+  static const String email = 'assets/icons/chats/email.svg';
+  static const String favoritesFilled =
+      'assets/icons/chats/favorites_filled.svg';
 }

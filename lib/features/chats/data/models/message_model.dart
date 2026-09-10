@@ -21,7 +21,9 @@ class MessageModel {
       chatId: json['chat_id'] ?? '',
       senderId: json['sender_id'] ?? '',
       text: json['text'] ?? '',
-      createdAt: DateTime.parse(json['created_at']),
+      createdAt:
+          DateTime.tryParse(json['created_at']?.toString() ?? '') ??
+          DateTime.now(),
       isRead: json['is_read'] ?? false,
     );
   }

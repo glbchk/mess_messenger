@@ -24,7 +24,7 @@ class ApiTabWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(left: 32, top: 12, right: 32),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: .start,
           children: [
             Text(
               'API',
@@ -34,7 +34,7 @@ class ApiTabWidget extends StatelessWidget {
 
             bp.isMobile
                 ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: .start,
                     children: [
                       Text(
                         'Current password',
@@ -52,7 +52,7 @@ class ApiTabWidget extends StatelessWidget {
                     ],
                   )
                 : Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: .center,
                     children: [
                       SizedBox(
                         width: 320,

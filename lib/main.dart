@@ -13,9 +13,17 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  print('🔥 Firebase Project ID: ${Firebase.app().options.projectId}');
-  print('🔥 Firebase App ID: ${Firebase.app().options.appId}');
-  print('🔥 Firebase Auth Domain: ${Firebase.app().options.authDomain}');
+  FlutterError.onError = (FlutterErrorDetails details) {
+    // Bypass presentError/dumpErrorToConsole which crashes on Flutter web
+    debugPrint('╔══ FLUTTER ERROR ══════════════════════════════');
+    debugPrint('${details.exceptionAsString()}');
+    debugPrint('${details.stack}');
+    debugPrint('╚═══════════════════════════════════════════════');
+  };
+
+  // print('🔥 Firebase Project ID: ${Firebase.app().options.projectId}');
+  // print('🔥 Firebase App ID: ${Firebase.app().options.appId}');
+  // print('🔥 Firebase Auth Domain: ${Firebase.app().options.authDomain}');
 
   // if (kDebugMode) {
   //   // Temporarily force clear the persistence cache to wipe out Release data

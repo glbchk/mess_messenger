@@ -89,7 +89,7 @@ class ProfileHeaderDelegate extends SliverPersistentHeaderDelegate {
                 child: Opacity(
                   opacity: expandedTextOpacity,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: .start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
@@ -134,7 +134,7 @@ class ProfileHeaderDelegate extends SliverPersistentHeaderDelegate {
                         child: Opacity(
                           opacity: collapsedTextOpacity,
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: .start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(

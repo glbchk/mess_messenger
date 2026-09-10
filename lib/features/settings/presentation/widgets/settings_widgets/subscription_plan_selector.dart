@@ -61,7 +61,7 @@ class SubscriptionPlanSelector extends StatelessWidget {
             ],
           )
         : Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: .center,
             spacing: 32,
             children: [
               Expanded(

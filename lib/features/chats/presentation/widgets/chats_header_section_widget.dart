@@ -21,7 +21,7 @@ class ChatsHeaderSectionWidget extends StatelessWidget {
 
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: .start,
       children: [
         Container(
           margin: EdgeInsets.only(top: 16, bottom: 10),

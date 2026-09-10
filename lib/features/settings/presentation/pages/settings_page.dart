@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
+import 'package:mess_messenger_app/core/router/app_routes.dart';
 import 'package:mess_messenger_app/core/utils/layouts/responsive_layout_wrapper.dart';
 import 'package:mess_messenger_app/core/widgets/mess_alert.dart';
 import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
@@ -15,8 +16,8 @@ import 'package:mess_messenger_app/features/settings/presentation/pages/controll
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/settings_desktop_layout.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/settings_mobile_layout.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/settings_tablet_layout.dart';
-import 'package:mess_messenger_app/features/settings/user_providers/ui_providers/general_settings_ui_provider.dart';
 import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/ui_providers/general_settings_ui_provider.dart';
 import 'package:mess_messenger_app/localization/errors/auth_failure_l10n.dart';
 import 'package:mess_messenger_app/localization/supported_locales.dart';
 
@@ -186,6 +187,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
         onPressedArchiveAllMessages: _onArchiveAllMessages,
         onPressedChangeAvatar: _showChangeAvatarDialog,
         onPressedLogoutFromAllDevices: _logoutFromAllDevices,
+        onPressedContactSupport: () => context.push(AppRoutes.support),
         view: view,
         generalSettingsController: generalSettingsController,
         languages: languages,

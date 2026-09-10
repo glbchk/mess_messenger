@@ -19,6 +19,8 @@ class UserEntity {
   final PersonalizationSettingsModel? personalizationSettings;
   final SubscriptionPlan? subscriptionPlan;
   final NotificationSettingsModel? notificationSettings;
+  final bool isOnline;
+  final DateTime? lastActiveAt;
 
   UserEntity({
     this.isAnonymous,
@@ -36,5 +38,7 @@ class UserEntity {
     this.personalizationSettings,
     this.subscriptionPlan,
     this.notificationSettings,
+    this.isOnline = false,
+    this.lastActiveAt,
   });
 }

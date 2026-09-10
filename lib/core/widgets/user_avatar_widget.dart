@@ -6,6 +6,11 @@ class UserAvatarWidget extends StatelessWidget {
   final double? size;
   final String? photoPath;
   final double borderWidth;
+  final bool isOnline;
+  final VoidCallback? onPressed;
+  final TextStyle? textStyle;
+  final Color? textColor;
+  final Color? backgroundColor;
 
   const UserAvatarWidget({
     super.key,
@@ -13,6 +18,11 @@ class UserAvatarWidget extends StatelessWidget {
     this.size,
     this.photoPath,
     this.borderWidth = 3.0,
+    this.isOnline = false,
+    this.onPressed,
+    this.textStyle,
+    this.textColor,
+    this.backgroundColor,
   });
 
   @override
@@ -23,27 +33,67 @@ class UserAvatarWidget extends StatelessWidget {
     final initial = userName.isNotEmpty ? userName.substring(0, 1) : '?';
     final effectiveSize = size ?? 48;
 
-    return Container(
-      height: effectiveSize,
-      width: effectiveSize,
-      decoration: BoxDecoration(color: colors.surface4, shape: BoxShape.circle),
-      child: Padding(
-        padding: EdgeInsets.all(borderWidth),
-        child: CircleAvatar(
-          radius: (effectiveSize / 2) - borderWidth,
-          backgroundColor: colors.surface4,
-          backgroundImage: hasPhoto ? NetworkImage(photoPath ?? '') : null,
-          child: hasPhoto
-              ? null
-              : Center(
-                  child: Text(
-                    initial,
-                    style: textTheme.headlineLarge?.copyWith(
-                      color: colors.text1,
+    return GestureDetector(
+      onTap: onPressed,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            height: effectiveSize,
+            width: effectiveSize,
+            decoration: BoxDecoration(
+              color: backgroundColor ?? colors.surface2,
+              shape: BoxShape.circle,
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(borderWidth),
+              child: CircleAvatar(
+                radius: (effectiveSize / 2) - borderWidth,
+                backgroundColor: backgroundColor ?? colors.textInverse,
+                backgroundImage: hasPhoto
+                    ? NetworkImage(photoPath ?? '')
+                    : null,
+                child: hasPhoto
+                    ? null
+                    : Center(
+                        child: Text(
+                          initial,
+                          style:
+                              textStyle ??
+                              textTheme.headlineLarge?.copyWith(
+                                color: textColor ?? colors.text1,
+                              ),
+                        ),
+                      ),
+              ),
+            ),
+          ),
+
+          if (isOnline)
+            Positioned(
+              right: 0,
+              bottom: 0,
+              child: Container(
+                width: 14,
+                height: 14,
+                decoration: BoxDecoration(
+                  color: colors.bg,
+                  shape: BoxShape.circle,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Container(
+                    height: 12,
+                    width: 12,
+                    decoration: BoxDecoration(
+                      color: colors.successColor,
+                      shape: BoxShape.circle,
                     ),
                   ),
                 ),
-        ),
+              ),
+            ),
+        ],
       ),
     );
   }

@@ -51,7 +51,7 @@ class SignInFormWidget extends StatelessWidget {
 
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: .center,
       children: [
         MessIcon(SvgIcons.logo, size: 64),
         AppSpacing.p24.gapV,

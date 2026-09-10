@@ -52,7 +52,7 @@ class _GeneralDesktopTabWidgetState
       child: Padding(
         padding: const EdgeInsets.only(left: 32, top: 12, right: 32),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: .start,
           children: [
             Text(
               widget.l10n.general,
@@ -60,7 +60,7 @@ class _GeneralDesktopTabWidgetState
             ),
             AppSpacing.p32.gapV,
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: .center,
               children: [
                 SizedBox(
                   width: labelColumnWidth,
@@ -88,7 +88,7 @@ class _GeneralDesktopTabWidgetState
             ),
             AppSpacing.p32.gapV,
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: .center,
               children: [
                 SizedBox(
                   width: labelColumnWidth,
@@ -111,14 +111,14 @@ class _GeneralDesktopTabWidgetState
             ),
             AppSpacing.p32.gapV,
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: .start,
               children: [
                 SizedBox(
                   width: labelColumnWidth,
                   child: BuildTitleWidget(title: widget.l10n.password),
                 ),
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: .start,
                   children: [
                     CheckboxRowWidget(
                       title: widget.l10n.photo,
@@ -152,7 +152,7 @@ class _GeneralDesktopTabWidgetState
             ),
             AppSpacing.p32.gapV,
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: .center,
               children: [
                 SizedBox(
                   width: labelColumnWidth,

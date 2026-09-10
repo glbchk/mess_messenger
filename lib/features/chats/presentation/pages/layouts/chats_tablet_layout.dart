@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/web_side_menu.dart';
+import 'package:mess_messenger_app/features/chats/chats_providers/chats_provider.dart';
+import 'package:mess_messenger_app/features/chats/chats_providers/open_chat_provider.dart';
 import 'package:mess_messenger_app/features/chats/data/models/chat_model.dart';
-import 'package:mess_messenger_app/features/chats/presentation/pages/ui_helper/build_chat_list_widget.dart';
-import 'package:mess_messenger_app/features/chats/presentation/widgets/chat_detail_panel.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/opened_selected_chat_widget.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/ui_helper/build_chat_list_widget.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/user_details_panel/user_detals_panel_widget.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class ChatsTabletLayout extends ConsumerWidget {
-  final String pageTitle;
+  final AppLocalizations l10n;
   final UserModel userData;
   final List<ChatModel> chats;
   final String selectedChatId;
-  final Future<void> Function() onPressed;
+  final Future<void> Function() onPressedCreateChat;
   final void Function(String chatId) onChatSelected;
   final TextEditingController messageController;
   final VoidCallback onSendMessage;
@@ -21,11 +24,11 @@ class ChatsTabletLayout extends ConsumerWidget {
 
   const ChatsTabletLayout({
     super.key,
-    required this.pageTitle,
+    required this.l10n,
     required this.userData,
     required this.chats,
     required this.selectedChatId,
-    required this.onPressed,
+    required this.onPressedCreateChat,
     required this.onChatSelected,
     required this.messageController,
     required this.onSendMessage,
@@ -37,14 +40,22 @@ class ChatsTabletLayout extends ConsumerWidget {
     final colors = context.colors;
     final textTheme = context.textStyles;
 
-    final l10n = AppLocalizations.of(context)!;
-
     final directChats = chats.where((c) => !c.isGroup).toList();
     final groupChats = chats.where((c) => c.isGroup).toList();
 
+    final isProfilesDisplayed = ref.watch(
+      userChatsNotifierProvider.select((s) => s.isProfileDetailsDisplayed),
+    );
+
+    final otherUser = selectedChatId.isEmpty
+        ? null
+        : ref.watch(
+            chatsNotifierProvider(selectedChatId).select((s) => s.otherUser),
+          );
+
     return Scaffold(
       body: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: .stretch,
         children: [
           WebSideMenu(userData: userData),
 
@@ -64,18 +75,19 @@ class ChatsTabletLayout extends ConsumerWidget {
                           vertical: 8,
                         ),
                         child: buildChatList(
-                          pageTitle: pageTitle,
+                          userData: userData,
                           context: context,
                           l10n: l10n,
                           colors: colors,
                           textTheme: textTheme,
                           groupChats: groupChats,
                           directChats: directChats,
-                          onPressed: onPressed,
+                          onPressedCreateChat: onPressedCreateChat,
                           onChatSelected: onChatSelected,
                         ),
                       )
-                    : ChatDetailPanel(
+                    : isProfilesDisplayed == false
+                    ? OpenedSelectedChatWidget(
                         userData: userData,
                         chatId: selectedChatId,
                         controller: messageController,
@@ -84,6 +96,13 @@ class ChatsTabletLayout extends ConsumerWidget {
                         onPressedTextNewLine: () {},
                         onPressedSend: onSendMessage,
                         onBackButtonPressed: onDeselectChat,
+                      )
+                    : UserDetailsPanelWidget(
+                        l10n: l10n,
+                        otherUserData: otherUser ?? UserModel(id: ''),
+                        onPressedClose: () => ref
+                            .read(userChatsNotifierProvider.notifier)
+                            .toggleDisplayProfileDetails(),
                       ),
               ),
             ),

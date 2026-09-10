@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon_button.dart';
 import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
-import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -12,7 +11,9 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double? toolBarHeight;
   final bool showAppBarContent;
   final bool showBackButton;
-  final UserModel? userData;
+  final String? userName;
+  final String? userEmail;
+  final String? userPhoneNumber;
   final String? appBarUserPhotoPath;
   final String? title;
   final bool? centerTitle;
@@ -26,6 +27,7 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
   // final double? kToolbarHeight;
   final VoidCallback? onPressedBack;
   final bool? showBottomLine;
+  final VoidCallback? onPressedViewProfile;
 
   const MobileAppBar({
     super.key,
@@ -35,7 +37,9 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.toolBarHeight,
     required this.showAppBarContent,
     this.showBackButton = false,
-    this.userData,
+    this.userName,
+    this.userEmail,
+    this.userPhoneNumber,
     this.appBarUserPhotoPath,
     this.title,
     this.centerTitle,
@@ -49,6 +53,7 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
     // this.kToolbarHeight,
     this.onPressedBack,
     this.showBottomLine,
+    this.onPressedViewProfile,
   });
 
   @override
@@ -79,29 +84,42 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
             )
           : null,
       title: showAppBarContent == true
-          ? Row(
-              spacing: 12,
-              children: [
-                UserAvatarWidget(
-                  userName: userData?.name ?? 'Joe Doe',
-                  photoPath: appBarUserPhotoPath,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      userData?.name ?? 'Some Cool Name',
-                      style: textTheme.headlineMedium?.copyWith(
-                        color: colors.text1,
-                      ),
+          ? GestureDetector(
+              onTap: onPressedViewProfile,
+              child: Row(
+                spacing: 12,
+                children: [
+                  UserAvatarWidget(
+                    userName: userName ?? 'Joe Doe',
+                    photoPath: appBarUserPhotoPath,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: .start,
+                      children: [
+                        Text(
+                          userName ?? 'Some Cool Name',
+                          style: textTheme.headlineMedium?.copyWith(
+                            color: colors.text1,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          userPhoneNumber != null
+                              ? userPhoneNumber ?? ''
+                              : userEmail ?? '',
+                          style: textTheme.bodyLarge?.copyWith(
+                            color: colors.text2,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
-                    Text(
-                      userData?.phoneNumber ?? '+419901250285',
-                      style: textTheme.bodyLarge?.copyWith(color: colors.text2),
-                    ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             )
           : Text(
               title ?? '',

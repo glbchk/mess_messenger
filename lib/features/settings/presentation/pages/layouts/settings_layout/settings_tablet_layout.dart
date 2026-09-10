@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
+import 'package:mess_messenger_app/core/router/app_routes.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/web_side_menu.dart';
@@ -72,7 +74,7 @@ class _SettingsTabletLayoutState extends ConsumerState<SettingsTabletLayout> {
 
     return Scaffold(
       body: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: .stretch,
         children: [
           WebSideMenu(userData: widget.userData),
 
@@ -86,7 +88,7 @@ class _SettingsTabletLayoutState extends ConsumerState<SettingsTabletLayout> {
               child: Stack(
                 children: [
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: .start,
                     children: [
                       Container(
                         height: 220,
@@ -111,7 +113,9 @@ class _SettingsTabletLayoutState extends ConsumerState<SettingsTabletLayout> {
                         onPressedExportAccountData: () {},
                         onPressedTerminateAllActiveSessions:
                             widget.onPressedLogoutFromAllDevices,
-                        onPressedContactSupport: () {},
+                        onPressedContactSupport: () {
+                          context.push(AppRoutes.support);
+                        },
                         onPressedLogout: () {},
                       ),
                       Container(

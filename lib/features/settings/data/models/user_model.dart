@@ -19,6 +19,8 @@ class UserModel {
   final PersonalizationSettingsModel? personalizationSettings;
   final SubscriptionPlan? subscriptionPlan;
   final NotificationSettingsModel? notificationSettings;
+  final bool isOnline;
+  final DateTime? lastActiveAt;
 
   UserModel({
     this.isAnonymous,
@@ -35,6 +37,8 @@ class UserModel {
     this.personalizationSettings,
     this.subscriptionPlan,
     this.notificationSettings,
+    this.isOnline = false,
+    this.lastActiveAt,
   });
 
   factory UserModel.newUser({
@@ -56,6 +60,8 @@ class UserModel {
       personalizationSettings: PersonalizationSettingsModel.defaults(),
       subscriptionPlan: SubscriptionPlan.free,
       notificationSettings: NotificationSettingsModel.defaults(),
+      isOnline: false,
+      lastActiveAt: null,
     );
   }
 
@@ -90,6 +96,10 @@ class UserModel {
       notificationSettings: json['notification_settings'] != null
           ? NotificationSettingsModel.fromJson(json['notification_settings'])
           : null,
+      isOnline: json['is_online'] as bool? ?? false,
+      lastActiveAt: json['last_active_at'] != null
+          ? DateTime.tryParse(json['last_active_at'] as String)
+          : null,
     );
   }
 
@@ -109,6 +119,8 @@ class UserModel {
       'personalization_settings': personalizationSettings?.toJson(),
       'subscription_plan': subscriptionPlan?.name,
       'notification_settings': notificationSettings?.toJson(),
+      'is_online': isOnline,
+      'last_active_at': lastActiveAt?.toIso8601String(),
     };
   }
 
@@ -128,6 +140,8 @@ class UserModel {
       personalizationSettings: entity.personalizationSettings,
       subscriptionPlan: entity.subscriptionPlan,
       notificationSettings: entity.notificationSettings,
+      isOnline: entity.isOnline,
+      lastActiveAt: entity.lastActiveAt,
     );
   }
 
@@ -146,6 +160,8 @@ class UserModel {
     PersonalizationSettingsModel? personalizationSettings,
     SubscriptionPlan? subscriptionPlan,
     NotificationSettingsModel? notificationSettings,
+    bool? isOnline,
+    DateTime? lastActiveAt,
   }) {
     return UserModel(
       isAnonymous: isAnonymous ?? this.isAnonymous,
@@ -164,6 +180,8 @@ class UserModel {
           personalizationSettings ?? this.personalizationSettings,
       subscriptionPlan: subscriptionPlan ?? this.subscriptionPlan,
       notificationSettings: notificationSettings ?? this.notificationSettings,
+      isOnline: isOnline ?? this.isOnline,
+      lastActiveAt: lastActiveAt ?? this.lastActiveAt,
     );
   }
 
@@ -183,7 +201,9 @@ class UserModel {
         other.generalSettings == generalSettings &&
         other.personalizationSettings == personalizationSettings &&
         other.subscriptionPlan == subscriptionPlan &&
-        other.notificationSettings == notificationSettings;
+        other.notificationSettings == notificationSettings &&
+        other.isOnline == isOnline &&
+        other.lastActiveAt == lastActiveAt;
   }
 
   @override
@@ -201,5 +221,15 @@ class UserModel {
     personalizationSettings,
     subscriptionPlan,
     notificationSettings,
+    isOnline,
+    lastActiveAt,
   );
 }
+
+final kSeedUsers = <UserModel>[
+  UserModel.newUser(
+    id: 'OMJtBON0cgMYCPm2Prv0If6MPVO2',
+    email: 'glegalchenko@gmail.com',
+    name: 'Johnny',
+  ),
+];

@@ -1,11 +1,13 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mess_messenger_app/core/router/app_routes.dart';
 import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
 import 'package:mess_messenger_app/features/auth/presentation/pages/auth_page.dart';
 import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.dart';
 import 'package:mess_messenger_app/features/chats/presentation/pages/chats_page.dart';
+import 'package:mess_messenger_app/features/chats/presentation/pages/mobile_open_chat_page.dart';
+import 'package:mess_messenger_app/features/chats/presentation/pages/mobile_profile_details_page.dart';
 import 'package:mess_messenger_app/features/contacts/presentation/pages/contacts_page.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/settings_page.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/support_page.dart';
@@ -20,22 +22,27 @@ class _AuthRefreshNotifier extends ChangeNotifier {
 final routerProvider = Provider<GoRouter>((ref) {
   final refreshNotifier = _AuthRefreshNotifier(ref);
 
+  final _rootNavigatorKey = GlobalKey<NavigatorState>();
+
   return GoRouter(
-    initialLocation: '/',
+    navigatorKey: _rootNavigatorKey,
+    initialLocation: AppRoutes.root,
     refreshListenable: refreshNotifier,
     redirect: (context, state) {
       final isAuthenticated =
           ref.read(authNotifierProvider) is AuthAuthenticated;
-      final isOnLoginPage = state.matchedLocation == '/auth';
+      final isOnLoginPage = state.matchedLocation == AppRoutes.auth;
 
-      if (!isAuthenticated && !isOnLoginPage) return '/auth';
-      if (isAuthenticated && isOnLoginPage) return '/';
+      if (!isAuthenticated && !isOnLoginPage) return AppRoutes.auth;
+      if (isAuthenticated && isOnLoginPage) return AppRoutes.root;
       return null;
     },
     routes: [
-      GoRoute(path: '/auth', builder: (context, state) => const AuthPage()),
-      // GoRoute(path: '/signup', builder: (context, state) => const AuthPage()),
-      GoRoute(path: '/', redirect: (context, state) => '/chats'),
+      GoRoute(
+        path: AppRoutes.auth,
+        builder: (context, state) => const AuthPage(),
+      ),
+      GoRoute(path: '/', redirect: (context, state) => AppRoutes.chats),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             AppShell(navigationShell: navigationShell),
@@ -43,7 +50,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/chats',
+                path: AppRoutes.chats,
                 builder: (context, state) => const ChatsPage(),
               ),
             ],
@@ -51,7 +58,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/calls',
+                path: AppRoutes.calls,
                 builder: (context, state) =>
                     const Center(child: Text('Calls — coming soon')),
               ),
@@ -60,29 +67,42 @@ final routerProvider = Provider<GoRouter>((ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/contacts',
+                path: AppRoutes.contacts,
                 builder: (context, state) => const ContactsPage(),
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: '/settings',
-                redirect: (context, state) => '/settings/general',
-              ),
-              GoRoute(
-                path: '/settings/:tab',
-                builder: (context, state) =>
-                    SettingsPage(initialTab: state.pathParameters['tab']),
               ),
             ],
           ),
         ],
       ),
       GoRoute(
-        path: '/support',
+        path: AppRoutes.settings,
+        redirect: (context, state) => AppRoutes.settingsGeneral,
+      ),
+      GoRoute(
+        path: AppRoutes.settingsTab,
+        builder: (context, state) =>
+            SettingsPage(initialTab: state.pathParameters['tab']),
+      ),
+      GoRoute(
+        path: AppRoutes.support,
         builder: (context, state) => const SupportPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.chats,
+        builder: (c, s) => const ChatsPage(),
+        routes: [
+          GoRoute(
+            path: ':chatId',
+            parentNavigatorKey: _rootNavigatorKey,
+            builder: (context, state) =>
+                MobileOpenChatPage(chatId: state.pathParameters['chatId']!),
+          ),
+        ],
+      ),
+      GoRoute(
+        path: AppRoutes.profileDetails,
+        builder: (context, state) =>
+            MobileProfileDetailsPage(chatId: state.pathParameters['chatId']!),
       ),
     ],
   );

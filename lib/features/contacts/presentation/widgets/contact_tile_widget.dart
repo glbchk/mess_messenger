@@ -41,7 +41,7 @@ class ContactTileWidget extends StatelessWidget {
               child: UserAvatarWidget(userName: title, photoPath: photoPath),
             ),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: .start,
               mainAxisAlignment: MainAxisAlignment.center,
               spacing: 1,
               children: [
@@ -70,7 +70,7 @@ class ContactTileWidget extends StatelessWidget {
 // photoPath: appBarUserPhotoPath,
 // ),
 // Column(
-// crossAxisAlignment: CrossAxisAlignment.start,
+// crossAxisAlignment: .start,
 // children: [
 // Text(
 // appBarUserName ?? 'Some Cool Name',

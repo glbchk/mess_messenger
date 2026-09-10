@@ -46,7 +46,7 @@ class _SupportChatDetailPanelState extends ConsumerState<DetailsPanelWidget> {
           color: colors.bg,
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: .start,
           children: [
             Row(
               children: [

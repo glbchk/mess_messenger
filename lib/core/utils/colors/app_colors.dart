@@ -12,6 +12,7 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color textInverse;
   final Color icon1;
   final Color icon2;
+  final Color icon3;
   final Color textPlaceHolder;
   final Color textHint;
   final Color buttonPrimary;
@@ -22,6 +23,7 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color iconContrast;
   final Color componentSpecific;
   final Color shadowColor;
+  final Color successColor;
   final Color errorColor;
   final Color infoColor;
 
@@ -35,6 +37,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.textInverse,
     required this.icon1,
     required this.icon2,
+    required this.icon3,
     required this.textPlaceHolder,
     required this.textHint,
     required this.buttonPrimary,
@@ -45,6 +48,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.iconContrast,
     required this.componentSpecific,
     required this.shadowColor,
+    required this.successColor,
     required this.errorColor,
     required this.infoColor,
   });
@@ -60,6 +64,7 @@ class AppColors extends ThemeExtension<AppColors> {
     textInverse: AppPalette.textInverseLight,
     icon1: AppPalette.icon1Light,
     icon2: AppPalette.icon2Light,
+    icon3: AppPalette.icon3Light,
     textPlaceHolder: AppPalette.textPlaceHolderLight,
     textHint: AppPalette.textHintLight,
     buttonPrimary: AppPalette.buttonPrimaryLight,
@@ -70,6 +75,7 @@ class AppColors extends ThemeExtension<AppColors> {
     iconContrast: AppPalette.iconContrastLight,
     componentSpecific: AppPalette.componentSpecificLight,
     shadowColor: AppPalette.shadowColorLight,
+    successColor: AppPalette.successColorLight,
     errorColor: AppPalette.errorColorLight,
     infoColor: AppPalette.infoColorLight,
   );
@@ -85,6 +91,7 @@ class AppColors extends ThemeExtension<AppColors> {
     textInverse: AppPalette.textInverseDark,
     icon1: AppPalette.icon1Dark,
     icon2: AppPalette.icon2Dark,
+    icon3: AppPalette.icon3Dark,
     textPlaceHolder: AppPalette.textPlaceHolderDark,
     textHint: AppPalette.textHintDark,
     buttonPrimary: AppPalette.buttonPrimaryDark,
@@ -95,6 +102,7 @@ class AppColors extends ThemeExtension<AppColors> {
     iconContrast: AppPalette.iconContrastDark,
     componentSpecific: AppPalette.componentSpecificDark,
     shadowColor: AppPalette.shadowColorDark,
+    successColor: AppPalette.successColorDark,
     errorColor: AppPalette.errorColorDark,
     infoColor: AppPalette.infoColorDark,
   );
@@ -109,6 +117,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? textInverse,
     Color? icon1,
     Color? icon2,
+    Color? icon3,
     Color? textPlaceHolder,
     Color? textHint,
     Color? buttonPrimary,
@@ -119,6 +128,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? iconContrast,
     Color? componentSpecific,
     Color? shadowColor,
+    Color? successColor,
     Color? errorColor,
     Color? infoColor,
   }) {
@@ -132,6 +142,7 @@ class AppColors extends ThemeExtension<AppColors> {
       textInverse: textInverse ?? this.textInverse,
       icon1: icon1 ?? this.icon1,
       icon2: icon2 ?? this.icon2,
+      icon3: icon3 ?? this.icon3,
       textPlaceHolder: textPlaceHolder ?? this.textPlaceHolder,
       textHint: textHint ?? this.textHint,
       buttonPrimary: buttonPrimary ?? this.buttonPrimary,
@@ -142,6 +153,7 @@ class AppColors extends ThemeExtension<AppColors> {
       iconContrast: iconContrast ?? this.iconContrast,
       componentSpecific: componentSpecific ?? this.componentSpecific,
       shadowColor: shadowColor ?? this.shadowColor,
+      successColor: successColor ?? this.successColor,
       errorColor: errorColor ?? this.errorColor,
       infoColor: infoColor ?? this.infoColor,
     );
@@ -160,6 +172,7 @@ class AppColors extends ThemeExtension<AppColors> {
       textInverse: Color.lerp(textInverse, other.textInverse, t)!,
       icon1: Color.lerp(icon1, other.icon1, t)!,
       icon2: Color.lerp(icon2, other.icon2, t)!,
+      icon3: Color.lerp(icon3, other.icon3, t)!,
       textPlaceHolder: Color.lerp(textPlaceHolder, other.textPlaceHolder, t)!,
       textHint: Color.lerp(textHint, other.textHint, t)!,
       buttonPrimary: Color.lerp(buttonPrimary, other.buttonPrimary, t)!,
@@ -174,6 +187,7 @@ class AppColors extends ThemeExtension<AppColors> {
         t,
       )!,
       shadowColor: Color.lerp(shadowColor, other.shadowColor, t)!,
+      successColor: Color.lerp(successColor, other.successColor, t)!,
       errorColor: Color.lerp(errorColor, other.errorColor, t)!,
       infoColor: Color.lerp(infoColor, other.infoColor, t)!,
     );

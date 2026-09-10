@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mess_messenger_app/features/chats/data/models/chat_model.dart';
 import 'package:mess_messenger_app/features/chats/data/models/message_model.dart';
+import 'package:mess_messenger_app/features/chats/domain/chat_helper.dart';
+import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 
 class ChatsRemoteDataSource {
   final FirebaseFirestore firestore;
@@ -8,37 +10,34 @@ class ChatsRemoteDataSource {
 
   // Finds an existing chat between two users, or creates one if none exists.
   Future<String> getOrCreateChat(String userA, String userB) async {
-    final existing = await firestore
-        .collection('chats')
-        .where('participant_ids', arrayContains: userA)
-        .where('is_group', isEqualTo: false)
-        .get();
+    final pairKey = directChatId(userA, userB);
+    final chatRef = firestore.collection('direct_chats').doc(pairKey);
 
-    for (final doc in existing.docs) {
-      final ids = List<String>.from(doc['participant_ids']);
-      if (ids.length == 2 && ids.contains(userB)) {
-        return doc.id;
+    return firestore.runTransaction<String>((txn) async {
+      final chatSnap = await txn.get(chatRef);
+
+      if (chatSnap.exists) {
+        return chatRef.id;
       }
-    }
 
-    final chatRef = firestore.collection('chats').doc();
-    await chatRef.set(
-      ChatModel(
-        id: chatRef.id,
-        participantIds: [userA, userB],
-        lastMessage: '',
-        lastMessageAt: DateTime.now(),
-        isGroup: false,
-      ).toJson(),
-    );
+      txn.set(
+        chatRef,
+        ChatModel(
+          id: chatRef.id,
+          participantIds: [userA, userB]..sort(),
+          lastMessage: '',
+          lastMessageAt: DateTime.now(),
+          isGroup: false,
+        ).toJson(),
+      );
 
-    return chatRef.id;
+      return chatRef.id;
+    });
   }
 
-  Future<String> createChat(
+  Future<String> createGroupChat(
     List<String> participantIds, {
-    bool isGroup = false,
-    String? groupName,
+    required String groupName,
   }) async {
     final chatRef = firestore.collection('chats').doc();
     await chatRef.set(
@@ -47,7 +46,7 @@ class ChatsRemoteDataSource {
         participantIds: participantIds,
         lastMessage: '',
         lastMessageAt: DateTime.now(),
-        isGroup: isGroup,
+        isGroup: true,
         groupName: groupName,
       ).toJson(),
     );
@@ -55,20 +54,20 @@ class ChatsRemoteDataSource {
   }
 
   Future<void> sendMessage(MessageModel message) async {
-    final chatRef = firestore.collection('chats').doc(message.chatId);
+    final chatRef = firestore.collection('direct_chats').doc(message.chatId);
     final messageRef = chatRef.collection('messages').doc(message.messageId);
 
     await messageRef.set(message.toJson());
 
-    await chatRef.update({
+    await chatRef.set({
       'last_message': message.text,
       'last_message_at': message.createdAt.toIso8601String(),
-    });
+    }, SetOptions(merge: true));
   }
 
   Stream<List<MessageModel>> fetchMessages(String chatId) {
     return firestore
-        .collection('chats')
+        .collection('direct_chats')
         .doc(chatId)
         .collection('messages')
         .orderBy('created_at')
@@ -82,20 +81,51 @@ class ChatsRemoteDataSource {
 
   Stream<List<ChatModel>> fetchUserChats(String userId) {
     return firestore
-        .collection('chats')
+        .collection('direct_chats')
         .where('participant_ids', arrayContains: userId)
-        .orderBy('last_message_at', descending: true)
         .snapshots()
         .map((snapshot) {
-          print('DEBUG: fetchUserChats found ${snapshot.docs.length} docs');
-
-          for (final doc in snapshot.docs) {
-            print('DEBUG: doc id = ${doc.id}, data = ${doc.data()}');
-          }
-
-          return snapshot.docs
+          final chats = snapshot.docs
               .map((doc) => ChatModel.fromJson(doc.data()))
               .toList();
+          chats.sort((a, b) => b.lastMessageAt.compareTo(a.lastMessageAt));
+          return chats;
         });
+  }
+
+  Future<void> setUserOnlineStatus(String userId, bool isOnline) async {
+    await firestore.collection('users').doc(userId).set({
+      'is_online': isOnline,
+      'last_active_at': DateTime.now().toIso8601String(),
+    }, SetOptions(merge: true));
+  }
+
+  Stream<UserModel> watchUser(String userId) {
+    return firestore.collection('users').doc(userId).snapshots().map((doc) {
+      final data = doc.data();
+      if (data == null) return UserModel(id: userId);
+      return UserModel.fromJson({...data, 'id': doc.id});
+    });
+  }
+
+  Future<void> setTypingStatus(
+    String chatId,
+    String userId,
+    bool isTyping,
+  ) async {
+    final chatRef = firestore.collection('direct_chats').doc(chatId);
+    await chatRef.set({
+      'typing_user_ids': isTyping
+          ? FieldValue.arrayUnion([userId])
+          : FieldValue.arrayRemove([userId]),
+    }, SetOptions(merge: true));
+  }
+
+  Stream<ChatModel> watchChat(String chatId) {
+    return firestore
+        .collection('direct_chats')
+        .doc(chatId)
+        .snapshots()
+        .map((doc) => ChatModel.fromJson(doc.data()!));
   }
 }

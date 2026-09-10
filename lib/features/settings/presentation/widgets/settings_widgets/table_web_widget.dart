@@ -102,7 +102,7 @@ class _TableWebWidgetState extends State<TableWebWidget> {
         : () => widget.onPressedDownloadSelected?.call(_selectedInvoices);
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: .start,
       children: [
         // 🔹 Top Bar: Title + Download All Button
         Row(

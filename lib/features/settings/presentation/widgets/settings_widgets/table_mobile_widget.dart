@@ -105,7 +105,7 @@ class _TableMobileWidgetState extends State<TableMobileWidget> {
     final textTheme = context.textStyles;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: .start,
       children: [
         // 🔹 Top Bar: Title + Download All Button
         Row(
@@ -122,7 +122,7 @@ class _TableMobileWidgetState extends State<TableMobileWidget> {
 
         // 🔹 Table Structure with Pinned Checkboxes
         Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: .start,
           children: [
             // 📍 1. PINNED LEFT COLUMN (Checkboxes)
             SizedBox(
@@ -201,7 +201,7 @@ class _TableMobileWidgetState extends State<TableMobileWidget> {
                       child: SizedBox(
                         width: _tableMinWidth,
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: .start,
                           children: [
                             // Header Row
                             Container(

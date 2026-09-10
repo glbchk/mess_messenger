@@ -82,7 +82,7 @@ class _AccountDesktopTabWidgetState
       child: Padding(
         padding: const EdgeInsets.only(left: 32, top: 12, right: 32),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: .start,
           children: [
             Text(
               widget.l10n.account,
@@ -91,7 +91,7 @@ class _AccountDesktopTabWidgetState
             AppSpacing.p36.gapV,
 
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: .center,
               children: [
                 SizedBox(
                   width: labelColumnWidth,
@@ -112,7 +112,7 @@ class _AccountDesktopTabWidgetState
             ),
             AppSpacing.p32.gapV,
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: .center,
               children: [
                 SizedBox(
                   width: labelColumnWidth,
@@ -135,7 +135,7 @@ class _AccountDesktopTabWidgetState
             ),
             AppSpacing.p32.gapV,
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: .center,
               children: [
                 SizedBox(
                   width: labelColumnWidth,
@@ -165,7 +165,7 @@ class _AccountDesktopTabWidgetState
             ),
             AppSpacing.p32.gapV,
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: .center,
               children: [
                 SizedBox(
                   width: labelColumnWidth,
@@ -186,7 +186,7 @@ class _AccountDesktopTabWidgetState
             ),
             AppSpacing.p32.gapV,
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: .center,
               children: [
                 SizedBox(
                   width: labelColumnWidth,
@@ -211,7 +211,7 @@ class _AccountDesktopTabWidgetState
             ),
             AppSpacing.p32.gapV,
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: .center,
               children: [
                 SizedBox(
                   width: labelColumnWidth,
