@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
+import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/router/app_routes.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/dropdown_menu/dropdown_item_action_model.dart';
@@ -11,10 +12,10 @@ import 'package:mess_messenger_app/core/widgets/dropdown_menu/mess_icon_dropdown
 import 'package:mess_messenger_app/core/widgets/mobile_widgets/app_bar/mobile_app_bar.dart';
 import 'package:mess_messenger_app/core/widgets/mobile_widgets/mobile_bottom_input_bar.dart';
 import 'package:mess_messenger_app/features/chats/chats_providers/open_chat_provider.dart';
-import 'package:mess_messenger_app/features/chats/presentation/widgets/date_separator_widget.dart';
-import 'package:mess_messenger_app/features/chats/presentation/widgets/received_message_widget.dart';
-import 'package:mess_messenger_app/features/chats/presentation/widgets/sent_message_widget.dart';
-import 'package:mess_messenger_app/features/chats/presentation/widgets/typing_indicator_widget.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/reusable/date_separator_widget.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/reusable/received_message_widget.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/reusable/sent_message_widget.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/reusable/typing_indicator_widget.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/ui_helper/build_message_list_widget.dart';
 import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
@@ -95,6 +96,7 @@ class _MobileOpenChatPageState extends ConsumerState<MobileOpenChatPage> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
 
     final bp = ResponsiveBreakpoints.of(context);
     if (!bp.isMobile) {
@@ -113,14 +115,10 @@ class _MobileOpenChatPageState extends ConsumerState<MobileOpenChatPage> {
 
     final peer = chatState.otherUser;
 
-    final items = buildChatItems(chatState.messages);
+    final items = buildChatItems(chatState.messages, context);
     final otherIsTyping = chatState.typingUserIds.contains(
       chatState.otherUser?.id,
     );
-
-    // final otherUserData = ref.watch(
-    //   chatsNotifierProvider(widget.chatId ?? '').select((s) => s.otherUser),
-    // );
 
     if (widget.chatId?.isEmpty ?? false) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
@@ -150,16 +148,16 @@ class _MobileOpenChatPageState extends ConsumerState<MobileOpenChatPage> {
             onItemTap: (item) => item.onTap(),
             items: [
               DropdownItemAction(
-                label: 'Search',
+                label: l10n.search,
                 onTap: () {}, //widget.onPressedChangeAvatar,
               ),
-              DropdownItemAction(label: 'Mute notifications', onTap: () {}),
+              DropdownItemAction(label: l10n.muteNotifications, onTap: () {}),
               DropdownItemAction(
-                label: 'Clear/Delete chat',
+                label: l10n.clearChat,
                 onTap: () {}, //widget.onPressedLogoutFromAllDevices,
               ),
               DropdownItemAction(
-                label: 'Block/Report user',
+                label: l10n.blockUser,
                 onTap: () {}, //widget.onPressedContactSupport,
               ),
             ],
@@ -178,11 +176,13 @@ class _MobileOpenChatPageState extends ConsumerState<MobileOpenChatPage> {
                     itemCount: items.length + (otherIsTyping ? 1 : 0),
                     itemBuilder: (context, index) {
                       if (otherIsTyping && index == 0) {
-                        return const Padding(
-                          padding: EdgeInsets.all(16.0),
+                        return Padding(
+                          padding: const EdgeInsets.all(16.0),
                           child: Align(
                             alignment: Alignment.centerLeft,
-                            child: TypingIndicatorWidget(),
+                            child: TypingIndicatorWidget(
+                              userName: peer?.name ?? 'Other',
+                            ),
                           ),
                         );
                       }
@@ -221,11 +221,13 @@ class _MobileOpenChatPageState extends ConsumerState<MobileOpenChatPage> {
                 ),
 
                 if (otherIsTyping)
-                  const Padding(
-                    padding: EdgeInsets.all(16.0),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: TypingIndicatorWidget(),
+                      child: TypingIndicatorWidget(
+                        userName: peer?.name ?? 'Other',
+                      ),
                     ),
                   ),
               ],

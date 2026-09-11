@@ -334,4 +334,61 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get sessionRevoked =>
       'User token has been revoked. Please sign in again.';
+
+  @override
+  String get viewProfile => 'View profile';
+
+  @override
+  String get fullScreenChat => 'Full screen chat';
+
+  @override
+  String get showChats => 'Show chats';
+
+  @override
+  String get search => 'Search';
+
+  @override
+  String get muteNotifications => 'Mute notifications';
+
+  @override
+  String get clearChat => 'Clear chat history';
+
+  @override
+  String get blockUser => 'Block user';
+
+  @override
+  String get call => 'Call';
+
+  @override
+  String get more => 'More';
+
+  @override
+  String get savedMessages => 'Saved messages';
+
+  @override
+  String get showMore => 'Show more';
+
+  @override
+  String get today => 'Today';
+
+  @override
+  String get monday => 'Monday';
+
+  @override
+  String get tuesday => 'Tuesday';
+
+  @override
+  String get wednesday => 'Wednesday';
+
+  @override
+  String get thursday => 'Thursday';
+
+  @override
+  String get friday => 'Friday';
+
+  @override
+  String get saturday => 'Saturday';
+
+  @override
+  String get sunday => 'Sunday';
 }

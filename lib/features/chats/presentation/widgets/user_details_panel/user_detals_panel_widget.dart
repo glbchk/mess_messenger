@@ -1,39 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
+import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon_button.dart';
 import 'package:mess_messenger_app/core/widgets/mess_text_button.dart';
 import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
 import 'package:mess_messenger_app/core/widgets/user_data_content_widget.dart';
+import 'package:mess_messenger_app/features/chats/chats_providers/chats_provider.dart';
+import 'package:mess_messenger_app/features/chats/chats_providers/open_chat_provider.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/chat/buttons_panel_widget.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/user_details_panel/message_card_widget.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/user_details_panel/section_widget.dart';
-import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
-import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-class UserDetailsPanelWidget extends StatelessWidget {
-  final AppLocalizations l10n;
-  final UserModel otherUserData;
-  final VoidCallback? onPressedClose;
-
-  const UserDetailsPanelWidget({
-    super.key,
-    required this.l10n,
-    required this.otherUserData,
-    this.onPressedClose,
-  });
+class UserDetailsPanelWidget extends ConsumerWidget {
+  const UserDetailsPanelWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colors;
     final textTheme = context.textStyles;
+
+    final l10n = context.l10n;
 
     final bp = ResponsiveBreakpoints.of(context);
 
     final sectionWidth = bp.isDesktop
         ? bp.screenWidth * 0.2
         : bp.screenWidth * 0.35;
+
+    final selectedChatId =
+        GoRouterState.of(context).uri.queryParameters['c'] ?? '';
+
+    final otherUser = selectedChatId.isEmpty
+        ? null
+        : ref.watch(
+            chatsNotifierProvider(selectedChatId).select((s) => s.otherUser),
+          );
 
     return Container(
       width: sectionWidth,
@@ -83,7 +89,7 @@ class UserDetailsPanelWidget extends StatelessWidget {
                             crossAxisAlignment: .start,
                             children: [
                               Text(
-                                otherUserData.name ?? 'No Name',
+                                otherUser?.name ?? 'No Name',
                                 style: textTheme.displaySmall?.copyWith(
                                   color: colors.text1,
                                 ),
@@ -92,7 +98,7 @@ class UserDetailsPanelWidget extends StatelessWidget {
                               const SizedBox(height: 4),
 
                               Text(
-                                otherUserData.phoneNumber ?? '+44656548060',
+                                otherUser?.phoneNumber ?? '+44656548060',
                                 style: textTheme.headlineMedium?.copyWith(
                                   color: colors.text2,
                                 ),
@@ -107,19 +113,9 @@ class UserDetailsPanelWidget extends StatelessWidget {
                             crossAxisAlignment: .start,
                             spacing: 40,
                             children: [
-                              Wrap(
-                                alignment: WrapAlignment.spaceBetween,
-                                spacing: 32,
-                                runSpacing: 16,
-                                children: [
-                                  _action(SvgIcons.calls, 'Call'),
-                                  _action(SvgIcons.video, 'Video'),
-                                  _action(SvgIcons.email, 'Email'),
-                                  _action(SvgIcons.menuHorizontal, 'More'),
-                                ],
-                              ),
+                              ButtonsPanelWidget(),
                               SectionWidget(
-                                title: 'Status',
+                                title: l10n.status,
                                 widgets: [
                                   Text(
                                     'When there’s no more hope, think of the lobster in the  restaurant’s aquarium of the Titanic.',
@@ -128,15 +124,15 @@ class UserDetailsPanelWidget extends StatelessWidget {
                                 ],
                               ),
                               SectionWidget(
-                                title: 'Saved messages',
+                                title: l10n.savedMessages,
                                 widgets: [
                                   MessageCardWidget(),
 
-                                  MessTextButton(label: 'Show more'),
+                                  MessTextButton(label: l10n.showMore),
                                 ],
                               ),
                               SectionWidget(
-                                title: 'Groups',
+                                title: l10n.groups,
                                 widgets: [
                                   UserDataContentWidget(
                                     avatarSize: 40,
@@ -164,7 +160,7 @@ class UserDetailsPanelWidget extends StatelessWidget {
                         children: [
                           UserAvatarWidget(
                             isOnline: false,
-                            userName: otherUserData.name ?? '?',
+                            userName: otherUser?.name ?? '?',
                             size: 96,
                             textStyle: textTheme.displayMedium?.copyWith(
                               color: colors.iconContrast,
@@ -187,7 +183,9 @@ class UserDetailsPanelWidget extends StatelessWidget {
                       SvgIcons.close,
                       buttonSize: 32,
                       iconSize: 16,
-                      onPressed: onPressedClose,
+                      onPressed: () => ref
+                          .read(userChatsNotifierProvider.notifier)
+                          .toggleDisplayProfileDetails(),
                     ),
                   ],
                 ),
@@ -199,9 +197,3 @@ class UserDetailsPanelWidget extends StatelessWidget {
     );
   }
 }
-
-Widget _action(String icon, String label) => Column(
-  mainAxisSize: MainAxisSize.min,
-  spacing: 16,
-  children: [MessIconButton(icon, isButtonFilled: true), Text(label)],
-);

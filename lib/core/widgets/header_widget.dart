@@ -5,7 +5,7 @@ import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 class HeaderWidget extends StatelessWidget {
   final String title;
   final String iconPath;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   const HeaderWidget({
     super.key,

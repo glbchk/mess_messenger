@@ -335,4 +335,61 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get sessionRevoked =>
       'Ваш токен скасовано. Будь ласка, виконайте вхід ще раз.';
+
+  @override
+  String get viewProfile => 'Показати профіль';
+
+  @override
+  String get fullScreenChat => 'На весь екран';
+
+  @override
+  String get showChats => 'Показати чати';
+
+  @override
+  String get search => 'Пошук';
+
+  @override
+  String get muteNotifications => 'Вимкнути сповіщення';
+
+  @override
+  String get clearChat => 'Очистити історію чату';
+
+  @override
+  String get blockUser => 'Блокування користувача';
+
+  @override
+  String get call => 'Дзвонити';
+
+  @override
+  String get more => 'Більше';
+
+  @override
+  String get savedMessages => 'Збережені повідомлення';
+
+  @override
+  String get showMore => 'Показати більше';
+
+  @override
+  String get today => 'Сьогодні';
+
+  @override
+  String get monday => 'Понеділок';
+
+  @override
+  String get tuesday => 'Вівторок';
+
+  @override
+  String get wednesday => 'Середа';
+
+  @override
+  String get thursday => 'Четверг';
+
+  @override
+  String get friday => 'Пʼятниця';
+
+  @override
+  String get saturday => 'Субота';
+
+  @override
+  String get sunday => 'Неділя';
 }

@@ -82,7 +82,7 @@ class _SettingsDesktopLayoutState extends ConsumerState<SettingsDesktopLayout> {
       body: Row(
         crossAxisAlignment: .stretch,
         children: [
-          WebSideMenu(userData: widget.userData),
+          WebSideMenu(),
 
           Expanded(
             child: Container(

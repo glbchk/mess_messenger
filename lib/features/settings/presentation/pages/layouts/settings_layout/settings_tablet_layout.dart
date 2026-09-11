@@ -76,7 +76,7 @@ class _SettingsTabletLayoutState extends ConsumerState<SettingsTabletLayout> {
       body: Row(
         crossAxisAlignment: .stretch,
         children: [
-          WebSideMenu(userData: widget.userData),
+          WebSideMenu(),
 
           Expanded(
             child: Container(

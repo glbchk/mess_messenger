@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
+import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/router/app_routes.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/build_header_widget.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/build_menu_item_widget.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/menu_entry.dart';
-import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
-import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
 
-class WebSideMenu extends StatefulWidget {
-  final UserModel userData;
-
-  const WebSideMenu({super.key, required this.userData});
+class WebSideMenu extends ConsumerStatefulWidget {
+  const WebSideMenu({super.key});
 
   @override
-  State<WebSideMenu> createState() => _WebSideMenuState();
+  ConsumerState<WebSideMenu> createState() => _WebSideMenuState();
 }
 
-class _WebSideMenuState extends State<WebSideMenu>
+class _WebSideMenuState extends ConsumerState<WebSideMenu>
     with SingleTickerProviderStateMixin {
   bool _isExpanded = false;
   bool _isHovered = false;
@@ -34,7 +33,9 @@ class _WebSideMenuState extends State<WebSideMenu>
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final userData = ref.watch(userNotifierProvider).userData;
+
+    final l10n = context.l10n;
 
     final List<MenuEntry> menuItems = [
       MenuItem(
@@ -138,9 +139,9 @@ class _WebSideMenuState extends State<WebSideMenu>
                         child: Row(
                           children: [
                             UserAvatarWidget(
-                              userName: widget.userData.name ?? 'Joe Doe',
+                              userName: userData?.name ?? 'Joe Doe',
                               photoPath:
-                                  widget.userData.avatarUrl ??
+                                  userData?.avatarUrl ??
                                   'assets/images/user_images/avatar_image.png',
                             ),
                             if (_isExpanded) AppSpacing.p12.gapH,
@@ -156,13 +157,12 @@ class _WebSideMenuState extends State<WebSideMenu>
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
-                                        widget.userData.name ?? 'Joe Doe',
+                                        userData?.name ?? 'Joe Doe',
                                         overflow: TextOverflow.clip,
                                         softWrap: false,
                                       ),
                                       Text(
-                                        widget.userData.email ??
-                                            'fake@email.com',
+                                        userData?.email ?? 'fake@email.com',
                                         overflow: TextOverflow.clip,
                                         softWrap: false,
                                       ),

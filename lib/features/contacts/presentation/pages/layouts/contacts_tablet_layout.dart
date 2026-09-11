@@ -7,9 +7,9 @@ import 'package:mess_messenger_app/core/widgets/header_widget.dart';
 import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/web_side_menu.dart';
 import 'package:mess_messenger_app/features/chats/data/models/chat_model.dart';
-import 'package:mess_messenger_app/features/chats/presentation/widgets/chat_tile_widget.dart';
-import 'package:mess_messenger_app/features/chats/presentation/widgets/chats_header_section_widget.dart';
-import 'package:mess_messenger_app/features/chats/presentation/widgets/opened_selected_chat_widget.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/chat/chats_header_section_widget.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/chat/opened_selected_chat_widget.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/reusable/chat_tile_widget.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
@@ -52,7 +52,7 @@ class ContactsTabletLayout extends ConsumerWidget {
       body: Row(
         crossAxisAlignment: .stretch,
         children: [
-          WebSideMenu(userData: userData),
+          WebSideMenu(),
 
           Expanded(
             child: Container(
@@ -182,14 +182,8 @@ class ContactsTabletLayout extends ConsumerWidget {
 
   Widget _buildChatDetail(BuildContext context) {
     return OpenedSelectedChatWidget(
-      userData: userData,
       chatId: selectedChatId,
       controller: messageController,
-      onPressedAttachment: () {},
-      onPressedEmoji: () {},
-      onPressedTextNewLine: () {},
-      onPressedSend: onSendMessage,
-      onBackButtonPressed: onDeselectChat,
     );
   }
 }

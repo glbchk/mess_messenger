@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mess_messenger_app/core/constants/app_images.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
+import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/router/app_routes.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon_button.dart';
@@ -10,27 +10,16 @@ import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
 import 'package:mess_messenger_app/core/widgets/mobile_widgets/app_bar/mobile_app_bar.dart';
 import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
 import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
-import 'package:mess_messenger_app/features/chats/data/models/chat_model.dart';
-import 'package:mess_messenger_app/features/chats/presentation/widgets/chat_tile_widget.dart';
-import 'package:mess_messenger_app/features/chats/presentation/widgets/chats_header_section_widget.dart';
-import 'package:mess_messenger_app/features/chats/presentation/widgets/direct_chat_tile_widget.dart';
-import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
-import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
+import 'package:mess_messenger_app/features/chats/chats_providers/chats_provider.dart';
+import 'package:mess_messenger_app/features/chats/presentation/pages/layouts/empty_screen.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/chat/chats_header_section_widget.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/reusable/chat_tile_widget.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/reusable/direct_chat_tile_widget.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class ChatsMobileLayout extends ConsumerStatefulWidget {
-  final AppLocalizations l10n;
-  final UserModel userData;
-  final List<ChatModel> chats;
-  final Future<void> Function() onCreateChatPressed;
-
-  const ChatsMobileLayout({
-    super.key,
-    required this.l10n,
-    required this.userData,
-    required this.chats,
-    required this.onCreateChatPressed,
-  });
+  const ChatsMobileLayout({super.key});
 
   @override
   ConsumerState<ChatsMobileLayout> createState() => _ChatsMobileLayoutState();
@@ -39,11 +28,17 @@ class ChatsMobileLayout extends ConsumerStatefulWidget {
 class _ChatsMobileLayoutState extends ConsumerState<ChatsMobileLayout> {
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    final textTheme = context.textStyles;
+    final l10n = context.l10n;
+    final userData = ref.watch(userNotifierProvider).userData;
+    final chats = ref.watch(userChatsNotifierProvider).chats;
+    if (userData == null) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
 
-    final directChats = widget.chats.where((c) => !c.isGroup).toList();
-    final groupChats = widget.chats.where((c) => c.isGroup).toList();
+    final colors = context.colors;
+
+    final directChats = chats.where((c) => !c.isGroup).toList();
+    final groupChats = chats.where((c) => c.isGroup).toList();
 
     return Scaffold(
       backgroundColor: colors.bg,
@@ -51,7 +46,7 @@ class _ChatsMobileLayoutState extends ConsumerState<ChatsMobileLayout> {
         appBarBackgroundColor: colors.transparent,
         resizeToAvoidBottomInset: false,
         showAppBarContent: false,
-        title: widget.l10n.chats,
+        title: l10n.chats,
         actions: [
           IconButton(
             //TODO: MUST BE DELETED LATER
@@ -63,13 +58,18 @@ class _ChatsMobileLayoutState extends ConsumerState<ChatsMobileLayout> {
             SvgIcons.add,
             isButtonFilled: true,
             onPressed: () async {
-              await widget.onCreateChatPressed();
+              final chatId = await ref
+                  .read(userChatsNotifierProvider.notifier)
+                  .getOrCreateChatWithUser(userData.id);
+              if (chatId != null && context.mounted) {
+                context.push(AppRoutes.chatWith(chatId));
+              }
             },
           ),
           AppSpacing.p16.gapH,
           UserAvatarWidget(
-            userName: widget.userData.email ?? 'Joe Doe',
-            photoPath: widget.userData.avatarUrl,
+            userName: userData.email ?? 'Joe Doe',
+            photoPath: userData.avatarUrl,
             onPressed: () {
               context.push(AppRoutes.settings);
             },
@@ -85,14 +85,14 @@ class _ChatsMobileLayoutState extends ConsumerState<ChatsMobileLayout> {
             child: MessTextField(
               height: 56,
               radius: 24,
-              hint: widget.l10n.searchHere,
+              hint: l10n.searchHere,
               prefixIcon: SvgIcons.search,
             ),
           ),
           AppSpacing.p12.gapV,
 
           Expanded(
-            child: widget.chats.isNotEmpty
+            child: chats.isNotEmpty
                 ? SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 22.0),
@@ -100,7 +100,7 @@ class _ChatsMobileLayoutState extends ConsumerState<ChatsMobileLayout> {
                         children: [
                           //Groups
                           ChatsHeaderSectionWidget(
-                            sectionTitle: widget.l10n.groups,
+                            sectionTitle: l10n.groups,
                             onPressed: () {},
                           ),
                           for (final groupChat in groupChats)
@@ -114,13 +114,12 @@ class _ChatsMobileLayoutState extends ConsumerState<ChatsMobileLayout> {
 
                           //Chats
                           ChatsHeaderSectionWidget(
-                            sectionTitle: widget.l10n.chats,
+                            sectionTitle: l10n.chats,
                             onPressed: () {},
                           ),
                           for (final directChat in directChats)
                             DirectChatTile(
                               chat: directChat,
-                              otherUserId: widget.userData.id,
                               onPressed: () {
                                 context.push(AppRoutes.chatWith(directChat.id));
                               },
@@ -129,36 +128,7 @@ class _ChatsMobileLayoutState extends ConsumerState<ChatsMobileLayout> {
                       ),
                     ),
                   )
-                : Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 22.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            AppImages.emptyScreenLogo,
-                            width: 300,
-                            height: 300,
-                          ),
-                          AppSpacing.p20.gapV,
-                          Text(
-                            widget.l10n.messenger,
-                            style: textTheme.headlineLarge?.copyWith(
-                              color: colors.text1,
-                            ),
-                          ),
-                          AppSpacing.p8.gapV,
-                          Text(
-                            widget.l10n.chatsEmptyScreenText,
-                            style: textTheme.bodyLarge?.copyWith(
-                              color: colors.text2,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                : EmptyScreenWidget(l10n: l10n),
           ),
         ],
       ),

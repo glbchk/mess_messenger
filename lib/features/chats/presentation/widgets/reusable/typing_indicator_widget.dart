@@ -3,7 +3,8 @@ import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class TypingIndicatorWidget extends StatefulWidget {
-  const TypingIndicatorWidget({super.key});
+  final String userName;
+  const TypingIndicatorWidget({super.key, required this.userName});
 
   @override
   State<TypingIndicatorWidget> createState() => _TypingIndicatorWidgetState();
@@ -36,7 +37,7 @@ class _TypingIndicatorWidgetState extends State<TypingIndicatorWidget>
       crossAxisAlignment: CrossAxisAlignment.end,
       spacing: 12,
       children: [
-        UserAvatarWidget(userName: 'Other', size: 40, isOnline: true),
+        UserAvatarWidget(userName: widget.userName, size: 40, isOnline: true),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           decoration: BoxDecoration(
