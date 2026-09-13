@@ -12,15 +12,15 @@ class ButtonsPanelWidget extends StatelessWidget {
     final l10n = context.l10n;
 
     return Wrap(
-      alignment: WrapAlignment.spaceBetween,
+      alignment: .spaceBetween,
       spacing: 32,
       runSpacing: 16,
       children: [
-        PanelButton(SvgIcons.calls, label: 'Call'),
-        PanelButton(SvgIcons.video, label: 'Video'),
-        PanelButton(SvgIcons.email, label: 'Email'),
+        PanelButton(SvgIcons.calls, label: l10n.call),
+        PanelButton(SvgIcons.video, label: l10n.video),
+        PanelButton(SvgIcons.email, label: l10n.email),
         if (isMenuDisabled == false)
-          PanelButton(SvgIcons.menuHorizontal, label: 'More'),
+          PanelButton(SvgIcons.menuHorizontal, label: l10n.more),
       ],
     );
   }

@@ -34,7 +34,7 @@ class _TypingIndicatorWidgetState extends State<TypingIndicatorWidget>
     final colors = context.colors;
 
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: .end,
       spacing: 12,
       children: [
         UserAvatarWidget(userName: widget.userName, size: 40, isOnline: true),
@@ -50,7 +50,7 @@ class _TypingIndicatorWidgetState extends State<TypingIndicatorWidget>
             ),
           ),
           child: Row(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: .min,
             children: List.generate(3, (i) {
               return AnimatedBuilder(
                 animation: _controller,
@@ -66,7 +66,7 @@ class _TypingIndicatorWidgetState extends State<TypingIndicatorWidget>
                         height: 8,
                         decoration: BoxDecoration(
                           color: colors.text2,
-                          shape: BoxShape.circle,
+                          shape: .circle,
                         ),
                       ),
                     ),

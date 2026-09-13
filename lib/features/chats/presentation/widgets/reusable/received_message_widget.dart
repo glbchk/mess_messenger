@@ -26,7 +26,7 @@ class ReceivedMessageWidget extends StatelessWidget {
 
     return IntrinsicWidth(
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: .start,
         spacing: 12,
         children: [
           UserAvatarWidget(isOnline: isOnline, userName: 'Other', size: 40),
@@ -41,7 +41,7 @@ class ReceivedMessageWidget extends StatelessWidget {
                     Text(userName ?? 'User'),
 
                     Text(
-                      formatMessageTimestamp(message?.createdAt),
+                      formatMessageTimestamp(message?.createdAt, context),
                       style: textTheme.bodySmall?.copyWith(color: colors.text2),
                     ),
                   ],

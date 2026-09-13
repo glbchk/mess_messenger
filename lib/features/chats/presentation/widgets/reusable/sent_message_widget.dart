@@ -31,7 +31,7 @@ class SentMessageWidget extends StatelessWidget {
             children: [
               Text(userName ?? 'User'),
               Text(
-                formatMessageTimestamp(message?.createdAt),
+                formatMessageTimestamp(message?.createdAt, context),
                 style: textTheme.bodySmall?.copyWith(color: colors.text2),
               ),
             ],

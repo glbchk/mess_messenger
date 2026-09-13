@@ -36,7 +36,7 @@ class MessIconDropdownButton<T> extends StatelessWidget {
     final colors = context.colors;
 
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: .rtl,
       child: MenuAnchor(
         alignmentOffset: const Offset(0, 8),
         style: MenuStyle(
@@ -49,7 +49,7 @@ class MessIconDropdownButton<T> extends StatelessWidget {
           shape: WidgetStatePropertyAll(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           ),
-          minimumSize: WidgetStatePropertyAll(Size.zero),
+          minimumSize: WidgetStatePropertyAll(.zero),
           maximumSize: WidgetStatePropertyAll(Size(320, 400)),
         ),
         menuChildren: [

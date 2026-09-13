@@ -5,13 +5,13 @@ import 'package:mess_messenger_app/core/constants/svg_icons.dart';
 import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/router/app_routes.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
-import 'package:mess_messenger_app/core/widgets/header_widget.dart';
 import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
 import 'package:mess_messenger_app/features/chats/chats_providers/chats_provider.dart';
-import 'package:mess_messenger_app/features/chats/presentation/pages/layouts/empty_screen.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/chat/chats_header_section_widget.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/chat/header_widget.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/reusable/chat_tile_widget.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/reusable/direct_chat_tile_widget.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/reusable/empty_screen.dart';
 import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
 
 class ChatListWidget extends ConsumerWidget {
@@ -65,8 +65,7 @@ class ChatListWidget extends ConsumerWidget {
                         ChatTileWidget(
                           iconPath: SvgIcons.folders,
                           chatId: groupChat.id,
-                          title:
-                              'In future should be group messages!', //groupChat.id.substring(0, 12),
+                          title: 'In future should be group messages!',
                           subtitle: groupChat.lastMessage,
                           onPressed: () {},
                         ),
@@ -86,7 +85,7 @@ class ChatListWidget extends ConsumerWidget {
                     ],
                   ),
                 )
-              : EmptyScreenWidget(l10n: l10n),
+              : EmptyScreenWidget(),
         ),
       ],
     );

@@ -34,13 +34,12 @@ class UserDataContentWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: mainAxisAlignment ?? .center,
       children: [
-        // User Avatar
         Container(
           height: avatarSize ?? 64,
           width: avatarSize ?? 64,
           decoration: BoxDecoration(
             color: colors.surface0,
-            shape: BoxShape.circle,
+            shape: .circle,
             boxShadow: [
               BoxShadow(
                 color: colors.surface4,
@@ -66,9 +65,7 @@ class UserDataContentWidget extends StatelessWidget {
           ),
         ),
         AppSpacing.p16.gapH,
-        // User Name and Number
-        // Expanded(
-        //   child:
+
         Column(
           crossAxisAlignment: .start,
           spacing: 4,
@@ -81,7 +78,7 @@ class UserDataContentWidget extends StatelessWidget {
                     color: titleColor ?? colors.text1,
                   ),
               maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+              overflow: .ellipsis,
             ),
             Text(
               otherUserData?.phoneNumber ?? '+447903754798',
@@ -91,16 +88,10 @@ class UserDataContentWidget extends StatelessWidget {
                     color: subtitleColor ?? colors.text2,
                   ),
               maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+              overflow: .ellipsis,
             ),
           ],
         ),
-        // ),
-        //
-        // if (isEnabledIconButton == true) ...[
-        //   Spacer(),
-        //   MessIconButton(SvgIcons.favorites, onPressed: onPressedFavorites),
-        // ],
       ],
     );
   }

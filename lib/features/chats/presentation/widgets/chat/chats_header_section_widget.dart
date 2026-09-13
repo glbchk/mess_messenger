@@ -20,7 +20,7 @@ class ChatsHeaderSectionWidget extends StatelessWidget {
     final textTheme = context.textStyles;
 
     return Column(
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: .min,
       crossAxisAlignment: .start,
       children: [
         Container(

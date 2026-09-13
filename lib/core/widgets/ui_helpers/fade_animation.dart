@@ -11,7 +11,7 @@ class FadeInMenuItem extends StatefulWidget {
 class _FadeInMenuItemState extends State<FadeInMenuItem>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
-    duration: const Duration(milliseconds: 250), // 💡 Smooth animation window
+    duration: const Duration(milliseconds: 250),
     vsync: this,
   );
 
@@ -21,14 +21,14 @@ class _FadeInMenuItemState extends State<FadeInMenuItem>
   );
 
   late final Animation<Offset> _slideAnimation = Tween<Offset>(
-    begin: const Offset(0, -0.15), // Slides down slightly from the top
+    begin: const Offset(0, -0.15),
     end: Offset.zero,
   ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
   @override
   void initState() {
     super.initState();
-    _controller.forward(); // Fire the animation as soon as the item drops in
+    _controller.forward();
   }
 
   @override

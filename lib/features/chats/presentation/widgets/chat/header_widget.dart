@@ -20,7 +20,7 @@ class HeaderWidget extends StatelessWidget {
     final textTheme = context.textStyles;
 
     return Container(
-      color: Colors.transparent,
+      color: colors.transparent,
       height: 79,
       child: Row(
         children: [

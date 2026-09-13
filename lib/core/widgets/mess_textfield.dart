@@ -58,13 +58,12 @@ class MessTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // debugPrint('MessTextField height param = $height');
     final colors = context.colors;
     final textTheme = context.textStyles;
 
     final borderStyle = OutlineInputBorder(
       borderRadius: BorderRadius.circular(radius ?? 16),
-      borderSide: BorderSide.none,
+      borderSide: .none,
     );
 
     return Column(
@@ -93,7 +92,7 @@ class MessTextField extends StatelessWidget {
               expands: true,
               maxLines: null,
               minLines: null,
-              textAlignVertical: TextAlignVertical.center,
+              textAlignVertical: .center,
               enableSuggestions: false,
               autocorrect: false,
               keyboardType: keyboardType,
@@ -102,7 +101,7 @@ class MessTextField extends StatelessWidget {
               style: textTheme.bodyMedium?.copyWith(
                 color: colors.textPlaceHolder,
               ),
-              textCapitalization: textCapitalization ?? TextCapitalization.none,
+              textCapitalization: textCapitalization ?? .none,
               onTapUpOutside: (event) {
                 FocusManager.instance.primaryFocus?.unfocus();
               },
@@ -110,11 +109,10 @@ class MessTextField extends StatelessWidget {
               onChanged: (String value) => onChanged?.call(value),
               decoration: InputDecoration(
                 hintText: hint,
-                prefix: prefixIcon != null ? const SizedBox(width: 12) : null,
+                prefix: prefixIcon != null ? AppSpacing.p12.gapH : null,
                 hintStyle: textTheme.bodyMedium?.copyWith(
                   color: colors.textHint,
                 ),
-                // isDense: true, Needed to increase vertical padding
                 filled: true,
                 contentPadding: EdgeInsets.symmetric(horizontal: 16),
                 prefixIcon: prefixIcon != null

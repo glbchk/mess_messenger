@@ -10,6 +10,7 @@ import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/build_head
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/build_menu_item_widget.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/menu_entry.dart';
 import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
+import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class WebSideMenu extends ConsumerStatefulWidget {
   const WebSideMenu({super.key});
@@ -33,6 +34,7 @@ class _WebSideMenuState extends ConsumerState<WebSideMenu>
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     final userData = ref.watch(userNotifierProvider).userData;
 
     final l10n = context.l10n;
@@ -95,8 +97,8 @@ class _WebSideMenuState extends ConsumerState<WebSideMenu>
       duration: _menuDuration,
       curve: Curves.easeInOut,
       width: _isExpanded ? _expandedWidth : _collapsedWidth,
-      color: Colors.transparent,
-      clipBehavior: Clip.hardEdge,
+      color: colors.transparent,
+      clipBehavior: .hardEdge,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 28),
         child: Column(
@@ -150,20 +152,20 @@ class _WebSideMenuState extends ConsumerState<WebSideMenu>
                                 child: AnimatedAlign(
                                   duration: _menuDuration,
                                   curve: Curves.easeInOut,
-                                  alignment: Alignment.centerLeft,
+                                  alignment: .centerLeft,
                                   widthFactor: _isExpanded ? 1.0 : 0.0,
                                   child: Column(
                                     crossAxisAlignment: .start,
-                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisSize: .min,
                                     children: [
                                       Text(
                                         userData?.name ?? 'Joe Doe',
-                                        overflow: TextOverflow.clip,
+                                        overflow: .clip,
                                         softWrap: false,
                                       ),
                                       Text(
                                         userData?.email ?? 'fake@email.com',
-                                        overflow: TextOverflow.clip,
+                                        overflow: .clip,
                                         softWrap: false,
                                       ),
                                     ],

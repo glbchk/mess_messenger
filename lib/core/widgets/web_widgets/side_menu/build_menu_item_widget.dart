@@ -5,6 +5,7 @@ import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/menu_entry
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 Widget buildMenuItem({
+  //TODO: NEED TO CHANGE TO WIDGET
   required BuildContext context,
   required MenuItem item,
   required String selectedId,
@@ -17,7 +18,7 @@ Widget buildMenuItem({
   final isSelected = selectedId == item.id;
 
   return GestureDetector(
-    onTap: onTap, //setState(() => selectedId = item.id),
+    onTap: onTap,
     child: Container(
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
@@ -27,7 +28,7 @@ Widget buildMenuItem({
         borderRadius: BorderRadius.circular(24),
       ),
       child: Row(
-        mainAxisSize: MainAxisSize.max,
+        mainAxisSize: .max,
         children: [
           Padding(
             padding: EdgeInsets.only(left: 35),
@@ -39,17 +40,15 @@ Widget buildMenuItem({
               child: AnimatedAlign(
                 duration: menuDuration,
                 curve: Curves.easeInOut,
-                alignment: Alignment.centerLeft,
+                alignment: .centerLeft,
                 widthFactor: isExpanded ? 1.0 : 0.0,
                 child: Text(
                   item.label,
                   style: textTheme.bodyLarge?.copyWith(
                     color: isSelected ? colors.text1 : colors.text2,
-                    fontWeight: isSelected
-                        ? FontWeight.w600
-                        : FontWeight.normal,
+                    fontWeight: isSelected ? .w600 : .normal,
                   ),
-                  overflow: TextOverflow.clip,
+                  overflow: .clip,
                   softWrap: false,
                   maxLines: 1,
                 ),

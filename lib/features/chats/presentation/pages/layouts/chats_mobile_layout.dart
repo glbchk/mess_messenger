@@ -11,10 +11,10 @@ import 'package:mess_messenger_app/core/widgets/mobile_widgets/app_bar/mobile_ap
 import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
 import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
 import 'package:mess_messenger_app/features/chats/chats_providers/chats_provider.dart';
-import 'package:mess_messenger_app/features/chats/presentation/pages/layouts/empty_screen.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/chat/chats_header_section_widget.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/reusable/chat_tile_widget.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/reusable/direct_chat_tile_widget.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/reusable/empty_screen.dart';
 import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
@@ -128,7 +128,7 @@ class _ChatsMobileLayoutState extends ConsumerState<ChatsMobileLayout> {
                       ),
                     ),
                   )
-                : EmptyScreenWidget(l10n: l10n),
+                : EmptyScreenWidget(),
           ),
         ],
       ),

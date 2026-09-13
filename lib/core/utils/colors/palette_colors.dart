@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// 🎨 The list of colors from your design mockup
 class Palette {
   static const List<Color> colors = [
     Color(0xFFD2E3F7),

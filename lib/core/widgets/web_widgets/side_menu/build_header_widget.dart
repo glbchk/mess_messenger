@@ -5,6 +5,7 @@ import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 Widget buildHeader({
+  //TODO: NEED TO CHANGE TO WIDGET
   required BuildContext context,
   required VoidCallback toggle,
   required VoidCallback onEnter,
@@ -19,20 +20,19 @@ Widget buildHeader({
     onTap: toggle,
     child: MouseRegion(
       cursor: SystemMouseCursors.click,
-      onEnter: (_) => onEnter, //setState(() => _isHovered = true),
-      onExit: (_) => onExit, //setState(() => _isHovered = false),
+      onEnter: (_) => onEnter,
+      onExit: (_) => onExit,
       child: Container(
         width: double.infinity,
         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: Row(
-          mainAxisSize: MainAxisSize.max,
+          mainAxisSize: .max,
           children: [
-            // Fixed icon area
             Padding(
               padding: EdgeInsets.only(left: 32),
               child: Stack(
-                alignment: Alignment.center,
+                alignment: .center,
                 children: [
                   AnimatedOpacity(
                     duration: const Duration(milliseconds: 150),
@@ -49,20 +49,19 @@ Widget buildHeader({
             ),
 
             if (isExpanded) AppSpacing.p24.gapH,
-            // Label — ClipRect hides it when collapsed
             Flexible(
               child: ClipRect(
                 child: AnimatedAlign(
                   duration: const Duration(milliseconds: 150),
                   curve: Curves.easeInOut,
-                  alignment: Alignment.centerLeft,
+                  alignment: .centerLeft,
                   widthFactor: isExpanded ? 1.0 : 0.0,
                   child: Text(
                     'Mess Messenger',
                     style: textTheme.headlineLarge?.copyWith(
                       color: colors.text1,
                     ),
-                    overflow: TextOverflow.clip,
+                    overflow: .clip,
                     softWrap: false,
                   ),
                 ),

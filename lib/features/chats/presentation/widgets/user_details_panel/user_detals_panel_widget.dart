@@ -58,7 +58,7 @@ class UserDetailsPanelWidget extends ConsumerWidget {
             children: [
               SingleChildScrollView(
                 child: Stack(
-                  clipBehavior: Clip.none,
+                  clipBehavior: .none,
                   children: [
                     Column(
                       crossAxisAlignment: .start,
@@ -78,7 +78,7 @@ class UserDetailsPanelWidget extends ConsumerWidget {
                             ),
                             child: Image.asset(
                               'assets/images/settings_header.png',
-                              fit: BoxFit.cover,
+                              fit: .cover,
                             ),
                           ),
                         ),
@@ -95,7 +95,7 @@ class UserDetailsPanelWidget extends ConsumerWidget {
                                 ),
                               ),
 
-                              const SizedBox(height: 4),
+                              AppSpacing.p4.gapV,
 
                               Text(
                                 otherUser?.phoneNumber ?? '+44656548060',
@@ -156,7 +156,7 @@ class UserDetailsPanelWidget extends ConsumerWidget {
                       left: 24,
                       top: 154,
                       child: Stack(
-                        clipBehavior: Clip.none,
+                        clipBehavior: .none,
                         children: [
                           UserAvatarWidget(
                             isOnline: false,

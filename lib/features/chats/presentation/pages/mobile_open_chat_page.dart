@@ -72,7 +72,7 @@ class _MobileOpenChatPageState extends ConsumerState<MobileOpenChatPage> {
 
   void openEmojiPicker() {}
 
-  //Need to add action to move to the next line
+  //TODO: Need to add action to move to the next line
 
   void sendMessage() {
     final text = messageController.text.trim();
@@ -137,7 +137,6 @@ class _MobileOpenChatPageState extends ConsumerState<MobileOpenChatPage> {
         onPressedBack: () => context.pop(),
         onPressedViewProfile: () =>
             context.push(AppRoutes.profileDetailsFor(widget.chatId ?? '')),
-        // title: 'Chats',
         actions: [
           MessIconDropdownButton<DropdownItemAction>(
             svgAsset: SvgIcons.menuVert,
@@ -179,7 +178,7 @@ class _MobileOpenChatPageState extends ConsumerState<MobileOpenChatPage> {
                         return Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Align(
-                            alignment: Alignment.centerLeft,
+                            alignment: .centerLeft,
                             child: TypingIndicatorWidget(
                               userName: peer?.name ?? 'Other',
                             ),
@@ -224,7 +223,7 @@ class _MobileOpenChatPageState extends ConsumerState<MobileOpenChatPage> {
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Align(
-                      alignment: Alignment.centerLeft,
+                      alignment: .centerLeft,
                       child: TypingIndicatorWidget(
                         userName: peer?.name ?? 'Other',
                       ),

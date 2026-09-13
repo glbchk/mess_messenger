@@ -46,7 +46,7 @@ class DesktopChatHeaderWidget extends ConsumerWidget {
         padding: const EdgeInsets.only(left: 24, top: 24, right: 24),
         child: Row(
           crossAxisAlignment: .start,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: .center,
           children: [
             UserDataContentWidget(otherUserData: otherUserData),
             Spacer(),

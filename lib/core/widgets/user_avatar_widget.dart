@@ -36,14 +36,14 @@ class UserAvatarWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Stack(
-        clipBehavior: Clip.none,
+        clipBehavior: .none,
         children: [
           Container(
             height: effectiveSize,
             width: effectiveSize,
             decoration: BoxDecoration(
               color: backgroundColor ?? colors.surface2,
-              shape: BoxShape.circle,
+              shape: .circle,
             ),
             child: Padding(
               padding: EdgeInsets.all(borderWidth),
@@ -76,10 +76,7 @@ class UserAvatarWidget extends StatelessWidget {
               child: Container(
                 width: 14,
                 height: 14,
-                decoration: BoxDecoration(
-                  color: colors.bg,
-                  shape: BoxShape.circle,
-                ),
+                decoration: BoxDecoration(color: colors.bg, shape: .circle),
                 child: Padding(
                   padding: const EdgeInsets.all(2.0),
                   child: Container(
@@ -87,7 +84,7 @@ class UserAvatarWidget extends StatelessWidget {
                     width: 12,
                     decoration: BoxDecoration(
                       color: colors.successColor,
-                      shape: BoxShape.circle,
+                      shape: .circle,
                     ),
                   ),
                 ),

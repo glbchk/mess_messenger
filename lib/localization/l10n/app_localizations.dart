@@ -191,8 +191,20 @@ abstract class AppLocalizations {
   /// No description provided for @changeLanguage.
   ///
   /// In en, this message translates to:
-  /// **'Change language'**
+  /// **'Change to Ukrainian'**
   String get changeLanguage;
+
+  /// No description provided for @changeToDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get changeToDark;
+
+  /// No description provided for @changeToLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get changeToLight;
 
   /// No description provided for @signIn.
   ///
@@ -793,6 +805,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show more'**
   String get showMore;
+
+  /// No description provided for @justNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Just now'**
+  String get justNow;
 
   /// No description provided for @today.
   ///

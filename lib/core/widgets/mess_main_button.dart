@@ -61,24 +61,22 @@ class MessMainButton extends StatelessWidget {
           if (buttonShadow != null)
             BoxShadow(
               color: buttonShadow?.withValues(alpha: 0.1) ?? colors.text1,
-              spreadRadius: 4, // Extends the shadow past the box
-              blurRadius: 6, // Softens the shadow
-              offset: const Offset(0, 2), // Moves shadow x-axis and y-axis
+              spreadRadius: 4,
+              blurRadius: 6,
+              offset: const Offset(0, 2),
             ),
         ],
       ),
       child: FilledButton(
         onPressed: onPressed,
         style: ButtonStyle(
-          // 💡 1. Dynamically swap background color with 0% default transparency
           backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
             if (states.contains(WidgetState.hovered) && hoverColor != null) {
-              return hoverColor!; // Exact hover color you passed in
+              return hoverColor!;
             }
-            return backgroundColor ?? colors.text1; // Default state
+            return backgroundColor ?? colors.text1;
           }),
 
-          // 💡 2. Turn off Material's automatic 8% tint layer completely
           overlayColor: WidgetStatePropertyAll(colors.transparent),
 
           shape: WidgetStatePropertyAll(
@@ -86,10 +84,10 @@ class MessMainButton extends StatelessWidget {
           ),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: .center,
           children: [
             prefixIconPath != null
-                ? MessIcon(prefixIconPath ?? '', size: prefixIconSize ?? 0)
+                ? MessIcon(prefixIconPath ?? '', size: prefixIconSize ?? 24)
                 : SpacingModifier.empty(),
             prefixIconPath != null
                 ? AppSpacing.p8.gapH
@@ -101,13 +99,13 @@ class MessMainButton extends StatelessWidget {
                   textTheme.labelLarge?.copyWith(
                     color: textColor ?? colors.textInverse,
                   ),
-              textAlign: TextAlign.center,
+              textAlign: .center,
             ),
             suffixIconPath != null
                 ? AppSpacing.p8.gapH
                 : SpacingModifier.empty(),
             suffixIconPath != null
-                ? MessIcon(suffixIconPath ?? '', size: suffixIconSize ?? 0)
+                ? MessIcon(suffixIconPath ?? '', size: suffixIconSize ?? 24)
                 : SpacingModifier.empty(),
           ],
         ),

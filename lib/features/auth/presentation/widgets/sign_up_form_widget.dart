@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
+import 'package:mess_messenger_app/core/constants/textfields_ids.dart';
+import 'package:mess_messenger_app/core/providers/ui_providers/textfield_provider.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
 import 'package:mess_messenger_app/core/widgets/mess_password_field.dart';
 import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
+import 'package:mess_messenger_app/features/auth/presentation/pages/controllers/auth_controller.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
-class SignUpFormWidget extends StatelessWidget {
+class SignUpFormWidget extends ConsumerWidget {
   final AppLocalizations l10n;
   final TextEditingController nameController;
   final TextEditingController emailController;
@@ -42,9 +46,19 @@ class SignUpFormWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colors;
     final textTheme = context.textStyles;
+
+    final nameSignUpStatus = ref.watch(
+      textfieldStatusProvider(TextfieldIds.signUpName),
+    );
+    final emailSignUpStatus = ref.watch(
+      textfieldStatusProvider(TextfieldIds.signUpEmail),
+    );
+    final passwordSignUpStatus = ref.watch(
+      textfieldStatusProvider(TextfieldIds.signUpPassword),
+    );
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -68,14 +82,20 @@ class SignUpFormWidget extends StatelessWidget {
           controller: nameController,
           label: l10n.nameLabel,
           hint: l10n.nameHint,
-          error: nameError,
+          error: nameSignUpStatus.message,
+          onChanged: (value) => ref
+              .read(authFormControllerProvider)
+              .onNameChanged(value ?? '', TextfieldIds.signUpName),
         ),
         AppSpacing.p16.gapV,
         MessTextField(
           controller: emailController,
           label: l10n.emailLabel,
           hint: l10n.emailHint,
-          error: emailError,
+          error: emailSignUpStatus.message,
+          onChanged: (value) => ref
+              .read(authFormControllerProvider)
+              .onEmailChanged(value ?? '', TextfieldIds.signUpEmail),
         ),
         AppSpacing.p16.gapV,
         MessPasswordField(
@@ -83,8 +103,11 @@ class SignUpFormWidget extends StatelessWidget {
           showPassword: showPassword,
           label: l10n.passwordLabel,
           hint: l10n.passwordHint,
-          error: passwordError, //TODO: Replace with real error
+          error: passwordSignUpStatus.message,
           onSuffixIconTap: onToggleIconShowPassword,
+          onChanged: (value) => ref
+              .read(authFormControllerProvider)
+              .onPasswordChanged(value ?? '', TextfieldIds.signUpPassword),
         ),
         AppSpacing.p24.gapV,
         SizedBox(

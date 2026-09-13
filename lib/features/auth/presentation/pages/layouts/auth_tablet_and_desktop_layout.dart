@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/core/constants/app_images.dart';
-import 'package:mess_messenger_app/features/auth/presentation/pages/ui_helpers/footer_row_widget.dart';
-import 'package:mess_messenger_app/features/auth/presentation/pages/ui_helpers/logo_row_widget.dart';
+import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
+import 'package:mess_messenger_app/features/auth/presentation/widgets/footer_row_widget.dart';
+import 'package:mess_messenger_app/features/auth/presentation/widgets/logo_row_widget.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-class AuthDesktopLayout extends StatelessWidget {
+class AuthTabletAndDesktopLayout extends ConsumerWidget {
   final Widget formContent;
+  final double formMaxWidth;
 
-  const AuthDesktopLayout({super.key, required this.formContent});
+  const AuthTabletAndDesktopLayout({
+    super.key,
+    required this.formContent,
+    required this.formMaxWidth,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colors;
-    final textTheme = context.textStyles;
     final bp = ResponsiveBreakpoints.of(context);
 
-    final sectionWidth = bp.isDesktop
-        ? bp.screenWidth * 0.25
-        : bp.screenWidth * 0.35;
+    final imageWidth = bp.isTablet
+        ? (bp.screenWidth * 0.3).clamp(280.0, 380.0)
+        : bp.screenWidth * 0.5;
 
     return Scaffold(
       body: Row(
@@ -29,21 +35,26 @@ class AuthDesktopLayout extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: .start,
                 children: [
-                  buildLogoRow(colors, textTheme),
+                  LogoRowWidget(),
                   Expanded(
                     child: Center(
                       child: ConstrainedBox(
-                        constraints: BoxConstraints(maxWidth: sectionWidth),
+                        constraints: BoxConstraints(maxWidth: formMaxWidth),
                         child: formContent,
                       ),
                     ),
                   ),
-                  buildFooter(colors, textTheme),
+                  FooterWidget(
+                    onPressedChangeLanguage: ref
+                        .read(authNotifierProvider.notifier)
+                        .toggleLanguage,
+                  ),
                 ],
               ),
             ),
           ),
-          Expanded(
+          SizedBox(
+            width: imageWidth,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 16, 16, 16),
               child: ClipRRect(
@@ -62,18 +73,3 @@ class AuthDesktopLayout extends StatelessWidget {
     );
   }
 }
-
-//TODO: Need to add option to change language on the entrance in the app
-
-// AppSpacing.p32.gapV,
-// MessMainButton(
-//   label: l10n.changeLanguage,
-//   onPressed: () {
-//     final currentLocale = ref.read(appLanguageProvider);
-//     final nextLocale = currentLocale.languageCode == 'en'
-//         ? const Locale('uk')
-//         : const Locale('en');
-//
-//     ref.read(appLanguageProvider.notifier).changeLanguage(nextLocale);
-//   },
-// ),

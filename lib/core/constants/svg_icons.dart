@@ -7,6 +7,8 @@ abstract final class SvgIcons {
   static const String checkboxChecked = 'assets/icons/checkbox_checked.svg';
   static const String logo = 'assets/icons/mess_logo.svg';
   static const String menu = 'assets/icons/menu.svg';
+  static const String darkMode = 'assets/icons/dark_mode.svg';
+  static const String lightMode = 'assets/icons/light_mode.svg';
   //Menu & Chats
   static const String chats = 'assets/icons/menu/chats.svg';
   static const String calls = 'assets/icons/menu/calls.svg';

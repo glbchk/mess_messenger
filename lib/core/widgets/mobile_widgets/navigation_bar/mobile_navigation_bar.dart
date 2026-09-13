@@ -36,7 +36,7 @@ class MobileNavigationBar extends StatelessWidget {
         child: SizedBox(
           height: 76,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: .start,
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 24.0, right: 24.0),

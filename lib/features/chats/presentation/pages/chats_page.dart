@@ -89,8 +89,6 @@ class _ChatsPageState extends ConsumerState<ChatsPage> {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
-    // final l10n = context.l10n;
-
     return ResponsiveLayout(
       mobile: ChatsMobileLayout(),
       tablet: ChatsTabletLayout(messageController: messageController),

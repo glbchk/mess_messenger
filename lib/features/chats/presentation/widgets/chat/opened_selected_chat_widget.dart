@@ -58,7 +58,7 @@ class _OpenedSelectedChatWidgetState
                       return Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Align(
-                          alignment: Alignment.centerLeft,
+                          alignment: .centerLeft,
                           child: TypingIndicatorWidget(
                             userName: peer?.name ?? 'Other',
                           ),

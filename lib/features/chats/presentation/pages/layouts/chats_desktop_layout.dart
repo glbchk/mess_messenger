@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/web_side_menu.dart';
 import 'package:mess_messenger_app/features/chats/chats_providers/chats_provider.dart';
-import 'package:mess_messenger_app/features/chats/presentation/pages/layouts/empty_screen.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/chat/chat_list_widget.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/chat/opened_selected_chat_widget.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/reusable/empty_screen.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/user_details_panel/user_detals_panel_widget.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -20,7 +19,6 @@ class ChatsDesktopLayout extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colors;
     final bp = ResponsiveBreakpoints.of(context);
-    final l10n = context.l10n;
 
     final sectionWidth = bp.isDesktop
         ? bp.screenWidth * 0.25
@@ -41,7 +39,7 @@ class ChatsDesktopLayout extends ConsumerWidget {
       children: [
         Scaffold(
           body: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: .stretch,
             children: [
               WebSideMenu(),
 
@@ -71,7 +69,7 @@ class ChatsDesktopLayout extends ConsumerWidget {
 
               Expanded(
                 child: selectedChatId == ''
-                    ? EmptyScreenWidget(l10n: l10n)
+                    ? EmptyScreenWidget()
                     : Container(
                         margin: const EdgeInsets.only(
                           top: 20,
@@ -89,9 +87,7 @@ class ChatsDesktopLayout extends ConsumerWidget {
                       ),
               ),
 
-              if (isProfilesDisplayed)
-                // if (isProfilesDisplayed && otherUser != null)
-                UserDetailsPanelWidget(),
+              if (isProfilesDisplayed) UserDetailsPanelWidget(),
             ],
           ),
         ),

@@ -54,7 +54,13 @@ class AppLocalizationsUk extends AppLocalizations {
   String get logIn => 'Увійти';
 
   @override
-  String get changeLanguage => 'Змінити мову';
+  String get changeLanguage => 'Змінити на Англійську';
+
+  @override
+  String get changeToDark => 'Темна';
+
+  @override
+  String get changeToLight => 'Світла';
 
   @override
   String get signIn => 'Увійти';
@@ -368,6 +374,9 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get showMore => 'Показати більше';
+
+  @override
+  String get justNow => 'Зараз';
 
   @override
   String get today => 'Сьогодні';
