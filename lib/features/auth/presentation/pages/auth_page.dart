@@ -9,10 +9,13 @@ import 'package:mess_messenger_app/features/auth/presentation/pages/layouts/auth
 import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.dart';
 import 'package:mess_messenger_app/features/auth/presentation/widgets/sign_in_form_widget.dart';
 import 'package:mess_messenger_app/features/auth/presentation/widgets/sign_up_form_widget.dart';
+import 'package:mess_messenger_app/localization/errors/auth_failure_l10n.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class AuthPage extends ConsumerStatefulWidget {
   const AuthPage({super.key});
+  //TODO: NEED TO HANDLE SERVER ERRORS THAT FIREBASE
+  // CAN RETURN IN AUTHENTICATION STAGE
 
   @override
   ConsumerState<AuthPage> createState() => _AuthPageState();
@@ -81,10 +84,10 @@ class _AuthPageState extends ConsumerState<AuthPage> {
     final formMaxWidth = (bp.screenWidth * 0.4).clamp(320.0, 480.0);
 
     ref.listen<AuthState>(authNotifierProvider, (previous, next) {
-      if (next is AuthUnauthenticated && next.errorMessage != null) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(next.errorMessage!)));
+      if (next is AuthUnauthenticated && next.failure != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(next.failure?.message(l10n) ?? '')),
+        );
         ref.read(authNotifierProvider.notifier).clearErrorMessage();
       }
       if (next is AuthUnauthenticated && next.successMessage != null) {

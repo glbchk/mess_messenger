@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
+import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/router/app_routes.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
@@ -17,12 +18,10 @@ import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/personalization_tab/personalisation_desktop_tab_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/widgets/settings_user_data_panel_widget.dart';
 import 'package:mess_messenger_app/features/settings/user_providers/ui_providers/general_settings_ui_provider.dart';
-import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/localization/supported_locales.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class SettingsTabletLayout extends ConsumerStatefulWidget {
-  final AppLocalizations l10n;
   final UserModel userData;
   final GeneralSettingsUiNotifier view;
   final TabController tabController;
@@ -42,7 +41,6 @@ class SettingsTabletLayout extends ConsumerStatefulWidget {
 
   const SettingsTabletLayout({
     super.key,
-    required this.l10n,
     required this.userData,
     required this.view,
     required this.tabController,
@@ -71,6 +69,8 @@ class _SettingsTabletLayoutState extends ConsumerState<SettingsTabletLayout> {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final textTheme = context.textStyles;
+
+    final l10n = context.l10n;
 
     return Scaffold(
       body: Row(
@@ -107,7 +107,7 @@ class _SettingsTabletLayoutState extends ConsumerState<SettingsTabletLayout> {
                       ),
                       AppSpacing.p20.gapV,
                       SettingsUserDataPanelWidget(
-                        l10n: widget.l10n,
+                        l10n: l10n,
                         userData: widget.userData,
                         onPressedChangeAvatar: widget.onPressedChangeAvatar,
                         onPressedExportAccountData: () {},
@@ -147,27 +147,27 @@ class _SettingsTabletLayoutState extends ConsumerState<SettingsTabletLayout> {
                           tabs: [
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 18),
-                              child: Tab(text: widget.l10n.general),
+                              child: Tab(text: l10n.general),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 18),
-                              child: Tab(text: widget.l10n.account),
+                              child: Tab(text: l10n.account),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 18),
-                              child: Tab(text: widget.l10n.personalisation),
+                              child: Tab(text: l10n.personalisation),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 18),
-                              child: Tab(text: widget.l10n.billing),
+                              child: Tab(text: l10n.billing),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 18),
-                              child: Tab(text: widget.l10n.notification),
+                              child: Tab(text: l10n.notification),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 18),
-                              child: Tab(text: widget.l10n.api),
+                              child: Tab(text: l10n.api),
                             ),
                           ],
                         ),
@@ -178,7 +178,6 @@ class _SettingsTabletLayoutState extends ConsumerState<SettingsTabletLayout> {
                           controller: widget.tabController,
                           children: [
                             GeneralDesktopTabWidget(
-                              l10n: widget.l10n,
                               userData: widget.userData,
                               view: widget.view,
                               generalSettingsController:
@@ -188,7 +187,6 @@ class _SettingsTabletLayoutState extends ConsumerState<SettingsTabletLayout> {
                                   widget.onPressedArchiveAllMessages,
                             ),
                             AccountDesktopTabWidget(
-                              l10n: widget.l10n,
                               userData: widget.userData,
                               accountSettingsController:
                                   widget.accountSettingsController,
@@ -205,13 +203,9 @@ class _SettingsTabletLayoutState extends ConsumerState<SettingsTabletLayout> {
                                   widget.phoneNumberController,
                             ),
                             PersonalisationDesktopTabWidget(
-                              l10n: widget.l10n,
                               userData: widget.userData,
                             ),
-                            BillingDesktopTabWidget(
-                              l10n: widget.l10n,
-                              userData: widget.userData,
-                            ),
+                            BillingDesktopTabWidget(userData: widget.userData),
                             NotificationDesktopTabWidget(),
                             ApiTabWidget(),
                           ],

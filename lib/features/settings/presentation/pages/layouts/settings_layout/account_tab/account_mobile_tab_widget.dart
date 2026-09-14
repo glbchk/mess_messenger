@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
+import 'package:mess_messenger_app/core/constants/textfields_ids.dart';
+import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
+import 'package:mess_messenger_app/core/providers/ui_providers/textfield_provider.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/date_picker_dropdown_widget.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
 import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/controllers/account_settings_controller.dart';
-import 'package:mess_messenger_app/core/providers/ui_providers/textfield_provider.dart';
-import 'package:mess_messenger_app/core/constants/textfields_ids.dart';
-import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class AccountMobileTabWidget extends ConsumerStatefulWidget {
-  final AppLocalizations l10n;
   final UserModel? userData;
   final TextEditingController nameController;
   final MenuController birthdayController;
@@ -40,7 +39,6 @@ class AccountMobileTabWidget extends ConsumerStatefulWidget {
 
   const AccountMobileTabWidget({
     super.key,
-    required this.l10n,
     this.userData,
     required this.nameController,
     required this.birthdayController,
@@ -216,6 +214,9 @@ class _AccountMobileTabWidgetState
   Widget build(BuildContext context) {
     final colors = context.colors;
     final textTheme = context.textStyles;
+
+    final l10n = context.l10n;
+
     // final userNotifier = ref.read(userNotifierProvider.notifier);
     // final fieldsNotifier = ref.watch(textfieldsProvider.notifier);
     // ref.watch(textfieldsProvider);
@@ -255,19 +256,19 @@ class _AccountMobileTabWidgetState
           crossAxisAlignment: .start,
           children: [
             Text(
-              widget.l10n.account,
+              l10n.account,
               style: textTheme.headlineLarge?.copyWith(color: colors.text1),
             ),
             AppSpacing.p36.gapV,
 
             Text(
-              widget.l10n.userName,
+              l10n.userName,
               style: textTheme.titleMedium?.copyWith(color: colors.text2),
             ),
             AppSpacing.p4.gapV,
             MessTextField(
               controller: widget.nameController,
-              hint: widget.l10n.userNameHint,
+              hint: l10n.userNameHint,
               onChanged: (v) =>
                   widget.accountSettingsController.onNameChanged(v ?? ''),
               // (value) => textfieldStatusProvider.onFieldChanged(
@@ -280,7 +281,7 @@ class _AccountMobileTabWidgetState
             ),
             AppSpacing.p24.gapV,
             Text(
-              widget.l10n.birthday,
+              l10n.birthday,
               style: textTheme.titleMedium?.copyWith(color: colors.text2),
             ),
             AppSpacing.p12.gapV,
@@ -296,19 +297,19 @@ class _AccountMobileTabWidgetState
             ),
             AppSpacing.p24.gapV,
             Text(
-              widget.l10n.email,
+              l10n.email,
               style: textTheme.titleMedium?.copyWith(color: colors.text2),
             ),
             AppSpacing.p4.gapV,
             MessTextField(
               controller: widget.emailController,
-              hint: widget.l10n.emailHint,
+              hint: l10n.emailHint,
               suffixIcon: SvgIcons.arrowRight,
               onSuffixIconTap: () =>
                   widget.accountSettingsController.handleEmailUpdate(
                     context: context,
                     ref: ref,
-                    l10n: widget.l10n,
+                    l10n: l10n,
                     emailController: widget.emailController,
                     currentPasswordController: widget.currentPasswordController,
                   ),
@@ -318,13 +319,13 @@ class _AccountMobileTabWidgetState
             ),
             AppSpacing.p24.gapV,
             Text(
-              widget.l10n.phoneNumber,
+              l10n.phoneNumber,
               style: textTheme.titleMedium?.copyWith(color: colors.text2),
             ),
             AppSpacing.p4.gapV,
             MessTextField(
               controller: widget.phoneNumberController,
-              hint: widget.l10n.phoneNumberHint,
+              hint: l10n.phoneNumberHint,
               onChanged: (v) =>
                   widget.accountSettingsController.onPhoneChanged(v ?? ''),
               error: phoneStatus.message,
@@ -332,7 +333,7 @@ class _AccountMobileTabWidgetState
             ),
             AppSpacing.p24.gapV,
             Text(
-              widget.l10n.password,
+              l10n.password,
               style: textTheme.titleMedium?.copyWith(color: colors.text2),
             ),
             AppSpacing.p8.gapV,
@@ -344,7 +345,7 @@ class _AccountMobileTabWidgetState
                   widget.accountSettingsController.handleChangePassword(
                     context: context,
                     ref: ref,
-                    l10n: widget.l10n,
+                    l10n: l10n,
                     currentPasswordController: widget.currentPasswordController,
                     newPasswordController: widget.newPasswordController,
                   ),
@@ -363,7 +364,7 @@ class _AccountMobileTabWidgetState
                   widget.accountSettingsController.handleDeleteAccount(
                     context: context,
                     ref: ref,
-                    l10n: widget.l10n,
+                    l10n: l10n,
                     currentPasswordController: widget.currentPasswordController,
                   ),
             ),

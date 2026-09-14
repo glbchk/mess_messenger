@@ -8,7 +8,6 @@ class ChatsRemoteDataSource {
   final FirebaseFirestore firestore;
   ChatsRemoteDataSource(this.firestore);
 
-  // Finds an existing chat between two users, or creates one if none exists.
   Future<String> getOrCreateChat(String userA, String userB) async {
     final pairKey = directChatId(userA, userB);
     final chatRef = firestore.collection('direct_chats').doc(pairKey);
@@ -39,7 +38,7 @@ class ChatsRemoteDataSource {
     List<String> participantIds, {
     required String groupName,
   }) async {
-    final chatRef = firestore.collection('chats').doc();
+    final chatRef = firestore.collection('group_chats').doc();
     await chatRef.set(
       ChatModel(
         id: chatRef.id,

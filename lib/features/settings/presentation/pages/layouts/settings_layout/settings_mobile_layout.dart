@@ -8,19 +8,13 @@ import 'package:mess_messenger_app/features/settings/presentation/pages/controll
 import 'package:mess_messenger_app/features/settings/presentation/pages/controllers/general_settings_controller.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/delegates/pinned_tab_bar_delegate.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/delegates/profile_header_delegate.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/account_tab/account_mobile_tab_widget.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/api_tab/api_tab_widget.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/billing_tab/billing_mobile_tab_widget.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/general_tab/general_mobile_tab_widget.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/notification_tab/notification_mobile_tab_widget.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/personalization_tab/personalisation_mobile_tab_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/widgets/settings_tab_bar.dart';
+import 'package:mess_messenger_app/features/settings/presentation/widgets/settings_tabs_widget.dart';
 import 'package:mess_messenger_app/features/settings/user_providers/ui_providers/general_settings_ui_provider.dart';
-import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/localization/supported_locales.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class SettingsMobileLayout extends StatefulWidget {
-  final AppLocalizations l10n;
   final UserModel userData;
   final GeneralSettingsUiNotifier view;
   final TabController tabController;
@@ -41,7 +35,6 @@ class SettingsMobileLayout extends StatefulWidget {
 
   const SettingsMobileLayout({
     super.key,
-    required this.l10n,
     required this.userData,
     required this.view,
     required this.tabController,
@@ -122,102 +115,63 @@ class _SettingsMobileLayoutState extends State<SettingsMobileLayout> {
           SliverPersistentHeader(
             pinned: true,
             delegate: PinnedTabBarDelegate(
-              height: 64,
+              height: 90,
               backgroundColor: colors.bg,
               shadowColor: const Color(0x14000000),
-              child: Container(
-                margin: const EdgeInsets.only(
-                  bottom: 16.0,
-                  left: 16.0,
-                  top: 16.0,
-                ),
-                child: TabBar(
-                  controller: widget.tabController,
-                  isScrollable: true,
-                  labelPadding: const EdgeInsets.symmetric(horizontal: 8),
-                  tabAlignment: TabAlignment.start,
-                  dividerColor: colors.transparent,
-                  indicatorSize: TabBarIndicatorSize.label,
-                  indicator: BoxDecoration(
-                    color: colors.textInverse,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  labelColor: colors.text2,
-                  unselectedLabelColor: colors.text2,
-                  labelStyle: textTheme.titleMedium,
-                  overlayColor: const WidgetStatePropertyAll(
-                    Colors.transparent,
-                  ),
-                  splashFactory: NoSplash.splashFactory,
-                  tabs: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18),
-                      child: Tab(text: widget.l10n.general),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18),
-                      child: Tab(text: widget.l10n.account),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18),
-                      child: Tab(text: widget.l10n.personalisation),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18),
-                      child: Tab(text: widget.l10n.billing),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18),
-                      child: Tab(text: widget.l10n.notification),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18),
-                      child: Tab(text: widget.l10n.api),
-                    ),
-                  ],
-                ),
-              ),
+              child: SettingsTabsBar(tabController: widget.tabController),
             ),
           ),
         ],
-        body: TabBarView(
-          controller: widget.tabController,
-
-          children: [
-            GeneralMobileTabWidget(
-              l10n: widget.l10n,
-              userData: widget.userData,
-              view: widget.view,
-              generalSettingsController: widget.generalSettingsController,
-              languages: widget.languages,
-              onPressedArchiveAllMessages: widget.onPressedArchiveAllMessages,
-            ),
-            AccountMobileTabWidget(
-              l10n: widget.l10n,
-              userData: widget.userData,
-              accountSettingsController: widget.accountSettingsController,
-              nameController: widget.nameController,
-              birthdayController: widget.birthdayController,
-              selectedDate: widget.selectedDate,
-              emailFocusNode: FocusNode(),
-              emailController: widget.emailController,
-              currentPasswordController: widget.currentPasswordController,
-              newPasswordController: widget.newPasswordController,
-              phoneNumberController: widget.phoneNumberController,
-            ),
-            PersonalisationMobileTabWidget(
-              l10n: widget.l10n,
-              userData: widget.userData,
-            ),
-            BillingMobileTabWidget(
-              l10n: widget.l10n,
-              userData: widget.userData,
-              onDownloadInvoices: (invoicesToDownload) {},
-            ),
-            NotificationMobileTabWidget(),
-            ApiTabWidget(),
-          ],
+        body: SettingsTabsWidget(
+          tabController: widget.tabController,
+          userData: widget.userData,
+          view: widget.view,
+          languages: widget.languages,
+          generalSettingsController: widget.generalSettingsController,
+          onPressedArchiveAllMessages: widget.onPressedArchiveAllMessages,
+          selectedDate: widget.selectedDate,
+          nameController: widget.nameController,
+          birthdayController: widget.birthdayController,
+          emailController: widget.emailController,
+          currentPasswordController: widget.currentPasswordController,
+          newPasswordController: widget.newPasswordController,
+          phoneNumberController: widget.phoneNumberController,
+          accountSettingsController: widget.accountSettingsController,
+          onPressedChangeAvatar: () {},
+          onPressedLogoutFromAllDevices: () {},
         ),
+        // TabBarView(
+        //   controller: widget.tabController,
+        //
+        //   children: [
+        //     GeneralMobileTabWidget(
+        //       userData: widget.userData,
+        //       view: widget.view,
+        //       generalSettingsController: widget.generalSettingsController,
+        //       languages: widget.languages,
+        //       onPressedArchiveAllMessages: widget.onPressedArchiveAllMessages,
+        //     ),
+        //     AccountMobileTabWidget(
+        //       userData: widget.userData,
+        //       accountSettingsController: widget.accountSettingsController,
+        //       nameController: widget.nameController,
+        //       birthdayController: widget.birthdayController,
+        //       selectedDate: widget.selectedDate,
+        //       emailFocusNode: FocusNode(),
+        //       emailController: widget.emailController,
+        //       currentPasswordController: widget.currentPasswordController,
+        //       newPasswordController: widget.newPasswordController,
+        //       phoneNumberController: widget.phoneNumberController,
+        //     ),
+        //     PersonalisationMobileTabWidget(userData: widget.userData),
+        //     BillingMobileTabWidget(
+        //       userData: widget.userData,
+        //       onDownloadInvoices: (invoicesToDownload) {},
+        //     ),
+        //     NotificationMobileTabWidget(),
+        //     ApiTabWidget(),
+        //   ],
+        // ),
       ),
     );
   }

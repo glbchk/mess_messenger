@@ -90,6 +90,14 @@ class _WebSideMenuState extends ConsumerState<WebSideMenu>
           ;
         },
       ),
+      MenuItem(
+        iconPath: _isExpanded ? SvgIcons.expand : SvgIcons.collapse,
+        label: l10n.collapse,
+        onTap: () {
+          _isExpanded = !_isExpanded;
+          ;
+        },
+      ),
       const ColumnExtension(),
     ];
 
@@ -104,8 +112,7 @@ class _WebSideMenuState extends ConsumerState<WebSideMenu>
         child: Column(
           crossAxisAlignment: .start,
           children: [
-            buildHeader(
-              context: context,
+            SideMenuHeaderWidget(
               toggle: () => _toggle(),
               onEnter: () => setState(() => _isHovered = true),
               onExit: () => setState(() => _isHovered = false),
@@ -117,12 +124,11 @@ class _WebSideMenuState extends ConsumerState<WebSideMenu>
 
             for (final entry in menuItems)
               switch (entry) {
-                MenuItem() => buildMenuItem(
-                  context: context,
+                MenuItem() => MenuItemWidget(
                   item: entry,
                   selectedId: _selectedId,
                   onTap: () {
-                    setState(() => _selectedId = entry.id);
+                    setState(() => _selectedId = entry.id ?? '');
                     entry.onTap.call();
                   },
                   isExpanded: _isExpanded,

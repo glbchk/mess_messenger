@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mess_messenger_app/core/enums/enums.dart';
+import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/features/settings/presentation/widgets/settings_widgets/subscription_plan_card.dart';
-import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class SubscriptionPlanSelector extends StatelessWidget {
-  final AppLocalizations l10n;
   final UserModel? userData;
   final SubscriptionPlan selectedPlan;
   final VoidCallback onTapFree;
@@ -16,7 +15,6 @@ class SubscriptionPlanSelector extends StatelessWidget {
 
   const SubscriptionPlanSelector({
     super.key,
-    required this.l10n,
     required this.userData,
     required this.selectedPlan,
     required this.onTapFree,
@@ -28,6 +26,8 @@ class SubscriptionPlanSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bp = ResponsiveBreakpoints.of(context);
+
+    final l10n = context.l10n;
 
     final selectedPlan = userData?.subscriptionPlan;
 

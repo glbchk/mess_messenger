@@ -5,13 +5,13 @@ sealed class MenuEntry {
 }
 
 class MenuItem extends MenuEntry {
-  final String id;
+  final String? id;
   final String iconPath;
   final String label;
   final VoidCallback onTap;
 
   const MenuItem({
-    required this.id,
+    this.id,
     required this.iconPath,
     required this.label,
     required this.onTap,

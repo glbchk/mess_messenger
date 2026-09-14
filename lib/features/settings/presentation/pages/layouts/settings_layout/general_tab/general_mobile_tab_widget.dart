@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/dropdown_menu_widget.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
+import 'package:mess_messenger_app/core/widgets/mess_switch.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/controllers/general_settings_controller.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/build_title_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/checkbox_row_widget.dart';
-import 'package:mess_messenger_app/core/widgets/mess_switch.dart';
 import 'package:mess_messenger_app/features/settings/user_providers/ui_providers/general_settings_ui_provider.dart';
-import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/localization/supported_locales.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class GeneralMobileTabWidget extends ConsumerStatefulWidget {
-  final AppLocalizations l10n;
   final UserModel? userData;
   final GeneralSettingsUiNotifier view;
   // final ValueChanged<bool> onLoginToggled;
@@ -30,7 +29,6 @@ class GeneralMobileTabWidget extends ConsumerStatefulWidget {
 
   const GeneralMobileTabWidget({
     super.key,
-    required this.l10n,
     this.userData,
     required this.view,
     // required this.onLoginToggled,
@@ -57,6 +55,8 @@ class _GeneralMobileTabWidgetState
   Widget build(BuildContext context) {
     final colors = context.colors;
     final textTheme = context.textStyles;
+
+    final l10n = context.l10n;
 
     final bp = ResponsiveBreakpoints.of(context);
 
@@ -94,11 +94,11 @@ class _GeneralMobileTabWidgetState
           crossAxisAlignment: .start,
           children: [
             Text(
-              widget.l10n.general,
+              l10n.general,
               style: textTheme.headlineLarge?.copyWith(color: colors.text1),
             ),
             AppSpacing.p36.gapV,
-            BuildTitleWidget(title: widget.l10n.logIn),
+            BuildTitleWidget(title: l10n.logIn),
             AppSpacing.p12.gapV,
             Row(
               spacing: 8,
@@ -109,64 +109,64 @@ class _GeneralMobileTabWidgetState
                   onChanged: widget.generalSettingsController.toggleLogin,
                 ),
                 Text(
-                  widget.view.isOn ? widget.l10n.on : widget.l10n.off,
+                  widget.view.isOn ? l10n.on : l10n.off,
                   style: textTheme.bodyLarge?.copyWith(color: colors.text1),
                 ),
               ],
             ),
             AppSpacing.p24.gapV,
-            BuildTitleWidget(title: widget.l10n.language),
+            BuildTitleWidget(title: l10n.language),
             AppSpacing.p12.gapV,
             DropdownMenuWidget(
               values: [
-                widget.l10n.systemDefault,
+                l10n.systemDefault,
                 ...widget.languages.map((l) => l.displayName),
               ],
               value: widget.view.currentLanguageDisplay,
               constraintSize: bp.screenWidth * 0.8,
               onChanged: (displayName) => widget.generalSettingsController
-                  .selectLanguage(displayName, widget.l10n),
+                  .selectLanguage(displayName, l10n),
             ),
             AppSpacing.p24.gapV,
             Text(
-              widget.l10n.password,
+              l10n.password,
               style: textTheme.titleMedium?.copyWith(color: colors.text2),
             ),
             AppSpacing.p12.gapV,
             CheckboxRowWidget(
-              title: widget.l10n.photo,
+              title: l10n.photo,
               isChecked: widget.view.isPhotoChecked,
               onTap: () =>
                   widget.generalSettingsController.togglePhotoProtection,
             ),
             AppSpacing.p8.gapV,
             CheckboxRowWidget(
-              title: widget.l10n.audio,
+              title: l10n.audio,
               isChecked: widget.view.isAudioChecked,
               onTap: () =>
                   widget.generalSettingsController.toggleAudioProtection,
             ),
             AppSpacing.p8.gapV,
             CheckboxRowWidget(
-              title: widget.l10n.video,
+              title: l10n.video,
               isChecked: widget.view.isVideoChecked,
               onTap: () =>
                   widget.generalSettingsController.toggleVideoProtection,
             ),
             AppSpacing.p8.gapV,
             CheckboxRowWidget(
-              title: widget.l10n.document,
+              title: l10n.document,
               isChecked: widget.view.isDocumentChecked,
               onTap: () =>
                   widget.generalSettingsController.toggleDocumentProtection,
             ),
             AppSpacing.p32.gapV,
-            BuildTitleWidget(title: widget.l10n.messages),
+            BuildTitleWidget(title: l10n.messages),
             AppSpacing.p12.gapV,
             MessMainButton(
               height: 48,
               width: 192,
-              label: widget.l10n.archiveAll,
+              label: l10n.archiveAll,
               textColor: colors.text1,
               backgroundColor: colors.surface2,
               onPressed: widget.onPressedArchiveAllMessages,

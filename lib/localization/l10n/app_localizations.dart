@@ -728,17 +728,35 @@ abstract class AppLocalizations {
   /// **'Please enter your password.'**
   String get passwordRequired;
 
+  /// No description provided for @invalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'That email doesn\'t look right. Please try again.'**
+  String get invalidEmail;
+
+  /// No description provided for @accountExistsWithDifferentCredential.
+  ///
+  /// In en, this message translates to:
+  /// **'An account already exists with the same email address.'**
+  String get accountExistsWithDifferentCredential;
+
+  /// No description provided for @accountNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'That account doesn\'t exist.'**
+  String get accountNotFound;
+
+  /// No description provided for @sessionRevoked.
+  ///
+  /// In en, this message translates to:
+  /// **'Your token has been revoked. Please sign in again.'**
+  String get sessionRevoked;
+
   /// No description provided for @somethingWentWrong.
   ///
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get somethingWentWrong;
-
-  /// No description provided for @sessionRevoked.
-  ///
-  /// In en, this message translates to:
-  /// **'User token has been revoked. Please sign in again.'**
-  String get sessionRevoked;
 
   /// No description provided for @viewProfile.
   ///
@@ -859,6 +877,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sunday'**
   String get sunday;
+
+  /// No description provided for @collapse.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse'**
+  String get collapse;
 }
 
 class _AppLocalizationsDelegate

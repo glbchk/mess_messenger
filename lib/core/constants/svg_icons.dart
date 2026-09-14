@@ -24,6 +24,8 @@ abstract final class SvgIcons {
   static const String arrowLeft = 'assets/icons/arrow_left.svg';
   static const String arrowRight = 'assets/icons/arrow_right.svg';
   static const String menuVert = 'assets/icons/menu_vert.svg';
+  static const String collapse = 'assets/icons/menu/expand.svg';
+  static const String expand = 'assets/icons/menu/collapse.svg';
   //Bottom Input Bar
   static const String attachment =
       'assets/icons/bottom_input_bar/attachment.svg';

@@ -41,7 +41,7 @@ class AuthUnauthenticated extends AuthState {
   final bool rememberMe;
   final String? emailError;
   final String? passwordError;
-  final String? errorMessage;
+  final AuthFailure? failure;
   final String? successMessage;
   final bool isPasswordVisible;
   final bool needsGoogleLinkConfirmation;
@@ -54,7 +54,7 @@ class AuthUnauthenticated extends AuthState {
     this.rememberMe = true,
     this.emailError,
     this.passwordError,
-    this.errorMessage,
+    this.failure,
     this.successMessage,
     this.isPasswordVisible = false,
     this.needsGoogleLinkConfirmation = false,
@@ -68,7 +68,7 @@ class AuthUnauthenticated extends AuthState {
     bool? rememberMe,
     String? Function()? emailError,
     String? Function()? passwordError,
-    String? Function()? errorMessage,
+    AuthFailure? Function()? failure,
     String? Function()? successMessage,
     bool? isPasswordVisible,
     bool? needsGoogleLinkConfirmation,
@@ -83,7 +83,7 @@ class AuthUnauthenticated extends AuthState {
       passwordError: passwordError != null
           ? passwordError()
           : this.passwordError,
-      errorMessage: errorMessage != null ? errorMessage() : this.errorMessage,
+      failure: failure != null ? failure() : this.failure,
       successMessage: successMessage != null
           ? successMessage()
           : this.successMessage,

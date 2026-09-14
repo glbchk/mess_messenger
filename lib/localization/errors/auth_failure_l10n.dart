@@ -7,7 +7,11 @@ extension AuthFailureL10n on AuthFailure {
     RequiresRecentLoginFailure() => l10n.pleaseSignInAgain,
     EmailAlreadyInUseFailure() => l10n.emailAlreadyInUse,
     MissingPasswordFailure() => l10n.passwordRequired,
-    UnknownAuthFailure() => l10n.somethingWentWrong,
+    InvalidEmailFailure() => l10n.invalidEmail,
+    AccountExistsWithDifferentCredentialFailure() =>
+      l10n.accountExistsWithDifferentCredential,
+    AccountNotFoundFailure() => l10n.accountNotFound,
     SessionRevokedFailure() => l10n.sessionRevoked,
+    UnknownAuthFailure() => l10n.somethingWentWrong,
   };
 }

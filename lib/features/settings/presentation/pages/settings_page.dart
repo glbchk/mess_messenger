@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mess_messenger_app/core/enums/enums.dart';
 import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/router/app_routes.dart';
 import 'package:mess_messenger_app/core/utils/layouts/responsive_layout_wrapper.dart';
@@ -20,15 +21,6 @@ import 'package:mess_messenger_app/features/settings/user_providers/data_provide
 import 'package:mess_messenger_app/features/settings/user_providers/ui_providers/general_settings_ui_provider.dart';
 import 'package:mess_messenger_app/localization/errors/auth_failure_l10n.dart';
 import 'package:mess_messenger_app/localization/supported_locales.dart';
-
-const _settingsTabNames = [
-  'general',
-  'account',
-  'personalisation',
-  'billing',
-  'notifications',
-  'api',
-];
 
 class SettingsPage extends ConsumerStatefulWidget {
   final String? initialTab;
@@ -52,21 +44,35 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
 
   final Map<String, Timer> _debounce = {};
 
+  final _settingsTabNames = [
+    'general',
+    'account',
+    'personalisation',
+    'billing',
+    'notifications',
+    'api',
+  ];
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    final initialIndex = _settingsTabNames.indexOf(
-      widget.initialTab ?? 'general',
+    final targetTab = widget.initialTab ?? SettingsTab.general.name;
+    int initialIndex = SettingsTab.values.indexWhere(
+      (tab) => tab.name == targetTab,
     );
+    if (initialIndex == -1) initialIndex = 0;
+
     tabController = TabController(
-      length: 6,
+      length: SettingsTab.values.length,
       vsync: this,
-      initialIndex: initialIndex == -1 ? 0 : initialIndex,
+      initialIndex: initialIndex,
     );
+
     tabController.addListener(() {
       if (!tabController.indexIsChanging) {
-        context.go('/settings/${_settingsTabNames[tabController.index]}');
+        final selectedTabName = SettingsTab.values[tabController.index].name;
+        context.go('/settings/$selectedTabName');
       }
     });
 
@@ -181,7 +187,6 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
 
     return ResponsiveLayout(
       mobile: SettingsMobileLayout(
-        l10n: l10n,
         userData: userData,
         tabController: tabController,
         onPressedArchiveAllMessages: _onArchiveAllMessages,
@@ -201,7 +206,6 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
         newPasswordController: newPasswordController,
       ),
       tablet: SettingsTabletLayout(
-        l10n: l10n,
         userData: userData,
         tabController: tabController,
         onPressedArchiveAllMessages: _onArchiveAllMessages,
@@ -220,7 +224,6 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
         newPasswordController: newPasswordController,
       ),
       desktop: SettingsDesktopLayout(
-        l10n: l10n,
         userData: userData,
         tabController: tabController,
         onPressedArchiveAllMessages: _onArchiveAllMessages,

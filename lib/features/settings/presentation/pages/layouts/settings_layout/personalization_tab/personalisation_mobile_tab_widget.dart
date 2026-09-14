@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/dropdown_menu_widget.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
@@ -7,20 +8,14 @@ import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpe
 import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/checkbox_row_widget.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/palette_widget.dart';
 import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
-import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/providers/theme_provider.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class PersonalisationMobileTabWidget extends ConsumerStatefulWidget {
-  final AppLocalizations l10n;
   final UserModel? userData;
 
-  const PersonalisationMobileTabWidget({
-    super.key,
-    required this.l10n,
-    this.userData,
-  });
+  const PersonalisationMobileTabWidget({super.key, this.userData});
 
   @override
   ConsumerState<PersonalisationMobileTabWidget> createState() =>
@@ -33,6 +28,8 @@ class _PersonalisationMobileTabWidgetState
   Widget build(BuildContext context) {
     final colors = context.colors;
     final textTheme = context.textStyles;
+
+    final l10n = context.l10n;
 
     final bp = ResponsiveBreakpoints.of(context);
 

@@ -63,8 +63,10 @@ class AuthNotifier extends Notifier<AuthState> {
             ? s
             : AuthUnauthenticated(isRegisterMode: true);
       }
+    } on FirebaseAuthException catch (e) {
+      state = AuthUnauthenticated(failure: mapFirebaseAuthException(e));
     } catch (e) {
-      state = AuthError(e.toString());
+      state = AuthUnauthenticated(failure: UnknownAuthFailure(e.toString()));
     }
   }
 
@@ -91,14 +93,13 @@ class AuthNotifier extends Notifier<AuthState> {
           needsGoogleLinkConfirmation: true,
           pendingLinkEmail: email,
           pendingLinkPassword: password,
-          errorMessage:
-              'An account with this email already exists via Google. Sign in with Google to link it.',
+          failure: const EmailAlreadyInUseFailure(),
         );
       } else {
-        state = AuthUnauthenticated(errorMessage: e.toString());
+        state = AuthUnauthenticated(failure: mapFirebaseAuthException(e));
       }
     } catch (e) {
-      state = AuthUnauthenticated(errorMessage: e.toString());
+      state = AuthUnauthenticated(failure: UnknownAuthFailure(e.toString()));
     }
   }
 
@@ -117,7 +118,7 @@ class AuthNotifier extends Notifier<AuthState> {
 
       state = AuthAuthenticated();
     } catch (e) {
-      state = AuthUnauthenticated(errorMessage: e.toString());
+      state = AuthUnauthenticated(failure: UnknownAuthFailure(e.toString()));
     }
   }
 
@@ -155,8 +156,12 @@ class AuthNotifier extends Notifier<AuthState> {
       }
 
       state = AuthAuthenticated();
+    } on FirebaseAuthException catch (e) {
+      state = currentState.copyWith(failure: () => mapFirebaseAuthException(e));
     } catch (e) {
-      state = currentState.copyWith(errorMessage: () => e.toString());
+      state = currentState.copyWith(
+        failure: () => UnknownAuthFailure(e.toString()),
+      );
     }
   }
 
@@ -177,22 +182,19 @@ class AuthNotifier extends Notifier<AuthState> {
       if (e.code == 'account-exists-with-different-credential') {
         state = AuthUnauthenticated(
           needsPasswordLinkConfirmation: true,
-          errorMessage:
-              'An account with this email already exists. Sign in with your password to link Google.',
+          failure: const AccountExistsWithDifferentCredentialFailure(),
         );
       } else {
-        state = AuthUnauthenticated(errorMessage: e.toString());
+        state = AuthUnauthenticated(failure: mapFirebaseAuthException(e));
       }
     } catch (e) {
-      state = AuthUnauthenticated(errorMessage: e.toString());
+      state = AuthUnauthenticated(failure: UnknownAuthFailure(e.toString()));
     }
   }
 
   Future<void> sendPasswordResetEmail(String email) async {
     if (email.isEmpty) {
-      state = AuthUnauthenticated(
-        errorMessage: 'Enter your email first' /* other required fields */,
-      );
+      state = AuthUnauthenticated(failure: const InvalidEmailFailure());
       return;
     }
 
@@ -200,15 +202,12 @@ class AuthNotifier extends Notifier<AuthState> {
       await ref.read(sendPasswordResetUseCaseProvider).execute(email);
       state = AuthUnauthenticated(
         successMessage: 'Password reset link sent to $email',
-        /* preserve other AuthUnauthenticated fields like isRegisterMode, rememberMe */
       );
     } on FirebaseAuthException catch (e) {
-      final message = switch (e.code) {
-        'user-not-found' => 'No account found with that email',
-        'invalid-email' => 'Enter a valid email address',
-        _ => 'Something went wrong. Try again.',
-      };
-      state = AuthUnauthenticated(errorMessage: message /* other fields */);
+      final failure = e.code == 'user-not-found'
+          ? const AccountNotFoundFailure()
+          : mapFirebaseAuthException(e);
+      state = AuthUnauthenticated(failure: failure);
     }
   }
 
@@ -251,7 +250,7 @@ class AuthNotifier extends Notifier<AuthState> {
   void clearErrorMessage() {
     final s = state;
     if (s is AuthUnauthenticated) {
-      state = s.copyWith(errorMessage: () => null);
+      state = s.copyWith(failure: () => null);
     }
   }
 
@@ -259,8 +258,10 @@ class AuthNotifier extends Notifier<AuthState> {
     try {
       await ref.read(logoutUseCaseProvider).execute();
       state = AuthUnauthenticated();
+    } on FirebaseAuthException catch (e) {
+      state = AuthUnauthenticated(failure: mapFirebaseAuthException(e));
     } catch (e) {
-      state = AuthError(e.toString());
+      state = AuthUnauthenticated(failure: UnknownAuthFailure(e.toString()));
     }
   }
 
@@ -268,8 +269,10 @@ class AuthNotifier extends Notifier<AuthState> {
     try {
       await ref.read(logoutFromAllDevicesUseCaseProvider).execute();
       state = AuthUnauthenticated();
+    } on FirebaseAuthException catch (e) {
+      state = AuthUnauthenticated(failure: mapFirebaseAuthException(e));
     } catch (e) {
-      state = AuthError(e.toString());
+      state = AuthUnauthenticated(failure: UnknownAuthFailure(e.toString()));
     }
   }
 }

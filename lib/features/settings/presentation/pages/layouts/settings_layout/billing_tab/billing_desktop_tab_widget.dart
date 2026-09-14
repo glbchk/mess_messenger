@@ -2,23 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:mess_messenger_app/core/enums/enums.dart';
+import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/features/settings/data/models/invoice_model.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/features/settings/presentation/widgets/settings_widgets/subscription_plan_selector.dart';
 import 'package:mess_messenger_app/features/settings/presentation/widgets/settings_widgets/table_web_widget.dart';
 import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
-import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 final selectedPlanIndexProvider = StateProvider<int>((ref) => 0);
 
 class BillingDesktopTabWidget extends ConsumerStatefulWidget {
-  final AppLocalizations l10n;
   final UserModel? userData;
 
-  const BillingDesktopTabWidget({super.key, required this.l10n, this.userData});
+  const BillingDesktopTabWidget({super.key, this.userData});
 
   @override
   ConsumerState<BillingDesktopTabWidget> createState() =>
@@ -31,6 +30,8 @@ class _BillingDesktopTabWidgetState
   Widget build(BuildContext context) {
     final colors = context.colors;
     final textTheme = context.textStyles;
+
+    final l10n = context.l10n;
 
     final double columnWidth = 320;
 
@@ -84,13 +85,12 @@ class _BillingDesktopTabWidgetState
           crossAxisAlignment: .start,
           children: [
             Text(
-              widget.l10n.subscriptionPlans,
+              l10n.subscriptionPlans,
               style: textTheme.headlineLarge?.copyWith(color: colors.text1),
             ),
             AppSpacing.p36.gapV,
 
             SubscriptionPlanSelector(
-              l10n: widget.l10n,
               userData: widget.userData,
               selectedPlan:
                   widget.userData?.subscriptionPlan ?? SubscriptionPlan.free,
@@ -107,8 +107,8 @@ class _BillingDesktopTabWidgetState
 
             AppSpacing.p32.gapV,
             TableWebWidget(
-              l10n: widget.l10n,
-              title: widget.l10n.billingHistory,
+              l10n: l10n,
+              title: l10n.billingHistory,
               sampleInvoices: sampleInvoices,
               onPressedDownloadAll: () {
                 // Downloads all sampleInvoices

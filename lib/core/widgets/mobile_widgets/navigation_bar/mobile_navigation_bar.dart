@@ -47,10 +47,9 @@ class MobileNavigationBar extends StatelessWidget {
                   children: [
                     for (int i = 0; i < 4; i++)
                       Expanded(
-                        child: buildNavItem(
+                        child: NavItemWidget(
                           icon: icons[i],
                           index: i,
-                          context: context,
                           selectedIndex: selectedIndex,
                           onTap: (int index) {
                             onItemTapped(index);

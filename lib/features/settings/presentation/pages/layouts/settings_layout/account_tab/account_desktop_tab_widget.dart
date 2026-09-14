@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
+import 'package:mess_messenger_app/core/constants/textfields_ids.dart';
+import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
+import 'package:mess_messenger_app/core/providers/ui_providers/textfield_provider.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/date_picker_dropdown_widget.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
@@ -8,14 +11,10 @@ import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/controllers/account_settings_controller.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/build_title_widget.dart';
-import 'package:mess_messenger_app/core/providers/ui_providers/textfield_provider.dart';
-import 'package:mess_messenger_app/core/constants/textfields_ids.dart';
-import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class AccountDesktopTabWidget extends ConsumerStatefulWidget {
-  final AppLocalizations l10n;
   final UserModel? userData;
   final AccountSettingsController accountSettingsController;
   final TextEditingController nameController;
@@ -29,7 +28,6 @@ class AccountDesktopTabWidget extends ConsumerStatefulWidget {
 
   const AccountDesktopTabWidget({
     super.key,
-    required this.l10n,
     this.userData,
     required this.accountSettingsController,
     required this.nameController,
@@ -53,6 +51,8 @@ class _AccountDesktopTabWidgetState
   Widget build(BuildContext context) {
     final colors = context.colors;
     final textTheme = context.textStyles;
+
+    final l10n = context.l10n;
 
     final bp = ResponsiveBreakpoints.of(context);
     final labelColumnWidth = (bp.screenWidth * 0.2).clamp(240.0, 380.0);
@@ -85,7 +85,7 @@ class _AccountDesktopTabWidgetState
           crossAxisAlignment: .start,
           children: [
             Text(
-              widget.l10n.account,
+              l10n.account,
               style: textTheme.headlineLarge?.copyWith(color: colors.text1),
             ),
             AppSpacing.p36.gapV,
@@ -95,13 +95,13 @@ class _AccountDesktopTabWidgetState
               children: [
                 SizedBox(
                   width: labelColumnWidth,
-                  child: BuildTitleWidget(title: widget.l10n.userName),
+                  child: BuildTitleWidget(title: l10n.userName),
                 ),
                 Expanded(
                   child: MessTextField(
                     controller: widget.nameController,
                     width: fieldsWidth,
-                    hint: widget.l10n.userNameHint,
+                    hint: l10n.userNameHint,
                     onChanged: (v) =>
                         widget.accountSettingsController.onNameChanged(v ?? ''),
                     error: nameStatus.message,
@@ -116,7 +116,7 @@ class _AccountDesktopTabWidgetState
               children: [
                 SizedBox(
                   width: labelColumnWidth,
-                  child: BuildTitleWidget(title: widget.l10n.birthday),
+                  child: BuildTitleWidget(title: l10n.birthday),
                 ),
                 Expanded(
                   child: DatePickerDropdownWidget(
@@ -139,19 +139,19 @@ class _AccountDesktopTabWidgetState
               children: [
                 SizedBox(
                   width: labelColumnWidth,
-                  child: BuildTitleWidget(title: widget.l10n.email),
+                  child: BuildTitleWidget(title: l10n.email),
                 ),
                 Expanded(
                   child: MessTextField(
                     controller: widget.emailController,
                     width: fieldsWidth,
-                    hint: widget.l10n.emailHint,
+                    hint: l10n.emailHint,
                     suffixIcon: SvgIcons.arrowRight,
                     onSuffixIconTap: () =>
                         widget.accountSettingsController.handleEmailUpdate(
                           context: context,
                           ref: ref,
-                          l10n: widget.l10n,
+                          l10n: l10n,
                           emailController: widget.emailController,
                           currentPasswordController:
                               widget.currentPasswordController,
@@ -169,13 +169,13 @@ class _AccountDesktopTabWidgetState
               children: [
                 SizedBox(
                   width: labelColumnWidth,
-                  child: BuildTitleWidget(title: widget.l10n.phoneNumber),
+                  child: BuildTitleWidget(title: l10n.phoneNumber),
                 ),
                 Expanded(
                   child: MessTextField(
                     controller: widget.phoneNumberController,
                     width: fieldsWidth,
-                    hint: widget.l10n.phoneNumberHint,
+                    hint: l10n.phoneNumberHint,
                     onChanged: (v) => widget.accountSettingsController
                         .onPhoneChanged(v ?? ''),
                     error: phoneStatus.message,
@@ -190,7 +190,7 @@ class _AccountDesktopTabWidgetState
               children: [
                 SizedBox(
                   width: labelColumnWidth,
-                  child: BuildTitleWidget(title: widget.l10n.password),
+                  child: BuildTitleWidget(title: l10n.password),
                 ),
                 MessMainButton(
                   label: 'Change password',
@@ -201,7 +201,7 @@ class _AccountDesktopTabWidgetState
                       widget.accountSettingsController.handleChangePassword(
                         context: context,
                         ref: ref,
-                        l10n: widget.l10n,
+                        l10n: l10n,
                         currentPasswordController:
                             widget.currentPasswordController,
                         newPasswordController: widget.newPasswordController,
@@ -226,7 +226,7 @@ class _AccountDesktopTabWidgetState
                       widget.accountSettingsController.handleDeleteAccount(
                         context: context,
                         ref: ref,
-                        l10n: widget.l10n,
+                        l10n: l10n,
                         currentPasswordController:
                             widget.currentPasswordController,
                       ),

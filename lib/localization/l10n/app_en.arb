@@ -105,8 +105,11 @@
   "pleaseSignInAgain": "For your security, please sign in again to continue.",
   "emailAlreadyInUse": "That email is already linked to another account.",
   "passwordRequired": "Please enter your password.",
+  "invalidEmail": "That email doesn't look right. Please try again.",
+  "accountExistsWithDifferentCredential": "An account already exists with the same email address.",
+  "accountNotFound": "That account doesn't exist.",
+  "sessionRevoked": "Your token has been revoked. Please sign in again.",
   "somethingWentWrong": "Something went wrong. Please try again.",
-  "sessionRevoked": "User token has been revoked. Please sign in again.",
   "viewProfile": "View profile",
   "fullScreenChat": "Full screen chat",
   "showChats": "Show chats",
@@ -126,5 +129,6 @@
   "thursday": "Thursday",
   "friday": "Friday",
   "saturday": "Saturday",
-  "sunday": "Sunday"
+  "sunday": "Sunday",
+  "collapse": "Collapse",
 }

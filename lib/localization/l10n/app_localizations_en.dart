@@ -335,11 +335,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get passwordRequired => 'Please enter your password.';
 
   @override
-  String get somethingWentWrong => 'Something went wrong. Please try again.';
+  String get invalidEmail =>
+      'That email doesn\'t look right. Please try again.';
+
+  @override
+  String get accountExistsWithDifferentCredential =>
+      'An account already exists with the same email address.';
+
+  @override
+  String get accountNotFound => 'That account doesn\'t exist.';
 
   @override
   String get sessionRevoked =>
-      'User token has been revoked. Please sign in again.';
+      'Your token has been revoked. Please sign in again.';
+
+  @override
+  String get somethingWentWrong => 'Something went wrong. Please try again.';
 
   @override
   String get viewProfile => 'View profile';
@@ -400,4 +411,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sunday => 'Sunday';
+
+  @override
+  String get collapse => 'Collapse';
 }

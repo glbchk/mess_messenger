@@ -78,9 +78,12 @@ class ChatListWidget extends ConsumerWidget {
                       for (final directChat in directChats)
                         DirectChatTile(
                           chat: directChat,
-                          onPressed: () => context.go(
-                            AppRoutes.chatsWithSelection(directChat.id),
-                          ),
+                          onPressed: () {
+                            print('chatId: ${directChat.id}');
+                            context.go(
+                              AppRoutes.chatsWithSelection(directChat.id),
+                            );
+                          },
                         ),
                     ],
                   ),

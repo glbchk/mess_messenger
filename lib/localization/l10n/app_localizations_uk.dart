@@ -336,11 +336,22 @@ class AppLocalizationsUk extends AppLocalizations {
   String get passwordRequired => 'Будь ласка, введіть свій пароль.';
 
   @override
-  String get somethingWentWrong => 'Щось пішло не так. Спробуйте ще раз.';
+  String get invalidEmail =>
+      'Ця електронна адреса виглядає некоректною. Спробуйте ще раз.';
+
+  @override
+  String get accountExistsWithDifferentCredential =>
+      'Обліковий запис із цією електронною адресою вже існує.';
+
+  @override
+  String get accountNotFound => 'Цього облікового запису не існує.';
 
   @override
   String get sessionRevoked =>
       'Ваш токен скасовано. Будь ласка, виконайте вхід ще раз.';
+
+  @override
+  String get somethingWentWrong => 'Щось пішло не так. Спробуйте ще раз.';
 
   @override
   String get viewProfile => 'Показати профіль';
@@ -401,4 +412,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get sunday => 'Неділя';
+
+  @override
+  String get collapse => 'Згорнути';
 }

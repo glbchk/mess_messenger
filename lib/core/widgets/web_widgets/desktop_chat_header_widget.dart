@@ -4,9 +4,9 @@ import 'package:mess_messenger_app/core/constants/svg_icons.dart';
 import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/widgets/dropdown_menu/dropdown_item_action_model.dart';
 import 'package:mess_messenger_app/core/widgets/dropdown_menu/mess_icon_dropdown_button.dart';
+import 'package:mess_messenger_app/core/widgets/mess_icon_button.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
 import 'package:mess_messenger_app/core/widgets/user_data_content_widget.dart';
-import 'package:mess_messenger_app/core/widgets/web_widgets/web_ui_helpers/build_web_header_action_button.dart';
 import 'package:mess_messenger_app/features/chats/chats_providers/chats_provider.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
@@ -53,14 +53,16 @@ class DesktopChatHeaderWidget extends ConsumerWidget {
             Row(
               spacing: 12,
               children: [
-                buildWebHeaderActionButton(
-                  context: context,
-                  iconPath: SvgIcons.add,
+                MessIconButton(
+                  SvgIcons.add,
+                  iconSize: 20,
+                  buttonSize: 36,
                   onPressed: () {},
                 ),
-                buildWebHeaderActionButton(
-                  context: context,
-                  iconPath: SvgIcons.calls,
+                MessIconButton(
+                  SvgIcons.calls,
+                  iconSize: 20,
+                  buttonSize: 36,
                   onPressed: () {},
                 ),
                 MessMainButton(
@@ -77,7 +79,7 @@ class DesktopChatHeaderWidget extends ConsumerWidget {
                 MessIconDropdownButton<DropdownItemAction>(
                   svgAsset: SvgIcons.menuHorizontal,
                   isButtonFilled: true,
-                  buttonSize: 32,
+                  buttonSize: 36,
                   borderWidth: 0,
                   itemLabelBuilder: (item) => item.label,
                   textColorBuilder: (item) => item.textColor,
