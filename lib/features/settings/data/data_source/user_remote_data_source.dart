@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mess_messenger_app/core/enums/enums.dart';
+import 'package:mess_messenger_app/features/settings/data/models/notification_settings_model.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 
 class UserRemoteDataSource {
@@ -131,10 +132,10 @@ class UserRemoteDataSource {
 
   Future<void> updateBackgroundColor(
     String userId,
-    int? backgroundColorIndex,
+    String? backgroundColorId,
   ) async {
     await firestore.collection('users').doc(userId).update({
-      'personalization_settings.background_color_index': backgroundColorIndex,
+      'personalization_settings.background_color_id': backgroundColorId,
     });
   }
 
@@ -146,6 +147,15 @@ class UserRemoteDataSource {
   ) async {
     await firestore.collection('users').doc(userId).update({
       'subscription_plan': selectedPlan.name,
+    });
+  }
+
+  Future<void> updateNotificationSettings(
+    String userId,
+    NotificationSettingsModel settings,
+  ) async {
+    await firestore.collection('users').doc(userId).update({
+      'notification_settings': settings.toJson(),
     });
   }
 }

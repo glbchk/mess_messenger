@@ -9,7 +9,7 @@ abstract final class AppImages {
   // static const String menu = 'assets/icons/menu.svg';
   //Menu & Chats
   static const String emptyScreenLogo = 'assets/images/empty_screen_logo.png';
-  // static const String calls = 'assets/icons/menu/calls.svg';
+  static const String settingsHeader = 'assets/images/settings_header.png';
   // static const String contacts = 'assets/icons/menu/contacts.svg';
   // static const String settings = 'assets/icons/menu/settings.svg';
   // static const String favorites = 'assets/icons/menu/favorites.svg';

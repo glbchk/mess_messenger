@@ -10,10 +10,10 @@ import 'package:mess_messenger_app/core/providers/data_providers/firebase_provid
 import 'package:mess_messenger_app/core/providers/data_providers/global_providers.dart';
 import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
 import 'package:mess_messenger_app/features/settings/data/models/general_settings_model.dart';
+import 'package:mess_messenger_app/features/settings/data/models/notification_settings_model.dart';
 import 'package:mess_messenger_app/features/settings/data/models/personalization_settings_model.dart';
 import 'package:mess_messenger_app/features/settings/presentation/states/user_state.dart';
 import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
-import 'package:mess_messenger_app/theme/providers/theme_provider.dart';
 
 class UserNotifier extends Notifier<UserState> {
   @override
@@ -365,36 +365,36 @@ class UserNotifier extends Notifier<UserState> {
     );
   }
 
-  Future<void> updateThemeMode(String selectedTheme) async {
-    final userId = ref.read(currentUserIdProvider);
-    if (userId == null) return;
-    final previousUser = state.userData;
-    if (previousUser == null) return;
+  // Future<void> updateThemeMode(String selectedTheme) async {
+  //   final userId = ref.read(currentUserIdProvider);
+  //   if (userId == null) return;
+  //   final previousUser = state.userData;
+  //   if (previousUser == null) return;
+  //
+  //   final currentSettings =
+  //       previousUser.personalizationSettings ??
+  //       PersonalizationSettingsModel.defaults();
+  //   final newSettings = currentSettings.copyUserWith(themeMode: selectedTheme);
+  //
+  //   state = state.copyWith(
+  //     userData: previousUser.copyUserWith(personalizationSettings: newSettings),
+  //   );
+  //
+  //   await ref
+  //       .read(appThemeProvider.notifier)
+  //       .setTheme(labelToThemeMode(selectedTheme));
+  //
+  //   try {
+  //     final useCase = ref.read(updateThemeModeUseCaseProvider);
+  //     await useCase.execute(userId, selectedTheme);
+  //   } catch (e) {
+  //     // Roll back on failure
+  //     state = state.copyWith(userData: previousUser);
+  //     rethrow; // let the UI show an error if it wants to
+  //   }
+  // }
 
-    final currentSettings =
-        previousUser.personalizationSettings ??
-        PersonalizationSettingsModel.defaults();
-    final newSettings = currentSettings.copyUserWith(themeMode: selectedTheme);
-
-    state = state.copyWith(
-      userData: previousUser.copyUserWith(personalizationSettings: newSettings),
-    );
-
-    await ref
-        .read(appThemeProvider.notifier)
-        .setTheme(labelToThemeMode(selectedTheme));
-
-    try {
-      final useCase = ref.read(updateThemeModeUseCaseProvider);
-      await useCase.execute(userId, selectedTheme);
-    } catch (e) {
-      // Roll back on failure
-      state = state.copyWith(userData: previousUser);
-      rethrow; // let the UI show an error if it wants to
-    }
-  }
-
-  Future<void> updateBackgroundColor(int? backgroundColorIndex) async {
+  Future<void> updateBackgroundColor(String? backgroundColorId) async {
     final userId = ref.read(currentUserIdProvider);
     if (userId == null) return;
     final previousUser = state.userData;
@@ -404,7 +404,7 @@ class UserNotifier extends Notifier<UserState> {
         previousUser.personalizationSettings ??
         PersonalizationSettingsModel.defaults();
     final newSettings = currentSettings.copyUserWith(
-      backgroundColorIndex: backgroundColorIndex,
+      backgroundColorId: backgroundColorId,
     );
 
     state = state.copyWith(
@@ -413,11 +413,10 @@ class UserNotifier extends Notifier<UserState> {
 
     try {
       final useCase = ref.read(updateBackgroundColorUseCaseProvider);
-      await useCase.execute(userId, backgroundColorIndex);
+      await useCase.execute(userId, backgroundColorId);
     } catch (e) {
-      // Roll back on failure
       state = state.copyWith(userData: previousUser);
-      rethrow; // let the UI show an error if it wants to
+      rethrow;
     }
   }
 
@@ -436,9 +435,58 @@ class UserNotifier extends Notifier<UserState> {
       final useCase = ref.read(updateSubscriptionPlanUseCaseProvider);
       await useCase.execute(userId, selectedPlan);
     } catch (e) {
-      // Roll back on failure
       state = state.copyWith(userData: previousUser);
-      rethrow; // let the UI show an error if it wants to
+      rethrow;
+    }
+  }
+
+  Future<void> updateNotificationSettings({
+    bool? communicationEmail,
+    bool? communicationDesktop,
+    bool? communicationPush,
+    bool? reminderEmail,
+    bool? reminderDesktop,
+    bool? reminderPush,
+    bool? announcementEmail,
+    bool? announcementDesktop,
+    bool? announcementPush,
+    bool? tipsEmail,
+    bool? tipsDesktop,
+    bool? tipsPush,
+  }) async {
+    final userId = ref.read(currentUserIdProvider);
+    if (userId == null) return;
+    final previousUser = state.userData;
+    if (previousUser == null) return;
+
+    final currentSettings =
+        previousUser.notificationSettings ??
+        NotificationSettingsModel.defaults();
+    final newSettings = currentSettings.copyUserWith(
+      communicationEmail: communicationEmail,
+      communicationDesktop: communicationDesktop,
+      communicationPush: communicationPush,
+      reminderEmail: reminderEmail,
+      reminderDesktop: reminderDesktop,
+      reminderPush: reminderPush,
+      announcementEmail: announcementEmail,
+      announcementDesktop: announcementDesktop,
+      announcementPush: announcementPush,
+      tipsEmail: tipsEmail,
+      tipsDesktop: tipsDesktop,
+      tipsPush: tipsPush,
+    );
+
+    state = state.copyWith(
+      userData: previousUser.copyUserWith(notificationSettings: newSettings),
+    );
+
+    try {
+      final useCase = ref.read(updateNotificationSettingsUseCaseProvider);
+      await useCase.execute(userId, newSettings);
+    } catch (e) {
+      state = state.copyWith(userData: previousUser);
+      rethrow;
     }
   }
 }

@@ -26,7 +26,7 @@ class _SettingsTabsBarState extends State<SettingsTabsBar> {
         controller: widget.tabController,
         isScrollable: true,
         labelPadding: const EdgeInsets.symmetric(horizontal: 8),
-        tabAlignment: TabAlignment.start,
+        tabAlignment: .start,
         dividerColor: colors.transparent,
         indicatorSize: TabBarIndicatorSize.label,
         indicator: BoxDecoration(
@@ -36,7 +36,7 @@ class _SettingsTabsBarState extends State<SettingsTabsBar> {
         labelColor: colors.text2,
         unselectedLabelColor: colors.text2,
         labelStyle: textTheme.titleMedium,
-        overlayColor: const WidgetStatePropertyAll(Colors.transparent),
+        overlayColor: WidgetStatePropertyAll(colors.transparent),
         splashFactory: NoSplash.splashFactory,
         tabs: SettingsTab.values.map((tab) {
           return Padding(
@@ -44,34 +44,6 @@ class _SettingsTabsBarState extends State<SettingsTabsBar> {
             child: Tab(text: tab.title(l10n)),
           );
         }).toList(),
-        // tabs: [
-        //
-        //
-        //   Padding(
-        //     padding: EdgeInsets.symmetric(horizontal: 18),
-        //     child: Tab(text: l10n.general),
-        //   ),
-        //   Padding(
-        //     padding: EdgeInsets.symmetric(horizontal: 18),
-        //     child: Tab(text: l10n.account),
-        //   ),
-        //   Padding(
-        //     padding: EdgeInsets.symmetric(horizontal: 18),
-        //     child: Tab(text: l10n.personalisation),
-        //   ),
-        //   Padding(
-        //     padding: EdgeInsets.symmetric(horizontal: 18),
-        //     child: Tab(text: l10n.billing),
-        //   ),
-        //   Padding(
-        //     padding: EdgeInsets.symmetric(horizontal: 18),
-        //     child: Tab(text: l10n.notification),
-        //   ),
-        //   Padding(
-        //     padding: EdgeInsets.symmetric(horizontal: 18),
-        //     child: Tab(text: l10n.api),
-        //   ),
-        // ],
       ),
     );
   }

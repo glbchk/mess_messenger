@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
-class TagWidget extends ConsumerWidget {
+class TagWidget extends StatelessWidget {
   final String label;
 
   const TagWidget({super.key, required this.label});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final colors = context.colors;
     final textTheme = context.textStyles;
 

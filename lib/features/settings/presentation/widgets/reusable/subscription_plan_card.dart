@@ -51,7 +51,7 @@ class SubscriptionPlanCard extends StatelessWidget {
             ),
             child: Column(
               crossAxisAlignment: .start,
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize: .min,
               children: [
                 Text(
                   label ?? 'Free',
@@ -60,7 +60,7 @@ class SubscriptionPlanCard extends StatelessWidget {
                 AppSpacing.p32.gapV,
                 price != null
                     ? Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                        crossAxisAlignment: .end,
                         children: [
                           Text(
                             "\$",
@@ -75,10 +75,14 @@ class SubscriptionPlanCard extends StatelessWidget {
                             ),
                           ),
                           AppSpacing.p4.gapH,
-                          Text(
-                            l10n?.perMonth ?? '',
-                            style: textTheme.bodyLarge?.copyWith(
-                              color: colors.text2,
+                          Flexible(
+                            child: Text(
+                              l10n?.perMonth ?? '',
+                              maxLines: 1,
+                              overflow: .ellipsis,
+                              style: textTheme.bodyLarge?.copyWith(
+                                color: colors.text2,
+                              ),
                             ),
                           ),
                         ],
@@ -92,6 +96,8 @@ class SubscriptionPlanCard extends StatelessWidget {
                 AppSpacing.p8.gapV,
                 Text(
                   description ?? 'Limited features for individuals.',
+                  maxLines: 1,
+                  overflow: .ellipsis,
                   style: textTheme.bodyLarge?.copyWith(color: colors.text2),
                 ),
                 GestureDetector(

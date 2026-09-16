@@ -1,39 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
+import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/utils/spacing/spacing_modifier.dart';
 import 'package:mess_messenger_app/core/widgets/dropdown_menu/dropdown_item_action_model.dart';
 import 'package:mess_messenger_app/core/widgets/dropdown_menu/mess_icon_dropdown_button.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
+import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
-import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-class SettingsUserDataPanelWidget extends StatelessWidget {
-  final AppLocalizations l10n;
-  final UserModel userData;
+class SettingsUserDataPanelWidget extends ConsumerWidget {
   final VoidCallback onPressedChangeAvatar;
   final VoidCallback onPressedExportAccountData;
   final VoidCallback onPressedContactSupport;
-  final VoidCallback onPressedTerminateAllActiveSessions;
   final VoidCallback onPressedLogout;
 
   const SettingsUserDataPanelWidget({
     super.key,
-    required this.l10n,
-    required this.userData,
     required this.onPressedChangeAvatar,
     required this.onPressedExportAccountData,
-    required this.onPressedTerminateAllActiveSessions,
     required this.onPressedContactSupport,
     required this.onPressedLogout,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colors;
     final textTheme = context.textStyles;
     final bp = ResponsiveBreakpoints.of(context);
+
+    final l10n = context.l10n;
+
+    final userData =
+        ref.watch(userNotifierProvider).userData ?? UserModel(id: '');
 
     return Row(
       crossAxisAlignment: .center,
@@ -67,7 +69,7 @@ class SettingsUserDataPanelWidget extends StatelessWidget {
                   ? MessMainButton(
                       height: 36,
                       width: 128,
-                      label: 'Log out',
+                      label: l10n.logOut,
                       suffixIconPath: SvgIcons.logout,
                       suffixIconSize: 20,
                       textColor: colors.text1,
@@ -85,24 +87,28 @@ class SettingsUserDataPanelWidget extends StatelessWidget {
                 onItemTap: (item) => item.onTap(),
                 items: [
                   DropdownItemAction(
-                    label: 'Change avatar',
+                    label: l10n.changeAvatar,
                     onTap: onPressedChangeAvatar,
                   ),
                   DropdownItemAction(
-                    label: 'Export account data',
+                    label: l10n.exportAccountData,
                     onTap: onPressedExportAccountData,
                   ),
                   DropdownItemAction(
-                    label: 'Contact support',
+                    label: l10n.contactSupport,
                     onTap: onPressedContactSupport,
                   ),
                   DropdownItemAction(
-                    label: 'Terminate all active sessions',
-                    onTap: onPressedTerminateAllActiveSessions,
+                    label: l10n.terminateAllActiveSessions,
+                    onTap: () {
+                      ref
+                          .read(authNotifierProvider.notifier)
+                          .logoutFromAllDevices();
+                    },
                   ),
                   if (!bp.isDesktop)
                     DropdownItemAction(
-                      label: 'Log out',
+                      label: l10n.logOut,
                       onTap: onPressedLogout,
                     ),
                 ],

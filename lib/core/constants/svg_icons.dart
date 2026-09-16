@@ -5,6 +5,7 @@ abstract final class SvgIcons {
   static const String viewOff = 'assets/icons/view_off.svg';
   static const String checkbox = 'assets/icons/checkbox.svg';
   static const String checkboxChecked = 'assets/icons/checkbox_checked.svg';
+  static const String check = 'assets/icons/check.svg';
   static const String logo = 'assets/icons/mess_logo.svg';
   static const String menu = 'assets/icons/menu.svg';
   static const String darkMode = 'assets/icons/dark_mode.svg';

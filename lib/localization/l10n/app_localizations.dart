@@ -314,6 +314,36 @@ abstract class AppLocalizations {
   /// **'Your personal messages are end-to-end \nencrypted.'**
   String get chatsEmptyScreenText;
 
+  /// No description provided for @changeAvatar.
+  ///
+  /// In en, this message translates to:
+  /// **'Change avatar'**
+  String get changeAvatar;
+
+  /// No description provided for @exportAccountData.
+  ///
+  /// In en, this message translates to:
+  /// **'Export account data'**
+  String get exportAccountData;
+
+  /// No description provided for @terminateAllActiveSessions.
+  ///
+  /// In en, this message translates to:
+  /// **'Terminate all active sessions'**
+  String get terminateAllActiveSessions;
+
+  /// No description provided for @contactSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact support'**
+  String get contactSupport;
+
+  /// No description provided for @logOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get logOut;
+
   /// No description provided for @general.
   ///
   /// In en, this message translates to:
@@ -439,6 +469,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Input phone number...'**
   String get phoneNumberHint;
+
+  /// No description provided for @changePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Change password'**
+  String get changePassword;
+
+  /// No description provided for @deleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get deleteAccount;
 
   /// No description provided for @personalisation.
   ///
@@ -619,6 +661,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Important notifications'**
   String get importantNotifications;
+
+  /// No description provided for @importantNotificationsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'We may still send you important notifications about your account.'**
+  String get importantNotificationsDescription;
 
   /// No description provided for @dismiss.
   ///
@@ -883,6 +931,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Collapse'**
   String get collapse;
+
+  /// No description provided for @support.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get support;
+
+  /// No description provided for @showDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Show details'**
+  String get showDetails;
 }
 
 class _AppLocalizationsDelegate

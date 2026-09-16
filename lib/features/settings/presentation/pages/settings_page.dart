@@ -11,16 +11,11 @@ import 'package:mess_messenger_app/core/utils/layouts/responsive_layout_wrapper.
 import 'package:mess_messenger_app/core/widgets/mess_alert.dart';
 import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
 import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.dart';
-import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/controllers/account_settings_controller.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/controllers/general_settings_controller.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/settings_desktop_layout.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/settings_mobile_layout.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/layouts/settings_layout/settings_tablet_layout.dart';
 import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
-import 'package:mess_messenger_app/features/settings/user_providers/ui_providers/general_settings_ui_provider.dart';
 import 'package:mess_messenger_app/localization/errors/auth_failure_l10n.dart';
-import 'package:mess_messenger_app/localization/supported_locales.dart';
 
 class SettingsPage extends ConsumerStatefulWidget {
   final String? initialTab;
@@ -44,15 +39,6 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
 
   final Map<String, Timer> _debounce = {};
 
-  final _settingsTabNames = [
-    'general',
-    'account',
-    'personalisation',
-    'billing',
-    'notifications',
-    'api',
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -72,7 +58,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
     tabController.addListener(() {
       if (!tabController.indexIsChanging) {
         final selectedTabName = SettingsTab.values[tabController.index].name;
-        context.go('/settings/$selectedTabName');
+        GoRouter.of(context).replace('/settings/$selectedTabName');
       }
     });
 
@@ -115,7 +101,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
     }
   }
 
-  Future<void> openChattingPage() async {}
+  // Future<void> openChattingPage() async {}
 
   void _showChangeAvatarDialog() {
     //TODO: Still need to fix, errors are not displaying properly and also it saves anything now
@@ -138,30 +124,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
     );
   }
 
-  void _logoutFromAllDevices() {
-    ref.read(authNotifierProvider.notifier).logoutFromAllDevices();
-  }
-
-  void _onArchiveAllMessages() {
-    print('DEBUG: Archive all messages');
-    // TODO: implement archive-all
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final userData =
-        ref.watch(userNotifierProvider).userData ?? UserModel(id: '');
-    // final userNotifier = ref.read(userNotifierProvider.notifier);
-    final languages = getSupportedLanguages(l10n);
-    final view = buildGeneralSettingsView(userData, l10n);
-    final generalSettingsController = ref.read(
-      generalSettingsControllerProvider,
-    );
-
-    final accountSettingsController = ref.read(
-      accountSettingsControllerProvider,
-    );
 
     ref.listen<AuthState>(authNotifierProvider, (prev, next) {
       if (next is AuthAuthenticated && next.passwordUpdateError != null) {
@@ -187,16 +152,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
 
     return ResponsiveLayout(
       mobile: SettingsMobileLayout(
-        userData: userData,
         tabController: tabController,
-        onPressedArchiveAllMessages: _onArchiveAllMessages,
         onPressedChangeAvatar: _showChangeAvatarDialog,
-        onPressedLogoutFromAllDevices: _logoutFromAllDevices,
         onPressedContactSupport: () => context.push(AppRoutes.support),
-        view: view,
-        generalSettingsController: generalSettingsController,
-        languages: languages,
-        accountSettingsController: accountSettingsController,
         nameController: nameController,
         birthdayController: birthdayController,
         selectedDate: _selectedDate,
@@ -206,15 +164,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
         newPasswordController: newPasswordController,
       ),
       tablet: SettingsTabletLayout(
-        userData: userData,
         tabController: tabController,
-        onPressedArchiveAllMessages: _onArchiveAllMessages,
         onPressedChangeAvatar: _showChangeAvatarDialog,
-        onPressedLogoutFromAllDevices: _logoutFromAllDevices,
-        view: view,
-        generalSettingsController: generalSettingsController,
-        languages: languages,
-        accountSettingsController: accountSettingsController,
         nameController: nameController,
         birthdayController: birthdayController,
         selectedDate: _selectedDate,
@@ -224,15 +175,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
         newPasswordController: newPasswordController,
       ),
       desktop: SettingsDesktopLayout(
-        userData: userData,
         tabController: tabController,
-        onPressedArchiveAllMessages: _onArchiveAllMessages,
         onPressedChangeAvatar: _showChangeAvatarDialog,
-        onPressedLogoutFromAllDevices: _logoutFromAllDevices,
-        view: view,
-        generalSettingsController: generalSettingsController,
-        languages: languages,
-        accountSettingsController: accountSettingsController,
         nameController: nameController,
         birthdayController: birthdayController,
         selectedDate: _selectedDate,

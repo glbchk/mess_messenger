@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
+import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
-import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
+import 'package:mess_messenger_app/core/widgets/mess_icon_button.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
 import 'package:mess_messenger_app/features/settings/data/models/invoice_model.dart';
-import 'package:mess_messenger_app/features/settings/presentation/widgets/settings_widgets/status_widget.dart';
-import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
+import 'package:mess_messenger_app/features/settings/presentation/widgets/reusable/status_widget.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
-class TableWebWidget extends StatefulWidget {
-  final AppLocalizations l10n;
-  final String title;
+class TableWidget extends StatefulWidget {
   final List<InvoiceModel> sampleInvoices;
   final VoidCallback? onPressedDownloadAll;
   final ValueChanged<InvoiceModel>? onPressedDownloadInvoice;
   final ValueChanged<List<InvoiceModel>>? onPressedDownloadSelected;
 
-  const TableWebWidget({
+  const TableWidget({
     super.key,
-    required this.l10n,
-    required this.title,
     required this.sampleInvoices,
     this.onPressedDownloadAll,
     this.onPressedDownloadInvoice,
@@ -27,10 +24,10 @@ class TableWebWidget extends StatefulWidget {
   });
 
   @override
-  State<TableWebWidget> createState() => _TableWebWidgetState();
+  State<TableWidget> createState() => _TableWidgetState();
 }
 
-class _TableWebWidgetState extends State<TableWebWidget> {
+class _TableWidgetState extends State<TableWidget> {
   late List<InvoiceModel> _invoices;
 
   @override
@@ -40,10 +37,9 @@ class _TableWebWidgetState extends State<TableWebWidget> {
   }
 
   @override
-  void didUpdateWidget(covariant TableWebWidget oldWidget) {
+  void didUpdateWidget(covariant TableWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.sampleInvoices != oldWidget.sampleInvoices) {
-      // 🛡️ Preserve checkbox selections when parent rebuilds
       final selectedIds = _invoices
           .where((item) => item.isSelected)
           .map((item) => item.id)
@@ -90,12 +86,16 @@ class _TableWebWidgetState extends State<TableWebWidget> {
     final colors = context.colors;
     final textTheme = context.textStyles;
 
+    final bp = ResponsiveBreakpoints.of(context);
+
+    final l10n = context.l10n;
+
     final bool isAllOrNone =
         _selectedCount == 0 || _selectedCount == _invoices.length;
 
     final String buttonLabel = isAllOrNone
-        ? widget.l10n.downloadAllInvoices
-        : widget.l10n.downloadSelected;
+        ? l10n.downloadAllInvoices
+        : l10n.downloadSelected;
 
     final VoidCallback? buttonAction = isAllOrNone
         ? widget.onPressedDownloadAll
@@ -104,22 +104,24 @@ class _TableWebWidgetState extends State<TableWebWidget> {
     return Column(
       crossAxisAlignment: .start,
       children: [
-        // 🔹 Top Bar: Title + Download All Button
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: .spaceBetween,
           children: [
             Text(
-              widget.title,
+              l10n.billingHistory,
               style: textTheme.headlineLarge?.copyWith(color: colors.text1),
             ),
             if (_selectedInvoices.isNotEmpty)
               Row(
                 spacing: 36,
                 children: [
-                  Text(
-                    '${_selectedInvoices.length} ${widget.l10n.selected}',
-                    style: textTheme.labelLarge?.copyWith(color: colors.text1),
-                  ),
+                  if (!bp.isMobile)
+                    Text(
+                      '${_selectedInvoices.length} ${l10n.selected}',
+                      style: textTheme.labelLarge?.copyWith(
+                        color: colors.text1,
+                      ),
+                    ),
                   MessMainButton(
                     width: 210,
                     height: 40,
@@ -135,7 +137,6 @@ class _TableWebWidgetState extends State<TableWebWidget> {
 
         AppSpacing.p20.gapV,
 
-        // 🔹 Table Header Row
         Container(
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
@@ -145,51 +146,53 @@ class _TableWebWidgetState extends State<TableWebWidget> {
           ),
           child: Row(
             children: [
-              SizedBox(
-                width: 48,
-                child: Checkbox(
-                  value: _isAllSelected,
-                  onChanged: _toggleSelectAll,
-                  side: BorderSide(color: colors.surface4, width: 1),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
+              Padding(
+                padding: const EdgeInsets.only(right: 12.0),
+                child: SizedBox(
+                  width: 24,
+                  child: Checkbox(
+                    value: _isAllSelected,
+                    onChanged: _toggleSelectAll,
+                    side: BorderSide(color: colors.surface4, width: 1),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4),
+                    ),
                   ),
                 ),
               ),
               Expanded(
-                flex: 4,
+                flex: 3,
                 child: Text(
-                  widget.l10n.invoice,
+                  l10n.invoice,
                   style: textTheme.labelLarge?.copyWith(color: colors.text1),
                 ),
               ),
               Expanded(
                 flex: 2,
                 child: Text(
-                  widget.l10n.amount,
+                  l10n.amount,
                   style: textTheme.labelLarge?.copyWith(color: colors.text1),
                 ),
               ),
               Expanded(
                 flex: 2,
                 child: Text(
-                  widget.l10n.date,
+                  l10n.date,
                   style: textTheme.labelLarge?.copyWith(color: colors.text1),
                 ),
               ),
               Expanded(
                 flex: 2,
                 child: Text(
-                  widget.l10n.status,
+                  l10n.status,
                   style: textTheme.labelLarge?.copyWith(color: colors.text1),
                 ),
               ),
-              AppSpacing.p48.gapH,
+              AppSpacing.p36.gapH,
             ],
           ),
         ),
 
-        // 🔹 Table Data Rows
         ListView.separated(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -207,26 +210,29 @@ class _TableWebWidgetState extends State<TableWebWidget> {
               padding: const EdgeInsets.symmetric(vertical: 12),
               child: Row(
                 children: [
-                  SizedBox(
-                    width: 48,
-                    child: Checkbox(
-                      value: invoice.isSelected,
-                      onChanged: (val) => _toggleSelectRow(index, val),
-                      side: BorderSide(color: colors.surface4, width: 1),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 12.0),
+                    child: SizedBox(
+                      width: 24,
+                      child: Checkbox(
+                        value: invoice.isSelected,
+                        onChanged: (val) => _toggleSelectRow(index, val),
+                        side: BorderSide(color: colors.surface4, width: 1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
                       ),
                     ),
                   ),
-                  // Title Column
                   Expanded(
-                    flex: 4,
+                    flex: 3,
                     child: Text(
                       invoice.title,
+                      maxLines: 1,
+                      overflow: .ellipsis,
                       style: textTheme.bodyLarge?.copyWith(color: colors.text1),
                     ),
                   ),
-                  // Amount Column
                   Expanded(
                     flex: 2,
                     child: Text(
@@ -234,7 +240,6 @@ class _TableWebWidgetState extends State<TableWebWidget> {
                       style: textTheme.bodyLarge?.copyWith(color: colors.text1),
                     ),
                   ),
-                  // Date Column
                   Expanded(
                     flex: 2,
                     child: Text(
@@ -242,11 +247,10 @@ class _TableWebWidgetState extends State<TableWebWidget> {
                       style: textTheme.bodyLarge?.copyWith(color: colors.text1),
                     ),
                   ),
-                  // Status Pill Column
                   Expanded(
                     flex: 2,
                     child: Align(
-                      alignment: Alignment.centerLeft,
+                      alignment: .centerLeft,
                       child: StatusWidget(
                         status: invoice.status,
                       ), //TODO: Need to create different statuses
@@ -254,13 +258,12 @@ class _TableWebWidgetState extends State<TableWebWidget> {
                   ),
                   // Action Column
                   SizedBox(
-                    width: 48,
-                    child: IconButton(
-                      icon: MessIcon(
-                        SvgIcons.download,
-                        size: 20,
-                        color: colors.text1,
-                      ),
+                    width: 36,
+                    child: MessIconButton(
+                      SvgIcons.download,
+                      iconSize: 20,
+                      iconColor: colors.text1,
+                      borderWidth: 0,
                       onPressed: () =>
                           widget.onPressedDownloadInvoice?.call(invoice),
                     ),

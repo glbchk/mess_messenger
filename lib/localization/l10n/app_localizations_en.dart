@@ -118,6 +118,21 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your personal messages are end-to-end \nencrypted.';
 
   @override
+  String get changeAvatar => 'Change avatar';
+
+  @override
+  String get exportAccountData => 'Export account data';
+
+  @override
+  String get terminateAllActiveSessions => 'Terminate all active sessions';
+
+  @override
+  String get contactSupport => 'Contact support';
+
+  @override
+  String get logOut => 'Log out';
+
+  @override
   String get general => 'General';
 
   @override
@@ -179,6 +194,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get phoneNumberHint => 'Input phone number...';
+
+  @override
+  String get changePassword => 'Change password';
+
+  @override
+  String get deleteAccount => 'Delete account';
 
   @override
   String get personalisation => 'Personalisation';
@@ -272,6 +293,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get importantNotifications => 'Important notifications';
+
+  @override
+  String get importantNotificationsDescription =>
+      'We may still send you important notifications about your account.';
 
   @override
   String get dismiss => 'Dismiss';
@@ -414,4 +439,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get collapse => 'Collapse';
+
+  @override
+  String get support => 'Support';
+
+  @override
+  String get showDetails => 'Show details';
 }

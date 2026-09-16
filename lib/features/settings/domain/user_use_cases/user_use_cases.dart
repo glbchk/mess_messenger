@@ -1,4 +1,5 @@
 import 'package:mess_messenger_app/core/enums/enums.dart';
+import 'package:mess_messenger_app/features/settings/data/models/notification_settings_model.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/features/settings/domain/user_repositories/user_repository.dart';
 
@@ -119,8 +120,8 @@ class UpdateThemeModeUseCase extends UserUseCase {
 
 class UpdateBackgroundColorUseCase extends UserUseCase {
   UpdateBackgroundColorUseCase(super.userRepository);
-  Future<void> execute(String userId, int? backgroundColorIndex) {
-    return userRepository.updateBackgroundColor(userId, backgroundColorIndex);
+  Future<void> execute(String userId, String? backgroundColorId) {
+    return userRepository.updateBackgroundColor(userId, backgroundColorId);
   }
 }
 
@@ -128,5 +129,12 @@ class UpdateSubscriptionPlanUseCase extends UserUseCase {
   UpdateSubscriptionPlanUseCase(super.userRepository);
   Future<void> execute(String userId, SubscriptionPlan selectedPlan) {
     return userRepository.updateSubscriptionPlan(userId, selectedPlan);
+  }
+}
+
+class UpdateNotificationSettingsUseCase extends UserUseCase {
+  UpdateNotificationSettingsUseCase(super.userRepository);
+  Future<void> execute(String userId, NotificationSettingsModel settings) {
+    return userRepository.updateNotificationSettings(userId, settings);
   }
 }

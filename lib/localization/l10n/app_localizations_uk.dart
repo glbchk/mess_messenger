@@ -119,6 +119,21 @@ class AppLocalizationsUk extends AppLocalizations {
       'Твої особисті повідомлення зашифровані \nвід початку до кінця.';
 
   @override
+  String get changeAvatar => 'Змінити аватар';
+
+  @override
+  String get exportAccountData => 'Експортувати дані аккаунта';
+
+  @override
+  String get terminateAllActiveSessions => 'Закінчити всі активні сесії';
+
+  @override
+  String get contactSupport => 'Звʼязатися з підтримкою';
+
+  @override
+  String get logOut => 'Вийти';
+
+  @override
   String get general => 'Загальні';
 
   @override
@@ -180,6 +195,12 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get phoneNumberHint => 'Ввести номер телефону...';
+
+  @override
+  String get changePassword => 'Змінити пароль';
+
+  @override
+  String get deleteAccount => 'Видалити аккаунт';
 
   @override
   String get personalisation => 'Персоналізація';
@@ -273,6 +294,10 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get importantNotifications => 'Важливі сповіщення';
+
+  @override
+  String get importantNotificationsDescription =>
+      'Ми все ще можемо надсилати вам важливі сповіщення щодо вашого облікового запису.';
 
   @override
   String get dismiss => 'Відхилити';
@@ -415,4 +440,10 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get collapse => 'Згорнути';
+
+  @override
+  String get support => 'Підтримка';
+
+  @override
+  String get showDetails => 'Показати деталі';
 }

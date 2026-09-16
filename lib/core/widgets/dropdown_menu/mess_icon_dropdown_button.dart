@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon_button.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/build_dropdown_item_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/widgets/ui_helpers/build_dropdown_item_widget.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class MessIconDropdownButton<T> extends StatelessWidget {

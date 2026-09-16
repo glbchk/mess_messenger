@@ -101,8 +101,6 @@ class _SupportChatDetailPanelState
             SimpleHeaderWidget(
               showBackButton: true,
               onBackButtonPressed: widget.onBackButtonPressed,
-              userData: widget.userData,
-              onPressed: () {},
               onPressedShowDetails: widget.onPressedShowDetails,
             ),
             Expanded(

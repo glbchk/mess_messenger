@@ -1,38 +1,38 @@
+import 'package:flutter/material.dart';
+import 'package:mess_messenger_app/core/utils/colors/palette_colors.dart';
+
 class PersonalizationSettingsModel {
   final String? themeMode;
-  final int?
-  backgroundColorIndex; //TODO: Need to add a default background color boolean, when return to color setup for chats
+  final String?
+  backgroundColorId; //TODO: Need to add a default background color boolean, when return to color setup for chats
 
-  PersonalizationSettingsModel({this.themeMode, this.backgroundColorIndex});
+  PersonalizationSettingsModel({this.themeMode, this.backgroundColorId});
 
   factory PersonalizationSettingsModel.defaults() {
     return PersonalizationSettingsModel(
-      themeMode: 'System Default',
-      backgroundColorIndex: 0,
+      themeMode: ThemeMode.system.name,
+      backgroundColorId: Palette.values.first.name,
     );
   }
 
   factory PersonalizationSettingsModel.fromJson(Map<String, dynamic> json) {
     return PersonalizationSettingsModel(
       themeMode: json['theme_mode'],
-      backgroundColorIndex: json['background_color_index'],
+      backgroundColorId: json['background_color_id'],
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'theme_mode': themeMode,
-      'background_color_index': backgroundColorIndex,
-    };
+    return {'theme_mode': themeMode, 'background_color_id': backgroundColorId};
   }
 
   PersonalizationSettingsModel copyUserWith({
     String? themeMode,
-    int? backgroundColorIndex,
+    String? backgroundColorId,
   }) {
     return PersonalizationSettingsModel(
       themeMode: themeMode ?? this.themeMode,
-      backgroundColorIndex: backgroundColorIndex ?? this.backgroundColorIndex,
+      backgroundColorId: backgroundColorId ?? this.backgroundColorId,
     );
   }
 }

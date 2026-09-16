@@ -101,3 +101,10 @@ final updateSubscriptionPlanUseCaseProvider =
     Provider<UpdateSubscriptionPlanUseCase>((ref) {
       return UpdateSubscriptionPlanUseCase(ref.read(userRepositoryProvider));
     });
+
+final updateNotificationSettingsUseCaseProvider =
+    Provider<UpdateNotificationSettingsUseCase>((ref) {
+      return UpdateNotificationSettingsUseCase(
+        ref.read(userRepositoryProvider),
+      );
+    });

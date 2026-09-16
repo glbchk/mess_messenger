@@ -2,6 +2,7 @@ import 'package:mess_messenger_app/core/enums/enums.dart';
 import 'package:mess_messenger_app/core/errors/auth_failure.dart';
 import 'package:mess_messenger_app/features/auth/data/data_source/auth_remote_data_source.dart';
 import 'package:mess_messenger_app/features/settings/data/data_source/user_remote_data_source.dart';
+import 'package:mess_messenger_app/features/settings/data/models/notification_settings_model.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/features/settings/domain/entities/user_entity.dart';
 import 'package:mess_messenger_app/features/settings/domain/user_repositories/user_repository.dart';
@@ -135,11 +136,11 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<void> updateBackgroundColor(
     String userId,
-    int? backgroundColorIndex,
+    String? backgroundColorId,
   ) async {
     return await userRemoteDataSource.updateBackgroundColor(
       userId,
-      backgroundColorIndex,
+      backgroundColorId,
     );
   }
 
@@ -151,6 +152,17 @@ class UserRepositoryImpl implements UserRepository {
     return await userRemoteDataSource.updateSubscriptionPlan(
       userId,
       selectedPlan,
+    );
+  }
+
+  @override
+  Future<void> updateNotificationSettings(
+    String userId,
+    NotificationSettingsModel settings,
+  ) async {
+    return await userRemoteDataSource.updateNotificationSettings(
+      userId,
+      settings,
     );
   }
 }
