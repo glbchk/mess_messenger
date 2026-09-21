@@ -61,7 +61,7 @@ class _ContactsPageState extends ConsumerState<ContactsPage> {
 
       final chatId = await ref
           .read(getOrCreateChatUseCaseProvider)
-          .execute(myId, otherUserId);
+          .execute(myId, otherUserId, myId);
       if (!context.mounted) return;
 
       if (bp.isMobile) {
@@ -110,7 +110,6 @@ class _ContactsPageState extends ConsumerState<ContactsPage> {
         pageTitle: l10n.contacts,
         userData: userData,
         chats: chatsListState.chats,
-        selectedChatId: selectedChatId ?? '',
         onPressed: () {}, //openChattingPage(),
         onChatSelected: selectChat,
         messageController: messageController,

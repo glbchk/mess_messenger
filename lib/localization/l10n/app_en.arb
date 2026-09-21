@@ -140,5 +140,7 @@
   "sunday": "Sunday",
   "collapse": "Collapse",
   "support": "Support",
-  "showDetails": "Show details"
+  "showDetails": "Show details",
+  "searchFieldHint": "Type a command or search here...",
+  "yourPersonalContacts": "Your personal contacts are end-to-end encrypted"
 }

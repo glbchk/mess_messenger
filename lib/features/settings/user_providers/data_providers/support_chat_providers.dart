@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/core/providers/data_providers/firebase_provider.dart';
 import 'package:mess_messenger_app/features/chats/data/models/message_model.dart';
-import 'package:mess_messenger_app/features/settings/data/data_source/support_chat_remote_data_source.dart';
+import 'package:mess_messenger_app/features/settings/data/data_sources/support_chat_remote_data_source.dart';
 import 'package:mess_messenger_app/features/settings/data/models/support_chat_model.dart';
 import 'package:mess_messenger_app/features/settings/data/user_repositories_impl/support_chat_respository_impl.dart';
 import 'package:mess_messenger_app/features/settings/domain/user_repositories/support_chat_repository.dart';

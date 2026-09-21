@@ -42,7 +42,7 @@ class UserAvatarWidget extends StatelessWidget {
             height: effectiveSize,
             width: effectiveSize,
             decoration: BoxDecoration(
-              color: backgroundColor ?? colors.surface2,
+              color: backgroundColor ?? colors.border2,
               shape: .circle,
             ),
             child: Padding(

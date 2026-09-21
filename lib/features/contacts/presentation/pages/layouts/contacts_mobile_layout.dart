@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
+import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/router/app_routes.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon_button.dart';
@@ -11,9 +12,9 @@ import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
 import 'package:mess_messenger_app/features/chats/chats_providers/chats_provider.dart';
 import 'package:mess_messenger_app/features/chats/chats_providers/open_chat_provider.dart';
 import 'package:mess_messenger_app/features/chats/data/models/chat_model.dart';
+import 'package:mess_messenger_app/features/contacts/presentation/pages/contacts_leter_list_widget.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
-import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -42,9 +43,16 @@ class _ContactsMobileLayoutState extends ConsumerState<ContactsMobileLayout> {
     final colors = context.colors;
     final textTheme = context.textStyles;
 
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
 
     final bp = ResponsiveBreakpoints.of(context);
+
+    final chats = ref.watch(userChatsNotifierProvider).chats;
+    final myId = ref.watch(userNotifierProvider).userData?.id ?? '';
+
+    final contactChats = chats
+        .where((c) => !c.isGroup && c.status == ChatRequestStatus.accepted)
+        .toList();
 
     Future<void> openChatWith(String otherUserId) async {
       final myId = ref.read(userNotifierProvider).userData?.id;
@@ -52,18 +60,40 @@ class _ContactsMobileLayoutState extends ConsumerState<ContactsMobileLayout> {
 
       final chatId = await ref
           .read(getOrCreateChatUseCaseProvider)
-          .execute(myId, otherUserId);
+          .execute(myId, otherUserId, myId);
       if (!context.mounted) return;
 
-      if (bp.isMobile) {
+      if (bp.isMobile || bp.isTablet) {
         context.push(AppRoutes.chatWith(chatId));
       } else {
         ref.read(selectedChatIdProvider.notifier).state = chatId;
       }
     }
 
-    // final directChats = widget.chats.where((c) => !c.isGroup).toList();
-    // final groupChats = widget.chats.where((c) => c.isGroup).toList();
+    // List<({ChatModel chat, String peerId, UserModel? peer})> sortContactsByName(
+    //   List<({ChatModel chat, String peerId, UserModel? peer})> entries,
+    // ) {
+    //   final sorted = [...entries];
+    //   sorted.sort((a, b) {
+    //     final nameA = (a.peer?.name ?? a.peerId).toUpperCase();
+    //     final nameB = (b.peer?.name ?? b.peerId).toUpperCase();
+    //     return nameA.compareTo(nameB);
+    //   });
+    //   return sorted;
+    // }
+    //
+    // String letterOf(({ChatModel chat, String peerId, UserModel? peer}) entry) {
+    //   final name = entry.peer?.name ?? '';
+    //   return name.isNotEmpty ? name[0].toUpperCase() : '#';
+    // }
+    //
+    // final resolved = chats.map((chat) {
+    //   final peerId = chat.peerId(myId) ?? '';
+    //   final peer = ref.watch(watchedUserProvider(peerId)).value;
+    //   return (chat: chat, peerId: peerId, peer: peer);
+    // }).toList();
+    //
+    // final entries = sortContactsByName(resolved);
 
     return Scaffold(
       backgroundColor: colors.bg,
@@ -71,116 +101,46 @@ class _ContactsMobileLayoutState extends ConsumerState<ContactsMobileLayout> {
         appBarBackgroundColor: colors.transparent,
         resizeToAvoidBottomInset: false,
         showAppBarContent: false,
-        title: widget.pageTitle ?? 'Contacts',
+        title: widget.pageTitle,
         actions: [
           MessIconButton(
             SvgIcons.add,
             onPressed: () async {
-              //HERE NEED TO REDIRECT TO ADD A NEW CONTACT
               await widget.onPressed;
             },
           ),
           AppSpacing.p16.gapH,
           UserAvatarWidget(
-            userName: widget.userData.email ?? 'Joe Doe', //'Joe Doe',
-            photoPath: 'assets/images/user_images/avatar_image.png',
+            userName: widget.userData.email ?? 'Joe Doe',
+            photoPath: widget.userData.avatarUrl,
           ),
           AppSpacing.p16.gapH,
         ],
       ),
 
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 16.0, top: 10, right: 16),
-            child: MessTextField(
+      body: Padding(
+        padding: const EdgeInsets.only(left: 16.0, top: 10, right: 16),
+        child: Column(
+          crossAxisAlignment: .start,
+          children: [
+            MessTextField(
               height: 56,
               radius: 24,
               hint: l10n.searchHere,
               prefixIcon: SvgIcons.search,
+              onTap: () => context.push(AppRoutes.userSearch),
             ),
-          ),
-          AppSpacing.p12.gapV,
+            AppSpacing.p12.gapV,
 
-          Expanded(
-            child: ListView(
-              children: [
-                for (final u in kSeedUsers)
-                  ListTile(
-                    leading: CircleAvatar(
-                      child: Text((u.name ?? '?').characters.first),
-                    ),
-                    title: Text(u.name ?? u.id),
-                    subtitle: Text(u.email ?? ''),
-                    onTap: () => openChatWith(u.id),
-                  ),
-              ],
+            Expanded(
+              child: ContactsLetterList(
+                chats: contactChats,
+                myId: myId,
+                onContactTap: (chat) => openChatWith(chat.id),
+              ),
             ),
-          ),
-
-          // Expanded(
-          //   child: widget.chats.isNotEmpty
-          //       ? SingleChildScrollView(
-          //           child: Padding(
-          //             padding: const EdgeInsets.only(
-          //               left: 22,
-          //               top: 22,
-          //               right: 22,
-          //             ),
-          //             child: Column(
-          //               crossAxisAlignment: .start,
-          //               children: [
-          //                 //Groups
-          //                 Text(
-          //                   'A',
-          //                   style: textTheme.headlineMedium?.copyWith(
-          //                     color: colors.text1,
-          //                   ),
-          //                 ),
-          //                 AppSpacing.p16.gapV,
-          //                 // for (final groupChat in groupChats)
-          //                 ContactTileWidget(
-          //                   contactId: '',
-          //                   title: 'Some',
-          //                   subtitle: 'Something',
-          //                   onPressed: () {},
-          //                 ),
-          //               ],
-          //             ),
-          //           ),
-          //         )
-          //       : Center(
-          //           child: Padding(
-          //             padding: const EdgeInsets.symmetric(horizontal: 22.0),
-          //             child: Column(
-          //               mainAxisAlignment: MainAxisAlignment.center,
-          //               children: [
-          //                 Image.asset(
-          //                   'assets/images/empty_screen_logo.png',
-          //                   width: 300,
-          //                   height: 300,
-          //                 ),
-          //                 AppSpacing.p20.gapV,
-          //                 Text(
-          //                   l10n.messenger,
-          //                   style: textTheme.headlineLarge?.copyWith(
-          //                     color: colors.text1,
-          //                   ),
-          //                 ),
-          //                 AppSpacing.p8.gapV,
-          //                 Text(
-          //                   l10n.chatsEmptyScreenText,
-          //                   style: textTheme.bodyLarge?.copyWith(
-          //                     color: colors.text2,
-          //                   ),
-          //                   textAlign: TextAlign.center,
-          //                 ),
-          //               ],
-          //             ),
-          //           ),
-          //         ),
-          // ),
-        ],
+          ],
+        ),
       ),
     );
   }

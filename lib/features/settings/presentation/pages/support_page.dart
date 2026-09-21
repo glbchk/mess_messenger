@@ -49,7 +49,7 @@ class _SettingsPageState extends ConsumerState<SupportPage>
     if (currentUserId == null) return;
     final chatId = await ref
         .read(getOrCreateChatUseCaseProvider)
-        .execute(currentUserId, kFaqBotSenderId);
+        .execute(currentUserId, kFaqBotSenderId, currentUserId);
     if (!mounted) return;
     setState(() => _supportChatId = chatId);
   }

@@ -1,28 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:mess_messenger_app/core/constants/svg_icons.dart';
+import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
 import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
-class ContactTileWidget extends StatefulWidget {
+enum SearchResultType { recentSearch, contact, message }
+
+class SearchResultTileWidget extends StatefulWidget {
+  final SearchResultType type;
   final String? photoPath;
   final String contactId;
   final String title;
-  final String subtitle;
   final VoidCallback onPressed;
 
-  const ContactTileWidget({
+  const SearchResultTileWidget({
     super.key,
+    required this.type,
     this.photoPath,
     required this.contactId,
     required this.title,
-    required this.subtitle,
     required this.onPressed,
   });
 
   @override
-  State<ContactTileWidget> createState() => _ContactTileWidgetState();
+  State<SearchResultTileWidget> createState() => _SearchResultTileWidgetState();
 }
 
-class _ContactTileWidgetState extends State<ContactTileWidget> {
+class _SearchResultTileWidgetState extends State<SearchResultTileWidget> {
   bool _isHovered = false;
   bool _isPressed = false;
 
@@ -35,7 +39,7 @@ class _ContactTileWidgetState extends State<ContactTileWidget> {
     if (_isPressed) {
       backgroundColor = colors.surface4;
     } else if (_isHovered) {
-      backgroundColor = colors.surfaceAccent2;
+      backgroundColor = colors.surface3;
     }
 
     return MouseRegion(
@@ -52,13 +56,10 @@ class _ContactTileWidgetState extends State<ContactTileWidget> {
           behavior: HitTestBehavior.opaque,
           onTap: widget.onPressed,
           child: Container(
-            height: 56,
-            decoration: BoxDecoration(
-              color: backgroundColor,
-              borderRadius: BorderRadius.circular(16.0),
-            ),
+            color: backgroundColor,
+            height: 48,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              padding: const EdgeInsets.only(left: 16),
               child: Row(
                 spacing: 8,
                 children: [
@@ -67,31 +68,34 @@ class _ContactTileWidgetState extends State<ContactTileWidget> {
                     height: 32,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(40)),
-                      color: colors.surface4,
+                      color: widget.type == SearchResultType.contact
+                          ? colors.surface4
+                          : colors.transparent,
                     ),
-                    child: UserAvatarWidget(
-                      userName: widget.title,
-                      photoPath: widget.photoPath,
+                    child: Center(
+                      child: switch (widget.type) {
+                        SearchResultType.recentSearch => MessIcon(
+                          SvgIcons.recentlyViewed,
+                          size: 16,
+                        ),
+                        SearchResultType.contact => UserAvatarWidget(
+                          userName: widget.title,
+                          photoPath: widget.photoPath,
+                        ),
+                        SearchResultType.message => const Center(
+                          child: MessIcon(SvgIcons.message),
+                        ),
+                      },
                     ),
                   ),
-                  Column(
-                    crossAxisAlignment: .start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    spacing: 1,
-                    children: [
-                      Text(
-                        widget.title,
-                        style: textTheme.titleMedium?.copyWith(
-                          color: colors.text1,
-                        ),
+                  Expanded(
+                    child: Text(
+                      widget.title,
+                      style: textTheme.titleMedium?.copyWith(
+                        color: colors.text1,
                       ),
-                      Text(
-                        widget.subtitle,
-                        style: textTheme.bodySmall?.copyWith(
-                          color: colors.text2,
-                        ),
-                      ),
-                    ],
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ],
               ),

@@ -8,7 +8,11 @@ class ChatsRemoteDataSource {
   final FirebaseFirestore firestore;
   ChatsRemoteDataSource(this.firestore);
 
-  Future<String> getOrCreateChat(String userA, String userB) async {
+  Future<String> getOrCreateChat(
+    String userA,
+    String userB, {
+    required String requestedBy,
+  }) async {
     final pairKey = directChatId(userA, userB);
     final chatRef = firestore.collection('direct_chats').doc(pairKey);
 
@@ -27,6 +31,8 @@ class ChatsRemoteDataSource {
           lastMessage: '',
           lastMessageAt: DateTime.now(),
           isGroup: false,
+          status: ChatRequestStatus.pending,
+          requestedBy: requestedBy,
         ).toJson(),
       );
 
@@ -126,5 +132,11 @@ class ChatsRemoteDataSource {
         .doc(chatId)
         .snapshots()
         .map((doc) => ChatModel.fromJson(doc.data()!));
+  }
+
+  Future<void> updateChatStatus(String chatId, ChatRequestStatus status) async {
+    await firestore.collection('direct_chats').doc(chatId).set({
+      'status': status.name,
+    }, SetOptions(merge: true));
   }
 }

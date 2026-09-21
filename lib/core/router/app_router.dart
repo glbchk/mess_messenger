@@ -8,6 +8,7 @@ import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.
 import 'package:mess_messenger_app/features/chats/presentation/pages/chats_page.dart';
 import 'package:mess_messenger_app/features/chats/presentation/pages/mobile_open_chat_page.dart';
 import 'package:mess_messenger_app/features/chats/presentation/pages/mobile_profile_details_page.dart';
+import 'package:mess_messenger_app/features/chats/presentation/pages/user_search_page.dart';
 import 'package:mess_messenger_app/features/contacts/presentation/pages/contacts_page.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/settings_page.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/support_page.dart';
@@ -103,6 +104,29 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.profileDetails,
         builder: (context, state) =>
             MobileProfileDetailsPage(chatId: state.pathParameters['chatId']!),
+      ),
+      GoRoute(
+        path: AppRoutes.userSearch,
+        parentNavigatorKey: _rootNavigatorKey,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const UserSearchPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return SlideTransition(
+              position:
+                  Tween<Offset>(
+                    begin: const Offset(0, 1),
+                    end: Offset.zero,
+                  ).animate(
+                    CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.easeOutCubic,
+                    ),
+                  ),
+              child: child,
+            );
+          },
+        ),
       ),
     ],
   );

@@ -943,6 +943,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show details'**
   String get showDetails;
+
+  /// No description provided for @searchFieldHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a command or search here...'**
+  String get searchFieldHint;
+
+  /// No description provided for @yourPersonalContacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Your personal contacts are end-to-end encrypted'**
+  String get yourPersonalContacts;
 }
 
 class _AppLocalizationsDelegate

@@ -12,6 +12,8 @@ import 'package:mess_messenger_app/core/widgets/dropdown_menu/mess_icon_dropdown
 import 'package:mess_messenger_app/core/widgets/mobile_widgets/app_bar/mobile_app_bar.dart';
 import 'package:mess_messenger_app/core/widgets/mobile_widgets/mobile_bottom_input_bar.dart';
 import 'package:mess_messenger_app/features/chats/chats_providers/open_chat_provider.dart';
+import 'package:mess_messenger_app/features/chats/data/models/chat_model.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/chat/chat_request_panel_widget.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/reusable/date_separator_widget.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/reusable/received_message_widget.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/reusable/sent_message_widget.dart';
@@ -231,20 +233,34 @@ class _MobileOpenChatPageState extends ConsumerState<MobileOpenChatPage> {
                   ),
               ],
             ),
-      bottomNavigationBar: MobileBottomInputBar(
-        textNewLineOrSend: widget.textNewLineOrSend ?? true,
-        controller: messageController,
-        onPressedAttachment: () {
-          attachFile();
-        },
-        onPressedEmoji: () {
-          openEmojiPicker();
-        },
-        onPressedTextNewLine: () {},
-        onPressedSend: () {
-          sendMessage();
-        },
-      ),
+      bottomNavigationBar: chatState.status == ChatRequestStatus.blocked
+          ? const SizedBox.shrink()
+          : chatState.status == ChatRequestStatus.pending
+          ? ChatRequestPanelWidget(
+              isRequester: chatState.requestedBy == userData?.id,
+              peerName: chatState.otherUser?.name ?? 'this user',
+              onAccept: () => ref
+                  .read(chatsNotifierProvider(widget.chatId ?? '').notifier)
+                  .respondToRequest(ChatRequestStatus.accepted),
+              onBlock: () => ref
+                  .read(chatsNotifierProvider(widget.chatId ?? '').notifier)
+                  .respondToRequest(ChatRequestStatus.blocked),
+              onIgnore: () => context.pop(),
+            )
+          : MobileBottomInputBar(
+              textNewLineOrSend: widget.textNewLineOrSend ?? true,
+              controller: messageController,
+              onPressedAttachment: () {
+                attachFile();
+              },
+              onPressedEmoji: () {
+                openEmojiPicker();
+              },
+              onPressedTextNewLine: () {},
+              onPressedSend: () {
+                sendMessage();
+              },
+            ),
     );
   }
 }

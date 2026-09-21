@@ -28,7 +28,9 @@ class DirectChatTile extends ConsumerWidget {
       isGroup: false,
       photoPath: peer?.avatarUrl,
       title: (peer?.name?.isNotEmpty ?? false) ? peer?.name ?? '' : 'Loading…',
-      subtitle: chat.lastMessage.isEmpty ? 'No messages yet' : chat.lastMessage,
+      subtitle: chat.status == ChatRequestStatus.pending
+          ? (chat.requestedBy == myId ? 'Request sent' : 'New message request')
+          : (chat.lastMessage.isEmpty ? 'No messages yet' : chat.lastMessage),
       onPressed: onPressed,
     );
   }

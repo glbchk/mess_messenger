@@ -226,10 +226,70 @@ class UserModel {
   );
 }
 
-final kSeedUsers = <UserModel>[
-  UserModel.newUser(
-    id: 'OMJtBON0cgMYCPm2Prv0If6MPVO2',
-    email: 'glegalchenko@gmail.com',
-    name: 'Johnny',
-  ),
-];
+// final kSeedUsers = <UserModel>[
+//   UserModel.newUser(
+//     id: 'OMJtBON0cgMYCPm2Prv0If6MPVO2',
+//     email: 'glegalchenko@gmail.com',
+//     name: 'Johnny',
+//   ),
+//   UserModel.newUser(
+//     id: '194014801f401v42v02n14f142f1',
+//     email: 'alice@gmail.com',
+//     name: 'Alice',
+//   ),
+//   UserModel.newUser(
+//     id: '194014801f401v42v02n14f142f2',
+//     email: 'anna@gmail.com',
+//     name: 'Anna',
+//   ),
+//   UserModel.newUser(
+//     id: '194014801f401v42v02n14f142f3',
+//     email: 'antoine@gmail.com',
+//     name: 'Antoine',
+//   ),
+//   UserModel.newUser(
+//     id: '194014801f401v42v02n14f142f4',
+//     email: 'armand@gmail.com',
+//     name: 'Armand',
+//   ),
+//   UserModel.newUser(
+//     id: '194014801f401v42v02n14f142f5',
+//     email: 'ava@gmail.com',
+//     name: 'Ava',
+//   ),
+//   UserModel.newUser(
+//     id: '194014801f401v42v02n14f142f6',
+//     email: 'axel@gmail.com',
+//     name: 'Axel',
+//   ),
+//   UserModel.newUser(
+//     id: '194014801f401v42v02n14f142f8',
+//     email: 'ben@gmail.com',
+//     name: 'Ben',
+//   ),
+//   UserModel.newUser(
+//     id: '194014801f401v42v02n14f142f9',
+//     email: 'bridget@gmail.com',
+//     name: 'Bridget',
+//   ),
+//   UserModel.newUser(
+//     id: '194014801f401v42v02n14f142f9',
+//     email: 'ben@gmail.com',
+//     name: 'Zack',
+//   ),
+//   UserModel.newUser(
+//     id: '194014801f401v42v02n14f14210',
+//     email: 'bridget@gmail.com',
+//     name: 'Stas',
+//   ),
+// ];
+//
+// final kSeedImages = [
+//   'assets/images/user_images/Avatar image-7.png',
+//   'assets/images/user_images/Avatar image-1.png',
+//   'assets/images/user_images/Avatar image-2.png',
+//   'assets/images/user_images/Avatar image-3.png',
+//   'assets/images/user_images/Avatar image-4.png',
+//   'assets/images/user_images/Avatar image-5.png',
+//   'assets/images/user_images/Avatar image-8.png',
+// ];

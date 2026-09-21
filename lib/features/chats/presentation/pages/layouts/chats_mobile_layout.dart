@@ -57,14 +57,7 @@ class _ChatsMobileLayoutState extends ConsumerState<ChatsMobileLayout> {
           MessIconButton(
             SvgIcons.add,
             isButtonFilled: true,
-            onPressed: () async {
-              final chatId = await ref
-                  .read(userChatsNotifierProvider.notifier)
-                  .getOrCreateChatWithUser(userData.id);
-              if (chatId != null && context.mounted) {
-                context.push(AppRoutes.chatWith(chatId));
-              }
-            },
+            onPressed: () => context.push(AppRoutes.userSearch),
           ),
           AppSpacing.p16.gapH,
           UserAvatarWidget(
@@ -87,6 +80,7 @@ class _ChatsMobileLayoutState extends ConsumerState<ChatsMobileLayout> {
               radius: 24,
               hint: l10n.searchHere,
               prefixIcon: SvgIcons.search,
+              onTap: () => context.push(AppRoutes.userSearch),
             ),
           ),
           AppSpacing.p12.gapV,

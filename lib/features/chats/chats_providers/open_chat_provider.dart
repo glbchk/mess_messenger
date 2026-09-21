@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/core/providers/data_providers/firebase_provider.dart';
 import 'package:mess_messenger_app/features/chats/data/chats_repositories_impl/chats_repository_impl.dart';
-import 'package:mess_messenger_app/features/chats/data/datasources/chats_remote_data_source.dart';
+import 'package:mess_messenger_app/features/chats/data/data_sources/chats_remote_data_source.dart';
 import 'package:mess_messenger_app/features/chats/domain/chats_repositories/chats_repository.dart';
 import 'package:mess_messenger_app/features/chats/domain/chats_use_cases/chats_use_cases.dart';
 import 'package:mess_messenger_app/features/chats/presentation/notifiers/open_chat_notifier.dart';
@@ -30,7 +30,6 @@ final fetchMessagesUseCaseProvider = Provider<FetchMessagesUseCase>((ref) {
   return FetchMessagesUseCase(ref.read(chatsRepositoryProvider));
 });
 
-// .family because each chat screen needs its own chatId-scoped state
 final chatsNotifierProvider =
     NotifierProvider.family<OpenChatNotifier, OpenChatState, String>(
       OpenChatNotifier.new,
@@ -52,3 +51,9 @@ final watchedUserNotifierProvider =
     NotifierProvider.family<WatchedUserNotifier, WatchedUserState, String>(
       WatchedUserNotifier.new,
     );
+
+final updateChatStatusUseCaseProvider = Provider<UpdateChatStatusUseCase>((
+  ref,
+) {
+  return UpdateChatStatusUseCase(ref.read(chatsRepositoryProvider));
+});

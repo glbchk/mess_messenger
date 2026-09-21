@@ -445,4 +445,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get showDetails => 'Show details';
+
+  @override
+  String get searchFieldHint => 'Type a command or search here...';
+
+  @override
+  String get yourPersonalContacts =>
+      'Your personal contacts are end-to-end encrypted';
 }

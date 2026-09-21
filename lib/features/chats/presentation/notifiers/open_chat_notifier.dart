@@ -44,7 +44,11 @@ class OpenChatNotifier extends Notifier<OpenChatState> {
         .watchChat(chatId)
         .listen((chat) {
           _lastChat = chat;
-          state = state.copyWith(typingUserIds: chat.typingUserIds);
+          state = state.copyWith(
+            typingUserIds: chat.typingUserIds,
+            status: chat.status,
+            requestedBy: chat.requestedBy,
+          );
           _resolveOtherUser();
         }, onError: (e) => print('DEBUG: watchChat failed: $e'));
   }
@@ -134,5 +138,9 @@ class OpenChatNotifier extends Notifier<OpenChatState> {
           (user) => state = state.copyWith(otherUser: user),
           onError: (e) => print('DEBUG: watchUser failed: $e'),
         );
+  }
+
+  Future<void> respondToRequest(ChatRequestStatus newStatus) async {
+    await ref.read(updateChatStatusUseCaseProvider).execute(chatId, newStatus);
   }
 }

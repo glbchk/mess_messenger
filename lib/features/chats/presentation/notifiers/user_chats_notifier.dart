@@ -52,7 +52,9 @@ class UserChatsNotifier extends Notifier<UserChatsState> {
     final myId = ref.read(userNotifierProvider).userData?.id;
     if (myId == null) return null;
 
-    return ref.read(getOrCreateChatUseCaseProvider).execute(myId, otherUserId);
+    return ref
+        .read(getOrCreateChatUseCaseProvider)
+        .execute(myId, otherUserId, myId);
   }
 
   void toggleChatList() {

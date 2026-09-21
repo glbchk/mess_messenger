@@ -5,7 +5,9 @@ import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class EmptyScreenWidget extends StatelessWidget {
-  const EmptyScreenWidget({super.key});
+  final String? title;
+  final String? subtitle;
+  const EmptyScreenWidget({super.key, this.title, this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +25,12 @@ class EmptyScreenWidget extends StatelessWidget {
             Image.asset(AppImages.emptyScreenLogo, width: 300, height: 300),
             AppSpacing.p20.gapV,
             Text(
-              l10n.messenger,
+              title ?? l10n.messenger,
               style: textTheme.headlineLarge?.copyWith(color: colors.text1),
             ),
             AppSpacing.p8.gapV,
             Text(
-              l10n.chatsEmptyScreenText,
+              subtitle ?? l10n.chatsEmptyScreenText,
               style: textTheme.bodyLarge?.copyWith(color: colors.text2),
               textAlign: .center,
             ),

@@ -15,4 +15,6 @@ class AppRoutes {
   static String profileDetailsFor(String chatId) => '/profile-details/$chatId';
 
   static String settingsWithTab(String tab) => '/settings/$tab';
+  static const userSearch = '/search';
+  static String contactsWithSelection(String chatId) => '/contacts?c=$chatId';
 }

@@ -446,4 +446,11 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get showDetails => 'Показати деталі';
+
+  @override
+  String get searchFieldHint => 'Введіть команду або здійсніть пошук тут...';
+
+  @override
+  String get yourPersonalContacts =>
+      'Ваші особисті контакти зашифровані від початку до кінця';
 }
