@@ -5,15 +5,15 @@ Mess Messenger is a cross-platform messaging application built with Flutter, des
 The project is primarily focused on learning and exploring modern Flutter development practices, including scalable architecture, state management, localization, authentication, and cross-platform application development.
 
 ## 🚀 Features & Technologies
-📱 Cross-platform — Android, iOS, Web, Windows, macOS, and tablet layouts
-💬 Messaging — User-to-user communication with plans for group conversations and additional messaging features
-🔥 Firebase — Authentication and backend services
-🧭 GoRouter — Application navigation and route management
-🧠 Riverpod — State management and dependency management
-🌍 Flutter l10n — Localization and internationalization
-🏗️ Clean Architecture — Separation of presentation, domain, and data layers
-📐 Responsive UI — Layouts adapted for mobile, tablet, desktop, and web
-🎨 Custom theming — Light and dark themes
+📱 Cross-platform — Android, iOS, Web, Windows, macOS, and tablet layouts\
+💬 Messaging — User-to-user communication with plans for group conversations and additional messaging features\
+🔥 Firebase — Authentication and backend services\
+🧭 GoRouter — Application navigation and route management\
+🧠 Riverpod — State management and dependency management\
+🌍 Flutter l10n — Localization and internationalization\
+🏗️ Clean Architecture — Separation of presentation, domain, and data layers\
+📐 Responsive UI — Layouts adapted for mobile, tablet, desktop, and web\
+🎨 Custom theming — Light and dark themes\
 🌐 Flutter Web — Web application support alongside mobile and desktop platforms
 
 The application is still under development. Future plans include group chats, additional messaging functionality, media sharing, calls, notifications, and other features commonly found in modern messaging applications.
