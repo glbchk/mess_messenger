@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
+import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/router/app_routes.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
-import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/build_header_widget.dart';
-import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/build_menu_item_widget.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/menu_entry.dart';
-import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
-import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
+import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/menu_item_widget.dart';
+import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/side_menu_header_widget.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
+import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
-class WebSideMenu extends StatefulWidget {
-  final UserModel userData;
-
-  const WebSideMenu({super.key, required this.userData});
+class WebSideMenu extends ConsumerStatefulWidget {
+  const WebSideMenu({super.key});
 
   @override
-  State<WebSideMenu> createState() => _WebSideMenuState();
+  ConsumerState<WebSideMenu> createState() => _WebSideMenuState();
 }
 
-class _WebSideMenuState extends State<WebSideMenu>
+class _WebSideMenuState extends ConsumerState<WebSideMenu>
     with SingleTickerProviderStateMixin {
   bool _isExpanded = false;
   bool _isHovered = false;
@@ -34,7 +34,10 @@ class _WebSideMenuState extends State<WebSideMenu>
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final colors = context.colors;
+    final userData = ref.watch(userNotifierProvider).userData;
+
+    final l10n = context.l10n;
 
     final List<MenuEntry> menuItems = [
       MenuItem(
@@ -87,6 +90,14 @@ class _WebSideMenuState extends State<WebSideMenu>
           ;
         },
       ),
+      MenuItem(
+        iconPath: _isExpanded ? SvgIcons.expand : SvgIcons.collapse,
+        label: l10n.collapse,
+        onTap: () {
+          _isExpanded = !_isExpanded;
+          ;
+        },
+      ),
       const ColumnExtension(),
     ];
 
@@ -94,15 +105,14 @@ class _WebSideMenuState extends State<WebSideMenu>
       duration: _menuDuration,
       curve: Curves.easeInOut,
       width: _isExpanded ? _expandedWidth : _collapsedWidth,
-      color: Colors.transparent,
-      clipBehavior: Clip.hardEdge,
+      color: colors.transparent,
+      clipBehavior: .hardEdge,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 28),
         child: Column(
           crossAxisAlignment: .start,
           children: [
-            buildHeader(
-              context: context,
+            SideMenuHeaderWidget(
               toggle: () => _toggle(),
               onEnter: () => setState(() => _isHovered = true),
               onExit: () => setState(() => _isHovered = false),
@@ -114,12 +124,11 @@ class _WebSideMenuState extends State<WebSideMenu>
 
             for (final entry in menuItems)
               switch (entry) {
-                MenuItem() => buildMenuItem(
-                  context: context,
+                MenuItem() => MenuItemWidget(
                   item: entry,
                   selectedId: _selectedId,
                   onTap: () {
-                    setState(() => _selectedId = entry.id);
+                    setState(() => _selectedId = entry.id ?? '');
                     entry.onTap.call();
                   },
                   isExpanded: _isExpanded,
@@ -138,9 +147,9 @@ class _WebSideMenuState extends State<WebSideMenu>
                         child: Row(
                           children: [
                             UserAvatarWidget(
-                              userName: widget.userData.name ?? 'Joe Doe',
+                              userName: userData?.name ?? 'Joe Doe',
                               photoPath:
-                                  widget.userData.avatarUrl ??
+                                  userData?.avatarUrl ??
                                   'assets/images/user_images/avatar_image.png',
                             ),
                             if (_isExpanded) AppSpacing.p12.gapH,
@@ -149,21 +158,20 @@ class _WebSideMenuState extends State<WebSideMenu>
                                 child: AnimatedAlign(
                                   duration: _menuDuration,
                                   curve: Curves.easeInOut,
-                                  alignment: Alignment.centerLeft,
+                                  alignment: .centerLeft,
                                   widthFactor: _isExpanded ? 1.0 : 0.0,
                                   child: Column(
                                     crossAxisAlignment: .start,
-                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisSize: .min,
                                     children: [
                                       Text(
-                                        widget.userData.name ?? 'Joe Doe',
-                                        overflow: TextOverflow.clip,
+                                        userData?.name ?? 'Joe Doe',
+                                        overflow: .clip,
                                         softWrap: false,
                                       ),
                                       Text(
-                                        widget.userData.email ??
-                                            'fake@email.com',
-                                        overflow: TextOverflow.clip,
+                                        userData?.email ?? 'fake@email.com',
+                                        overflow: .clip,
                                         softWrap: false,
                                       ),
                                     ],

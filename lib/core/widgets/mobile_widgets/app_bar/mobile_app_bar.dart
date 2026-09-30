@@ -22,9 +22,7 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color? foregroundColor;
   final Color? appBarBackgroundColor;
   final Color? shadowColor;
-  // final double? blurRadius;
   final List<Widget>? actions;
-  // final double? kToolbarHeight;
   final VoidCallback? onPressedBack;
   final bool? showBottomLine;
   final VoidCallback? onPressedViewProfile;
@@ -33,7 +31,6 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     this.extendBodyBehindAppBar,
     this.resizeToAvoidBottomInset,
-    // this.showLeadingIcon = true,
     this.toolBarHeight,
     required this.showAppBarContent,
     this.showBackButton = false,
@@ -48,9 +45,7 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.foregroundColor,
     this.appBarBackgroundColor,
     this.shadowColor,
-    // this.blurRadius,
     this.actions,
-    // this.kToolbarHeight,
     this.onPressedBack,
     this.showBottomLine,
     this.onPressedViewProfile,
@@ -103,7 +98,7 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
                             color: colors.text1,
                           ),
                           maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                          overflow: .ellipsis,
                         ),
                         Text(
                           userPhoneNumber != null
@@ -113,7 +108,7 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
                             color: colors.text2,
                           ),
                           maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                          overflow: .ellipsis,
                         ),
                       ],
                     ),

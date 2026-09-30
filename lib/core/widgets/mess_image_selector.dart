@@ -25,16 +25,13 @@ class _MessImageSelectorState extends State<MessImageSelector> {
           width: 120,
           decoration: BoxDecoration(
             color: colors.componentSpecific,
-            shape: BoxShape.circle,
+            shape: .circle,
             image: imageBytes != null
-                ? DecorationImage(
-                    image: MemoryImage(imageBytes),
-                    fit: BoxFit.cover,
-                  )
+                ? DecorationImage(image: MemoryImage(imageBytes), fit: .cover)
                 : null,
           ),
           child: widget.imageBytes == null
-              ? const Icon(Icons.add_a_photo, size: 40, color: Colors.grey)
+              ? Icon(Icons.add_a_photo, size: 40, color: colors.surface2)
               : null,
         ),
         const SizedBox(height: 20),

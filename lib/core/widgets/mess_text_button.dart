@@ -5,12 +5,14 @@ class MessTextButton extends StatelessWidget {
   final String label;
   final TextStyle? textStyle;
   final Color? textColor;
+  final VoidCallback? onPressed;
 
   const MessTextButton({
     super.key,
     required this.label,
     this.textStyle,
     this.textColor,
+    this.onPressed,
   });
 
   @override
@@ -18,11 +20,14 @@ class MessTextButton extends StatelessWidget {
     final colors = context.colors;
     final textTheme = context.textStyles;
 
-    return Text(
-      'Show more',
-      style:
-          textStyle ??
-          textTheme.labelSmall?.copyWith(color: textColor ?? colors.link),
+    return GestureDetector(
+      onTap: onPressed,
+      child: Text(
+        label,
+        style:
+            textStyle ??
+            textTheme.labelSmall?.copyWith(color: textColor ?? colors.link),
+      ),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
+import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -22,7 +23,7 @@ class DatePickerDropdownWidget extends StatefulWidget {
     required this.menuController,
     this.selectedDate,
     required this.onDateSelected,
-    this.hintText = 'Add a birthday! (Optional)',
+    this.hintText = 'Add a birthday...',
     this.accentColor,
     this.firstDate,
     this.lastDate,
@@ -37,13 +38,8 @@ class DatePickerDropdownWidget extends StatefulWidget {
 }
 
 class _DatePickerDropdownWidgetState extends State<DatePickerDropdownWidget> {
-  // final MenuController _menuController = MenuController();
-
   String _formatDate(DateTime date) {
-    // Simple string formatting (e.g., 2026-08-05).
-    // Replace with `DateFormat('MMM dd, yyyy').format(date)` if using package:intl
     return DateFormat.yMMMMd().format(date);
-    // return "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
   }
 
   @override
@@ -55,11 +51,8 @@ class _DatePickerDropdownWidgetState extends State<DatePickerDropdownWidget> {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Actual space this widget has, after any parent padding —
-        // no magic numbers needed.
         final double availableWidth = constraints.maxWidth;
 
-        // Use ResponsiveBreakpoints only for the *ratio*, not the raw width.
         final double widthFactor = bp.isMobile
             ? 1.0
             : bp.isTablet
@@ -70,7 +63,7 @@ class _DatePickerDropdownWidgetState extends State<DatePickerDropdownWidget> {
             widget.menuWidth ?? availableWidth * widthFactor;
 
         return Align(
-          alignment: Alignment.centerLeft,
+          alignment: .centerLeft,
           child: SizedBox(
             width: menuWidth,
             child: MenuAnchor(
@@ -94,7 +87,7 @@ class _DatePickerDropdownWidgetState extends State<DatePickerDropdownWidget> {
               ),
               menuChildren: [
                 FittedBox(
-                  fit: BoxFit.scaleDown,
+                  fit: .scaleDown,
                   child: SizedBox(
                     width: menuWidth,
                     height: 360,
@@ -138,7 +131,7 @@ class _DatePickerDropdownWidgetState extends State<DatePickerDropdownWidget> {
                       child: Material(
                         color: colors.transparent,
                         borderRadius: BorderRadius.circular(16),
-                        clipBehavior: Clip.antiAlias,
+                        clipBehavior: .antiAlias,
                         child: InkWell(
                           borderRadius: BorderRadius.circular(16),
                           hoverColor: colors.surface4,
@@ -158,19 +151,18 @@ class _DatePickerDropdownWidgetState extends State<DatePickerDropdownWidget> {
                                   color: colors.text1,
                                   size: 20,
                                 ),
-                                const SizedBox(width: 12),
+                                AppSpacing.p12.gapH,
                                 Expanded(
                                   child: Text(
                                     hasValue
                                         ? _formatDate(widget.selectedDate!)
                                         : widget.hintText,
-                                    overflow: TextOverflow.ellipsis,
+                                    overflow: .ellipsis,
                                     style: textTheme.labelLarge?.copyWith(
                                       color: colors.text1,
                                     ),
                                   ),
                                 ),
-                                // const Spacer(),
                                 MessIcon(
                                   isOpen
                                       ? SvgIcons.chevronUp

@@ -41,7 +41,6 @@ class MobileProfileDetailsPage extends ConsumerWidget {
         showAppBarContent: false,
         showBottomLine: false,
         onPressedBack: () => context.pop(),
-        // title: 'Chats',
         actions: [
           MessIconDropdownButton<DropdownItemAction>(
             svgAsset: SvgIcons.menuVert,
@@ -51,19 +50,10 @@ class MobileProfileDetailsPage extends ConsumerWidget {
             textColorBuilder: (item) => item.textColor,
             onItemTap: (item) => item.onTap(),
             items: [
-              DropdownItemAction(
-                label: 'Search',
-                onTap: () {}, //widget.onPressedChangeAvatar,
-              ),
+              DropdownItemAction(label: 'Search', onTap: () {}),
               DropdownItemAction(label: 'Mute notifications', onTap: () {}),
-              DropdownItemAction(
-                label: 'Clear/Delete chat',
-                onTap: () {}, //widget.onPressedLogoutFromAllDevices,
-              ),
-              DropdownItemAction(
-                label: 'Block/Report user',
-                onTap: () {}, //widget.onPressedContactSupport,
-              ),
+              DropdownItemAction(label: 'Clear/Delete chat', onTap: () {}),
+              DropdownItemAction(label: 'Block/Report user', onTap: () {}),
             ],
           ),
           AppSpacing.p16.gapH,
@@ -82,7 +72,7 @@ class MobileProfileDetailsPage extends ConsumerWidget {
               children: [
                 SingleChildScrollView(
                   child: Stack(
-                    clipBehavior: Clip.none,
+                    clipBehavior: .none,
                     children: [
                       Column(
                         crossAxisAlignment: .start,
@@ -94,7 +84,7 @@ class MobileProfileDetailsPage extends ConsumerWidget {
                             child: ClipRRect(
                               child: Image.asset(
                                 'assets/images/settings_header.png',
-                                fit: BoxFit.cover,
+                                fit: .cover,
                               ),
                             ),
                           ),
@@ -111,7 +101,7 @@ class MobileProfileDetailsPage extends ConsumerWidget {
                                   ),
                                 ),
 
-                                const SizedBox(height: 4),
+                                AppSpacing.p4.gapV,
 
                                 Text(
                                   otherUserData?.phoneNumber ?? '+44656548060',
@@ -132,7 +122,7 @@ class MobileProfileDetailsPage extends ConsumerWidget {
                               spacing: 32,
                               children: [
                                 Wrap(
-                                  alignment: WrapAlignment.spaceBetween,
+                                  alignment: .spaceBetween,
                                   spacing: 32,
                                   runSpacing: 16,
                                   children: [
@@ -183,7 +173,7 @@ class MobileProfileDetailsPage extends ConsumerWidget {
                         left: 24,
                         top: 154,
                         child: Stack(
-                          clipBehavior: Clip.none,
+                          clipBehavior: .none,
                           children: [
                             UserAvatarWidget(
                               isOnline: false,
@@ -210,7 +200,7 @@ class MobileProfileDetailsPage extends ConsumerWidget {
 }
 
 Widget _action(String icon, String label) => Column(
-  mainAxisSize: MainAxisSize.min,
+  mainAxisSize: .min,
   spacing: 16,
   children: [MessIconButton(icon, isButtonFilled: true), Text(label)],
 );

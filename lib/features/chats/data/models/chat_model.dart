@@ -1,3 +1,5 @@
+enum ChatRequestStatus { pending, accepted, blocked }
+
 class ChatModel {
   final String id;
   final List<String> participantIds;
@@ -6,6 +8,8 @@ class ChatModel {
   final bool isGroup;
   final String? groupName;
   final List<String> typingUserIds;
+  final ChatRequestStatus status;
+  final String? requestedBy;
 
   ChatModel({
     required this.id,
@@ -15,6 +19,8 @@ class ChatModel {
     this.isGroup = false,
     this.groupName,
     this.typingUserIds = const [],
+    this.status = ChatRequestStatus.pending,
+    this.requestedBy,
   });
 
   factory ChatModel.fromJson(Map<String, dynamic> json) {
@@ -30,6 +36,11 @@ class ChatModel {
       typingUserIds: json['typing_user_ids'] != null
           ? List<String>.from(json['typing_user_ids'] as List)
           : const [],
+      status: ChatRequestStatus.values.firstWhere(
+        (s) => s.name == json['status'],
+        orElse: () => ChatRequestStatus.accepted,
+      ),
+      requestedBy: json['requested_by'],
     );
   }
 
@@ -42,6 +53,8 @@ class ChatModel {
       'is_group': isGroup,
       'group_name': groupName,
       'typing_user_ids': typingUserIds,
+      'status': status.name,
+      'requested_by': requestedBy,
     };
   }
 

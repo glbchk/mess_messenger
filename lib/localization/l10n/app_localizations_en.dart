@@ -54,7 +54,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get logIn => 'Log in';
 
   @override
-  String get changeLanguage => 'Change language';
+  String get changeLanguage => 'Change to Ukrainian';
+
+  @override
+  String get changeToDark => 'Dark';
+
+  @override
+  String get changeToLight => 'Light';
 
   @override
   String get signIn => 'Sign in';
@@ -110,6 +116,21 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get chatsEmptyScreenText =>
       'Your personal messages are end-to-end \nencrypted.';
+
+  @override
+  String get changeAvatar => 'Change avatar';
+
+  @override
+  String get exportAccountData => 'Export account data';
+
+  @override
+  String get terminateAllActiveSessions => 'Terminate all active sessions';
+
+  @override
+  String get contactSupport => 'Contact support';
+
+  @override
+  String get logOut => 'Log out';
 
   @override
   String get general => 'General';
@@ -173,6 +194,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get phoneNumberHint => 'Input phone number...';
+
+  @override
+  String get changePassword => 'Change password';
+
+  @override
+  String get deleteAccount => 'Delete account';
 
   @override
   String get personalisation => 'Personalisation';
@@ -268,6 +295,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get importantNotifications => 'Important notifications';
 
   @override
+  String get importantNotificationsDescription =>
+      'We may still send you important notifications about your account.';
+
+  @override
   String get dismiss => 'Dismiss';
 
   @override
@@ -329,9 +360,111 @@ class AppLocalizationsEn extends AppLocalizations {
   String get passwordRequired => 'Please enter your password.';
 
   @override
-  String get somethingWentWrong => 'Something went wrong. Please try again.';
+  String get invalidEmail =>
+      'That email doesn\'t look right. Please try again.';
+
+  @override
+  String get accountExistsWithDifferentCredential =>
+      'An account already exists with the same email address.';
+
+  @override
+  String get accountNotFound => 'That account doesn\'t exist.';
 
   @override
   String get sessionRevoked =>
-      'User token has been revoked. Please sign in again.';
+      'Your token has been revoked. Please sign in again.';
+
+  @override
+  String get somethingWentWrong => 'Something went wrong. Please try again.';
+
+  @override
+  String get viewProfile => 'View profile';
+
+  @override
+  String get fullScreenChat => 'Full screen chat';
+
+  @override
+  String get showChats => 'Show chats';
+
+  @override
+  String get search => 'Search';
+
+  @override
+  String get muteNotifications => 'Mute notifications';
+
+  @override
+  String get clearChat => 'Clear chat history';
+
+  @override
+  String get blockUser => 'Block user';
+
+  @override
+  String get call => 'Call';
+
+  @override
+  String get more => 'More';
+
+  @override
+  String get savedMessages => 'Saved messages';
+
+  @override
+  String get showMore => 'Show more';
+
+  @override
+  String get justNow => 'Just now';
+
+  @override
+  String get today => 'Today';
+
+  @override
+  String get monday => 'Monday';
+
+  @override
+  String get tuesday => 'Tuesday';
+
+  @override
+  String get wednesday => 'Wednesday';
+
+  @override
+  String get thursday => 'Thursday';
+
+  @override
+  String get friday => 'Friday';
+
+  @override
+  String get saturday => 'Saturday';
+
+  @override
+  String get sunday => 'Sunday';
+
+  @override
+  String get collapse => 'Collapse';
+
+  @override
+  String get support => 'Support';
+
+  @override
+  String get showDetails => 'Show details';
+
+  @override
+  String get searchFieldHint => 'Type a command or search here...';
+
+  @override
+  String get yourPersonalContacts =>
+      'Your personal contacts are end-to-end encrypted';
+
+  @override
+  String get overview => 'Overview';
+
+  @override
+  String get media => 'Media';
+
+  @override
+  String get links => 'Links';
+
+  @override
+  String get files => 'Files';
+
+  @override
+  String get message => 'Message';
 }

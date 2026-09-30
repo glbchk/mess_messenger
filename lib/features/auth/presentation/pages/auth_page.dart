@@ -4,16 +4,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/utils/layouts/responsive_layout_wrapper.dart';
 import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
-import 'package:mess_messenger_app/features/auth/presentation/pages/layouts/auth_desktop_layout.dart';
 import 'package:mess_messenger_app/features/auth/presentation/pages/layouts/auth_mobile_layout.dart';
-import 'package:mess_messenger_app/features/auth/presentation/pages/layouts/auth_tablet_layout.dart';
+import 'package:mess_messenger_app/features/auth/presentation/pages/layouts/auth_tablet_and_desktop_layout.dart';
 import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.dart';
 import 'package:mess_messenger_app/features/auth/presentation/widgets/sign_in_form_widget.dart';
 import 'package:mess_messenger_app/features/auth/presentation/widgets/sign_up_form_widget.dart';
-import 'package:mess_messenger_app/core/providers/ui_providers/textfield_provider.dart';
+import 'package:mess_messenger_app/localization/errors/auth_failure_l10n.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class AuthPage extends ConsumerStatefulWidget {
   const AuthPage({super.key});
+  //TODO: NEED TO HANDLE SERVER ERRORS THAT FIREBASE
+  // CAN RETURN IN AUTHENTICATION STAGE
 
   @override
   ConsumerState<AuthPage> createState() => _AuthPageState();
@@ -26,13 +28,11 @@ class _AuthPageState extends ConsumerState<AuthPage> {
   bool _showPassword = false;
 
   void _handleFormSubmit() {
-    // Read the current state once when the button/Enter key is pressed
     final authState = ref.read(authNotifierProvider);
 
     final isRegisterMode = authState.isRegisterMode;
 
     if (isRegisterMode) {
-      // Trigger Sign Up Notifier Method
       ref
           .read(authNotifierProvider.notifier)
           .signUp(
@@ -45,8 +45,6 @@ class _AuthPageState extends ConsumerState<AuthPage> {
         AuthUnauthenticated(:final rememberMe) => rememberMe,
         _ => true,
       };
-
-      // Trigger Sign In Notifier Method
       ref
           .read(authNotifierProvider.notifier)
           .signInWithEmail(
@@ -82,12 +80,14 @@ class _AuthPageState extends ConsumerState<AuthPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final bp = ResponsiveBreakpoints.of(context);
+    final formMaxWidth = (bp.screenWidth * 0.4).clamp(320.0, 480.0);
 
     ref.listen<AuthState>(authNotifierProvider, (previous, next) {
-      if (next is AuthUnauthenticated && next.errorMessage != null) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(next.errorMessage!)));
+      if (next is AuthUnauthenticated && next.failure != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(next.failure?.message(l10n) ?? '')),
+        );
         ref.read(authNotifierProvider.notifier).clearErrorMessage();
       }
       if (next is AuthUnauthenticated && next.successMessage != null) {
@@ -141,8 +141,6 @@ class _AuthPageState extends ConsumerState<AuthPage> {
       passwordController: _passwordController,
       isRegisterMode: isRegisterMode,
       isLoading: isLoading,
-      emailError: unauthState?.emailError,
-      passwordError: unauthState?.passwordError,
       showPassword: _showPassword,
       onToggleIconShowPassword: () =>
           setState(() => _showPassword = !_showPassword),
@@ -169,8 +167,6 @@ class _AuthPageState extends ConsumerState<AuthPage> {
       passwordController: _passwordController,
       isRegisterMode: isRegisterMode,
       isLoading: isLoading,
-      emailError: unauthState?.emailError,
-      passwordError: unauthState?.passwordError,
       showPassword: _showPassword,
       onToggleIconShowPassword: () =>
           setState(() => _showPassword = !_showPassword),
@@ -216,10 +212,12 @@ class _AuthPageState extends ConsumerState<AuthPage> {
             ref.read(authNotifierProvider.notifier).logout();
           },
         ),
-        tablet: AuthTabletLayout(
+        tablet: AuthTabletAndDesktopLayout(
+          formMaxWidth: formMaxWidth,
           formContent: isRegisterMode ? signUpForm : signInForm,
         ),
-        desktop: AuthDesktopLayout(
+        desktop: AuthTabletAndDesktopLayout(
+          formMaxWidth: formMaxWidth,
           formContent: isRegisterMode ? signUpForm : signInForm,
         ),
       ),

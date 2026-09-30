@@ -31,7 +31,7 @@ class _ConfirmEmailPageState extends ConsumerState<ConfirmEmailPage>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      _check(); // came back from their mail app — check immediately
+      _check();
     }
   }
 

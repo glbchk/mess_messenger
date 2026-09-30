@@ -1,7 +1,9 @@
 import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/material.dart';
+import 'package:mess_messenger_app/core/constants/app_images.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
+import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon_button.dart';
 import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
@@ -60,10 +62,10 @@ class ProfileHeaderDelegate extends SliverPersistentHeaderDelegate {
     )!;
 
     return Stack(
-      clipBehavior: Clip.none,
+      clipBehavior: .none,
       children: [
         Stack(
-          clipBehavior: Clip.none,
+          clipBehavior: .none,
           children: [
             Positioned(
               top: 0,
@@ -74,10 +76,7 @@ class ProfileHeaderDelegate extends SliverPersistentHeaderDelegate {
                 ignoring: expandedTextOpacity == 0,
                 child: Opacity(
                   opacity: expandedTextOpacity,
-                  child: Image.asset(
-                    'assets/images/settings_header.png',
-                    fit: BoxFit.cover,
-                  ),
+                  child: Image.asset(AppImages.settingsHeader, fit: .cover),
                 ),
               ),
             ),
@@ -90,7 +89,7 @@ class ProfileHeaderDelegate extends SliverPersistentHeaderDelegate {
                   opacity: expandedTextOpacity,
                   child: Column(
                     crossAxisAlignment: .start,
-                    mainAxisSize: MainAxisSize.min,
+                    mainAxisSize: .min,
                     children: [
                       Text(
                         userData.name ?? 'Sylvia Reyes',
@@ -98,7 +97,7 @@ class ProfileHeaderDelegate extends SliverPersistentHeaderDelegate {
                           color: colors.text1,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      AppSpacing.p4.gapV,
                       Text(
                         userData.phoneNumber ?? '+44656548060',
                         style: textTheme.headlineMedium?.copyWith(
@@ -126,7 +125,7 @@ class ProfileHeaderDelegate extends SliverPersistentHeaderDelegate {
                       borderWidth: 0,
                       onPressed: onBack,
                     ),
-                    const SizedBox(width: 12),
+                    AppSpacing.p12.gapV,
                     SizedBox(width: _collapsedAvatarRadius * 2 + 10),
                     Expanded(
                       child: IgnorePointer(
@@ -135,18 +134,18 @@ class ProfileHeaderDelegate extends SliverPersistentHeaderDelegate {
                           opacity: collapsedTextOpacity,
                           child: Column(
                             crossAxisAlignment: .start,
-                            mainAxisSize: MainAxisSize.min,
+                            mainAxisSize: .min,
                             children: [
                               Text(
                                 userData.name ?? 'Sylvia Reyes',
-                                overflow: TextOverflow.ellipsis,
+                                overflow: .ellipsis,
                                 style: textTheme.titleMedium?.copyWith(
                                   color: colors.text1,
                                 ),
                               ),
                               Text(
                                 userData.phoneNumber ?? '+44656548060',
-                                overflow: TextOverflow.ellipsis,
+                                overflow: .ellipsis,
                                 style: textTheme.bodySmall?.copyWith(
                                   color: colors.text2,
                                 ),
@@ -166,7 +165,7 @@ class ProfileHeaderDelegate extends SliverPersistentHeaderDelegate {
               left: avatarLeft,
               top: avatarTop,
               child: Stack(
-                clipBehavior: Clip.none,
+                clipBehavior: .none,
                 children: [
                   UserAvatarWidget(
                     userName: userData.name ?? 'Sylvia Reyes',

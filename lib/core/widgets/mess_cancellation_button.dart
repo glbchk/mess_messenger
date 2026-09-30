@@ -54,15 +54,13 @@ class MessCancellationButton extends StatelessWidget {
       child: FilledButton(
         onPressed: onPressed,
         style: ButtonStyle(
-          // 💡 1. Dynamically swap background color with 0% default transparency
           backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
             if (states.contains(WidgetState.hovered) && hoverColor != null) {
-              return hoverColor!; // Exact hover color you passed in
+              return hoverColor!;
             }
-            return backgroundColor ?? colors.bg; // Default state
+            return backgroundColor ?? colors.bg;
           }),
 
-          // 💡 2. Turn off Material's automatic 8% tint layer completely
           overlayColor: WidgetStatePropertyAll(colors.surface2),
 
           shape: WidgetStatePropertyAll(
@@ -70,10 +68,10 @@ class MessCancellationButton extends StatelessWidget {
           ),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: .center,
           children: [
             prefixIconPath != null
-                ? MessIcon(prefixIconPath ?? '', size: prefixIconSize ?? 0)
+                ? MessIcon(prefixIconPath ?? '', size: prefixIconSize ?? 24)
                 : SpacingModifier.empty(),
             prefixIconPath != null
                 ? AppSpacing.p8.gapH
@@ -85,13 +83,13 @@ class MessCancellationButton extends StatelessWidget {
                   textTheme.labelLarge?.copyWith(
                     color: textColor ?? colors.errorColor,
                   ),
-              textAlign: TextAlign.center,
+              textAlign: .center,
             ),
             suffixIconPath != null
                 ? AppSpacing.p8.gapH
                 : SpacingModifier.empty(),
             suffixIconPath != null
-                ? MessIcon(suffixIconPath ?? '', size: suffixIconSize ?? 0)
+                ? MessIcon(suffixIconPath ?? '', size: suffixIconSize ?? 24)
                 : SpacingModifier.empty(),
           ],
         ),

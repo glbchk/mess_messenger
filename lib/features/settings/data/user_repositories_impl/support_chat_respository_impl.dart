@@ -1,5 +1,5 @@
 import 'package:mess_messenger_app/features/chats/data/models/message_model.dart';
-import 'package:mess_messenger_app/features/settings/data/data_source/support_chat_remote_data_source.dart';
+import 'package:mess_messenger_app/features/settings/data/data_sources/support_chat_remote_data_source.dart';
 import 'package:mess_messenger_app/features/settings/data/models/support_chat_model.dart';
 import 'package:mess_messenger_app/features/settings/domain/user_repositories/support_chat_repository.dart';
 

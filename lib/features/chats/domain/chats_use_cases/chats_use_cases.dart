@@ -12,8 +12,8 @@ abstract class ChatsUserUseCase {
 class GetOrCreateChatUseCase extends ChatsUserUseCase {
   GetOrCreateChatUseCase(super.chatsRepository);
 
-  Future<String> execute(String userA, String userB) {
-    return chatsRepository.getOrCreateChat(userA, userB);
+  Future<String> execute(String userA, String userB, String requestedBy) {
+    return chatsRepository.getOrCreateChat(userA, userB, requestedBy);
   }
 }
 
@@ -46,5 +46,13 @@ class WatchUserUseCase extends ChatsUserUseCase {
 
   Stream<UserModel> execute(String userId) {
     return chatsRepository.watchUser(userId);
+  }
+}
+
+class UpdateChatStatusUseCase extends ChatsUserUseCase {
+  UpdateChatStatusUseCase(super.chatsRepository);
+
+  Future<void> execute(String chatId, ChatRequestStatus status) {
+    return chatsRepository.updateChatStatus(chatId, status);
   }
 }

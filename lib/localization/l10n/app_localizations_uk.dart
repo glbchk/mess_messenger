@@ -54,7 +54,13 @@ class AppLocalizationsUk extends AppLocalizations {
   String get logIn => 'Увійти';
 
   @override
-  String get changeLanguage => 'Змінити мову';
+  String get changeLanguage => 'Змінити на Англійську';
+
+  @override
+  String get changeToDark => 'Темна';
+
+  @override
+  String get changeToLight => 'Світла';
 
   @override
   String get signIn => 'Увійти';
@@ -111,6 +117,21 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get chatsEmptyScreenText =>
       'Твої особисті повідомлення зашифровані \nвід початку до кінця.';
+
+  @override
+  String get changeAvatar => 'Змінити аватар';
+
+  @override
+  String get exportAccountData => 'Експортувати дані аккаунта';
+
+  @override
+  String get terminateAllActiveSessions => 'Закінчити всі активні сесії';
+
+  @override
+  String get contactSupport => 'Звʼязатися з підтримкою';
+
+  @override
+  String get logOut => 'Вийти';
 
   @override
   String get general => 'Загальні';
@@ -174,6 +195,12 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get phoneNumberHint => 'Ввести номер телефону...';
+
+  @override
+  String get changePassword => 'Змінити пароль';
+
+  @override
+  String get deleteAccount => 'Видалити аккаунт';
 
   @override
   String get personalisation => 'Персоналізація';
@@ -269,6 +296,10 @@ class AppLocalizationsUk extends AppLocalizations {
   String get importantNotifications => 'Важливі сповіщення';
 
   @override
+  String get importantNotificationsDescription =>
+      'Ми все ще можемо надсилати вам важливі сповіщення щодо вашого облікового запису.';
+
+  @override
   String get dismiss => 'Відхилити';
 
   @override
@@ -330,9 +361,111 @@ class AppLocalizationsUk extends AppLocalizations {
   String get passwordRequired => 'Будь ласка, введіть свій пароль.';
 
   @override
-  String get somethingWentWrong => 'Щось пішло не так. Спробуйте ще раз.';
+  String get invalidEmail =>
+      'Ця електронна адреса виглядає некоректною. Спробуйте ще раз.';
+
+  @override
+  String get accountExistsWithDifferentCredential =>
+      'Обліковий запис із цією електронною адресою вже існує.';
+
+  @override
+  String get accountNotFound => 'Цього облікового запису не існує.';
 
   @override
   String get sessionRevoked =>
       'Ваш токен скасовано. Будь ласка, виконайте вхід ще раз.';
+
+  @override
+  String get somethingWentWrong => 'Щось пішло не так. Спробуйте ще раз.';
+
+  @override
+  String get viewProfile => 'Показати профіль';
+
+  @override
+  String get fullScreenChat => 'На весь екран';
+
+  @override
+  String get showChats => 'Показати чати';
+
+  @override
+  String get search => 'Пошук';
+
+  @override
+  String get muteNotifications => 'Вимкнути сповіщення';
+
+  @override
+  String get clearChat => 'Очистити історію чату';
+
+  @override
+  String get blockUser => 'Блокування користувача';
+
+  @override
+  String get call => 'Дзвонити';
+
+  @override
+  String get more => 'Більше';
+
+  @override
+  String get savedMessages => 'Збережені повідомлення';
+
+  @override
+  String get showMore => 'Показати більше';
+
+  @override
+  String get justNow => 'Зараз';
+
+  @override
+  String get today => 'Сьогодні';
+
+  @override
+  String get monday => 'Понеділок';
+
+  @override
+  String get tuesday => 'Вівторок';
+
+  @override
+  String get wednesday => 'Середа';
+
+  @override
+  String get thursday => 'Четверг';
+
+  @override
+  String get friday => 'Пʼятниця';
+
+  @override
+  String get saturday => 'Субота';
+
+  @override
+  String get sunday => 'Неділя';
+
+  @override
+  String get collapse => 'Згорнути';
+
+  @override
+  String get support => 'Підтримка';
+
+  @override
+  String get showDetails => 'Показати деталі';
+
+  @override
+  String get searchFieldHint => 'Введіть команду або здійсніть пошук тут...';
+
+  @override
+  String get yourPersonalContacts =>
+      'Ваші особисті контакти зашифровані від початку до кінця';
+
+  @override
+  String get overview => 'Огляд';
+
+  @override
+  String get media => 'Медіа';
+
+  @override
+  String get links => 'Посилання';
+
+  @override
+  String get files => 'Файли';
+
+  @override
+  String get message => 'Повідомлення';
 }

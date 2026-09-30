@@ -1,41 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
+import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
-import 'package:mess_messenger_app/core/widgets/header_widget.dart';
-import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
 import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/web_side_menu.dart';
+import 'package:mess_messenger_app/features/chats/chats_providers/chats_provider.dart';
 import 'package:mess_messenger_app/features/chats/data/models/chat_model.dart';
-import 'package:mess_messenger_app/features/chats/presentation/widgets/chat_tile_widget.dart';
-import 'package:mess_messenger_app/features/chats/presentation/widgets/chats_header_section_widget.dart';
-import 'package:mess_messenger_app/features/chats/presentation/widgets/opened_selected_chat_widget.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/chat/header_widget.dart';
+import 'package:mess_messenger_app/features/chats/presentation/widgets/reusable/empty_screen.dart';
+import 'package:mess_messenger_app/features/contacts/presentation/contacts_providers/contacts_providers.dart';
+import 'package:mess_messenger_app/features/contacts/presentation/pages/contact_details_panel_widget.dart';
+import 'package:mess_messenger_app/features/contacts/presentation/pages/contacts_leter_list_widget.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
-import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
+import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class ContactsDesktopLayout extends ConsumerWidget {
-  final String pageTitle;
-  final UserModel userData;
-  final List<ChatModel> chats;
-  final String selectedChatId;
   final VoidCallback onPressed;
-  final void Function(String chatId) onChatSelected;
-  final TextEditingController messageController;
-  final VoidCallback onSendMessage;
 
-  const ContactsDesktopLayout({
-    super.key,
-    required this.pageTitle,
-    required this.userData,
-    required this.chats,
-    required this.selectedChatId,
-    required this.onPressed,
-    required this.onChatSelected,
-    required this.messageController,
-    required this.onSendMessage,
-  });
+  const ContactsDesktopLayout({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -47,16 +32,27 @@ class ContactsDesktopLayout extends ConsumerWidget {
         ? bp.screenWidth * 0.25
         : bp.screenWidth * 0.35;
 
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
 
-    final directChats = chats.where((c) => !c.isGroup).toList();
-    final groupChats = chats.where((c) => c.isGroup).toList();
+    final userData =
+        ref.watch(userNotifierProvider).userData ?? UserModel(id: '');
+
+    final chats = ref.watch(userChatsNotifierProvider).chats;
+    final myId = userData.id;
+
+    final contactChats = chats
+        .where((c) => !c.isGroup && c.status == ChatRequestStatus.accepted)
+        .toList();
+
+    final selectedContactId = ref.watch(
+      contactsNotifierProvider.select((s) => s.selectedContactId),
+    );
 
     return Scaffold(
       body: Row(
         crossAxisAlignment: .stretch,
         children: [
-          WebSideMenu(userData: userData),
+          WebSideMenu(),
 
           Container(
             width: sectionWidth,
@@ -71,7 +67,7 @@ class ContactsDesktopLayout extends ConsumerWidget {
               child: Column(
                 children: [
                   HeaderWidget(
-                    title: l10n.chats,
+                    title: l10n.contacts,
                     iconPath: SvgIcons.add,
                     onPressed: () {}, //onPressed,
                   ),
@@ -84,96 +80,17 @@ class ContactsDesktopLayout extends ConsumerWidget {
                   AppSpacing.p12.gapV,
 
                   Expanded(
-                    child: chats.isNotEmpty
-                        ? SingleChildScrollView(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 22.0,
-                              ),
-                              child: Column(
-                                children: [
-                                  //Groups
-                                  ChatsHeaderSectionWidget(
-                                    sectionTitle: l10n.groups,
-                                    onPressed: () {},
-                                  ),
-                                  for (final groupChat in groupChats)
-                                    ChatTileWidget(
-                                      iconPath: SvgIcons.folders,
-                                      chatId: groupChat.id,
-                                      title:
-                                          'In future should be group messages!', //groupChat.id.substring(0, 12),
-                                      subtitle: groupChat.lastMessage,
-                                      onPressed: () {},
-                                    ),
-
-                                  //Chats
-                                  ChatsHeaderSectionWidget(
-                                    sectionTitle: l10n.chats,
-                                    onPressed: () {},
-                                  ),
-                                  for (final directChat in directChats)
-                                    ChatTileWidget(
-                                      iconPath: SvgIcons.folders,
-                                      chatId: directChat.id,
-                                      title: directChat.id.substring(0, 12),
-                                      subtitle: directChat.lastMessage,
-                                      onPressed: () =>
-                                          onChatSelected(directChat.id),
-                                    ),
-                                ],
-                              ),
-                            ),
-                          )
-                        : Center(
-                            child: LayoutBuilder(
-                              builder: (context, constraints) {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 22.0,
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        'assets/images/empty_screen_logo.png',
-                                        width: 300,
-                                        height: 300,
-                                      ),
-                                      AppSpacing.p20.gapV,
-                                      Text(
-                                        l10n.messenger,
-                                        style: textTheme.headlineLarge
-                                            ?.copyWith(color: colors.text1),
-                                      ),
-                                      AppSpacing.p8.gapV,
-                                      Text(
-                                        l10n.chatsEmptyScreenText,
-                                        style: textTheme.bodyLarge?.copyWith(
-                                          color: colors.text2,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      if (chats.isEmpty)
-                                        MessMainButton(
-                                          width: constraints.maxWidth * 0.3,
-                                          label: 'Start Chat',
-                                          onPressed: () {
-                                            //TODO: Need to open Pop up search window
-                                            // Navigator.push(
-                                            //   context,
-                                            //   MaterialPageRoute(
-                                            //       builder: (_) =>
-                                            //           OpenChatPage()),
-                                            // );
-                                          },
-                                        ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
+                    child: ContactsLetterList(
+                      chats: contactChats,
+                      myId: myId,
+                      onContactTap: (chat) {
+                        final peerId = chat.peerId(myId);
+                        if (peerId == null) return;
+                        ref
+                            .read(contactsNotifierProvider.notifier)
+                            .openContactDetails(peerId, isMobile: bp.isMobile);
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -181,52 +98,12 @@ class ContactsDesktopLayout extends ConsumerWidget {
           ),
 
           Expanded(
-            child: selectedChatId == ''
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/empty_screen_logo.png',
-                        width: 300,
-                        height: 300,
-                      ),
-                      AppSpacing.p20.gapV,
-                      Text(
-                        l10n.messenger,
-                        style: textTheme.headlineLarge?.copyWith(
-                          color: colors.text1,
-                        ),
-                      ),
-                      AppSpacing.p8.gapV,
-                      Text(
-                        l10n.chatsEmptyScreenText,
-                        style: textTheme.bodyLarge?.copyWith(
-                          color: colors.text2,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
+            child: selectedContactId == null
+                ? EmptyScreenWidget(
+                    title: l10n.messenger,
+                    subtitle: l10n.yourPersonalContacts,
                   )
-                : Container(
-                    margin: const EdgeInsets.only(
-                      top: 20,
-                      right: 20,
-                      bottom: 20,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
-                      color: colors.bg,
-                    ),
-                    child: OpenedSelectedChatWidget(
-                      chatId: selectedChatId,
-                      userData: userData,
-                      controller: messageController,
-                      onPressedAttachment: () {},
-                      onPressedEmoji: () {},
-                      onPressedTextNewLine: () {},
-                      onPressedSend: onSendMessage,
-                    ),
-                  ),
+                : ContactDetailsPanelWidget(contactUserId: selectedContactId),
           ),
         ],
       ),

@@ -5,6 +5,7 @@ import 'package:mess_messenger_app/core/utils/colors/app_palette.dart';
 class AppColors extends ThemeExtension<AppColors> {
   final Color surface0;
   final Color surface2;
+  final Color surfaceAccent2;
   final Color surface3;
   final Color surface4;
   final Color text1;
@@ -18,6 +19,7 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color buttonPrimary;
   final Color link;
   final Color border2;
+  final Color border3;
   final Color bg;
   final Color transparent;
   final Color iconContrast;
@@ -30,6 +32,7 @@ class AppColors extends ThemeExtension<AppColors> {
   const AppColors({
     required this.surface0,
     required this.surface2,
+    required this.surfaceAccent2,
     required this.surface3,
     required this.surface4,
     required this.text1,
@@ -43,6 +46,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.buttonPrimary,
     required this.link,
     required this.border2,
+    required this.border3,
     required this.bg,
     required this.transparent,
     required this.iconContrast,
@@ -57,6 +61,7 @@ class AppColors extends ThemeExtension<AppColors> {
   factory AppColors.light() => const AppColors(
     surface0: AppPalette.surface0Light,
     surface2: AppPalette.surface2Light,
+    surfaceAccent2: AppPalette.surfaceAccent2Light,
     surface3: AppPalette.surface3Light,
     surface4: AppPalette.surface4Light,
     text1: AppPalette.text1Light,
@@ -70,6 +75,7 @@ class AppColors extends ThemeExtension<AppColors> {
     buttonPrimary: AppPalette.buttonPrimaryLight,
     link: AppPalette.linkLight,
     border2: AppPalette.border2Light,
+    border3: AppPalette.border3Light,
     bg: AppPalette.bgLight,
     transparent: AppPalette.transparentLight,
     iconContrast: AppPalette.iconContrastLight,
@@ -84,6 +90,7 @@ class AppColors extends ThemeExtension<AppColors> {
   factory AppColors.dark() => const AppColors(
     surface0: AppPalette.surface0Dark,
     surface2: AppPalette.surface2Dark,
+    surfaceAccent2: AppPalette.surfaceAccent2Dark,
     surface3: AppPalette.surface3Dark,
     surface4: AppPalette.surface4Dark,
     text1: AppPalette.text1Dark,
@@ -97,6 +104,7 @@ class AppColors extends ThemeExtension<AppColors> {
     buttonPrimary: AppPalette.buttonPrimaryDark,
     link: AppPalette.linkDark,
     border2: AppPalette.border2Dark,
+    border3: AppPalette.border3Dark,
     bg: AppPalette.bgDark,
     transparent: AppPalette.transparentDark,
     iconContrast: AppPalette.iconContrastDark,
@@ -110,6 +118,7 @@ class AppColors extends ThemeExtension<AppColors> {
   AppColors copyWith({
     Color? surface0,
     Color? surface2,
+    Color? surfaceAccent2,
     Color? surface3,
     Color? surface4,
     Color? text1,
@@ -123,6 +132,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? buttonPrimary,
     Color? link,
     Color? border2,
+    Color? border3,
     Color? bg,
     Color? transparent,
     Color? iconContrast,
@@ -135,6 +145,7 @@ class AppColors extends ThemeExtension<AppColors> {
     return AppColors(
       surface0: surface0 ?? this.surface0,
       surface2: surface2 ?? this.surface2,
+      surfaceAccent2: surfaceAccent2 ?? this.surfaceAccent2,
       surface3: surface3 ?? this.surface3,
       surface4: surface4 ?? this.surface4,
       text1: text1 ?? this.text1,
@@ -148,6 +159,7 @@ class AppColors extends ThemeExtension<AppColors> {
       buttonPrimary: buttonPrimary ?? this.buttonPrimary,
       link: link ?? this.link,
       border2: border2 ?? this.border2,
+      border3: border3 ?? this.border3,
       bg: bg ?? this.bg,
       transparent: transparent ?? this.transparent,
       iconContrast: iconContrast ?? this.iconContrast,
@@ -165,6 +177,7 @@ class AppColors extends ThemeExtension<AppColors> {
     return AppColors(
       surface0: Color.lerp(surface0, other.surface0, t)!,
       surface2: Color.lerp(surface2, other.surface2, t)!,
+      surfaceAccent2: Color.lerp(surfaceAccent2, other.surfaceAccent2, t)!,
       surface3: Color.lerp(surface3, other.surface3, t)!,
       surface4: Color.lerp(surface4, other.surface4, t)!,
       text1: Color.lerp(text1, other.text1, t)!,
@@ -178,6 +191,7 @@ class AppColors extends ThemeExtension<AppColors> {
       buttonPrimary: Color.lerp(buttonPrimary, other.buttonPrimary, t)!,
       link: Color.lerp(link, other.link, t)!,
       border2: Color.lerp(border2, other.border2, t)!,
+      border3: Color.lerp(border3, other.border3, t)!,
       bg: Color.lerp(bg, other.bg, t)!,
       transparent: Color.lerp(transparent, other.transparent, t)!,
       iconContrast: Color.lerp(iconContrast, other.iconContrast, t)!,

@@ -4,7 +4,7 @@ import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon_button.dart';
 import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
-import 'package:mess_messenger_app/features/settings/presentation/widgets/settings_widgets/tag_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/widgets/reusable/tag_widget.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class SupportRequest {
@@ -53,9 +53,7 @@ class DetailsContentWidget extends StatelessWidget {
     final textTheme = context.textStyles;
 
     return Container(
-      // height: 112,
       decoration: BoxDecoration(
-        // color: Colors.red, //colors.transparent,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
 
@@ -126,7 +124,7 @@ class DetailsContentWidget extends StatelessWidget {
                   spacing: 8,
                   children: [
                     UserAvatarWidget(
-                      userName: userData?.name ?? 'Joe Doe', //'Joe Doe',
+                      userName: userData?.name ?? 'Joe Doe',
                       photoPath:
                           userData?.avatarUrl ??
                           'assets/images/user_images/avatar_image.png',

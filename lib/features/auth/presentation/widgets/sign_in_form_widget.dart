@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
+import 'package:mess_messenger_app/core/constants/textfields_ids.dart';
+import 'package:mess_messenger_app/core/providers/ui_providers/textfield_provider.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
 import 'package:mess_messenger_app/core/widgets/mess_password_field.dart';
 import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
+import 'package:mess_messenger_app/features/auth/presentation/pages/controllers/auth_controller.dart';
 import 'package:mess_messenger_app/localization/l10n/app_localizations.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
-class SignInFormWidget extends StatelessWidget {
+class SignInFormWidget extends ConsumerWidget {
   final AppLocalizations l10n;
   final TextEditingController emailController;
   final TextEditingController passwordController;
@@ -45,9 +49,16 @@ class SignInFormWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colors;
     final textTheme = context.textStyles;
+
+    final emailSignInStatus = ref.watch(
+      textfieldStatusProvider(TextfieldIds.signInEmail),
+    );
+    final passwordSignInStatus = ref.watch(
+      textfieldStatusProvider(TextfieldIds.signInPassword),
+    );
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -74,7 +85,10 @@ class SignInFormWidget extends StatelessWidget {
           controller: emailController,
           label: l10n.emailLabel,
           hint: l10n.emailHint,
-          error: emailError,
+          error: emailSignInStatus.message,
+          onChanged: (value) => ref
+              .read(authFormControllerProvider)
+              .onEmailChanged(value ?? '', TextfieldIds.signInEmail),
         ),
         AppSpacing.p16.gapV,
         MessPasswordField(
@@ -82,8 +96,11 @@ class SignInFormWidget extends StatelessWidget {
           showPassword: showPassword,
           label: l10n.passwordLabel,
           hint: l10n.passwordHint,
-          error: passwordError, //TODO: Replace with real error
+          error: passwordSignInStatus.message,
           onSuffixIconTap: onToggleIconShowPassword,
+          onChanged: (value) => ref
+              .read(authFormControllerProvider)
+              .onPasswordChanged(value ?? '', TextfieldIds.signInPassword),
         ),
         AppSpacing.p24.gapV,
         Row(

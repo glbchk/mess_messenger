@@ -58,7 +58,7 @@ class MessPasswordField extends StatelessWidget {
 
     final borderStyle = OutlineInputBorder(
       borderRadius: BorderRadius.circular(16),
-      borderSide: BorderSide.none,
+      borderSide: .none,
     );
 
     return Column(
@@ -84,7 +84,7 @@ class MessPasswordField extends StatelessWidget {
               focusNode: focusNode,
               autofocus: autofocus ?? false,
               maxLines: 1,
-              textAlignVertical: TextAlignVertical.center,
+              textAlignVertical: .center,
               obscureText: showPassword == true ? false : true,
               enableSuggestions: false,
               autocorrect: false,
@@ -95,7 +95,7 @@ class MessPasswordField extends StatelessWidget {
               style: textTheme.bodyMedium?.copyWith(
                 color: colors.textPlaceHolder,
               ),
-              textCapitalization: textCapitalization ?? TextCapitalization.none,
+              textCapitalization: textCapitalization ?? .none,
               onTapUpOutside: (event) {
                 FocusManager.instance.primaryFocus?.unfocus();
               },
@@ -103,7 +103,7 @@ class MessPasswordField extends StatelessWidget {
               onChanged: (String value) => onChanged?.call(value),
               decoration: InputDecoration(
                 hintText: hint,
-                prefix: prefixIcon != null ? const SizedBox(width: 8) : null,
+                prefix: prefixIcon != null ? AppSpacing.p8.gapH : null,
                 hintStyle: textTheme.bodyMedium?.copyWith(
                   color: colors.textHint,
                 ),
@@ -154,7 +154,7 @@ class MessPasswordField extends StatelessWidget {
             padding: const EdgeInsets.only(top: 4),
             child: Text(
               error ?? '',
-              style: textTheme.bodySmall?.copyWith(color: colors.textHint),
+              style: textTheme.bodySmall?.copyWith(color: colors.errorColor),
             ),
           ),
       ],

@@ -191,8 +191,20 @@ abstract class AppLocalizations {
   /// No description provided for @changeLanguage.
   ///
   /// In en, this message translates to:
-  /// **'Change language'**
+  /// **'Change to Ukrainian'**
   String get changeLanguage;
+
+  /// No description provided for @changeToDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get changeToDark;
+
+  /// No description provided for @changeToLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get changeToLight;
 
   /// No description provided for @signIn.
   ///
@@ -301,6 +313,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your personal messages are end-to-end \nencrypted.'**
   String get chatsEmptyScreenText;
+
+  /// No description provided for @changeAvatar.
+  ///
+  /// In en, this message translates to:
+  /// **'Change avatar'**
+  String get changeAvatar;
+
+  /// No description provided for @exportAccountData.
+  ///
+  /// In en, this message translates to:
+  /// **'Export account data'**
+  String get exportAccountData;
+
+  /// No description provided for @terminateAllActiveSessions.
+  ///
+  /// In en, this message translates to:
+  /// **'Terminate all active sessions'**
+  String get terminateAllActiveSessions;
+
+  /// No description provided for @contactSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact support'**
+  String get contactSupport;
+
+  /// No description provided for @logOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get logOut;
 
   /// No description provided for @general.
   ///
@@ -427,6 +469,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Input phone number...'**
   String get phoneNumberHint;
+
+  /// No description provided for @changePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Change password'**
+  String get changePassword;
+
+  /// No description provided for @deleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get deleteAccount;
 
   /// No description provided for @personalisation.
   ///
@@ -608,6 +662,12 @@ abstract class AppLocalizations {
   /// **'Important notifications'**
   String get importantNotifications;
 
+  /// No description provided for @importantNotificationsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'We may still send you important notifications about your account.'**
+  String get importantNotificationsDescription;
+
   /// No description provided for @dismiss.
   ///
   /// In en, this message translates to:
@@ -716,17 +776,215 @@ abstract class AppLocalizations {
   /// **'Please enter your password.'**
   String get passwordRequired;
 
+  /// No description provided for @invalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'That email doesn\'t look right. Please try again.'**
+  String get invalidEmail;
+
+  /// No description provided for @accountExistsWithDifferentCredential.
+  ///
+  /// In en, this message translates to:
+  /// **'An account already exists with the same email address.'**
+  String get accountExistsWithDifferentCredential;
+
+  /// No description provided for @accountNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'That account doesn\'t exist.'**
+  String get accountNotFound;
+
+  /// No description provided for @sessionRevoked.
+  ///
+  /// In en, this message translates to:
+  /// **'Your token has been revoked. Please sign in again.'**
+  String get sessionRevoked;
+
   /// No description provided for @somethingWentWrong.
   ///
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get somethingWentWrong;
 
-  /// No description provided for @sessionRevoked.
+  /// No description provided for @viewProfile.
   ///
   /// In en, this message translates to:
-  /// **'User token has been revoked. Please sign in again.'**
-  String get sessionRevoked;
+  /// **'View profile'**
+  String get viewProfile;
+
+  /// No description provided for @fullScreenChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Full screen chat'**
+  String get fullScreenChat;
+
+  /// No description provided for @showChats.
+  ///
+  /// In en, this message translates to:
+  /// **'Show chats'**
+  String get showChats;
+
+  /// No description provided for @search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get search;
+
+  /// No description provided for @muteNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute notifications'**
+  String get muteNotifications;
+
+  /// No description provided for @clearChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear chat history'**
+  String get clearChat;
+
+  /// No description provided for @blockUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Block user'**
+  String get blockUser;
+
+  /// No description provided for @call.
+  ///
+  /// In en, this message translates to:
+  /// **'Call'**
+  String get call;
+
+  /// No description provided for @more.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get more;
+
+  /// No description provided for @savedMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved messages'**
+  String get savedMessages;
+
+  /// No description provided for @showMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Show more'**
+  String get showMore;
+
+  /// No description provided for @justNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Just now'**
+  String get justNow;
+
+  /// No description provided for @today.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get today;
+
+  /// No description provided for @monday.
+  ///
+  /// In en, this message translates to:
+  /// **'Monday'**
+  String get monday;
+
+  /// No description provided for @tuesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Tuesday'**
+  String get tuesday;
+
+  /// No description provided for @wednesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Wednesday'**
+  String get wednesday;
+
+  /// No description provided for @thursday.
+  ///
+  /// In en, this message translates to:
+  /// **'Thursday'**
+  String get thursday;
+
+  /// No description provided for @friday.
+  ///
+  /// In en, this message translates to:
+  /// **'Friday'**
+  String get friday;
+
+  /// No description provided for @saturday.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday'**
+  String get saturday;
+
+  /// No description provided for @sunday.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday'**
+  String get sunday;
+
+  /// No description provided for @collapse.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse'**
+  String get collapse;
+
+  /// No description provided for @support.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get support;
+
+  /// No description provided for @showDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Show details'**
+  String get showDetails;
+
+  /// No description provided for @searchFieldHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a command or search here...'**
+  String get searchFieldHint;
+
+  /// No description provided for @yourPersonalContacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Your personal contacts are end-to-end encrypted'**
+  String get yourPersonalContacts;
+
+  /// No description provided for @overview.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get overview;
+
+  /// No description provided for @media.
+  ///
+  /// In en, this message translates to:
+  /// **'Media'**
+  String get media;
+
+  /// No description provided for @links.
+  ///
+  /// In en, this message translates to:
+  /// **'Links'**
+  String get links;
+
+  /// No description provided for @files.
+  ///
+  /// In en, this message translates to:
+  /// **'Files'**
+  String get files;
+
+  /// No description provided for @message.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get message;
 }
 
 class _AppLocalizationsDelegate

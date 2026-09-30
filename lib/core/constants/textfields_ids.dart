@@ -7,4 +7,7 @@ abstract final class TextfieldIds {
 
   static const signInEmail = 'signIn.email';
   static const signInPassword = 'signIn.password';
+  static const signUpName = 'signUp.name';
+  static const signUpEmail = 'signUp.email';
+  static const signUpPassword = 'signUp.password';
 }

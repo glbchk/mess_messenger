@@ -1,4 +1,5 @@
 import 'package:mess_messenger_app/core/enums/enums.dart';
+import 'package:mess_messenger_app/features/settings/data/models/notification_settings_model.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/features/settings/domain/entities/user_entity.dart';
 
@@ -20,9 +21,13 @@ abstract class UserRepository {
   Future<void> updateUserEmail(String newEmail, {String? currentPassword});
   Future<void> updateUserPhoneNumber(String userId, String newPhoneNumber);
   Future<void> updateThemeMode(String userId, String selectedTheme);
-  Future<void> updateBackgroundColor(String userId, int? backgroundColorIndex);
+  Future<void> updateBackgroundColor(String userId, String? backgroundColorId);
   Future<void> updateSubscriptionPlan(
     String userId,
     SubscriptionPlan selectedPlan,
+  );
+  Future<void> updateNotificationSettings(
+    String userId,
+    NotificationSettingsModel settings,
   );
 }

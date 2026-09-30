@@ -5,6 +5,4 @@ extension AppThemeExtension on BuildContext {
   AppColors get colors =>
       Theme.of(this).extension<AppColors>() ?? AppColors.light();
   TextTheme get textStyles => Theme.of(this).textTheme;
-  // SvgIcons get icons =>
-  //     Theme.of(this).extension<SvgIcons>() ?? SvgIcons.light();
 }

@@ -56,7 +56,7 @@ class MobileBottomInputBar extends StatelessWidget {
                   controller: controller,
                   decoration: const InputDecoration(
                     hintText: "Type here...",
-                    border: InputBorder.none,
+                    border: .none,
                   ),
                 ),
               ),

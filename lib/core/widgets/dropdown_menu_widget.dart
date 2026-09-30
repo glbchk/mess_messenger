@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mess_messenger_app/core/constants/svg_icons.dart';
+import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/build_dropdown_item_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/widgets/ui_helpers/build_dropdown_item_widget.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class DropdownMenuWidget extends StatefulWidget {
@@ -24,7 +25,6 @@ class DropdownMenuWidget extends StatefulWidget {
 
 class _DropdownMenuWidgetState extends State<DropdownMenuWidget> {
   final MenuController _menuController = MenuController();
-  // String _selectedLanguage = 'Default';
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class _DropdownMenuWidgetState extends State<DropdownMenuWidget> {
     final textTheme = context.textStyles;
 
     return Align(
-      alignment: Alignment.centerLeft,
+      alignment: .centerLeft,
       child: MenuAnchor(
         controller: _menuController,
         alignmentOffset: const Offset(0, 8),
@@ -51,12 +51,12 @@ class _DropdownMenuWidgetState extends State<DropdownMenuWidget> {
         ),
 
         menuChildren: [
-          for (final language in widget.values)
+          for (final value in widget.values)
             BuildDropdownItemWidget(
-              value: language,
+              value: value,
               selectedValue: widget.value,
               onPressed: () {
-                widget.onChanged(language);
+                widget.onChanged(value);
                 _menuController.close();
               },
             ),
@@ -79,7 +79,7 @@ class _DropdownMenuWidgetState extends State<DropdownMenuWidget> {
               child: Material(
                 color: colors.transparent,
                 borderRadius: BorderRadius.circular(16),
-                clipBehavior: Clip.antiAlias,
+                clipBehavior: .antiAlias,
                 child: InkWell(
                   borderRadius: BorderRadius.circular(16),
                   hoverColor: colors.surface4,
@@ -94,7 +94,7 @@ class _DropdownMenuWidgetState extends State<DropdownMenuWidget> {
                     child: Row(
                       children: [
                         MessIcon(SvgIcons.globe, color: colors.text1, size: 20),
-                        const SizedBox(width: 12),
+                        AppSpacing.p12.gapH,
                         Text(
                           widget.value,
                           style: textTheme.labelLarge?.copyWith(

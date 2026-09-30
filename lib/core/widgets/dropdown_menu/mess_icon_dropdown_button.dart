@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mess_messenger_app/core/widgets/mess_icon_button.dart';
-import 'package:mess_messenger_app/features/settings/presentation/pages/ui_helpers/build_dropdown_item_widget.dart';
+import 'package:mess_messenger_app/features/settings/presentation/widgets/ui_helpers/build_dropdown_item_widget.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class MessIconDropdownButton<T> extends StatelessWidget {
@@ -36,7 +36,7 @@ class MessIconDropdownButton<T> extends StatelessWidget {
     final colors = context.colors;
 
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: .rtl,
       child: MenuAnchor(
         alignmentOffset: const Offset(0, 8),
         style: MenuStyle(
@@ -49,7 +49,7 @@ class MessIconDropdownButton<T> extends StatelessWidget {
           shape: WidgetStatePropertyAll(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           ),
-          minimumSize: WidgetStatePropertyAll(Size.zero),
+          minimumSize: WidgetStatePropertyAll(.zero),
           maximumSize: WidgetStatePropertyAll(Size(320, 400)),
         ),
         menuChildren: [

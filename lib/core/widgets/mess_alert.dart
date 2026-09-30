@@ -2,11 +2,12 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
+import 'package:mess_messenger_app/core/widgets/mess_image_selector.dart';
 import 'package:mess_messenger_app/core/widgets/mess_main_button.dart';
 import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
-import 'package:mess_messenger_app/core/widgets/mess_image_selector.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 
 class MessAlertWidget extends ConsumerStatefulWidget {
@@ -21,8 +22,8 @@ class MessAlertWidget extends ConsumerStatefulWidget {
   final TextEditingController? textfield2Controller;
   final String? textfield2Error;
   final String? buttonLabel;
-  final String? secondaryButtonLabel; // NEW — e.g. "Later"
-  final VoidCallback? onSecondaryPressed; // NEW — defaults to just closing
+  final String? secondaryButtonLabel;
+  final VoidCallback? onSecondaryPressed;
   final Future<void> Function()? onConfirm;
   final Future<void> Function(XFile? selectedImage)? onConfirmWithImage;
   final bool? pictureSelectorEnabled;
@@ -142,11 +143,15 @@ class _MessAlertWidgetState extends ConsumerState<MessAlertWidget> {
     return isValid;
   }
 
-  Future<void> _submit(Future<void> Function() action) async {
+  Future<void> _submit(
+    Future<void> Function() action,
+    BuildContext context,
+  ) async {
     try {
       setState(() => _isLoading = true);
       await action();
-      if (mounted) Navigator.pop(context);
+      if (!context.mounted) return;
+      context.pop();
     } catch (e) {
       if (mounted) {
         setState(() {
@@ -157,45 +162,23 @@ class _MessAlertWidgetState extends ConsumerState<MessAlertWidget> {
     }
   }
 
-  Future<void> _handleConfirm() async {
+  Future<void> _handleConfirm(BuildContext context) async {
     if (!_validateFields()) return;
-    await _submit(() => widget.onConfirm?.call() ?? Future.value());
+    await _submit(() => widget.onConfirm?.call() ?? Future.value(), context);
   }
 
   Future<void> _handleImagePick(ImageSource source) async {
     final XFile? pickedFile = await _picker.pickImage(source: source);
     if (pickedFile == null) return;
     final bytes = await pickedFile.readAsBytes();
+    if (!mounted) return;
+
     setState(() => _previewBytes = bytes);
     await _submit(
       () => widget.onConfirmWithImage?.call(pickedFile) ?? Future.value(),
+      context,
     );
   }
-
-  // Widget _buildImagePreview(dynamic colors) {
-  //   return Column(
-  //     children: [
-  //       Container(
-  //         height: 120,
-  //         width: 120,
-  //         decoration: BoxDecoration(
-  //           color: colors.componentSpecific ?? Colors.grey[200],
-  //           shape: BoxShape.circle,
-  //           image: _selectedImage != null
-  //               ? DecorationImage(
-  //                   image: FileImage(_selectedImage!),
-  //                   fit: BoxFit.cover,
-  //                 )
-  //               : null,
-  //         ),
-  //         child: _selectedImage == null
-  //             ? const Icon(Icons.add_a_photo, size: 40, color: Colors.grey)
-  //             : null,
-  //       ),
-  //       const SizedBox(height: 20),
-  //     ],
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -208,7 +191,7 @@ class _MessAlertWidgetState extends ConsumerState<MessAlertWidget> {
       insetPadding: const EdgeInsets.symmetric(horizontal: 20.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       content: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: .min,
         crossAxisAlignment: .center,
         children: [
           Container(
@@ -221,15 +204,15 @@ class _MessAlertWidgetState extends ConsumerState<MessAlertWidget> {
                 Text(
                   widget.title,
                   style: textTheme.headlineLarge?.copyWith(color: colors.text1),
-                  textAlign: TextAlign.center,
+                  textAlign: .center,
                 ),
-                const SizedBox(height: 12),
+                AppSpacing.p12.gapV,
                 Text(
                   widget.message ?? '',
                   style: textTheme.bodyLarge?.copyWith(color: colors.text2),
-                  textAlign: TextAlign.center,
+                  textAlign: .center,
                 ),
-                const SizedBox(height: 30),
+                AppSpacing.p32.gapV,
               ],
             ),
           ),
@@ -245,7 +228,7 @@ class _MessAlertWidgetState extends ConsumerState<MessAlertWidget> {
                 if (_error1 != null) setState(() => _error1 = null);
               },
             ),
-            const SizedBox(height: 20),
+            AppSpacing.p20.gapV,
           ],
           if (widget.textfield2Controller != null) ...[
             MessTextField(
@@ -258,7 +241,7 @@ class _MessAlertWidgetState extends ConsumerState<MessAlertWidget> {
                 if (_error2 != null) setState(() => _error2 = null);
               },
             ),
-            const SizedBox(height: 20),
+            AppSpacing.p20.gapV,
           ],
         ],
       ),
@@ -291,7 +274,7 @@ class _MessAlertWidgetState extends ConsumerState<MessAlertWidget> {
                   label: _isLoading
                       ? 'Saving...'
                       : (widget.buttonLabel ?? 'Confirm'),
-                  onPressed: _isLoading ? null : _handleConfirm,
+                  onPressed: _isLoading ? null : () => _handleConfirm(context),
                 ),
               if (widget.secondaryButtonLabel != null) ...[
                 AppSpacing.p16.gapV,

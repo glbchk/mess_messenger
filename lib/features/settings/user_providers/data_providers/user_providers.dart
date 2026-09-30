@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mess_messenger_app/core/providers/data_providers/firebase_provider.dart';
 import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
-import 'package:mess_messenger_app/features/settings/data/data_source/user_remote_data_source.dart';
+import 'package:mess_messenger_app/features/settings/data/data_sources/user_remote_data_source.dart';
 import 'package:mess_messenger_app/features/settings/data/user_repositories_impl/user_repository_impl.dart';
 import 'package:mess_messenger_app/features/settings/domain/user_repositories/user_repository.dart';
 import 'package:mess_messenger_app/features/settings/domain/user_use_cases/user_use_cases.dart';
@@ -100,4 +100,11 @@ final updateBackgroundColorUseCaseProvider =
 final updateSubscriptionPlanUseCaseProvider =
     Provider<UpdateSubscriptionPlanUseCase>((ref) {
       return UpdateSubscriptionPlanUseCase(ref.read(userRepositoryProvider));
+    });
+
+final updateNotificationSettingsUseCaseProvider =
+    Provider<UpdateNotificationSettingsUseCase>((ref) {
+      return UpdateNotificationSettingsUseCase(
+        ref.read(userRepositoryProvider),
+      );
     });
