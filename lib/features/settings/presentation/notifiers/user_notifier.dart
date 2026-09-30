@@ -74,9 +74,8 @@ class UserNotifier extends Notifier<UserState> {
       final useCase = ref.read(updateAvatarUseCaseProvider);
       await useCase.execute(userId, downloadUrl);
     } catch (e) {
-      // Roll back on failure
       state = state.copyWith(userData: previousUser);
-      rethrow; // let the UI show an error if it wants to
+      rethrow;
     }
   }
 
@@ -244,16 +243,14 @@ class UserNotifier extends Notifier<UserState> {
     final previousUser = state.userData;
     if (previousUser == null) return;
 
-    // Optimistic update
     state = state.copyWith(userData: previousUser.copyUserWith(name: newName));
 
     try {
       final useCase = ref.read(updateUserNameUseCaseProvider);
       await useCase.execute(userId, newName);
     } catch (e) {
-      // Roll back on failure
       state = state.copyWith(userData: previousUser);
-      rethrow; // let the UI show an error if it wants to
+      rethrow;
     }
   }
 
@@ -263,7 +260,6 @@ class UserNotifier extends Notifier<UserState> {
     final previousUser = state.userData;
     if (previousUser == null) return;
 
-    // Optimistic update
     state = state.copyWith(
       userData: previousUser.copyUserWith(birthday: newBirthday),
     );
@@ -272,9 +268,8 @@ class UserNotifier extends Notifier<UserState> {
       final useCase = ref.read(updateUserBirthdayUseCaseProvider);
       await useCase.execute(userId, newBirthday);
     } catch (e) {
-      // Roll back on failure
       state = state.copyWith(userData: previousUser);
-      rethrow; // let the UI show an error if it wants to
+      rethrow;
     }
   }
 
@@ -284,7 +279,6 @@ class UserNotifier extends Notifier<UserState> {
     final previousUser = state.userData;
     if (previousUser == null) return;
 
-    // Optimistic update
     state = state.copyWith(
       userData: previousUser.copyUserWith(phoneNumber: newPhoneNumber),
     );
@@ -293,9 +287,8 @@ class UserNotifier extends Notifier<UserState> {
       final useCase = ref.read(updateUserPhoneNumberUseCaseProvider);
       await useCase.execute(userId, newPhoneNumber);
     } catch (e) {
-      // Roll back on failure
       state = state.copyWith(userData: previousUser);
-      rethrow; // let the UI show an error if it wants to
+      rethrow;
     }
   }
 
@@ -351,7 +344,7 @@ class UserNotifier extends Notifier<UserState> {
       return;
     }
 
-    if (currentAuthEmail != targetEmail) return; // not confirmed yet
+    if (currentAuthEmail != targetEmail) return;
 
     final userDataSource = ref.read(userRemoteDataSourceProvider);
     await userDataSource.confirmPendingEmail(userData.id, targetEmail);
@@ -364,35 +357,6 @@ class UserNotifier extends Notifier<UserState> {
       ),
     );
   }
-
-  // Future<void> updateThemeMode(String selectedTheme) async {
-  //   final userId = ref.read(currentUserIdProvider);
-  //   if (userId == null) return;
-  //   final previousUser = state.userData;
-  //   if (previousUser == null) return;
-  //
-  //   final currentSettings =
-  //       previousUser.personalizationSettings ??
-  //       PersonalizationSettingsModel.defaults();
-  //   final newSettings = currentSettings.copyUserWith(themeMode: selectedTheme);
-  //
-  //   state = state.copyWith(
-  //     userData: previousUser.copyUserWith(personalizationSettings: newSettings),
-  //   );
-  //
-  //   await ref
-  //       .read(appThemeProvider.notifier)
-  //       .setTheme(labelToThemeMode(selectedTheme));
-  //
-  //   try {
-  //     final useCase = ref.read(updateThemeModeUseCaseProvider);
-  //     await useCase.execute(userId, selectedTheme);
-  //   } catch (e) {
-  //     // Roll back on failure
-  //     state = state.copyWith(userData: previousUser);
-  //     rethrow; // let the UI show an error if it wants to
-  //   }
-  // }
 
   Future<void> updateBackgroundColor(String? backgroundColorId) async {
     final userId = ref.read(currentUserIdProvider);

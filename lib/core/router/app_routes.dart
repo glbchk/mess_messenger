@@ -1,3 +1,5 @@
+import 'package:mess_messenger_app/core/enums/enums.dart';
+
 class AppRoutes {
   static const String auth = '/auth';
   static const String root = '/';
@@ -17,4 +19,10 @@ class AppRoutes {
   static String settingsWithTab(String tab) => '/settings/$tab';
   static const userSearch = '/search';
   static String contactsWithSelection(String chatId) => '/contacts?c=$chatId';
+  static const String contactDetails = '/contacts/:userId';
+  static const String contactDetailsTab = '/contacts/:userId/:tab';
+  static String contactDetailsFor(
+    String userId, [
+    ContactsTab tab = ContactsTab.overview,
+  ]) => '/contacts/$userId/${tab.name}';
 }

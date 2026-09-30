@@ -10,6 +10,7 @@ import 'package:mess_messenger_app/features/chats/presentation/pages/mobile_open
 import 'package:mess_messenger_app/features/chats/presentation/pages/mobile_profile_details_page.dart';
 import 'package:mess_messenger_app/features/chats/presentation/pages/user_search_page.dart';
 import 'package:mess_messenger_app/features/contacts/presentation/pages/contacts_page.dart';
+import 'package:mess_messenger_app/features/contacts/presentation/pages/layouts/mobile_contact_details_page.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/settings_page.dart';
 import 'package:mess_messenger_app/features/settings/presentation/pages/support_page.dart';
 import 'package:mess_messenger_app/features/ui_app_root/app_shell.dart';
@@ -127,6 +128,25 @@ final routerProvider = Provider<GoRouter>((ref) {
             );
           },
         ),
+      ),
+      GoRoute(
+        path: AppRoutes.contactDetails,
+        redirect: (context, state) =>
+            AppRoutes.contactDetailsFor(state.pathParameters['userId']!),
+      ),
+      GoRoute(
+        path: AppRoutes.contactDetailsTab,
+        parentNavigatorKey: _rootNavigatorKey,
+        pageBuilder: (context, state) {
+          final userId = state.pathParameters['userId']!;
+          return MaterialPage(
+            key: ValueKey('contact-details-$userId'),
+            child: MobileContactDetailsPage(
+              contactUserId: userId,
+              initialTab: state.pathParameters['tab'],
+            ),
+          );
+        },
       ),
     ],
   );

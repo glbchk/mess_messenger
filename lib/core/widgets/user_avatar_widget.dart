@@ -5,6 +5,7 @@ class UserAvatarWidget extends StatelessWidget {
   final String userName;
   final double? size;
   final String? photoPath;
+  final String? testingPhotoPath;
   final double borderWidth;
   final bool isOnline;
   final VoidCallback? onPressed;
@@ -17,6 +18,7 @@ class UserAvatarWidget extends StatelessWidget {
     required this.userName,
     this.size,
     this.photoPath,
+    this.testingPhotoPath,
     this.borderWidth = 3.0,
     this.isOnline = false,
     this.onPressed,
@@ -52,6 +54,8 @@ class UserAvatarWidget extends StatelessWidget {
                 backgroundColor: backgroundColor ?? colors.textInverse,
                 backgroundImage: hasPhoto
                     ? NetworkImage(photoPath ?? '')
+                    : testingPhotoPath != null
+                    ? AssetImage(testingPhotoPath ?? '')
                     : null,
                 child: hasPhoto
                     ? null

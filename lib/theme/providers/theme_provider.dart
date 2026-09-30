@@ -59,15 +59,3 @@ ThemeMode _labelToThemeMode(String label, AppLocalizations l10n) {
   if (label == l10n.changeToDark) return ThemeMode.dark;
   return ThemeMode.system;
 }
-
-// ThemeMode labelToThemeMode(String label) => switch (label) {
-//   'Light' => ThemeMode.light,
-//   'Dark' => ThemeMode.dark,
-//   _ => ThemeMode.system,
-// };
-//
-// String themeModeToLabel(ThemeMode mode) => switch (mode) {
-//   ThemeMode.system => 'System Default',
-//   ThemeMode.light => 'Light',
-//   ThemeMode.dark => 'Dark',
-// };

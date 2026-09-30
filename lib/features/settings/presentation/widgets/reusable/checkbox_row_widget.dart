@@ -48,36 +48,6 @@ class CheckboxRowWidget extends StatelessWidget {
           ),
         ],
       ),
-      // bp.isMobile
-      // ? Row(
-      //     spacing: 8,
-      //     children: [
-      //       MessIcon(
-      //         isChecked ? SvgIcons.checkboxChecked : SvgIcons.checkbox,
-      //         color: isChecked ? colors.icon1 : colors.text2,
-      //         size: 20,
-      //       ),
-      //       Text(
-      //         title,
-      //         style: textTheme.bodyMedium?.copyWith(color: colors.text1),
-      //       ),
-      //     ],
-      //   )
-      // : Row(
-      //     mainAxisSize: .min,
-      //     children: [
-      //       MessIcon(
-      //         isChecked ? SvgIcons.checkboxChecked : SvgIcons.checkbox,
-      //         color: isChecked ? colors.icon1 : colors.text2,
-      //         size: 20,
-      //       ),
-      //       AppSpacing.p8.gapH,
-      //       Text(
-      //         title,
-      //         style: textTheme.bodyLarge?.copyWith(color: colors.text1),
-      //       ),
-      //     ],
-      //   ),
     );
   }
 }

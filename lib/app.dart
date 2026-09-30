@@ -24,28 +24,11 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentThemeMode = ref.watch(appThemeProvider);
     final router = ref.watch(routerProvider);
-    // final authState = ref.watch(authNotifierProvider);
-    // final userData = ref.watch(userNotifierProvider).userData;
 
     final windowSize = MediaQueryData.fromView(View.of(context)).size;
     final isDesktop = windowSize.width > 1100;
 
     final appLocale = ref.watch(appLanguageProvider);
-
-    // final AppPhase phase;
-    // if (authState is! AuthAuthenticated) {
-    //   phase = AppPhase.unauthenticated;
-    // } else if (userData != null && userData.isEmailVerified == false) {
-    //   phase = AppPhase.needsEmailConfirmation;
-    // } else {
-    //   phase = AppPhase.authenticated;
-    // }
-
-    // final Widget home = switch (phase) {
-    //   AppPhase.unauthenticated => const AuthPage(),
-    //   AppPhase.needsEmailConfirmation => const ConfirmEmailPage(),
-    //   AppPhase.authenticated => const AppShell(),
-    // };
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,

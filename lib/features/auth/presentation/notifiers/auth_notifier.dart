@@ -9,18 +9,6 @@ import 'package:mess_messenger_app/features/auth/presentation/states/auth_state.
 import 'package:mess_messenger_app/theme/providers/theme_provider.dart';
 
 class AuthNotifier extends Notifier<AuthState> {
-  // String? _validateEmail(String value) {
-  //   if (value.isEmpty) return 'Email required';
-  //   if (!value.contains('@') || !value.contains('.')) return 'Invalid email';
-  //   return null;
-  // }
-  //
-  // String? _validatePassword(String value) {
-  //   if (value.isEmpty) return 'Password required';
-  //   if (value.length < 6) return 'Password must be at least 6 characters';
-  //   return null;
-  // }
-
   @override
   AuthState build() {
     _checkAuthStatus();

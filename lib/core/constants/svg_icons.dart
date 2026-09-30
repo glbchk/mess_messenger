@@ -60,4 +60,9 @@ abstract final class SvgIcons {
   //Some
   static const String recentlyViewed = 'assets/icons/recently_viewed.svg';
   static const String message = 'assets/icons/message.svg';
+  static const String category = 'assets/icons/category.svg';
+  //Formats
+  static const String pdf = 'assets/icons/formats/pdf.svg';
+  static const String doc = 'assets/icons/formats/doc.svg';
+  static const String csv = 'assets/icons/formats/csv.svg';
 }

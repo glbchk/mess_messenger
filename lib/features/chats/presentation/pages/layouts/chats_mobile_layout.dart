@@ -9,7 +9,6 @@ import 'package:mess_messenger_app/core/widgets/mess_icon_button.dart';
 import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
 import 'package:mess_messenger_app/core/widgets/mobile_widgets/app_bar/mobile_app_bar.dart';
 import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
-import 'package:mess_messenger_app/features/auth/auth_providers/auth_providers.dart';
 import 'package:mess_messenger_app/features/chats/chats_providers/chats_provider.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/chat/chats_header_section_widget.dart';
 import 'package:mess_messenger_app/features/chats/presentation/widgets/reusable/chat_tile_widget.dart';
@@ -48,12 +47,6 @@ class _ChatsMobileLayoutState extends ConsumerState<ChatsMobileLayout> {
         showAppBarContent: false,
         title: l10n.chats,
         actions: [
-          IconButton(
-            //TODO: MUST BE DELETED LATER
-            icon: const Icon(Icons.logout, color: Colors.red),
-            onPressed: () => ref.read(authNotifierProvider.notifier).logout(),
-          ),
-          AppSpacing.p16.gapH,
           MessIconButton(
             SvgIcons.add,
             isButtonFilled: true,

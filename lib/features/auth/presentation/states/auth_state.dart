@@ -2,8 +2,6 @@ import 'package:mess_messenger_app/core/errors/auth_failure.dart';
 
 abstract class AuthState {}
 
-// class AuthInitial extends AuthState {}
-
 class AuthLoading extends AuthState {
   final bool isRegisterMode;
   AuthLoading({this.isRegisterMode = true});

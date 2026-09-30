@@ -22,16 +22,6 @@ class AuthRemoteDataSource {
     return credential.user!.uid;
   }
 
-  // Future getCurrentUser() async {
-  //   User? user = auth.currentUser;
-  //
-  //   if (user != null) {
-  //     return user;
-  //   } else {
-  //     throw Exception('User is not logged in');
-  //   }
-  // }
-
   Future<String> signInWithEmail(String email, String password) async {
     final credential = await auth.signInWithEmailAndPassword(
       email: email,

@@ -1,4 +1,6 @@
 abstract final class AuthValidators {
+  //TODO: NEED TO REVIEW THIS
+
   static String? name(String value) {
     if (value.isEmpty) return 'Name required';
     if (value.length < 3) return 'Name is too short';

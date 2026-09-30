@@ -94,22 +94,13 @@ class DesktopChatHeaderWidget extends ConsumerWidget {
                             .read(userChatsNotifierProvider.notifier)
                             .toggleChatList(),
                       ),
-                    DropdownItemAction(
-                      label: l10n.search,
-                      onTap: () {}, //widget.onPressedChangeAvatar,
-                    ),
+                    DropdownItemAction(label: l10n.search, onTap: () {}),
                     DropdownItemAction(
                       label: l10n.muteNotifications,
                       onTap: () {},
                     ),
-                    DropdownItemAction(
-                      label: l10n.clearChat,
-                      onTap: () {}, //widget.onPressedLogoutFromAllDevices,
-                    ),
-                    DropdownItemAction(
-                      label: l10n.blockUser,
-                      onTap: () {}, //widget.onPressedContactSupport,
-                    ),
+                    DropdownItemAction(label: l10n.clearChat, onTap: () {}),
+                    DropdownItemAction(label: l10n.blockUser, onTap: () {}),
                   ],
                 ),
               ],

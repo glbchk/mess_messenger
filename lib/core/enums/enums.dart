@@ -39,3 +39,22 @@ extension SettingsTabExtension on SettingsTab {
     }
   }
 }
+
+enum ContactsTab { overview, media, links, files, groups }
+
+extension ContactsTabExtension on ContactsTab {
+  String title(AppLocalizations l10n) {
+    switch (this) {
+      case ContactsTab.overview:
+        return l10n.overview;
+      case ContactsTab.media:
+        return l10n.media;
+      case ContactsTab.links:
+        return l10n.links;
+      case ContactsTab.files:
+        return l10n.files;
+      case ContactsTab.groups:
+        return l10n.groups;
+    }
+  }
+}

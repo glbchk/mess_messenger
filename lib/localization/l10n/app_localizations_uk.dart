@@ -453,4 +453,19 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get yourPersonalContacts =>
       'Ваші особисті контакти зашифровані від початку до кінця';
+
+  @override
+  String get overview => 'Огляд';
+
+  @override
+  String get media => 'Медіа';
+
+  @override
+  String get links => 'Посилання';
+
+  @override
+  String get files => 'Файли';
+
+  @override
+  String get message => 'Повідомлення';
 }

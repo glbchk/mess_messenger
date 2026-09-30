@@ -21,36 +21,6 @@ Future<void> main() async {
     debugPrint('╚═══════════════════════════════════════════════');
   };
 
-  // print('🔥 Firebase Project ID: ${Firebase.app().options.projectId}');
-  // print('🔥 Firebase App ID: ${Firebase.app().options.appId}');
-  // print('🔥 Firebase Auth Domain: ${Firebase.app().options.authDomain}');
-
-  // if (kDebugMode) {
-  //   // Temporarily force clear the persistence cache to wipe out Release data
-  //   try {
-  //     await FirebaseFirestore.instance.terminate();
-  //     await FirebaseFirestore.instance.clearPersistence();
-  //   } catch (e) {
-  //     print('Cache already clear');
-  //   }
-  // }
-
-  // if (kReleaseMode) {
-  //   await FirebaseFirestore.instance.terminate();
-  //   await FirebaseFirestore.instance.clearPersistence();
-  // }
-
-  // if (kDebugMode) {
-  //   FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
-  //   await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-  //   await FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
-  // }
-
-  // await FirebaseAppCheck.instance.activate(
-  //   providerAndroid: const AndroidDebugProvider(),
-  //   providerApple: const AppleDebugProvider(),
-  // );
-
   final sharedPreferences = await SharedPreferences.getInstance();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 

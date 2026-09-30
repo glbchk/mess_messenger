@@ -10,8 +10,8 @@ import 'package:mess_messenger_app/core/widgets/mess_textfield.dart';
 import 'package:mess_messenger_app/core/widgets/mobile_widgets/app_bar/mobile_app_bar.dart';
 import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
 import 'package:mess_messenger_app/features/chats/chats_providers/chats_provider.dart';
-import 'package:mess_messenger_app/features/chats/chats_providers/open_chat_provider.dart';
 import 'package:mess_messenger_app/features/chats/data/models/chat_model.dart';
+import 'package:mess_messenger_app/features/contacts/presentation/contacts_providers/contacts_providers.dart';
 import 'package:mess_messenger_app/features/contacts/presentation/pages/contacts_leter_list_widget.dart';
 import 'package:mess_messenger_app/features/settings/data/models/user_model.dart';
 import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
@@ -19,18 +19,9 @@ import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class ContactsMobileLayout extends ConsumerStatefulWidget {
-  final String pageTitle;
-  final UserModel userData;
-  final List<ChatModel> chats;
   final VoidCallback onPressed;
 
-  const ContactsMobileLayout({
-    super.key,
-    required this.pageTitle,
-    required this.userData,
-    required this.chats,
-    required this.onPressed,
-  });
+  const ContactsMobileLayout({super.key, required this.onPressed});
 
   @override
   ConsumerState<ContactsMobileLayout> createState() =>
@@ -45,55 +36,25 @@ class _ContactsMobileLayoutState extends ConsumerState<ContactsMobileLayout> {
 
     final l10n = context.l10n;
 
-    final bp = ResponsiveBreakpoints.of(context);
+    final userData =
+        ref.watch(userNotifierProvider).userData ?? UserModel(id: '');
 
     final chats = ref.watch(userChatsNotifierProvider).chats;
-    final myId = ref.watch(userNotifierProvider).userData?.id ?? '';
+    final myId = userData.id;
 
     final contactChats = chats
         .where((c) => !c.isGroup && c.status == ChatRequestStatus.accepted)
         .toList();
 
-    Future<void> openChatWith(String otherUserId) async {
-      final myId = ref.read(userNotifierProvider).userData?.id;
-      if (myId == null) return;
-
-      final chatId = await ref
-          .read(getOrCreateChatUseCaseProvider)
-          .execute(myId, otherUserId, myId);
-      if (!context.mounted) return;
-
-      if (bp.isMobile || bp.isTablet) {
-        context.push(AppRoutes.chatWith(chatId));
+    void openContactDetails(String contactUserId) {
+      if (ResponsiveBreakpoints.of(context).isMobile) {
+        context.push(AppRoutes.contactDetailsFor(contactUserId));
       } else {
-        ref.read(selectedChatIdProvider.notifier).state = chatId;
+        ref
+            .read(contactsNotifierProvider.notifier)
+            .selectContact(contactUserId);
       }
     }
-
-    // List<({ChatModel chat, String peerId, UserModel? peer})> sortContactsByName(
-    //   List<({ChatModel chat, String peerId, UserModel? peer})> entries,
-    // ) {
-    //   final sorted = [...entries];
-    //   sorted.sort((a, b) {
-    //     final nameA = (a.peer?.name ?? a.peerId).toUpperCase();
-    //     final nameB = (b.peer?.name ?? b.peerId).toUpperCase();
-    //     return nameA.compareTo(nameB);
-    //   });
-    //   return sorted;
-    // }
-    //
-    // String letterOf(({ChatModel chat, String peerId, UserModel? peer}) entry) {
-    //   final name = entry.peer?.name ?? '';
-    //   return name.isNotEmpty ? name[0].toUpperCase() : '#';
-    // }
-    //
-    // final resolved = chats.map((chat) {
-    //   final peerId = chat.peerId(myId) ?? '';
-    //   final peer = ref.watch(watchedUserProvider(peerId)).value;
-    //   return (chat: chat, peerId: peerId, peer: peer);
-    // }).toList();
-    //
-    // final entries = sortContactsByName(resolved);
 
     return Scaffold(
       backgroundColor: colors.bg,
@@ -101,7 +62,7 @@ class _ContactsMobileLayoutState extends ConsumerState<ContactsMobileLayout> {
         appBarBackgroundColor: colors.transparent,
         resizeToAvoidBottomInset: false,
         showAppBarContent: false,
-        title: widget.pageTitle,
+        title: l10n.contacts,
         actions: [
           MessIconButton(
             SvgIcons.add,
@@ -111,8 +72,8 @@ class _ContactsMobileLayoutState extends ConsumerState<ContactsMobileLayout> {
           ),
           AppSpacing.p16.gapH,
           UserAvatarWidget(
-            userName: widget.userData.email ?? 'Joe Doe',
-            photoPath: widget.userData.avatarUrl,
+            userName: userData.email ?? 'Joe Doe',
+            photoPath: userData.avatarUrl,
           ),
           AppSpacing.p16.gapH,
         ],
@@ -136,7 +97,10 @@ class _ContactsMobileLayoutState extends ConsumerState<ContactsMobileLayout> {
               child: ContactsLetterList(
                 chats: contactChats,
                 myId: myId,
-                onContactTap: (chat) => openChatWith(chat.id),
+                onContactTap: (chat) {
+                  final peerId = chat.peerId(myId);
+                  if (peerId != null) openContactDetails(peerId);
+                },
               ),
             ),
           ],

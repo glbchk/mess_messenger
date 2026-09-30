@@ -452,4 +452,19 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get yourPersonalContacts =>
       'Your personal contacts are end-to-end encrypted';
+
+  @override
+  String get overview => 'Overview';
+
+  @override
+  String get media => 'Media';
+
+  @override
+  String get links => 'Links';
+
+  @override
+  String get files => 'Files';
+
+  @override
+  String get message => 'Message';
 }

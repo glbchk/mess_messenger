@@ -124,7 +124,7 @@ class DetailsContentWidget extends StatelessWidget {
                   spacing: 8,
                   children: [
                     UserAvatarWidget(
-                      userName: userData?.name ?? 'Joe Doe', //'Joe Doe',
+                      userName: userData?.name ?? 'Joe Doe',
                       photoPath:
                           userData?.avatarUrl ??
                           'assets/images/user_images/avatar_image.png',

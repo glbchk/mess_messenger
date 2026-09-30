@@ -81,7 +81,6 @@ class _SupportMobileLayoutState extends ConsumerState<SupportMobileLayout> {
         showAppBarContent: true,
         showBottomLine: true,
         onPressedBack: () => context.pop(),
-        // title: 'Chats',
         actions: [
           MessIconButton(
             SvgIcons.menuVert,

@@ -142,5 +142,10 @@
   "support": "Support",
   "showDetails": "Show details",
   "searchFieldHint": "Type a command or search here...",
-  "yourPersonalContacts": "Your personal contacts are end-to-end encrypted"
+  "yourPersonalContacts": "Your personal contacts are end-to-end encrypted",
+  "overview": "Overview",
+  "media": "Media",
+  "links": "Links",
+  "files": "Files",
+  "message": "Message"
 }

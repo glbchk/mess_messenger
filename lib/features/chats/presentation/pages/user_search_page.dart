@@ -145,9 +145,7 @@ class _UserSearchPageState extends ConsumerState<UserSearchPage> {
                       contactId: '',
                       title: state.result?.name ?? '',
                       photoPath: '',
-                      onPressed: () {
-                        // Handle contact tap
-                      },
+                      onPressed: () {},
                     ),
 
                     AppSpacing.p16.gapV,

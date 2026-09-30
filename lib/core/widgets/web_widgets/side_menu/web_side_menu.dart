@@ -6,9 +6,9 @@ import 'package:mess_messenger_app/core/extensions/l10n_extension.dart';
 import 'package:mess_messenger_app/core/router/app_routes.dart';
 import 'package:mess_messenger_app/core/utils/spacing/app_spacing.dart';
 import 'package:mess_messenger_app/core/widgets/user_avatar_widget.dart';
-import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/build_header_widget.dart';
-import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/build_menu_item_widget.dart';
 import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/menu_entry.dart';
+import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/menu_item_widget.dart';
+import 'package:mess_messenger_app/core/widgets/web_widgets/side_menu/side_menu_header_widget.dart';
 import 'package:mess_messenger_app/features/settings/user_providers/data_providers/user_providers.dart';
 import 'package:mess_messenger_app/theme/theme_extensions/theme_extension.dart';
 

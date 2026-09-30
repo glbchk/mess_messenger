@@ -50,19 +50,10 @@ class MobileProfileDetailsPage extends ConsumerWidget {
             textColorBuilder: (item) => item.textColor,
             onItemTap: (item) => item.onTap(),
             items: [
-              DropdownItemAction(
-                label: 'Search',
-                onTap: () {}, //widget.onPressedChangeAvatar,
-              ),
+              DropdownItemAction(label: 'Search', onTap: () {}),
               DropdownItemAction(label: 'Mute notifications', onTap: () {}),
-              DropdownItemAction(
-                label: 'Clear/Delete chat',
-                onTap: () {}, //widget.onPressedLogoutFromAllDevices,
-              ),
-              DropdownItemAction(
-                label: 'Block/Report user',
-                onTap: () {}, //widget.onPressedContactSupport,
-              ),
+              DropdownItemAction(label: 'Clear/Delete chat', onTap: () {}),
+              DropdownItemAction(label: 'Block/Report user', onTap: () {}),
             ],
           ),
           AppSpacing.p16.gapH,
